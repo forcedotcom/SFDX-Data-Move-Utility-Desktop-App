@@ -1,0 +1,237 @@
+<div class="content-fluid" ng-init="initPackageConfigurationSection()">
+
+    <div class="alert alert-info" ng-hide="context.sourceOrg && context.targetOrg">
+        Please, complete previous step.
+    </div>
+
+    <div class="alert alert-info mt-2"
+        ng-show="(context.sourceOrg && context.targetOrg) && !context.selectedConfigIds[0]">
+        Please, select or add package configuration.
+    </div>
+
+    <div class="alert alert-info mt-2"
+        ng-show="context.selectedConfigIds[0] && (!context.objects || context.objects.length == 0)">
+        Please, select and add object(s) to the package configuration.
+    </div>
+
+    <div ng-show="context.sourceOrg && context.targetOrg">
+
+        <div class="card">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Connected org(s)
+                </h5>
+                <div class="row card-text">
+                    <div class="col-md-4 no-wrap text-success">
+                        {[{context.sourceOrg.name}]}
+                    </div>
+                    <div class="col-md-1 bold text-success" ng-show="!context.selectedConfig.extraData.isFileMigration">
+                        -->
+                    </div>
+                    <div class="col-md-7 no-wrap text-secondary"
+                        ng-show="!context.selectedConfig.extraData.isFileMigration">
+                        {[{context.targetOrg.name}]}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="card mt-2">
+            <div class="card-body">
+                <h5 class="card-title">
+                    Select package configuration:
+                    <i data-toggle="tooltip" title="{[{context.selectedConfig.dataError}]}"
+                        ng-show="!!context.selectedConfig.dataError"
+                        class="fa fa-xs fa-exclamation-triangle text-danger"></i>
+                </h5>
+                <div class="row card-text">
+                    <div class="col-md-12">
+                        <div class="form-group">
+                            <div class="input-group">
+                                <select select-picker data-collection="context.configList"
+                                    data-model="context.selectedConfigIds" class="form-control form-control-sm">
+                                    <option
+                                        ng-repeat="config in context.configList | orderBy:'text' track by config.value"
+                                        value={[{config.value}]}>
+                                        {[{config.text}]}
+                                    </option>
+                                </select>
+                                <div class="input-group-append">
+                                    <button class="btn btn-primary btn-sm" type="button"
+                                        ng-click="addConfigClickHandler()">
+                                        <i class="fa fa-plus" data-toggle="tooltip" title="Add new configuration"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm" type="button"
+                                        ng-click="editConfigClickHandler()" ng-disabled="!context.selectedConfigIds[0]">
+                                        <i class="fa fa-edit" data-toggle="tooltip"
+                                            title="Edit selected configuration's name"></i>
+                                    </button>
+                                    <button class="btn btn-primary btn-sm" type="button"
+                                        ng-click="cloneConfigClickHandler()"
+                                        ng-disabled="!context.selectedConfigIds[0]">
+                                        <i class="fa fa-clone" data-toggle="tooltip"
+                                            title="Clone selected configuration"></i>
+                                    </button>
+                                    <a class="btn btn-primary btn-sm"
+                                        href="{[{'/downloadconfig?id=' + context.selectedConfigIds[0]}]}"
+                                        ng-disabled="!context.selectedConfigIds[0]">
+                                        <i class="fa fa-download" data-toggle="tooltip"
+                                            title="Download selected configuration"></i>
+                                    </a>
+                                    <input type="file" id="uploadConfig" style="display:none;"
+                                        onchange="angular.element(this).scope().uploadConfigChangeHandler(event)" />
+                                    <label for="uploadConfig" class="btn btn-primary btn-sm ml-0">
+                                        <i class="fa fa-upload" data-toggle="tooltip"
+                                            title="Create new configuration from .cfg file"></i>
+                                    </label>
+                                    <button class="btn btn-danger btn-sm" type="button"
+                                        ng-click="removeConfigClickHandler()"
+                                        ng-disabled="!context.selectedConfigIds[0]">
+                                        <i class="fa fa-trash" data-toggle="tooltip"
+                                            title="Remove selected configuration"></i>
+                                    </button>
+
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div ng-show="!!context.selectedConfigIds[0]">
+
+            <div class="card mt-2">
+                <div class="card-body">
+
+                    <h5 class="card-title">
+                        Objects in the selected configuration:
+                    </h5>
+
+                    <div class="row card-text">
+                        <div class="col-md-12">
+
+                            <div class="alert alert-info"
+                                ng-show="context.selectedConfig.extraData.isFileMigrationSource">
+                                You are using set of CSV files as the data source.<br />
+                                <a href="javascript:void(0)" ng-click="openExportFolder()">Click to open</a>
+                                the package folder in the Explorer/Finder and put your files there.
+                                <br />Then
+                                <a href="javascript:void(0)" ng-click="loadConfigurationFromCSVFileClickHandler()">load
+                                    list of sObjects</a>
+                                directly from the files in the folder.
+                                <br />
+                                Each CSV file must be named as a corresponding sObject.
+                            </div>
+
+                            <div class="alert alert-info"
+                                ng-show="context.selectedConfig.extraData.isFileMigrationTarget">
+                                You are using CSV files as the target and Salesforce org as the data source.<br />
+                                Use dropdown list below to add or remove objects that you need to export into CSV.
+                                <br /><a href="javascript:void(0)" ng-click="openExportFolder()">Click here</a>
+                                to open the target folder in the Explorer/Finder.
+                                <br />
+                                Each CSV file produced by the Plugin has the same name as its corresponding sObject.
+                            </div>
+
+
+
+                            <div class="form-group">
+                                <div class="alert alert-warning"
+                                    ng-show="(!context.objects || context.objects.length == 0) && !context.selectedConfig.extraData.showImportConfigurationFromFileButton && context.selectedConfig.extraData.isFileMigrationSource">
+                                    Missing source CSV files in the package folder. Please, put
+                                    <a href="javascript:void(0)" ng-click="openExportFolder()">there</a> at least one
+                                    file.
+                                    <br />
+                                </div>
+                                <div class="input-group">
+                                    <div class="form-control"
+                                        ng-show="!context.selectedConfig.extraData.isFileMigrationSource">
+                                        <!--OBJECTS LIST-->
+                                        <select select-picker data-multiple="true" data-collection="context.objectList"
+                                            data-model="context.selectedObjectIds" class="form-control form-control-sm">
+                                            <option
+                                                ng-repeat="object in context.objectList | orderBy:'text' track by object.value"
+                                                value={[{object.value}]}>
+                                                {[{object.text}]}
+                                            </option>
+                                        </select>
+                                    </div>
+                                    <div class="input-group-append">
+                                        <button class="btn btn-primary btn-sm" type="button"
+                                            ng-show="!context.selectedConfig.extraData.isFileMigrationSource"
+                                            ng-click="addObjectClickHandler()">
+                                            <i class="fa fa-plus" data-toggle="tooltip"
+                                                title="Add selected object(s) to the current configuration"></i>
+                                        </button>
+                                        <button class="btn btn-primary btn-sm" type="button"
+                                            ng-show="context.objects.length > 0" ng-click="configChangedHandler()">
+                                            <i class="fa fa-sync fa-xs" data-toggle="tooltip"
+                                                title="Reload objects list"></i>
+                                        </button>
+                                        {{#xIf current.isWebApp "===" false}}
+                                        <button class="btn btn-default btn-sm"
+                                            ng-hide="!context.objects || context.objects.length == 0 || !context.selectedConfig.extraData.showImportConfigurationFromFileButton"
+                                            ng-click="loadConfigurationFromCSVFileClickHandler()">
+                                            <i class="fa fa-file-import fa-sm" data-toggle="tooltip"
+                                                title="Select all objects and with their fields automatically from CSV files"></i>
+                                        </button>
+                                        {{/xIf}}
+                                        <button class="btn btn-default btn-sm" type="button"
+                                            ng-show="!(!context.objects || context.objects.length == 0) && context.selectedConfig.extraData.showAddMissingParentObjectButton"
+                                            ng-click="addRelatedObjectsClickHandler()">
+                                            <i class="fa fa-code-branch" data-toggle="tooltip"
+                                                title="Read all lookup fields from objects in the configuration and add dependent objects automatically"></i>
+                                        </button>
+
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <div ng-hide="!context.objects || context.objects.length == 0">
+
+                        <div class="row card-text">
+                            <div class="col-md-12">
+
+                                <div id="objectsAccordion" class="accordion"
+                                    data-event-handler="showObjectDetailsHandler">
+
+                                    <!--OBJECT ITEM-->
+                                    <div class="card"
+                                        ng-repeat="object in context.objects | orderBy: 'text' track by object._id">
+
+                                        <!--OBJECT HEADER-->
+                                        {{> objectCardHeader}}
+
+                                        <!--OBJECT BODY - ACCORDION-->
+                                        <div id="{[{object.id}]}" class="collapse" aria-labelledby="headingOne"
+                                            data-parent="#objectsAccordion">
+
+                                            <div class="card-body" ng-show="!object.extraData.initialized">
+                                                <div class="alert alert-danger">
+                                                    This SObject does not exist in the source / target org metadata.
+                                                </div>
+                                            </div>
+
+                                            {{> objectCardBody}}
+
+                                        </div>
+                                    </div>
+
+                                </div>
+
+                            </div>
+                        </div>
+
+                    </div>
+
+                </div>
+            </div>
+
+        </div>
+
+    </div>
+
+</div>

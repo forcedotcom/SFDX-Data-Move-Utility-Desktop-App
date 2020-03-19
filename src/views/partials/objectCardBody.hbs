@@ -1,0 +1,23 @@
+<div class="card-body" ng-show="object.extraData.initialized">
+    
+    <!--FIELDS SELECTOR-->
+    <div transfer-picker group-by="__$$category" item-name="text" value-name="value"
+        left-tab-name-text="Available fields for migration" right-tab-name-text="Selected fields to migrate"
+        search-placeholder-text="Search..." data-collection="object.sourceFields" data-model="object.fields"
+        data-id="'transfer' + object.id" on-item-changed="addRemoveObjectFieldsHandler">
+    </div>
+    
+    <div id="transfer{[{object.id}]}"></div>
+
+    <!--OBJECT PARAMS FORM-->
+    <div class="mt-4">
+        {{> objectCardBody_Switches}}
+        {{> objectCardBody_Operation}}
+        {{> objectCardBody_ExternalID}}
+        {{> objectCardBody_Limit}}
+        {{> objectCardBody_Where}}
+        {{> objectCardBody_DeleteWhere}}
+        {{> objectCardBody_TargetRecordsFilter}}
+    </div>
+
+</div>

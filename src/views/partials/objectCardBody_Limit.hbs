@@ -1,0 +1,32 @@
+<!--LIMIT-->
+<div class="form-row">
+    <div class="form-group col-md-12 object-param-edit">
+        <label>
+            <i class="fa fa-edit text-info" ng-click="showParamEditorField(object, 'limit')" data-toggle="tooltip"
+                title="Edit this value"></i>&nbsp;
+            Limit:
+            <i class="fa fa-question-circle" data-toggle="tooltip"
+                title="The max number of records you want to migrate. Leave empty to migrate all records."></i>
+        </label>
+        <span class="value text-primary">
+            {[{object.extraData.limit || '** No limit **'}]}
+        </span>
+
+        <div class="object-param-edit-field card" ng-show="object.paramsVisibility['limit']">
+            <div class="card-body">
+                <input type="number" min="1" style="max-width:280px"
+                    placeholder="Enter number greater then 0 or leave empty" class="form-control"
+                    ng-model="object.extraData.limit" />
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary btn-sm" ng-click="updateParamEditorField(object, 'limit')">
+                    Update
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    ng-click="cancelUpdateParamEditorField(object, 'limit')">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

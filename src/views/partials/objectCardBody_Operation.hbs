@@ -1,0 +1,33 @@
+<!--OPERATION-->
+<div class="form-row">
+    <div class="form-group col-md-12 object-param-edit">
+        <label>
+            <i class="fa fa-edit text-info" ng-click="showParamEditorField(object, 'operation')" data-toggle="tooltip"
+                title="Edit this value"></i>&nbsp;
+            Operation:
+        </label>
+        <span class="value text-primary">
+            {[{object.extraData.operation}]}
+        </span>
+        <div class="object-param-edit-field card" ng-show="object.paramsVisibility['operation']">
+            <div class="card-body">
+                <select name="operationSelector" style="max-width:280px" id="operationSelector{[{object.id}]}"
+                    class="form-control" ng-model="object.extraData.operation">
+                    <option ng-repeat="option in object.extraData.availableOperations" value="{[{option.value}]}">
+                        {[{option.label}]}
+                    </option>
+                </select>
+            </div>
+            <div class="card-footer">
+                <button type="button" class="btn btn-primary btn-sm"
+                    ng-click="updateParamEditorField(object, 'operation')">
+                    Update
+                </button>
+                <button type="button" class="btn btn-danger btn-sm"
+                    ng-click="cancelUpdateParamEditorField(object, 'operation')">
+                    Cancel
+                </button>
+            </div>
+        </div>
+    </div>
+</div>

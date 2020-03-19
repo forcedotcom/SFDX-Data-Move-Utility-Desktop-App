@@ -1,0 +1,135 @@
+<!DOCTYPE html>
+<html ng-app="sfdmuGuiApp">
+
+<head>
+  <title>{{labels.websiteName}}</title>
+
+  <link rel="icon" type="image/png" href="/images/favicon.png" />
+
+  <link rel="stylesheet" href="/libs/vendor/font-awesome/css/all.css">
+  <link rel="stylesheet" href="/libs/vendor/bootstrap/css/bootstrap.min.css" />
+  <link rel="stylesheet" href="/libs/vendor/bootstrap/css/mdb.min.css" />
+  <link rel="stylesheet" href="/libs/vendor/bootstrap-select/bootstrap-select.min.css" />
+  <link rel="stylesheet" href="/libs/vendor/jquery-transfer/icon_font/css/icon_font.css" />
+  <link rel="stylesheet" href="/libs/vendor/jquery-transfer/css/jquery.transfer.css" />
+
+  {{#xIf current.isWebApp "===" false}}
+  <script>if (typeof module === 'object') { window.module = module; module = undefined; }</script>
+  {{/xIf}}
+
+  <script src="/libs/vendor/jquery/jquery-3.4.1.min.js"></script>
+  <script src="/libs/vendor/bootstrap/js/popper.min.js"></script>
+  <script src="/libs/vendor/bootstrap/js/bootstrap.bundle.min.js"></script>
+  <script src="/libs/vendor/bootbox/bootbox.all.min.js"></script>
+  <script src="/libs/vendor/bootstrap-select/bootstrap-select.min.js"></script>
+  <script src="/libs/vendor/jquery-transfer/js/jquery.transfer.js"></script>
+
+  <link rel='stylesheet' href='/stylesheets/theme.css' />
+  <link rel='stylesheet' href='/stylesheets/style.css' />
+</head>
+
+<body>
+
+  <div ng-controller="appController" ng-init="init()">
+
+    <div class="ajax-load-message hidden border border-primary text-primary">
+      <img src="/images/loader2.gif" />
+      {[{context.loaderMessage}]}
+      <div class="w-100 text-center">
+        <button ng-show="context.showLoaderButton" class="btn btn-danger btn-md" ng-click="killConsoleCommand()">
+          {[{context.loaderButtonMessage}]}
+        </button>
+      </div>
+    </div>
+    <div class="ajax-loader hidden">
+    </div>
+
+    <div class="toast toast-alert toast-success text-center fade hide" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="alert alert-success">
+        <div class="toast-body">
+        </div>
+      </div>
+    </div>
+
+    <div class="toast toast-alert toast-danger text-center fade hide" role="alert" aria-live="assertive"
+      aria-atomic="true">
+      <div class="alert alert-danger">
+        <div class="toast-body">
+        </div>
+      </div>
+    </div>
+
+    <div class="toast toast-progress text-center fade hide" role="alert" aria-live="assertive" aria-atomic="true">
+      <div class="alert alert-primary">
+        <div class="toast-body">
+          <img src="/images/loader.gif" />
+          <span class="message"></span>
+        </div>
+      </div>
+    </div>
+
+
+    <div class="d-flex" id="wrapper">
+
+      <!-- Sidebar -->
+      {{#block "sideMenu"}}{{/block}}
+      <!-- /#sidebar-wrapper -->
+
+      <!-- Page Content -->
+      <div id="page-content-wrapper">
+
+        <nav class="navbar navbar-expand-lg navbar-light bg-light border-bottom">
+
+          <!-- Sidebar toggle -->
+          {{#block "sideMenuToggle"}}{{/block}}
+          <!-- /Sidebar toggle -->
+
+          <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarSupportedContent"
+            aria-controls="navbarSupportedContent" aria-expanded="false" aria-label="Toggle navigation">
+            <span class="navbar-toggler-icon"></span>
+          </button>
+
+          <div class="collapse navbar-collapse" id="navbarSupportedContent">
+            <ul class="navbar-nav ml-auto mt-2 mt-lg-0">
+              {{#if isAuthenticated}}
+              <li class="nav-item border-md-right">
+                <span class="nav-link"><b>Hello, {{userName}}</b></span>
+              </li>
+              {{/if}}
+
+              <li class="nav-item active">
+                <a class="nav-link" href="/">Data migration</a>
+              </li>
+              {{#if isAuthenticated}}
+              <li class="nav-item">
+                <a class="nav-link" href="/login/signout"> Sign Out</a>
+              </li>
+              {{/if}}
+            </ul>
+          </div>
+        </nav>
+
+        <div class="container-fluid body-container p-3" ng-cloak>
+          {{{body}}}
+        </div>
+
+      </div>
+      <!-- /#page-content-wrapper -->
+
+    </div>
+  </div>
+
+  <!--ANGULAR JS-->
+  <script src="/javascripts/angular.min.js"></script>
+  <script src="/javascripts/utils.js"></script>
+
+  {{#xIf current.isWebApp "===" false}}
+  <script src="/javascripts/nodeUtils.js"></script>
+  {{/xIf}}
+
+  <script src="/javascripts/appController.js"></script>
+
+</body>
+
+</html>

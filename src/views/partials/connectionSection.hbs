@@ -1,0 +1,123 @@
+<div class="content-fluid" ng-init="initConnectionSection()">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="alert alert-info"
+                ng-show="!context.orgSelector.targetOrgIds[0] || !context.orgSelector.sourceOrgIds[0] || context.orgSelector.sourceOrgIds[0] == context.orgSelector.targetOrgIds[0]">
+                To continue, you must select different Source and Target items
+            </div>
+            <div class="alert alert-info" ng-show="context.orgList.length == 0">
+                Please add a connection to at least one Salesforce org.
+            </div>
+        </div>
+    </div>
+    <div class="row">
+        <div class="col-md-5">
+            <div class="form-group mb3">
+                <label>Source:</label>
+                <select select-picker data-collection="context.orgList" data-model="context.orgSelector.sourceOrgIds"
+                    class="form-control form-control-sm">
+                    <option ng-repeat="org in context.orgList | orderBy : 'text' track by org.value"
+                        value={[{org.value}]}>
+                        {[{org.text}]}
+                    </option>
+                </select>
+            </div>
+        </div>
+        <div class="col-md-7">
+            <div class="form-group mb3">
+                <label>Target:</label>
+                <div class="input-group">
+                    <select select-picker data-collection="context.orgList"
+                        data-model="context.orgSelector.targetOrgIds" class="form-control form-control-sm">
+                        <option ng-repeat="org in context.orgList | orderBy : 'text' track by org.value"
+                            value={[{org.value}]}>
+                            {[{org.text}]}
+                        </option>
+                    </select>
+                    <div class="input-group-append">
+                        <button class="btn btn-danger btn-sm" type="button" ng-click="removeOrgClickHandler()"
+                            ng-disabled="context.orgList.length === 0">
+                            <i class="fa fa-trash" data-toggle="tooltip" title="Remove selected target Org"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <div id="accordionAddOrgForm" class="accordion mt-3">
+        <div class="card">
+            <div class="card-header">
+                <h5 class="mb-0 collapse-expand">
+                    <button class="btn btn-link" data-toggle="collapse" data-target="#addOrgForm" aria-expanded="false"
+                        aria-controls="collapseOne">
+                        Add new Salesforce connection
+                    </button>
+                </h5>
+            </div>
+
+            <div id="addOrgForm" class="collapse" data-parent="#accordionAddOrgForm">
+                <div class="card-body">
+                    <h5 class="mb-0">Connect to your organization:</h5>
+                    <small>(Standard SFDX CLI web login flow will be used and the connection also will be added to the
+                        local SFDX CLI storage)</small>
+                    <label class="text-danger mt-3 block">{[{errorMessage}]}</label>
+                    <label class="text-success mt-3 block">{[{successMessage}]}</label>
+                    <div class="alert alert-info mt-3">
+                        In order to add new or update existing connection:
+                        <br />
+                        <br />
+                        <ul>
+                            <li>Select an environment type from the list below.</li>
+                            <li>Press on the "Open browser window" button. The salesforce login page should appear.</li>
+                            <li>Provide your org credentials and press "Log In".</li>
+                            <li>After successful login close the browser window and return to this application. Find
+                                your
+                                connection added to the both Source and Target lists above.<br /></li>
+                        </ul>
+                        At any time you want to abort the connection process
+                        or the browser window was accidentally closed, click on the "Abort" button that will
+                        appear on the screen after the process is initialized.<br /><br />
+
+                        In order to avoid 'Unable to login' error message when adding connection, please follow the 2
+                        options in case you get the error on your machine<br />
+                        1) Try to update SFDX CLI. Go to Command console and type: "sfdx update".<br/>
+                        2) In case the first hasn't worked for you, please refer to troubleshooting article
+                        {{#xIf current.isWebApp "===" false}}
+                        <a ng-click="openUrl('https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_troubleshoot_cancel_auth.htm')"
+                            href="javascript:void(0)">
+                            "Unable to Work After Failed Org Authorization"</a>.
+                        {{else}}
+                        <a
+                            href="https://developer.salesforce.com/docs/atlas.en-us.sfdx_dev.meta/sfdx_dev/sfdx_dev_troubleshoot_cancel_auth.htm">
+                            "Unable to Work After Failed Org Authorization"</a>.
+                        {{/xIf}}
+                        <br />After implementing the steps retry to add connection.
+                    </div>
+                    <form class="card mt-3 p-3" ng-submit="addOrg()" id="addConnectionForm">
+                        <div class="form-group row">
+                            <label class="col-sm-2 col-form-label">Environment type</label>
+                            <div class="col-sm-10">
+                                <select class="form-control form-control-sm" name="environment">
+                                    <option ng-repeat="env in envList track by env.value" value={[{env.value}]}>
+                                        {[{env.text}]}
+                                    </option>
+                                </select>
+                            </div>
+                        </div>
+                        <div class="form-group">
+                            <button class="btn btn-primary" type="submit">
+                                Open browser window
+                            </button>
+                        </div>
+
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div>
+
+
+
+
+</div>

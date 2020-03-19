@@ -1,0 +1,289 @@
+/*MAIN*/
+
+.body-container {
+    color: inherit;
+}
+
+
+/*COMMON*/
+
+.border-md-right {
+    border-right: 1px solid silver;
+}
+
+.input-group .input-group-append .btn-sm {
+    margin-top: 0px;
+}
+
+.hidden {
+    display: none !important;
+}
+
+.shown {
+    display: block !important;
+}
+
+.block {
+    display: block !important;
+}
+
+.inline-block {
+    display: inline-block !important;
+}
+
+.inline {
+    display: inline !important;
+}
+
+.bold {
+    font-weight: bold;
+}
+
+.no-wrap {
+    white-space: nowrap;
+}
+
+.clearfix {
+    clear: both;
+}
+
+.normal-case {
+    text-transform: none;
+}
+
+.pointer {
+    cursor: pointer;
+}
+
+.float-none {
+    float: none !important;
+}
+
+
+/*ANGULAR*/
+
+[ng\:cloak],
+[ng-cloak],
+[data-ng-cloak],
+[x-ng-cloak],
+.ng-cloak,
+.x-ng-cloak {
+    display: none !important;
+}
+
+
+/*NAVIGATION*/
+
+.nav-item.border-md-right {
+    margin-right: 10px;
+    margin-left: 10px;
+}
+
+@media screen and (max-width: 980px) {
+    .nav-item.border-md-right {
+        border-right: none;
+        margin-right: 0px;
+        margin-left: 0px;
+    }
+}
+
+
+/*LOGIN FORM*/
+
+.form-signin {
+    width: 100%;
+    max-width: 330px;
+    padding: 15px;
+    margin: auto;
+}
+
+.form-signin .checkbox {
+    font-weight: 400;
+}
+
+.form-signin .form-control {
+    position: relative;
+    box-sizing: border-box;
+    height: auto;
+    padding: 10px;
+    font-size: 16px;
+}
+
+.form-signin .form-control:focus {
+    z-index: 2;
+}
+
+.form-signin input[type="email"] {
+    margin-bottom: -1px;
+    border-bottom-right-radius: 0;
+    border-bottom-left-radius: 0;
+}
+
+.form-signin input[type="password"] {
+    margin-bottom: 10px;
+    border-top-left-radius: 0;
+    border-top-right-radius: 0;
+}
+
+
+/*SIDEBAR*/
+
+#sidebar-wrapper .list-group-item.active {
+    background-color: #c7c7c7 !important;
+    border-color: #c7c7c7;
+    color: #555;
+    font-weight: bold;
+    font-style: italic;
+}
+
+
+/*AJAX LOADER*/
+
+.ajax-loader {
+    width: 100vw;
+    height: 100vh;
+    background-color: #fff;
+    opacity: 0.5;
+    position: absolute;
+    z-index: 9000;
+}
+
+.ajax-load-message {
+    position: fixed;
+    background-color: white !important;
+    padding: 15px;
+    left: 50vw;
+    top: 50vh;
+    transform: translate(-50%, -50%);
+    z-index: 9998;
+}
+
+.ajax-load-message>img {
+    width: 48px;
+    height: 48px;
+}
+
+
+/*TOAST*/
+
+.toast {
+    position: fixed;
+    width: 100% !important;
+    max-width: 100% !important;
+    z-index: 9999;
+    top: 2px;
+}
+
+.toast,
+.toast .alert {
+    margin-bottom: 0px;
+}
+
+.toast-progress img {
+    width: 48px;
+    height: 48px;
+}
+
+
+/*SELECTPICKER*/
+
+.bootstrap-select.form-control-sm+.input-group-append {
+    margin-top: 5px;
+}
+
+
+/*MAIN TABS*/
+
+.main-tabs .tab-pane>h3:first-of-type {
+    float: left !important;
+}
+
+.main-tabs .tab-pane>div:first-of-type,
+.main-tabs .tab-pane>div:first-of-type button {
+    float: right !important;
+}
+
+.main-tabs .tab-pane>hr:first-of-type {
+    clear: both !important;
+}
+
+
+/*ACCORDEON*/
+
+.accordion .card-header {
+    padding: 0px;
+}
+
+.accordion .collapse-expand>button {
+    display: block;
+    position: relative;
+    padding: 5px 35px !important;
+}
+
+.accordion .collapse-expand>button:before {
+    content: " ";
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    left: -8px;
+    top: -1px;
+    cursor: pointer;
+    border: solid 1px #b0b0b0;
+    border-width: 0 2px 2px 0;
+    transform: rotate(-45deg);
+}
+
+.accordion .collapse-expand>button[aria-expanded="true"]:before {
+    transform: rotate(45deg);
+}
+
+.accordion .collapse-expand .fa {
+    position: relative;
+    top: -1px;
+}
+
+.accordion .card-header button.fa {
+    position: relative;
+    top: 6px;
+    right: 10px;
+}
+
+
+/*OBJECT PARAM EDIT*/
+
+.object-param-edit .fa-edit {
+    cursor: pointer;
+}
+
+.object-param-edit .value {
+    font-size: 120% !important;
+}
+
+
+/*BUTTONS*/
+
+button.fa {
+    padding: 5px;
+}
+
+.btn.btn-gray {
+    color: #999;
+}
+
+
+/* FORMS AND INPUT ELEMENTS */
+
+select option[disabled] {
+    color: gray;
+}
+
+div.form-control {
+    border: 0px;
+    padding: 0px;
+    margin-top: -3px;
+}
+
+.input-group>.dropdown.bootstrap-select {
+    margin-top: 1px;
+}

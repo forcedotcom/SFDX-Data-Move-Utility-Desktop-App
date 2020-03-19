@@ -1,0 +1,40 @@
+<!--SWITCHES-->
+<div class="form-row" ng-show="object.extraData.operation != 'Readonly'">
+    <div class="form-group col-md-12">
+
+        <label class="block">Options:</label>
+
+        <div class="custom-control custom-switch inline-block"
+                ng-show="object.extraData.operation != 'Delete' && object.extraData.operation != 'Readonly'">
+            <input type="checkbox" class="custom-control-input" id="deleteOldData{[{object.id}]}"
+                ng-model="object.extraData.deleteOldData" ng-change="updateObjectParameters(object)">
+            <label class="custom-control-label" for="deleteOldData{[{object.id}]}">
+                Delete old data
+                <i class="fa fa-question-circle" data-toggle="tooltip"
+                    title="When checked all of the old records will be cleared from the Target before inserting the new records. This deleting function does not respect Limit value specified for the current object, but it still respects the Where clause. You can also specify special Where clause for the deleting function below."></i>
+            </label>
+        </div>
+
+        <div class="custom-control custom-switch inline-block"
+            ng-show="object.extraData.deleteOldData || object.extraData.operation == 'Delete'">
+            <input type="checkbox" class="custom-control-input" id="deleteAll{[{object.id}]}"
+                ng-model="object.extraData.deleteAll" ng-change="updateObjectParameters(object)">
+            <label class="custom-control-label" for="deleteAll{[{object.id}]}">
+                Delete ALL records
+                <i class="fa fa-question-circle" data-toggle="tooltip"
+                    title="Force Plugin to delete all records of this sObject before performing the selected operation."></i>
+            </label>
+        </div>
+
+        <div class="custom-control custom-switch inline-block ml-3">
+            <input type="checkbox" class="custom-control-input" id="useMocking{[{object.id}]}"
+                ng-model="object.extraData.updateWithMockData" ng-change="updateObjectParameters(object)">
+            <label class="custom-control-label" for="useMocking{[{object.id}]}">
+                Use data masking
+                <i class="fa fa-question-circle" data-toggle="tooltip"
+                    title="When checked the actual record value will be replaced with a random value for the desired fields. You can specify the list of fields to be randomized and the rules below."></i>
+            </label>
+        </div>
+
+    </div>
+</div>

@@ -1,0 +1,60 @@
+<div class="card-header">
+
+    <!--OBJECT HEADER LEFT BUTTON-->
+    <h5 class="mb-0 float-left collapse-expand">
+
+        <button class="btn btn-link normal-case collapsed" data-toggle="collapse" data-target="#{[{object.id}]}"
+            aria-expanded="false" aria-controls="{[{object.id}]}">
+
+            <i data-toggle="tooltip" title="{[{object.dataError}]}" ng-show="!!object.dataError"
+                class="fa fa-exclamation-triangle text-danger"></i>
+
+            <div ng-show="object.extraData.initialized" class="inline-block">
+
+                {[{object.text}]}
+                &nbsp;&nbsp;<span>{[{object.extraData.fieldsCount}]}
+                    fields</span>
+                &nbsp;|&nbsp;<span>{[{object.extraData.operation.toUpperCase()}]}</span>
+                &nbsp;|&nbsp;<span>{[{object.extraData.externalId}]}</span>
+                <span>{[{object.extraData.deleteOldData 
+                            && object.extraData.operation != 'Delete'
+                            && object.extraData.operation != 'Readonly' ? '| *DELETE OLD DATA*'
+                    :
+                    ''}]}</span>
+                <span>{[{object.extraData.targetRecordsFilter ? '| *TARGET FILTER IS ON*' 
+                    : 
+                    ''}]}</span>
+            </div>
+
+            <div ng-show="!object.extraData.initialized" class="inline-block">
+                {[{object.text}]}
+            </div>
+
+        </button>
+    </h5>
+
+    <!--OBJECT HEADER RIGHT-->
+    <div class="float-right">
+
+        {{#xIf current.isWebApp "===" false}}
+        <button ng-show="object.extraData.initialized && object.extraData.csvSourceFileExist" data-toggle="tooltip"
+            title="Select fields automatically from CSV file" class="fa fa-file-import fa-sm text-default"
+            ng-click="loadObjectConfigurationFromCSVFileClickHandler(object.value)"></button>
+        {{/xIf}}
+        <button data-toggle="tooltip" title="Remove object" class="fa fa-trash fa-sm text-danger"
+            ng-click="removeObjectClickHandler(object.value)"></button>
+    </div>
+
+
+
+    <!--SWITCH-->
+    <div class="custom-control custom-switch float-right mr-2 mt-2 pointer" ng-show="object.extraData.initialized">
+        <input type="checkbox" class="custom-control-input" id="included{[{object.id}]}"
+            ng-model="object.extraData.included" ng-change="updateObjectParameters(object)">
+        <label class="custom-control-label pointer" for="included{[{object.id}]}" data-toggle="tooltip"
+            title="Enable/disable running this object within the package">
+        </label>
+    </div>
+
+
+</div>

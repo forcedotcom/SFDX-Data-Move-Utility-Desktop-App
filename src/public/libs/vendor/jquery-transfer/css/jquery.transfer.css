@@ -1,0 +1,515 @@
+/* * {
+    padding: 0;
+    margin: 0;
+}
+
+body {
+    font-family: "Microsoft YaHei", "SimSun";
+    border: none;
+    font-size: 14px;
+    color: #333;
+    background: #f5f6fa;
+    padding: 15px 0;
+    line-height: 22px;
+}
+
+*,
+*::before,
+*::after {
+    box-sizing: border-box;
+} */
+
+.selected-hidden {
+    display: none;
+}
+
+.checkbox-group .checkbox-normal {
+    display: none;
+}
+
+.checkbox-group {
+    display: inline-block;
+    position: relative;
+    left: 10px;
+}
+
+.checkbox-group label {
+    display: inline-block;
+    position: relative;
+    padding-left: 25px;
+    cursor: pointer;
+}
+
+.checkbox-group+.checkbox-group label {
+    margin-left: 15px;
+}
+
+.transfer-double-group-list-li>.checkbox-group:before {
+    content: ' ';
+    position: relative;
+    display: inline-block;
+    width: 8px;
+    height: 8px;
+    left: -8px;
+    cursor: pointer;
+    border: solid 1px #b0b0b0;
+    border-width: 0 2px 2px 0;
+    transform: rotate(-45deg);
+}
+
+.transfer-double-group-list-li>.checkbox-group.expanded:before {
+    transform: rotate(45deg);
+}
+
+.clearfix:before,
+.clearfix:after {
+    content: "";
+    display: table;
+}
+
+.radio-group label:before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 3px;
+    left: 0px;
+    background: #fcfcfc;
+    border: 1px solid #bbb;
+}
+
+.radio-group .radio-normal+label:before {
+    -webkit-border-radius: 10px;
+    -moz-border-radius: 10px;
+    border-radius: 10px;
+}
+
+.radio-group .radio-normal:hover+label:before {
+    border-color: #197DD5;
+}
+
+.radio-group .radio-normal:checked+label:before {
+    content: "\e6bf";
+    font-family: "iconfont";
+    color: #fff;
+    font-size: 14px;
+    line-height: 15px;
+    border-color: #197DD5;
+    text-align: center;
+    background: #197DD5;
+}
+
+.radio-group .radio-normal:disabled+label:before {
+    color: #fff;
+    border: 1px solid #ccc;
+    background: #ddd;
+    cursor: not-allowed;
+}
+
+.checkbox-group label:before {
+    content: "";
+    display: inline-block;
+    width: 16px;
+    height: 16px;
+    position: absolute;
+    top: 3px;
+    left: 0;
+    background: #fcfcfc;
+    border: 1px solid #bbb;
+}
+
+
+/* 设置选中的 radio 的样式 + 是兄弟选择器，获取选中后的 label 元素 */
+
+.checkbox-group .checkbox-normal+label:before {
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.checkbox-group .checkbox-normal:hover+label:before {
+    border-color: #197DD5;
+}
+
+.checkbox-group .checkbox-normal:checked+label:before {
+    content: "\e93e";
+    font-family: "iconfont";
+    color: #fff;
+    font-size: 12px;
+    text-align: center;
+    line-height: 13px;
+    border-color: #197DD5;
+    font-weight: bold;
+    background: #197DD5;
+}
+
+.checkbox-group .checkbox-normal:disabled+label:before {
+    color: #fff;
+    border: 1px solid #ccc;
+    background-color: #ddd;
+    cursor: not-allowed;
+}
+
+.checkbox-group .checkbox-indeterminate+label:before {
+    content: "\e95f";
+    font-family: "iconfont";
+    font-size: 14px;
+    text-align: center;
+    line-height: 15px;
+    color: #fff;
+    border-color: #197DD5;
+    font-weight: bold;
+    background: #197DD5;
+    -webkit-border-radius: 3px;
+    -moz-border-radius: 3px;
+    border-radius: 3px;
+}
+
+.multi-select-active:after {
+    content: "\e93e";
+    font-family: "iconfont";
+    margin-left: 64%;
+    font-weight: bold;
+}
+
+.icon-single-add {
+    font-size: 22px;
+    position: absolute;
+    margin-left: -30px;
+    margin-top: 7px;
+}
+
+.icon-double-add {
+    font-size: 22px;
+    position: absolute;
+    margin-left: -30px;
+    margin-top: 7px;
+}
+
+.transfer-double {
+    width: 100%;
+    height: 390px;
+    background-color: #fff;
+    border: 1px solid #ddd;
+    z-index: 1000;
+    border-radius: 2px;
+    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    /* for firefox */
+    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+    /* for safari or chrome */
+    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
+}
+
+.transfer-double-header {
+    padding: 10px
+}
+
+.transfer-double-content {
+    padding: 10px 14px 30px 30px;
+}
+
+.transfer-double-content-left {
+    display: inline-block;
+    width: calc(50% - 35px);
+    height: 320px;
+    border: 1px solid #8aafe7;
+    border-radius: 2px;
+}
+
+.transfer-double-content-middle {
+    display: inline-block;
+    width: 35px;
+    margin: 0 15px;
+    text-align: center;
+    position: relative;
+    top: -110px;
+}
+
+.transfer-double-content-right {
+    display: inline-block;
+    width: calc(50% - 35px);
+    height: 320px;
+    border: 1px solid #8aafe7;
+    border-radius: 2px;
+    position: relative;
+}
+
+.transfer-double-content-param {
+    display: inline-block;
+    width: 100%;
+    height: 36px;
+    line-height: 36px;
+    border-bottom: 1px solid #eee;
+    background-color: #387EE8;
+    color: #FFF;
+    font-weight: 400;
+    padding-left: 10px;
+}
+
+.transfer-double-content-param .param-item {
+    display: inline-block;
+    height: 36px;
+    line-height: 36px;
+}
+
+.vertical-separation-line {
+    color: #eee;
+    margin: 0 10px;
+}
+
+.transfer-double-list-header {
+    padding: 8px 8px 6px 8px;
+    text-align: center;
+}
+
+.transfer-double-list-search-input {
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    border: 1px solid #ddd;
+    padding: 5px 0 4px 8px;
+    border-radius: 2px;
+}
+
+.transfer-double-list-content {
+    padding: 3px 3px;
+}
+
+.transfer-double-list-main {
+    height: 210px;
+    overflow-y: auto;
+}
+
+.transfer-double-list-main .transfer-double-list-ul {
+    list-style: none;
+    padding-left: 25px;
+    margin: 0;
+}
+
+.transfer-double-list-main .transfer-double-list-ul .transfer-double-list-li {
+    margin-top: 5px;
+}
+
+.transfer-double-list-main .transfer-double-list-ul .transfer-double-list-li input {
+    margin-right: 10px;
+}
+
+.transfer-double-list-main .transfer-double-group-list-ul {
+    list-style: none;
+    padding-left: 25px;
+    margin: 0;
+}
+
+.transfer-double-list-main .transfer-double-group-list-ul .transfer-double-group-list-li {
+    margin-top: 5px;
+}
+
+.transfer-double-list-main .transfer-double-group-list-ul .transfer-double-group-list-li .transfer-double-group-list-li-ul {
+    list-style: none;
+    margin-left: 25px;
+}
+
+.transfer-double-list-main .transfer-double-group-list-ul .transfer-double-group-list-li .transfer-double-group-list-li-ul .transfer-double-group-list-li-ul-li {
+    margin-top: 5px;
+}
+
+.transfer-double-selected-list-header {
+    padding: 8px 8px 6px 8px;
+    text-align: center;
+}
+
+.transfer-double-selected-list-search-input {
+    width: 100%;
+    height: 24px;
+    line-height: 24px;
+    border: 1px solid #ddd;
+    padding: 5px 0 4px 8px;
+    border-radius: 2px;
+}
+
+.transfer-double-selected-list-content {
+    padding: 3px 3px;
+}
+
+.transfer-double-selected-list-main {
+    height: 210px;
+    overflow-y: auto;
+}
+
+.transfer-double-selected-list-main .transfer-double-selected-list-ul {
+    list-style: none;
+    padding-left: 25px;
+    margin: 0;
+}
+
+.transfer-double-selected-list-main .transfer-double-selected-list-ul .transfer-double-selected-list-li {
+    margin-top: 5px;
+}
+
+.transfer-double-selected-list-main .transfer-double-selected-list-ul .transfer-double-selected-list-li .checkbox-group {
+    width: 65%;
+}
+
+.transfer-double-selected-list-main .transfer-double-selected-list-ul .transfer-double-selected-list-li input[type="checkbox"] {
+    margin-right: 10px;
+}
+
+.transfer-double-selected-list-main .transfer-double-selected-list-ul .transfer-double-selected-list-li input[type="text"] {
+    min-width: 40px;
+    width: 40px;
+    min-height: 24px;
+    height: 24px;
+}
+
+.transfer-double-list-footer {
+    height: 24px;
+    line-height: 24px;
+    border-top: 1px solid #c1cde1;
+    padding-left: 18px;
+    color: #999;
+    padding-top: 1px;
+}
+
+.transfer-double-list-footer span {
+    margin-left: 20px;
+}
+
+.transfer-double-list-footer input {
+    min-width: 40px;
+    width: 40px;
+    min-height: 24px;
+    height: 24px;
+    margin-left: 75px;
+}
+
+.transfer-double-list-footer .btn-setting {
+    display: inline-block;
+    margin-left: 5px;
+}
+
+.transfer-double-list-footer label {
+    margin-left: 10px;
+}
+
+.transfer-double-footer {
+    padding: 10px;
+    text-align: right;
+}
+
+.btn-select-arrow {
+    display: inline-block;
+    width: 34px;
+    height: 28px;
+    line-height: 28px;
+    color: #bbb;
+    background: #e0e0e0;
+}
+
+.btn-select-arrow+.btn-select-arrow {
+    margin-top: 10px;
+}
+
+.btn-arrow-active {
+    color: #fff;
+    background: #387EE8;
+}
+
+
+/*
+ * clear float
+ */
+
+.clearfix:before,
+.clearfix:after {
+    display: table;
+    content: " ";
+}
+
+.clearfix:after {
+    clear: both;
+}
+
+.clearfix {
+    *zoom: 1;
+}
+
+
+/*
+ * input placeholder style
+ */
+
+input::-webkit-input-placeholder {
+    /* WebKit browsers */
+    font-size: 12px;
+    color: #bbb;
+}
+
+input:-moz-placeholder {
+    /* Mozilla Firefox 4 to 18 */
+    font-size: 12px;
+    color: #bbb;
+}
+
+input::-moz-placeholder {
+    /* Mozilla Firefox 19+ */
+    font-size: 12px;
+    color: #bbb;
+}
+
+input:-ms-input-placeholder {
+    /* Internet Explorer 10+ */
+    font-size: 12px;
+    color: #bbb;
+}
+
+
+/*
+ * webkit scrollbar
+ */
+
+.transfer-double-list-main::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.transfer-double-list-main::-webkit-scrollbar-track {
+    background: #f6f6f6;
+    border-radius: 2px;
+}
+
+.transfer-double-list-main::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 2px;
+}
+
+.transfer-double-list-main::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.transfer-double-list-main::-webkit-scrollbar-corner {
+    background: #f6f6f6;
+}
+
+.transfer-double-selected-list-main::-webkit-scrollbar {
+    width: 4px;
+    height: 4px;
+}
+
+.transfer-double-selected-list-main::-webkit-scrollbar-track {
+    background: #f6f6f6;
+    border-radius: 2px;
+}
+
+.transfer-double-selected-list-main::-webkit-scrollbar-thumb {
+    background: #ddd;
+    border-radius: 2px;
+}
+
+.transfer-double-selected-list-main::-webkit-scrollbar-thumb:hover {
+    background: #999;
+}
+
+.transfer-double-selected-list-main::-webkit-scrollbar-corner {
+    background: #f6f6f6;
+}

@@ -1,0 +1,14 @@
+<form class="form-signin" ng-submit="register()">
+    <h1 class="h3 mb-2 font-weight-normal">New user registration</h1>
+    <small class="mb-3 block text-danger">Warning! Please, remember well your credentials, because there is no recovering option.</small>
+    <label for="inputEmail" class="sr-only">Email address</label>
+    <input type="email" name="email" id="inputEmail" class="form-control mb-2" placeholder="Email address" required
+        autofocus />
+    <label for="inputPassword" class="sr-only">Password</label>
+    <input type="password" name="password" id="inputPassword" class="form-control" placeholder="Password" required />
+    <div class="checkbox mb-3">
+        <a href="/login">Sign in if you already have an account</a>
+    </div>
+    <button class="btn btn-lg btn-primary btn-block" type="submit">Register</button>
+    <label class="text-danger mt-1">{[{errorMessage}]}</label>
+</form>

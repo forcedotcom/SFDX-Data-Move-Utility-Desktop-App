@@ -1,0 +1,21 @@
+<div class="content-fluid" ng-init="initExecuteScriptSection()">
+
+    <div class="alert alert-info" ng-hide="context.configExtraData.commandString">
+        Please, complete previous step.
+    </div>
+
+    <div ng-show="context.configExtraData.commandString">
+        <div class="row">
+            <div class="col-md-12">
+                <div class="execution-log mt-4">
+                </div>
+                <div ng-show="context.isPackageExecuted">
+                    <hr />
+                    <button ng-click="abortExecutePackage()" type="button" class="btn btn-danger btn-sm ml-0"><i
+                            class="fa fa-close"></i>ABORT PACKAGE EXECUTION</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
+</div>

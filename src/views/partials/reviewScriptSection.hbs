@@ -1,0 +1,114 @@
+<div class="content-fluid" ng-init="initReviewScriptSection()">
+
+    <div class="alert alert-info" ng-hide="!context.selectedConfig.dataError && context.selectedConfig.validated">
+        Please, complete previous step.
+    </div>
+
+    <div ng-show="!context.selectedConfig.dataError && context.selectedConfig.validated">
+
+        <div class="row mt-1 mb-1 bold">
+            <div class="col-md-4 no-wrap text-success">
+                {[{context.configExtraData.sourceTarget == "Orgs" || context.configExtraData.sourceTarget == "Org2File"
+                ? context.sourceOrg.name : "CSV File"}]}
+            </div>
+            <div class="col-md-1 bold text-success">
+                -->
+            </div>
+            <div class="col-md-7 no-wrap text-secondary">
+                {[{context.configExtraData.sourceTarget == "Orgs" || context.configExtraData.sourceTarget == "File2Org"
+                ? context.targetOrg.name : "CSV File"}]}
+            </div>
+        </div>
+
+        <div class="row">
+
+            <div class="col-md-12">
+
+                {{#xIf current.isDebug "===" true}}
+                <div class="custom-control custom-switch inline-block mr-1">
+                    <input type="checkbox" class="custom-control-input" id="passwordSecuredSwitch"
+                        ng-model="context.configExtraData.passwordSecured" ng-change="updatePackageScriptHandler()" />
+                    <label class="custom-control-label" for="passwordSecuredSwitch">
+                        Use password encryption <i class="fa fa-question-circle" data-toggle="tooltip"
+                            title="If true the orgs credentials will be encrypted with the current user password in the produced Script file."></i></label>
+                </div>
+                {{/xIf}}
+
+                <div class="custom-control custom-switch inline-block mr-1"
+                    ng-show="context.configExtraData.sourceTarget == 'File2Org'"
+                    ng-disabled="context.configExtraData.encryptDataFiles">
+                    <input type="checkbox" class="custom-control-input" id="validateCSVFilesOnlySwitch"
+                        ng-model="context.configExtraData.validateCSVFilesOnly"
+                        ng-change="updatePackageScriptHandler()" />
+                    <label class="custom-control-label" for="validateCSVFilesOnlySwitch">Validate source CSVs only <i
+                            class="fa fa-question-circle" data-toggle="tooltip"
+                            title="Set validateCSVFilesOnly parameter for the Script. When checked the Plugin will only validate and format the source CSV files without data migration."></i></label>
+                </div>
+
+                <div class="custom-control custom-switch inline-block mr-1"
+                    ng-show="!context.configExtraData.validateCSVFilesOnly && context.configExtraData.sourceTarget != 'Org2File'">
+                    <input type="checkbox" class="custom-control-input" id="allOrNoneSwitch"
+                        ng-model="context.configExtraData.allOrNone" ng-change="updatePackageScriptHandler()" />
+                    <label class="custom-control-label" for="allOrNoneSwitch">All or None <i
+                            class="fa fa-question-circle" data-toggle="tooltip"
+                            title="Set allOrNone parameter for the Script. true tells to the Plugin to break migration process on any error. When REST API is used all made changes will also be rolled back."></i></label>
+                </div>
+
+                <div class="custom-control custom-switch inline-block mr-1"
+                    ng-show="!context.configExtraData.validateCSVFilesOnly && context.configExtraData.sourceTarget != 'Org2File'">
+                    <input type="checkbox" class="custom-control-input" id="createTargetCSVFilesSwitch"
+                        ng-model="context.configExtraData.createTargetCSVFiles"
+                        ng-change="updatePackageScriptHandler()" />
+                    <label class="custom-control-label" for="createTargetCSVFilesSwitch">Create target CSVs <i
+                            class="fa fa-question-circle" data-toggle="tooltip"
+                            title="Set createTargetCSVFiles parameter for the Script. If true the Plugin will produce CSV file containing target records for each processed sObject with error information (if occured) per record. These CSV files are not encrypted."></i></label>
+                </div>
+
+                {{#xIf current.isDebug "===" true}}
+                <div class="custom-control custom-switch inline-block mr-1"
+                    ng-show="!context.configExtraData.validateCSVFilesOnly && context.configExtraData.sourceTarget != 'Org2Org' && context.configExtraData.passwordSecured">
+                    <input type="checkbox" class="custom-control-input" id="encryptDataFilesSwitch"
+                        ng-model="context.configExtraData.encryptDataFiles" ng-change="updatePackageScriptHandler()" />
+                    <label class="custom-control-label" for="encryptDataFilesSwitch">Encrypt CSV files <i
+                            class="fa fa-question-circle" data-toggle="tooltip"
+                            title="Set encryptDataFiles parameter for the Script. true tells to the Plugin to use encrypted csv data files when File type chosen as the source or as the target and the script is password protected."></i></label>
+                </div>
+                {{/xIf}}
+
+            </div>
+
+        </div>
+
+        <div class="row">
+            <div class="col-md-12">
+                <div class="pt-4 pb-4">
+                    {{#xIf current.isWebApp "===" false}}
+                    <div class="bold">
+                        To manually run the package, please, paste and execute the command below in the Terminal /
+                        Command console:
+                    </div>
+                    {{else}}
+                    <div class="bold">
+                        To run the package:
+                        <br />
+                        1. Click on the button above to download the export.json file.<br />
+                        2. Open Terminal / Command window in the local directory where you have put the downloaded
+                        export.json file, then paste and execute the command below:
+                    </div>
+                    {{/xIf}}
+                    <div class="text-secondary bold">
+                        {[{context.configExtraData.commandString}]}<br />
+                        <button ng-click="copyCommandToClipboard()"
+                            class="btn btn-sm btn-link pl-0 pb-0 mb-0 pt-0 mt-0">
+                            Click to copy the command to the Clipboard</button>
+                    </div>
+                </div>
+                <textarea class="form-control" ng-model="context.configExtraData.scriptJSON"
+                    style="width:100%; height: calc(100vh - 380px)" readonly></textarea>
+            </div>
+        </div>
+
+    </div>
+
+
+</div>
