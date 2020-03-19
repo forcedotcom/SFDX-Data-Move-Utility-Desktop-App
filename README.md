@@ -21,7 +21,7 @@ Now you don't have to work with the Terminal / Console. All actions are performe
 # 2. Clone this repository.
 git clone https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App.git
 
-# 3. Go into the repository.
+# 3. Go into the project directory.
 cd SFDX-Data-Move-Utility-Desktop-App
 
 # 4. Install Python
