@@ -407,7 +407,7 @@ app.controller("appController", ['$copyToClipboard', '$scope', '$rootScope', '$h
 
     $scope.connectBetweenOrgsClickHandler = function() {
 
-        showProgress("Connecting and reading global metadata...");
+        showProgress("Connecting and reading global metadata... It may take a while...");
 
         $timeout(function() {
 
@@ -1100,8 +1100,10 @@ app.controller("appController", ['$copyToClipboard', '$scope', '$rootScope', '$h
                 }
             }
         }, function(error) {
-            showProgress();
-            showToast("Unexpected error.", true);
+            $timeout(function() {
+                showProgress();
+                showToast("Unexpected error. Check your internet connection.", true);
+            });
             dfd.reject(error);
         });
         return dfd.promise();

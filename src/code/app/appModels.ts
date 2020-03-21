@@ -940,7 +940,10 @@ export class ConfigObject {
                 let availableFields = describeSource.availableExternalIdFields;
                 let extIdField = availableFields.filter(x => x.value == complexFieldName)[0];
                 if (!extIdField) {
-                    let descr = describeSource.fieldsMap.get(complexFieldName);
+                    let descr = describeSource.fieldsMap.get(complexFieldName) || new SFieldDescribe({
+                        label : complexFieldName,
+                        name: complexFieldName
+                    });
                     extIdField = {
                         objectName: describeSource.name,
                         isAutoNumber: descr.autoNumber,
