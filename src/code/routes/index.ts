@@ -709,6 +709,8 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
 
             // Set parameters
             config.allOrNone = data.allOrNone;
+            config.bulkApiV1BatchSize = data.bulkApiV1BatchSize;
+            config.bulkApiVersion = data.bulkApiVersion ? "2.0" : "1.0";
             config.createTargetCSVFiles = data.createTargetCSVFiles;
             config.validateCSVFilesOnly = data.validateCSVFilesOnly;
             config.encryptDataFiles = data.encryptDataFiles;
@@ -742,6 +744,8 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
         let resultStringObject = {
             scriptJSON: serializedScript,
             allOrNone: config.allOrNone,
+            bulkApiV1BatchSize: config.bulkApiV1BatchSize,
+            bulkApiVersion: config.bulkApiVersion == "2.0",
             createTargetCSVFiles: config.createTargetCSVFiles,
             validateCSVFilesOnly: config.validateCSVFilesOnly,
             encryptDataFiles: config.encryptDataFiles,

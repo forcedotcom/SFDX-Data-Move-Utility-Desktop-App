@@ -53,6 +53,13 @@
                             class="fa fa-question-circle" data-toggle="tooltip"
                             title="Set allOrNone parameter for the Script. true tells to the Plugin to break migration process on any error. When REST API is used all made changes will also be rolled back."></i></label>
                 </div>
+                 <div class="custom-control custom-switch inline-block mr-1">
+                    <input type="checkbox" class="custom-control-input" id="bulkApiVersionSwitch"
+                        ng-model="context.configExtraData.bulkApiVersion" ng-change="updatePackageScriptHandler()" />
+                    <label class="custom-control-label" for="bulkApiVersionSwitch">Use Bulk Api V2.0 <i
+                            class="fa fa-question-circle" data-toggle="tooltip"
+                            title="Set bulkApiVersion parameter for the Script. true forces the Plugin to use the new V2.0 of the Salesforce Bulk Api and the legacy V1.0 otherwise."></i></label>
+                </div>
 
                 <div class="custom-control custom-switch inline-block mr-1"
                     ng-show="!context.configExtraData.validateCSVFilesOnly && context.configExtraData.sourceTarget != 'Org2File'">

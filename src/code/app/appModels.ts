@@ -446,6 +446,11 @@ export class Config {
 
     createTargetCSVFiles: boolean = false;
 
+    bulkApiV1BatchSize: number  =  9500;
+
+    bulkApiVersion: "1.0" | "2.0";
+
+
     @Type(() => ConfigObject)
     objects: ConfigObject[];
 
@@ -495,6 +500,8 @@ export class Config {
         return parseJson(AppUtils.stringifyObj({
             name: this.name,
             allOrNone: this.allOrNone,
+            bulkApiV1BatchSize: this.bulkApiV1BatchSize,
+            bulkApiVersion: this.bulkApiVersion,
             createTargetCSVFiles: this.createTargetCSVFiles,
             encryptDataFiles: this.encryptDataFiles,
             pollingIntervalMs: this.pollingIntervalMs,
@@ -603,6 +610,8 @@ export class Config {
 
             promptOnMissingParentObjects: false, // Always false
             allOrNone: this.allOrNone,
+            bulkApiV1BatchSize: this.bulkApiV1BatchSize,
+            bulkApiVersion: this.bulkApiVersion,
             createTargetCSVFiles: this.createTargetCSVFiles,
             validateCSVFilesOnly: this.validateCSVFilesOnly,
             promptOnUpdateError: false, // Always false
