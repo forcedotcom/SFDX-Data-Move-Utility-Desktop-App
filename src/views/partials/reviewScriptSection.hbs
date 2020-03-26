@@ -35,14 +35,25 @@
                 {{/xIf}}
 
                 <div class="custom-control custom-switch inline-block mr-1"
-                    ng-show="context.configExtraData.sourceTarget == 'File2Org'"
-                    ng-disabled="context.configExtraData.encryptDataFiles">
+                    ng-show="context.configExtraData.sourceTarget == 'File2Org'">
                     <input type="checkbox" class="custom-control-input" id="validateCSVFilesOnlySwitch"
+                        ng-disabled="context.configExtraData.encryptDataFiles || context.configExtraData.importCSVFilesAsIs"
                         ng-model="context.configExtraData.validateCSVFilesOnly"
                         ng-change="updatePackageScriptHandler()" />
                     <label class="custom-control-label" for="validateCSVFilesOnlySwitch">Validate source CSVs only <i
                             class="fa fa-question-circle" data-toggle="tooltip"
                             title="Set validateCSVFilesOnly parameter for the Script. When checked the Plugin will only validate and format the source CSV files without data migration."></i></label>
+                </div>
+
+                <div class="custom-control custom-switch inline-block mr-1"
+                    ng-show="context.configExtraData.sourceTarget == 'File2Org'">
+                    <input type="checkbox" class="custom-control-input" id="importCSVFilesAsIsSwitch"
+                        ng-disabled="context.configExtraData.encryptDataFiles"
+                        ng-model="context.configExtraData.importCSVFilesAsIs"
+                        ng-change="updatePackageScriptHandler()" />
+                    <label class="custom-control-label" for="importCSVFilesAsIsSwitch">Import CSVs as is <i
+                            class="fa fa-question-circle" data-toggle="tooltip"
+                            title="Set importCSVFilesAsIs parameter for the Script. When checked the Plugin will import csv source files as is without automatic handling lookups or additional source data transformation."></i></label>
                 </div>
 
                 <div class="custom-control custom-switch inline-block mr-1"
@@ -53,7 +64,7 @@
                             class="fa fa-question-circle" data-toggle="tooltip"
                             title="Set allOrNone parameter for the Script. true tells to the Plugin to break migration process on any error. When REST API is used all made changes will also be rolled back."></i></label>
                 </div>
-                 <div class="custom-control custom-switch inline-block mr-1">
+                <div class="custom-control custom-switch inline-block mr-1">
                     <input type="checkbox" class="custom-control-input" id="bulkApiVersionSwitch"
                         ng-model="context.configExtraData.bulkApiVersion" ng-change="updatePackageScriptHandler()" />
                     <label class="custom-control-label" for="bulkApiVersionSwitch">Use Bulk Api V2.0 <i

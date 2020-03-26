@@ -11,9 +11,12 @@ import path = require("path");
 import indexRouter = require("./code/routes/index");
 import loginRouter = require("./code/routes/login");
 import registerRouter = require("./code/routes/register");
+const timeout = require('connect-timeout');
 
 
 const app = express();
+app.use(timeout(1000 * 60 * 10)); // 10 mins
+
 
 // HBS helpers
 import exphbs = require('express-handlebars');
@@ -74,6 +77,7 @@ app.engine('hbs', hbsHelpers.engine);
 app.set("views", path.join(__dirname, "../src/views"));
 app.set("view engine", "hbs");
 
+
 // Register partials
 import fs = require('fs');
 var partialsDir = path.join(__dirname, "../src/views/partials");
@@ -92,7 +96,9 @@ filenames.forEach(function (filename) {
 
 app.use(logger("dev"));
 app.use(cookieParser());
+app.use(haltOnTimedout);
 app.use(express.static(path.join(__dirname, "../src/public")));
+
 
 
 // Session
@@ -131,6 +137,7 @@ app.use(bodyParser.raw({
   inflate: true
 }));
 app.use(bodyParser());
+app.use(haltOnTimedout);
 
 // Routes
 app.use("/", indexRouter.default);
@@ -156,6 +163,14 @@ app.use(function (err: any, req: any, res: any, next: any) {
 });
 
 app.set("port", process.env.PORT || 3000);
+
+function haltOnTimedout(req, res, next) {
+  if (!req.timedout) { 
+    next(); 
+  } else {
+    process.exit();
+  }
+}
 
 const server = app.listen(app.get("port"), function () {
   // debug('Express server listening on port ' + server.address().port);

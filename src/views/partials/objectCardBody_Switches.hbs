@@ -36,5 +36,15 @@
             </label>
         </div>
 
+         <div class="custom-control custom-switch inline-block ml-3">
+            <input type="checkbox" class="custom-control-input" id="useCSVValuesMapping{[{object.id}]}"
+                ng-model="object.extraData.useCSVValuesMapping" ng-change="updateObjectParameters(object)">
+            <label class="custom-control-label" for="useCSVValuesMapping{[{object.id}]}">
+                Use CSV source file mapping
+                <i class="fa fa-question-circle" data-toggle="tooltip"
+                    title="When checked and CSV file set as the the data source - plugin will replace values provided within the file according to the mapping CSV file prior uploading to the Target."></i>
+            </label>
+        </div>
+
     </div>
 </div>

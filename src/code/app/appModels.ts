@@ -444,6 +444,8 @@ export class Config {
 
     validateCSVFilesOnly: boolean = false;
 
+    importCSVFilesAsIs: boolean = false;
+
     createTargetCSVFiles: boolean = false;
 
     bulkApiV1BatchSize: number  =  9500;
@@ -508,6 +510,7 @@ export class Config {
             bulkThreshold: this.bulkThreshold,
             apiVersion: this.apiVersion,
             validateCSVFilesOnly: this.validateCSVFilesOnly,
+            importCSVFilesAsIs: this.importCSVFilesAsIs,
             objects: this.objects,
             passwordSecured: this.passwordSecured,
             useFileSource: this.useFileSource,
@@ -614,6 +617,7 @@ export class Config {
             bulkApiVersion: this.bulkApiVersion,
             createTargetCSVFiles: this.createTargetCSVFiles,
             validateCSVFilesOnly: this.validateCSVFilesOnly,
+            importCSVFilesAsIs: this.importCSVFilesAsIs,
             promptOnUpdateError: false, // Always false
             encryptDataFiles: this.encryptDataFiles,
             pollingIntervalMs: this.pollingIntervalMs,
@@ -660,6 +664,7 @@ export class Config {
                 mockFields: object.mockFields,
                 updateWithMockData: object.updateWithMockData,
                 deleteOldData: object.deleteOldData,
+                useCSVValuesMapping: object.useCSVValuesMapping,
                 excluded: object.included ? undefined : true,
                 targetRecordsFilter: object.targetRecordsFilter,
                 query: (`SELECT Id, ${object.fields.map(f => f.name).join(', ')} FROM ${object.name}${object.where ? " WHERE " + object.where.trim() : ""}${object.limit ? " LIMIT " + object.limit : ""}`).trim(),
@@ -773,6 +778,7 @@ export class ConfigObject {
 
     deleteAll: boolean = false;
     included: boolean = true;
+    useCSVValuesMapping: boolean = false;
 
     targetRecordsFilter: string;
 
@@ -1367,6 +1373,7 @@ export class ConfigObject {
             mockPatterns: mockPatterns,
 
             deleteOldData: this.deleteOldData,
+            useCSVValuesMapping: this.useCSVValuesMapping,
             deleteAll: this.deleteAll,
             included: this.included,
             targetRecordsFilter: this.targetRecordsFilter,

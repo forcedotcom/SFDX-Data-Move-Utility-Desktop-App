@@ -641,6 +641,7 @@ router.post("/updateobjectparameters", async (req: express.Request, res: Extende
     object.mockFields = data.mockFields;
     object.updateWithMockData = data.updateWithMockData;
     object.deleteOldData = data.deleteOldData;
+    object.useCSVValuesMapping = data.useCSVValuesMapping;
 
     object.deleteAll = data.deleteAll;
     object.included = data.included;
@@ -713,6 +714,7 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
             config.bulkApiVersion = data.bulkApiVersion ? "2.0" : "1.0";
             config.createTargetCSVFiles = data.createTargetCSVFiles;
             config.validateCSVFilesOnly = data.validateCSVFilesOnly;
+            config.importCSVFilesAsIs = data.importCSVFilesAsIs;
             config.encryptDataFiles = data.encryptDataFiles;
             config.passwordSecured = data.passwordSecured;
             config.useFileSource = data.sourceTarget == "File2Org";
@@ -748,6 +750,7 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
             bulkApiVersion: config.bulkApiVersion == "2.0",
             createTargetCSVFiles: config.createTargetCSVFiles,
             validateCSVFilesOnly: config.validateCSVFilesOnly,
+            importCSVFilesAsIs: config.importCSVFilesAsIs,
             encryptDataFiles: config.encryptDataFiles,
             passwordSecured: config.passwordSecured,
             sourceTarget: config.useFileSource ? "File2Org" : config.useFileTarget ? "Org2File" : "Orgs",
