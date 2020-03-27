@@ -448,7 +448,7 @@ export class Config {
 
     createTargetCSVFiles: boolean = false;
 
-    bulkApiV1BatchSize: number  =  9500;
+    bulkApiV1BatchSize: number = 9500;
 
     bulkApiVersion: "1.0" | "2.0";
 
@@ -546,7 +546,6 @@ export class Config {
             if (dataError.length == 0) {
                 objectExtraData = await o.getObjectExtraData(userData, req, false);
                 o.fixExtraDataAndObjectParameters(userData, this, objectExtraData, false)
-
                 if (objectExtraData["externalIdDataError"]) {
                     dataError[2] = objectExtraData["externalIdDataError"];
                 }
@@ -794,7 +793,7 @@ export class ConfigObject {
 
         return describeSource.filter(field => {
             return (field.creatable || field.updateable)
-                && NON_USABLE_FIELDS.indexOf(field.name) < 0
+                && FIELDS_TO_EXCLUDE_FROM_OBJECT_FIELDS_LIST.indexOf(field.name) < 0
                 && f.indexOf(field.name) < 0
         }).map(field => {
             let dataError = [];
@@ -956,7 +955,7 @@ export class ConfigObject {
                 let extIdField = availableFields.filter(x => x.value == complexFieldName)[0];
                 if (!extIdField) {
                     let descr = describeSource.fieldsMap.get(complexFieldName) || new SFieldDescribe({
-                        label : complexFieldName,
+                        label: complexFieldName,
                         name: complexFieldName
                     });
                     extIdField = {
@@ -1342,14 +1341,15 @@ export class ConfigObject {
         let scriptDirectory = await userData.config.createAndGetScriptDirectory();
         let csvFilename = path.join(scriptDirectory, `${this.name}.csv`);
         let csvSourceFileExist = fs.existsSync(csvFilename);
-
-        let _this = this;
+        let isReadonlyObject = READONLY_OBJECTS.indexOf(this.name) >= 0;
 
         return {
             initialized: true,
             operation: String(this.operation),
             csvSourceFileExist: csvSourceFileExist,
             fieldsCount: fields.length,
+
+            isReadonlyObject: isReadonlyObject,
 
             externalId: this.externalId,
             externalIdParts: externalIdParts,
@@ -1439,7 +1439,13 @@ export class ConfigObject {
         }
 
         // Fix operation
-        if ((extraData.externalIdIsAutonumber && !this.deleteOldData || this.deleteOldData)
+        if (extraData.isReadonlyObject) {
+            extraData.operation = OPERATIONS.Readonly.toString();
+            if (applyFixToObjectParameters) {
+                this.operation = OPERATIONS.Readonly;
+            }
+            if (this.operation != OPERATIONS.Readonly) changed = true;
+        } else if ((extraData.externalIdIsAutonumber && !this.deleteOldData || this.deleteOldData)
             && this.operation != OPERATIONS.Insert
             && this.operation != OPERATIONS.Delete
             && this.operation != OPERATIONS.Readonly
@@ -1466,10 +1472,9 @@ export class ConfigObject {
                 || x.value == OPERATIONS[OPERATIONS.Readonly]);
         }
 
-        if (this.name == "User") {
+        if (extraData.isReadonlyObject) {
             extraData.availableOperations = extraData.availableOperations.filter(x => x.value == OPERATIONS[OPERATIONS.Readonly]);
         }
-
 
         if (applyFixToObjectParameters) {
             config.objects.forEach(obj => {
@@ -1678,8 +1683,8 @@ export class SelectListObjectItem extends SelectListItem {
     @serializable()
     get canInsert(): Boolean {
         return this.sObjectDescribe
-            && NON_USABLE_OBJECTS.indexOf(this.value) < 0
-            && (USABLE_OBJECTS.length > 0 && USABLE_OBJECTS.indexOf(this.value) >= 0 || USABLE_OBJECTS.length == 0 || this.custom)
+            && OBJECTS_TO_EXCLUDE_FROM_OBJECTS_LIST.indexOf(this.value) < 0
+            && (RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST.length > 0 && RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST.indexOf(this.value) >= 0 || RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST.length == 0 || this.custom)
             && this.sObjectDescribe.createable
             && this.fields.filter(f => !f.sFieldDescribe.canInsert).length == 0;
 
@@ -1688,8 +1693,8 @@ export class SelectListObjectItem extends SelectListItem {
     @serializable()
     get canUpdate(): Boolean {
         return this.sObjectDescribe
-            && NON_USABLE_OBJECTS.indexOf(this.value) < 0
-            && (USABLE_OBJECTS.length > 0 && USABLE_OBJECTS.indexOf(this.value) >= 0 || USABLE_OBJECTS.length == 0 || this.custom)
+            && OBJECTS_TO_EXCLUDE_FROM_OBJECTS_LIST.indexOf(this.value) < 0
+            && (RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST.length > 0 && RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST.indexOf(this.value) >= 0 || RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST.length == 0 || this.custom)
             && this.sObjectDescribe.updateable
             && this.fields.filter(f => !f.sFieldDescribe.canUpdate).length == 0;
     }
@@ -1901,22 +1906,27 @@ export enum DATA_MIGRATION_DIRECTIONS {
     Org2File = "Org2File"
 }
 
-export const USABLE_OBJECTS = [
+export const RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST = [
     // TODO:
+    // --------
 ];
 
-export const NON_USABLE_OBJECTS = [
-    "RecordType",
-    "Profile",
-    "User",
-    "Group"
+export const OBJECTS_TO_EXCLUDE_FROM_OBJECTS_LIST = [
+    // TODO:
+    // --------
+    //"RecordType",
+    //"Profile",
+    //"User",
+    //"Group"
 ];
 
-export const NON_USABLE_OBJECTS2 = [
+export const OBJECTS_NOT_TO_ADD_TO_PACKAGE_WHILE_LOOKING_FOR_RELATED_OBJECTS = [
     // TODO:
-].concat(NON_USABLE_OBJECTS);
+    // --------
+].concat(OBJECTS_TO_EXCLUDE_FROM_OBJECTS_LIST);
 
-export const NON_USABLE_FIELDS = [
+
+export const FIELDS_TO_EXCLUDE_FROM_OBJECT_FIELDS_LIST = [
     "UserOrGroupId",
     "DandbCompanyId",
     "IsDeleted",
@@ -1925,6 +1935,14 @@ export const NON_USABLE_FIELDS = [
     "LastModifiedById",
     "LastModifiedDate",
     "SystemModstamp"
+];
+
+
+export const READONLY_OBJECTS = [
+    "RecordType",
+    "Profile",
+    "User",
+    "Group"
 ];
 
 

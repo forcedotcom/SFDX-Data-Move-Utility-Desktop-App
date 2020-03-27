@@ -11,7 +11,7 @@ import {
     ExtendedResponse,
     ConfigField,
     OPERATIONS,
-    NON_USABLE_OBJECTS2,
+    OBJECTS_NOT_TO_ADD_TO_PACKAGE_WHILE_LOOKING_FOR_RELATED_OBJECTS,
     APP_CONSTANTS,
     DATA_MIGRATION_DIRECTIONS
 } from '../app/appModels';
@@ -497,7 +497,7 @@ router.post("/addrelatedobjects", async (req: express.Request, res: ExtendedResp
             .filter(field => {
                 return field.sFieldDescribe.isReference
                     && selectedObjectNames.indexOf(field.sFieldDescribe.referencedObjectType) < 0
-                    && NON_USABLE_OBJECTS2.indexOf(field.sFieldDescribe.referencedObjectType) < 0;
+                    && OBJECTS_NOT_TO_ADD_TO_PACKAGE_WHILE_LOOKING_FOR_RELATED_OBJECTS.indexOf(field.sFieldDescribe.referencedObjectType) < 0;
             }).forEach(field => {
                 names.add(field.sFieldDescribe.referencedObjectType);
             });

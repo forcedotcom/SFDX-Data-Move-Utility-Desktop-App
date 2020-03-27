@@ -184,4 +184,8 @@ process.on("SIGTERM", function (e) {
   process.exit();
 });
 
+process.on('unhandledRejection', error => {
+  process.exit();
+});
+
 
