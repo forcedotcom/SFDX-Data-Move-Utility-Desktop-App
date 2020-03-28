@@ -475,7 +475,7 @@ router.get("/downloadconfig", async (req: express.Request, res: ExtendedResponse
 
 // Add objects to config --------------
 router.post("/addobjects", async (req: express.Request, res: ExtendedResponse) => {
-    req.body.defaultFields = [APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAME];
+    req.body.defaultFields = APP_CONSTANTS.DEFAULT_FIELD_NAMES;
     await addObjects(req, res);
 });
 
@@ -519,7 +519,7 @@ router.post("/addrelatedobjects", async (req: express.Request, res: ExtendedResp
     } else {
         req.body.names = [...names.values()];
         req.body.operation = OPERATIONS.Readonly;
-        req.body.defaultFields = [APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAME];
+        req.body.defaultFields = APP_CONSTANTS.DEFAULT_FIELD_NAMES;
         await addObjects(req, res);
     }
 
@@ -854,7 +854,7 @@ async function addObjects(req: express.Request, res: ExtendedResponse): Promise<
 
     let names = req.body.names;
     let operation = req.body.operation || OPERATIONS.Upsert;
-    let defaultFields = req.body.defaultFields || [];
+    let defaultFields: Map<string, Array<string>> = req.body.defaultFields;
     let removeAllObjects = req.body.removeAllObjects;
     let noResponse = req.body.noResponse;
 
@@ -896,9 +896,15 @@ async function addObjects(req: express.Request, res: ExtendedResponse): Promise<
                 operation: operation
             });
             if (defaultFields) {
-                ob.fields = defaultFields.map(x => new ConfigField({
-                    name: x
-                }));
+                let df = defaultFields.get(o.name) || defaultFields.get("*"); // * id the default for all objects
+                if (df) {
+                    ob.fields = df.map(x => new ConfigField({
+                        name: x
+                    }));
+                    
+                }
+                ob.externalId = APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAMES.get(o.name) 
+                                || APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAMES.get("*");
             }
             return ob;
         }));

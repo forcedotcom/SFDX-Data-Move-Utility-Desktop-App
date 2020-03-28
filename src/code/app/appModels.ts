@@ -752,15 +752,16 @@ export class ConfigObject {
         Object.assign(this, init);
         this.fields = this.fields || new Array<ConfigField>();
         this.mockFields = this.mockFields || new Array<ScriptMockField>();
-        if (this.name == "User")
-            this.operation = OPERATIONS.Readonly;
+        //if (this.name == "User")
+          //  this.operation = OPERATIONS.Readonly;
+        
     }
 
     // Main members ---------------
     name: string;
     label: string;
     operation: OPERATIONS = OPERATIONS.Upsert;
-    externalId: string = APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAME;
+    externalId: string;
     limit: number;
     where: string;
     deleteWhere: string;
@@ -1878,7 +1879,14 @@ export class Sfdx_ForceOrgList_CommandResponse {
 export const APP_CONSTANTS = {
     DB_NAME: 'db',
     DB_PATH: "SFDMU/data/",
-    DEFAULT_EXTERNAL_ID_FIELD_NAME: "Name",
+    DEFAULT_EXTERNAL_ID_FIELD_NAMES: new Map<string, string>([
+        ["*", "Name"],
+        ["RecordType", "DeveloperName"]
+    ]),
+    DEFAULT_FIELD_NAMES: new Map<string, Array<string>>([
+        ["*", ["Name"]],
+        ["RecordType", ["DeveloperName"]]
+    ]),
     CSV_FILE_SOURCE_ID: "File"
 };
 
