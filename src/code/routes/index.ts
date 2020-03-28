@@ -518,7 +518,7 @@ router.post("/addrelatedobjects", async (req: express.Request, res: ExtendedResp
 
     } else {
         req.body.names = [...names.values()];
-        req.body.operation = OPERATIONS.Readonly;
+        req.body.operation = new Map<string, OPERATIONS>([["*", OPERATIONS.Readonly]]);
         req.body.defaultFields = APP_CONSTANTS.DEFAULT_FIELD_NAMES;
         await addObjects(req, res);
     }
@@ -853,7 +853,7 @@ router.post("/openurl", (req: express.Request, res: ExtendedResponse) => {
 async function addObjects(req: express.Request, res: ExtendedResponse): Promise<Array<any>> {
 
     let names = req.body.names;
-    let operation = req.body.operation || OPERATIONS.Upsert;
+    let operation: Map<string, OPERATIONS> = req.body.operation;
     let defaultFields: Map<string, Array<string>> = req.body.defaultFields;
     let removeAllObjects = req.body.removeAllObjects;
     let noResponse = req.body.noResponse;
@@ -893,7 +893,8 @@ async function addObjects(req: express.Request, res: ExtendedResponse): Promise<
             let ob = new ConfigObject({
                 name: o.name,
                 label: o.label,
-                operation: operation
+                operation: operation && (operation.get(o.name) || operation.get('*')) || OPERATIONS.Upsert,
+                externalId: APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAMES.get(o.name) || APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAMES.get("*")
             });
             if (defaultFields) {
                 let df = defaultFields.get(o.name) || defaultFields.get("*"); // * id the default for all objects
@@ -901,10 +902,7 @@ async function addObjects(req: express.Request, res: ExtendedResponse): Promise<
                     ob.fields = df.map(x => new ConfigField({
                         name: x
                     }));
-                    
                 }
-                ob.externalId = APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAMES.get(o.name) 
-                                || APP_CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAMES.get("*");
             }
             return ob;
         }));

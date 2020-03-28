@@ -432,7 +432,7 @@ export class Config {
 
     id: string;
 
-    allOrNone: boolean = false;
+    allOrNone: boolean = true;
 
     encryptDataFiles: boolean = false;
 
@@ -446,11 +446,11 @@ export class Config {
 
     importCSVFilesAsIs: boolean = false;
 
-    createTargetCSVFiles: boolean = false;
+    createTargetCSVFiles: boolean = true;
 
     bulkApiV1BatchSize: number = 9500;
 
-    bulkApiVersion: "1.0" | "2.0";
+    bulkApiVersion: "1.0" | "2.0" = "2.0";
 
 
     @Type(() => ConfigObject)
@@ -852,7 +852,7 @@ export class ConfigObject {
 
         let sections: Array<IExternalIdFieldSection> = new Array<IExternalIdFieldSection>();
 
-        let extIdParts = this.externalId.split(SFDMU_CONSTANTS.COMPLEX_FIELDS_SEPARATOR);
+        let extIdParts = (this.externalId || "").split(SFDMU_CONSTANTS.COMPLEX_FIELDS_SEPARATOR);
 
         for (let i = 0; i < extIdParts.length; i++) {
 
@@ -1876,21 +1876,6 @@ export class Sfdx_ForceOrgList_CommandResponse {
 // CONSTANTS / ENUMS -------------------------------------------------------------
 // ----------------------------------------------------------------------
 
-export const APP_CONSTANTS = {
-    DB_NAME: 'db',
-    DB_PATH: "SFDMU/data/",
-    DEFAULT_EXTERNAL_ID_FIELD_NAMES: new Map<string, string>([
-        ["*", "Name"],
-        ["RecordType", "DeveloperName"]
-    ]),
-    DEFAULT_FIELD_NAMES: new Map<string, Array<string>>([
-        ["*", ["Name"]],
-        ["RecordType", ["DeveloperName"]]
-    ]),
-    CSV_FILE_SOURCE_ID: "File"
-};
-
-
 export enum ENVIRONMENTS {
     dev = "dev",
     prod = "prod",
@@ -1913,6 +1898,26 @@ export enum DATA_MIGRATION_DIRECTIONS {
     File2Org = "File2Org",
     Org2File = "Org2File"
 }
+
+export const APP_CONSTANTS = {
+    DB_NAME: 'db',
+    DB_PATH: "SFDMU/data/",
+    DEFAULT_EXTERNAL_ID_FIELD_NAMES: new Map<string, string>([
+        ["*", "Name"],
+        ["RecordType", "DeveloperName"]
+    ]),
+    DEFAULT_FIELD_NAMES: new Map<string, Array<string>>([
+        ["*", ["Name"]],
+        ["RecordType", ["DeveloperName", "SobjectType"]]
+    ]),
+    DEFAULT_OPERATIONS: new Map<string, OPERATIONS>([
+        ["*", OPERATIONS.Upsert],
+        ["RecordType", OPERATIONS.Readonly],
+        ["User", OPERATIONS.Readonly],
+    ]),
+    CSV_FILE_SOURCE_ID: "File"
+};
+
 
 export const RESTRICTED_LIST_OF_OBJECTS_IN_OBJECTS_LIST = [
     // TODO:
