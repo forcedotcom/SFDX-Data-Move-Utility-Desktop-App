@@ -1,6 +1,6 @@
 {
     "name": "sfdmu-gui-desktop",
-    "version": "2.0.2",
+    "version": "2.1.0",
     "description": "The Desktop GUI Application for the Salesforce Data Move Utility (SFDMU)",
     "scripts": {
         "prebuild": "tslint -c tslint.json -p tsconfig.json",
@@ -44,6 +44,7 @@
         "express": "^4.17.1",
         "express-handlebars": "^3.1.0",
         "express-session": "^1.17.0",
+        "express-timeout": "^0.2.1",
         "glob": "^7.1.5",
         "handlebars": "^4.5.3",
         "handlebars-layouts": "^3.1.4",

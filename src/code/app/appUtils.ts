@@ -115,9 +115,12 @@ export default class AppUtils {
 
     public static getServerUserData(req: any): UserData {
         let session = req.session;
-        return session.userData ? plainToClass(UserData, session.userData, {
+        let user = this.getCurrentUser(req);
+        let userData = session.userData ? plainToClass(UserData, session.userData, {
             enableImplicitConversion: true
         }) : new UserData();
+        userData.userDirectory = userData.userDirectory || user.getUserDirectoryName();
+        return userData;
     }
 
     public static setServerUserData(req: any, userData: UserData) {

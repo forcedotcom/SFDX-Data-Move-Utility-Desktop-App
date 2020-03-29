@@ -327,7 +327,7 @@ router.post("/replaceconfigfromcsv", async (req: express.Request, res: ExtendedR
 
     if (config) {
 
-        config.scriptDirectory = await config.createAndGetScriptDirectory();
+        config.scriptDirectory = await config.createAndGetScriptDirectory(userData);
 
         let names = fs.readdirSync(config.scriptDirectory)
             .filter(fn => fn.endsWith('.csv'))
@@ -420,12 +420,13 @@ router.get("/downloadconfig", async (req: express.Request, res: ExtendedResponse
     }
 
     let user = AppUtils.getCurrentUser(req);
+    let userData = AppUtils.getServerUserData(req);
     let config = user.configList.filter(x => x.id == id)[0];
 
     if (config) {
 
         if (!config.scriptDirectory || !fs.existsSync(config.scriptDirectory)) {
-            config.scriptDirectory = await config.createAndGetScriptDirectory();
+            config.scriptDirectory = await config.createAndGetScriptDirectory(userData);
         }
 
         let obj = config.toExportableObject();
@@ -695,7 +696,7 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
 
 
         let db = await AppUtils.db_loadOrCreateDatabaseAsync();
-        config.scriptDirectory = await config.createAndGetScriptDirectory(db);
+        config.scriptDirectory = await config.createAndGetScriptDirectory(userData);
         config.scriptPath = path.join(config.scriptDirectory, "export.json");
 
 
@@ -750,7 +751,7 @@ router.post("/openexportfolder", async (req: express.Request, res: ExtendedRespo
     if (!state.isWebApp) {
         let userData = AppUtils.getServerUserData(req);
         let config = userData.config;
-        let scriptDirectory = await config.createAndGetScriptDirectory();
+        let scriptDirectory = await config.createAndGetScriptDirectory(userData);
         const openExplorer = require('open-file-explorer');
         openExplorer(scriptDirectory);
     }
@@ -767,7 +768,7 @@ router.post("/openrootexportfolder", async (req: express.Request, res: ExtendedR
     if (!state.isWebApp) {
         let userData = AppUtils.getServerUserData(req);
         let config = userData.config;
-        let rootDirectory = await config.createAndGetScriptDirectory(undefined, true);
+        let rootDirectory = await config.createAndGetScriptDirectory(userData, true);
         const openExplorer = require('open-file-explorer');
         openExplorer(rootDirectory);
     }
@@ -918,7 +919,7 @@ async function updateFieldsFromCSV(req: express.Request, res: ExtendedResponse):
     let configObjects = await config.getConfigObjectListItems(userData, req);
     let configObject = configObjects[0].filter(x => x.value == name)[0];
 
-    let csvFilePath = await config.createAndGetScriptDirectory();
+    let csvFilePath = await config.createAndGetScriptDirectory(userData);
     let csvFilename = path.join(csvFilePath, `${object.name}.csv`);
 
     if (fs.existsSync(csvFilename)) {

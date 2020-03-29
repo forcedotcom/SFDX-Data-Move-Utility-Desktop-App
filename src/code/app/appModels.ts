@@ -244,6 +244,11 @@ export class User {
         return obj;
     }
 
+
+    getUserDirectoryName(): string {
+        return this.userName.replace(/[^\w]/gi, '-');
+    }
+
     getOrgUsername(org: Org): string {
         var simpleCrypto = new SimpleCrypto(this.userPassword);
         return simpleCrypto.decrypt(org.username) as string;
@@ -549,6 +554,10 @@ export class Config {
                 if (objectExtraData["externalIdDataError"]) {
                     dataError[2] = objectExtraData["externalIdDataError"];
                 }
+                if (userData.migrationDirection == DATA_MIGRATION_DIRECTIONS.File2Org && !objectExtraData.csvSourceFileExist) {
+                    dataError[3] = "Missing sorce CSV file for this object.";
+                }
+
             }
 
 
@@ -567,11 +576,11 @@ export class Config {
             if (ob.fields.filter(f => {
                 return !!f.dataError;
             }).length > 0) {
-                dataError[3] = "This object has some errors in the field definitions."
+                dataError[4] = "This object has some errors in the field definitions."
             }
 
             if (ob.fields.length == 0) {
-                dataError[4] = "This object has no fields selected for the migration."
+                dataError[5] = "This object has no fields selected for the migration."
             }
 
             ob.dataError = o.included && dataError.join(' ').trim();
@@ -689,12 +698,12 @@ export class Config {
     }
 
 
-    async createAndGetScriptDirectory(db?: Database, rootFolder?: boolean): Promise<string> {
-        db = db || await AppUtils.db_loadOrCreateDatabaseAsync();
-        if (rootFolder) {
+    async createAndGetScriptDirectory(userData: UserData, getRootFolder?: boolean): Promise<string> {
+        let db = await AppUtils.db_loadOrCreateDatabaseAsync();
+        if (getRootFolder) {
             return db.getFilepath();
         }
-        let scriptDirectory = path.join(db.getFilepath(), "/" + this.getFileName() + "/");
+        let scriptDirectory = path.join(db.getFilepath(), "/" + userData.userDirectory + "/" + this.getFileName() + "/");
         if (!fs.existsSync(scriptDirectory)) {
             mkdir.mkdirSync(scriptDirectory);
         }
@@ -714,7 +723,7 @@ export class Config {
             return !(extraData && extraData.initialized);
         }).length == 0;
 
-        let scriptDirectory = await this.createAndGetScriptDirectory();
+        let scriptDirectory = await this.createAndGetScriptDirectory(userData);
 
         let isCSVFilesExist = scriptDirectory
             && fs.existsSync(scriptDirectory)
@@ -753,8 +762,8 @@ export class ConfigObject {
         this.fields = this.fields || new Array<ConfigField>();
         this.mockFields = this.mockFields || new Array<ScriptMockField>();
         //if (this.name == "User")
-          //  this.operation = OPERATIONS.Readonly;
-        
+        //  this.operation = OPERATIONS.Readonly;
+
     }
 
     // Main members ---------------
@@ -1339,7 +1348,7 @@ export class ConfigObject {
 
         mockPatterns.sort((a, b) => (a.label > b.label) ? 1 : -1)
 
-        let scriptDirectory = await userData.config.createAndGetScriptDirectory();
+        let scriptDirectory = await userData.config.createAndGetScriptDirectory(userData);
         let csvFilename = path.join(scriptDirectory, `${this.name}.csv`);
         let csvSourceFileExist = fs.existsSync(csvFilename);
         let isReadonlyObject = READONLY_OBJECTS.indexOf(this.name) >= 0;
@@ -1553,6 +1562,8 @@ export class UserData {
 
     @Type(() => Config)
     config: Config;
+
+    userDirectory: string;
 
     migrationDirection: DATA_MIGRATION_DIRECTIONS = DATA_MIGRATION_DIRECTIONS.Org2Org;
 
