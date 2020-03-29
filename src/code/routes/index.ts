@@ -386,56 +386,24 @@ router.post("/replaceconfigfromcsv", async (req: express.Request, res: ExtendedR
 
 // Get config data --------------
 router.post("/getconfigdata", async (req: express.Request, res: ExtendedResponse) => {
-
-    let id = req.body.id;
-
-    if (!id) {
-
-        res.jsonExt(new ApiResponse({
-            error: "Invalid remote call."
-        }));
-        return;
-    }
-
-    let user = AppUtils.getCurrentUser(req);
-    let userData = AppUtils.getServerUserData(req);
-    let config = user.configList.filter(x => x.id == id)[0];
-
-    if (config) {
-
-        userData.config = config;
-
-        let objectList = userData.sourceOrg.getOrgObjectListItems(config, userData);
-        let objects = await config.getConfigObjectListItems(userData, req);
-        let configExtraData = await config.getConfigExtraData(userData, objects[0]);
-        let resultString = JSON.stringify(configExtraData);
-
-
-        if (userData.migrationDirection == DATA_MIGRATION_DIRECTIONS.File2Org) {
-            config.useFileSource = true;
-            config.useFileTarget = false;
-        } else if (userData.migrationDirection == DATA_MIGRATION_DIRECTIONS.Org2File) {
-            config.useFileSource = false;
-            config.useFileTarget = true;
-        }
-
-        AppUtils.setServerUserData(req, userData);
-
-        res.jsonExt(new ApiResponse({
-            objectList,
-            selectedObjectId: undefined,
-            objects: objects[0],
-            configDataError: objects[1],
-            resultString: resultString
-        }));
-    } else {
-        res.jsonExt(new ApiResponse({
-            error: "The Configuration wasn't found."
-        }));
-
-    }
-
+    await getConfigData(req, res);
 });
+
+router.post("/switchconnectiondirection", async (req: express.Request, res: ExtendedResponse) => {
+    
+    let userData = AppUtils.getServerUserData(req);
+   
+    if (userData.migrationDirection == DATA_MIGRATION_DIRECTIONS.File2Org) {
+        userData.migrationDirection = DATA_MIGRATION_DIRECTIONS.Org2File;
+    } else {
+        userData.migrationDirection = DATA_MIGRATION_DIRECTIONS.File2Org;
+    }
+    AppUtils.setServerUserData(req, userData);
+    
+    await getConfigData(req, res);
+});
+
+
 
 
 // Create downloadable vewrsion of config and download it --------------
@@ -1080,6 +1048,58 @@ async function addConfig(req: express.Request, res: ExtendedResponse): Promise<a
         configList: user.getConfigListItems(userData),
         selectedConfigId: userData.config.id
     }));
+}
+
+
+async function getConfigData(req: express.Request, res: ExtendedResponse): Promise<any> {
+
+    let id = req.body.id;
+
+    if (!id) {
+
+        res.jsonExt(new ApiResponse({
+            error: "Invalid remote call."
+        }));
+        return;
+    }
+
+    let user = AppUtils.getCurrentUser(req);
+    let userData = AppUtils.getServerUserData(req);
+    let config = user.configList.filter(x => x.id == id)[0];
+
+    if (config) {
+
+        userData.config = config;
+
+        let objectList = userData.sourceOrg.getOrgObjectListItems(config, userData);
+        let objects = await config.getConfigObjectListItems(userData, req);
+        let configExtraData = await config.getConfigExtraData(userData, objects[0]);
+        let resultString = JSON.stringify(configExtraData);
+
+
+        if (userData.migrationDirection == DATA_MIGRATION_DIRECTIONS.File2Org) {
+            config.useFileSource = true;
+            config.useFileTarget = false;
+        } else if (userData.migrationDirection == DATA_MIGRATION_DIRECTIONS.Org2File) {
+            config.useFileSource = false;
+            config.useFileTarget = true;
+        }
+
+        AppUtils.setServerUserData(req, userData);
+
+        res.jsonExt(new ApiResponse({
+            objectList,
+            selectedObjectId: undefined,
+            objects: objects[0],
+            configDataError: objects[1],
+            resultString: resultString
+        }));
+    } else {
+        res.jsonExt(new ApiResponse({
+            error: "The Configuration wasn't found."
+        }));
+
+    }
 }
 
 

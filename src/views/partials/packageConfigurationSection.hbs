@@ -19,18 +19,36 @@
         <div class="card">
             <div class="card-body">
                 <h5 class="card-title">
-                    Connected org(s)
+                    Migration direction
                 </h5>
                 <div class="row card-text">
-                    <div class="col-md-4 no-wrap text-success">
+                    <div class="col-md-1"
+                        ng-show="context.selectedConfig.extraData.isFileMigration && context.selectedConfigIds[0]"
+                        ng-click="switchConnectionDirection()">
+                        <button class="btn btn-default" data-toggle="tooltip"
+                            title="Switch the migration direction"
+                            style="padding: 0px 6px 0px 6px; margin-top:-3px;">
+                            <i class="fa fa-arrows-alt-h fa-2x"></i>
+                        </button>
+                    </div>
+                    <div class="col-md-4 no-wrap text-success"
+                        ng-show="!context.selectedConfig.extraData.isFileMigrationSource">
                         {[{context.sourceOrg.name}]}
                     </div>
-                    <div class="col-md-1 bold text-success" ng-show="!context.selectedConfig.extraData.isFileMigration">
+                    <div class="col-md-4 no-wrap text-success"
+                        ng-show="context.selectedConfig.extraData.isFileMigrationSource">
+                        CSV Files
+                    </div>
+                    <div class="col-md-1 bold text-success">
                         -->
                     </div>
-                    <div class="col-md-7 no-wrap text-secondary"
-                        ng-show="!context.selectedConfig.extraData.isFileMigration">
+                    <div class="col-md-6 no-wrap text-secondary"
+                        ng-show="!context.selectedConfig.extraData.isFileMigrationTarget">
                         {[{context.targetOrg.name}]}
+                    </div>
+                    <div class="col-md-6 no-wrap text-secondary"
+                        ng-show="context.selectedConfig.extraData.isFileMigrationTarget">
+                        CSV Files
                     </div>
                 </div>
             </div>

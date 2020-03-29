@@ -616,6 +616,36 @@ app.controller("appController", ['$copyToClipboard', '$scope', '$rootScope', '$h
 
     }
 
+    $scope.switchConnectionDirection = function() {
+
+        if ($scope.context.selectedConfigIds[0]) {
+            // Retrieve full config data
+            postJsonAsync('/switchconnectiondirection', {
+                id: $scope.context.selectedConfigIds[0]
+            }).then(function(response) {
+                $scope.$apply(function() {
+                    $scope.context.selectedConfig = $scope.context.configList.filter(function(x) {
+                        return x.value == $scope.context.selectedConfigIds[0]
+                    })[0];
+
+                    $scope.context.objectList = response.data.objectList;
+                    $scope.context.selectedObjectIds = [response.data.selectedObjectId];
+                    $scope.context.objects = response.data.objects;
+                    $scope.context.objects.forEach(function(o) {
+                        o._id = makeid(10);
+                        o.extraData = JSON.parse(o.serializedObjectExtraData);
+                    });
+                    $scope.context.selectedConfig.dataError = response.data.configDataError;
+                    $scope.context.selectedConfig.extraData = JSON.parse(response.data.resultString);
+                });
+
+                refreshUI();
+
+            }).catch(function() {});
+
+        }
+    }
+
 
 
     $scope.addObjectClickHandler = function() {
