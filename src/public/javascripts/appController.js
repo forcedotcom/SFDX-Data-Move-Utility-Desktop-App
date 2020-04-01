@@ -1116,7 +1116,8 @@ app.controller("appController", ['$copyToClipboard', '$scope', '$rootScope', '$h
         $http({
             method: method,
             url: url,
-            data: json
+            data: json,
+            timeout: 1000 * 60 * 10
         }).then(function(response) {
             if (response.data.redirect) {
                 window.location.href = response.data.redirect;

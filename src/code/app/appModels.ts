@@ -411,7 +411,7 @@ export class Org {
         }).filter(o => {
             return objs.indexOf(o.value) < 0
                 && secondOrg.sObjectsMap.has(o.value)
-                && o.canUpsert
+                && o.usableForDataMigration
         });
         return objects;
     }
@@ -1714,6 +1714,11 @@ export class SelectListObjectItem extends SelectListItem {
     @serializable()
     get canUpsert(): Boolean {
         return this.canInsert && this.canUpdate;
+    }
+
+    @serializable()
+    get usableForDataMigration() : Boolean{
+        return this.sObjectDescribe && this.sObjectDescribe.usableForDataMigration;
     }
 
     @serializable()

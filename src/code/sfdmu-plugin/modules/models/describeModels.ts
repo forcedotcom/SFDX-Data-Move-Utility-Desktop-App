@@ -86,6 +86,13 @@ export class SObjectDescribe {
     createable: boolean;
     custom: boolean;
 
+    get usableForDataMigration() : boolean{
+        return this.updateable 
+            || this.createable 
+            || this.custom
+            || this.name.indexOf('__kav') >= 0
+    }
+
     @Type(() => SFieldDescribe)
     fieldsMap: Map<string, SFieldDescribe>;
 
