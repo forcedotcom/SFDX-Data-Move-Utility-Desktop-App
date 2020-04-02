@@ -607,6 +607,7 @@ router.post("/updateobjectparameters", async (req: express.Request, res: Extende
     object.operation = (<any>Enums.OPERATION)[(<any>Enums.OPERATION)[data.operation]];
     object.limit = data.limit;
     object.where = data.where;
+    object.orderBy = data.orderBy;
     object.mockFields = data.mockFields;
     object.updateWithMockData = data.updateWithMockData;
     object.deleteOldData = data.deleteOldData;

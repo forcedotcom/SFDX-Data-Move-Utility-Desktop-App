@@ -180,6 +180,9 @@ export class SfdxUtils {
         o.createable = describe.createable;
         o.updateable = describe.updateable;
         o.custom = describe.custom;
+        if (o.name == "MacroInstruction"){
+            let ttt = "";
+        }
 
         describe.fields.forEach(field => {
             let f = new SfdmModels.SFieldDescribe();

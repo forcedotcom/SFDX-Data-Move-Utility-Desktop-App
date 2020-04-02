@@ -101,7 +101,7 @@ export class SObjectDescribe {
     }
 
     get availableExternalIdFields(): Array<IExternalIdField> {
-        return [...this.fieldsMap.values()].filter(f => (!f.isReadonly || f.autoNumber || f.isFormula)
+        return [...this.fieldsMap.values()].filter(f => (!f.isReadonly || f.autoNumber || f.isFormula || f.name == "Id")
             && CONSTANTS.FIELD_NOT_FOR_EXTERNAL_ID.indexOf(f.name) < 0).map(f => {
                 return {
                     value: f.name,
@@ -144,10 +144,11 @@ export class SFieldDescribe {
     }
 
     get isReadonly() {
-        return  this.creatable != this.updateable 
-                    || !this.updateable && !this.creatable;
+        //return  this.creatable != this.updateable 
+          //          || !this.updateable && !this.creatable;
                 //return !(this.creatable && !this.isFormula && !this.autoNumber);
-    }
+            return  !this.updateable && !this.creatable || this.autoNumber || this.isFormula;
+        }
 
     get isBoolean(){
         return this.type == "boolean";

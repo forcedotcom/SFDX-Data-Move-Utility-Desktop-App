@@ -675,7 +675,7 @@ export class Config {
                 useCSVValuesMapping: object.useCSVValuesMapping,
                 excluded: object.included ? undefined : true,
                 targetRecordsFilter: object.targetRecordsFilter,
-                query: (`SELECT Id, ${object.fields.map(f => f.name).join(', ')} FROM ${object.name}${object.where ? " WHERE " + object.where.trim() : ""}${object.limit ? " LIMIT " + object.limit : ""}`).trim(),
+                query: (`SELECT Id, ${object.fields.map(f => f.name).join(', ')} FROM ${object.name}${object.where ? " WHERE " + object.where.trim() : ""}${object.orderBy ? " ORDER BY " + object.orderBy.trim() : ""}${object.limit ? " LIMIT " + object.limit : ""}`).trim(),
                 deleteQuery: object.operation == OPERATIONS.Delete || object.deleteOldData ?
                     (
                         object.deleteAll ? `SELECT Id FROM ${object.name}`
@@ -1374,6 +1374,7 @@ export class ConfigObject {
 
             limit: this.limit,
             where: this.where,
+            orderBy: this.orderBy,
             deleteWhere: this.deleteWhere,
 
             updateWithMockData: this.updateWithMockData,
