@@ -802,9 +802,9 @@ export class ConfigObject {
         let describeTarget = userData.targetSObjectsMap.get(this.name);
 
         return describeSource.filter(field => {
-            return (field.creatable || field.updateable)
-                && FIELDS_TO_EXCLUDE_FROM_OBJECT_FIELDS_LIST.indexOf(field.name) < 0
-                && f.indexOf(field.name) < 0
+            return !field.isReadonly
+                    && FIELDS_TO_EXCLUDE_FROM_OBJECT_FIELDS_LIST.indexOf(field.name) < 0
+                    && f.indexOf(field.name) < 0
         }).map(field => {
             let dataError = [];
             if (!describeTarget.fieldsMap.has(field.name)) {
@@ -1061,7 +1061,7 @@ export class ConfigObject {
         let externalIdIsAutonumber = externalIdParts[0].items[0].field && externalIdParts[0].items[0].field.isAutoNumber;
         let fields = this.fields.map(x => x.name);
         let availableFieldsForMocking = [...sourceSObjectMap.fieldsMap.values()]
-            .filter(x => fields.indexOf(x.name) >= 0 && x.creatable && x.updateable && !x.isReference)
+            .filter(x => fields.indexOf(x.name) >= 0 && x.isReadonly && !x.isReference)
             .map(x => {
                 return {
                     value: x.name,

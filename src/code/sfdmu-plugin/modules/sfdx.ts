@@ -180,9 +180,7 @@ export class SfdxUtils {
         o.createable = describe.createable;
         o.updateable = describe.updateable;
         o.custom = describe.custom;
-        if (o.name.indexOf('Campa')>=0){
-            let ttttt = "";
-        }
+
         describe.fields.forEach(field => {
             let f = new SfdmModels.SFieldDescribe();
             f.name = field.name;
