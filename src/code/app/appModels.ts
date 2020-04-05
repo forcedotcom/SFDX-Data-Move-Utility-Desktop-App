@@ -671,7 +671,9 @@ export class Config {
                 externalId: object.externalId,
                 mockFields: object.mockFields,
                 updateWithMockData: object.updateWithMockData,
+                mockCSVData: object.mockCSVData,
                 deleteOldData: object.deleteOldData,
+                allRecords: object.allRecords,
                 useCSVValuesMapping: object.useCSVValuesMapping,
                 excluded: object.included ? undefined : true,
                 targetRecordsFilter: object.targetRecordsFilter,
@@ -783,9 +785,11 @@ export class ConfigObject {
     mockFields: Array<ScriptMockField>;
 
     updateWithMockData: Boolean = false;
+    mockCSVData: Boolean = false;
     deleteOldData: Boolean = false;
 
     deleteAll: boolean = false;
+    allRecords: boolean = true;
     included: boolean = true;
     useCSVValuesMapping: boolean = false;
 
@@ -1034,7 +1038,7 @@ export class ConfigObject {
 
         }
 
-        return sections.filter(section => section.name != "Id");
+        return sections;
     }
 
 
@@ -1378,12 +1382,14 @@ export class ConfigObject {
             deleteWhere: this.deleteWhere,
 
             updateWithMockData: this.updateWithMockData,
+            mockCSVData: this.mockCSVData,
             mockFields: this.mockFields,
             availableFieldsForMocking: availableFieldsForMocking,
             selectedFieldsForMocking: selectedFieldsForMocking,
             mockPatterns: mockPatterns,
 
             deleteOldData: this.deleteOldData,
+            allRecords: this.allRecords,            
             useCSVValuesMapping: this.useCSVValuesMapping,
             deleteAll: this.deleteAll,
             included: this.included,

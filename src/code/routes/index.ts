@@ -390,16 +390,16 @@ router.post("/getconfigdata", async (req: express.Request, res: ExtendedResponse
 });
 
 router.post("/switchconnectiondirection", async (req: express.Request, res: ExtendedResponse) => {
-    
+
     let userData = AppUtils.getServerUserData(req);
-   
+
     if (userData.migrationDirection == DATA_MIGRATION_DIRECTIONS.File2Org) {
         userData.migrationDirection = DATA_MIGRATION_DIRECTIONS.Org2File;
     } else {
         userData.migrationDirection = DATA_MIGRATION_DIRECTIONS.File2Org;
     }
     AppUtils.setServerUserData(req, userData);
-    
+
     await getConfigData(req, res);
 });
 
@@ -610,7 +610,9 @@ router.post("/updateobjectparameters", async (req: express.Request, res: Extende
     object.orderBy = data.orderBy;
     object.mockFields = data.mockFields;
     object.updateWithMockData = data.updateWithMockData;
+    object.mockCSVData = data.mockCSVData;
     object.deleteOldData = data.deleteOldData;
+    object.allRecords = data.allRecords;
     object.useCSVValuesMapping = data.useCSVValuesMapping;
 
     object.deleteAll = data.deleteAll;

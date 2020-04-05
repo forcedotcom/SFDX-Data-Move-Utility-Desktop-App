@@ -16,14 +16,14 @@
                     fields</span>
                 &nbsp;|&nbsp;<span>{[{object.extraData.operation.toUpperCase()}]}</span>
                 &nbsp;|&nbsp;<span>{[{object.extraData.externalId}]}</span>
-                <span>{[{object.extraData.deleteOldData 
-                            && object.extraData.operation != 'Delete'
-                            && object.extraData.operation != 'Readonly' ? '| *DELETE OLD DATA*'
-                    :
-                    ''}]}</span>
-                <span>{[{object.extraData.targetRecordsFilter ? '| *TARGET FILTER IS ON*' 
-                    : 
-                    ''}]}</span>
+                <span>
+                    {[{ object.extraData.allRecords ? '| *PROCESS ALL RECORDS*' : '' }]}
+                </span>
+                <span>{[{object.extraData.deleteOldData
+                    && object.extraData.operation != 'Delete'
+                    && object.extraData.operation != 'Readonly' ? '| *DELETE OLD DATA*' : ''}]}</span>
+                <span>{[{object.extraData.targetRecordsFilter ? '| *TARGET FILTER IS ON*' : ''}]}</span>
+
             </div>
 
             <div ng-show="!object.extraData.initialized" class="inline-block">
