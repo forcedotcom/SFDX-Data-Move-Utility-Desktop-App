@@ -331,6 +331,8 @@ export class ScriptObject {
 export class ScriptMockField {
     name: string;
     pattern: string;
+    excludedRegex: string;
+    includedRegex: string;
 }
 
 export class ScriptField {

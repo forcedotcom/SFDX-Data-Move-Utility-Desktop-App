@@ -99,6 +99,14 @@
                                     </option>
                                 </select>
                             </div>
+                            <div class="col-md-3">
+                                <input class="form-control mt-2" ng-model="mockField.excludedRegex"
+                                    placeholder="RegExp to exclude values" />
+                            </div>
+                            <div class="col-md-3">
+                                <input class="form-control mt-2" ng-model="mockField.includedRegex"
+                                    placeholder="RegExp to include values" />
+                            </div>
                             <div class="col-md-1">
                                 <i data-name="{[{mockField.name}]}" style="margin-top: 20px"
                                     class="fa fa-trash pointer text-danger" ng-click="removeMockField(object)"></i>
