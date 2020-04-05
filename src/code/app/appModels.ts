@@ -1065,7 +1065,7 @@ export class ConfigObject {
         let externalIdIsAutonumber = externalIdParts[0].items[0].field && externalIdParts[0].items[0].field.isAutoNumber;
         let fields = this.fields.map(x => x.name);
         let availableFieldsForMocking = [...sourceSObjectMap.fieldsMap.values()]
-            .filter(x => fields.indexOf(x.name) >= 0 && x.isReadonly && !x.isReference)
+            .filter(x => fields.indexOf(x.name) >= 0 && !x.isReadonly && !x.isReference)
             .map(x => {
                 return {
                     value: x.name,
