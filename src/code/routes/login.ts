@@ -1,4 +1,11 @@
-import express = require("express");
+/*
+ * Copyright (c) 2020, salesforce.com, inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: BSD-3-Clause
+ * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
+ */
+
+ import express = require("express");
 import AppUtils from '../app/appUtils';
 import { ApiResponse, PageStateBase, GenericPageState } from '../app/appModels';
 

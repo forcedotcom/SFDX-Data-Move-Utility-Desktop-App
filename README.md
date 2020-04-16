@@ -67,7 +67,8 @@ npm run main
 
 ## License
 
-This product is licensed under the Apache License 2.0 - see the [LICENSE.md](LICENSE.md) file for details
+This product is licensed under the BSD-3-Clause - see the [LICENSE.txt](LICENSE.txt) file for details.
+
 
 
 
