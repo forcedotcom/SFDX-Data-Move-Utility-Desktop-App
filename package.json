@@ -65,7 +65,7 @@
         "ps-tree": "^1.2.0",
         "reflect-metadata": "^0.1.13",
         "session-memory-store": "^1.0.0",
-        "simple-crypto-js": "^2.2.0",
+        "simple-crypto-js": "^2.3.0",
         "soql-parser-js": "^2.1.0",
         "string-similarity": "^3.0.0"
     }
