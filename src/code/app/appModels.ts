@@ -628,6 +628,7 @@ export class Config {
             objects: [],
 
             promptOnMissingParentObjects: false, // Always false
+            promptOnIssuesInCSVFiles: false, // Always false
             allOrNone: this.allOrNone,
             bulkApiV1BatchSize: this.bulkApiV1BatchSize,
             bulkApiVersion: this.bulkApiVersion,
