@@ -1,20 +1,31 @@
-# The Desktop GUI Application for the Salesforce Data Move Utility (SFDMU)
+# The Desktop GUI Application for the Salesforce Data Loader SFDX Plugin (SFDMU)
 
-**The SFDMU (Salesforce DX Data Move Utility) Plugin** **for SFDX** will assist you to populate your org (scratch / dev / sandbox / prod) with data imported from another org. It supports all important insert / update / upsert operations also for multiple related sObjects.
+*** The project WIKI:**   https://github.com/hknokh/SFDMU-Wiki/wiki
 
-You can download and install the SFDMU Plugin from  [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility).
+***The plugin repository:**   https://github.com/forcedotcom/SFDX-Data-Move-Utility
 
 ----
 
-**This repository contains the special <u>Desktop GUI Application</u>, that will help you to prepare and execute data migration packages using the SFDMU Plugin.**
+**The SFDMU (SFDX Data Move Utility) is advanced and very handy alternative to the traditional Salesforce Data Loader.** 
 
-Now you don't have to work with the Terminal / Console. All actions are performed in a visual mode. It's very simple to manage the jobs. You can add and remove org connections, set up SObject mapping, then execute the job. The Application will run the SFDMU Plugin in the background and output  you the console log to give you ability to monitor the export process.
+----
+**This repository contains the <u>special Desktop Application</u> allows you to manage SFDMU plugin configuration files <u>from the simple and intuitive UI</u>.**
 
-*For the security reasons the Application always uses SFDX CLI authentication flow to manage salesforce connections. Any salesforce environment credentials are not stored, kept or provided by the application itself.* 
+----
 
 
 
-## How to run?
+### When can this Application be very useful ?
+
+Apart from the minimal setup the export.json file has a lot of advanced properties that can be leveraged in creating and running complex migration jobs.
+
+Therefore in some cases the json file may become very long and hard to edit it manually using the standard Notepad. 
+
+Now with this Desktop Application you don't have to work with the Notepad and the Console, because all actions are performed in a visual mode. Now it's very simple to manage the migration jobs. You can add and remove org connections, set up SObjects and fields, then run the Plugin from the application itself. 
+
+
+
+### Installation and running.
 ```bash
 # 1. Install the SFDMU Plugin from: https://github.com/forcedotcom/SFDX-Data-Move-Utility
 
