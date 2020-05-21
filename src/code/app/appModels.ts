@@ -447,8 +447,6 @@ export class Config {
 
     allOrNone: boolean = true;
 
-    encryptDataFiles: boolean = false;
-
     pollingIntervalMs: number = 5000;
 
     bulkThreshold: number = 200;
@@ -460,6 +458,8 @@ export class Config {
     importCSVFilesAsIs: boolean = false;
 
     createTargetCSVFiles: boolean = true;
+
+    excludeIdsFromCSVFiles: boolean = false;
 
     bulkApiV1BatchSize: number = 9500;
 
@@ -518,14 +518,13 @@ export class Config {
             bulkApiV1BatchSize: this.bulkApiV1BatchSize,
             bulkApiVersion: this.bulkApiVersion,
             createTargetCSVFiles: this.createTargetCSVFiles,
-            encryptDataFiles: this.encryptDataFiles,
+            excludeIdsFromCSVFiles: this.excludeIdsFromCSVFiles,
             pollingIntervalMs: this.pollingIntervalMs,
             bulkThreshold: this.bulkThreshold,
             apiVersion: this.apiVersion,
             validateCSVFilesOnly: this.validateCSVFilesOnly,
             importCSVFilesAsIs: this.importCSVFilesAsIs,
             objects: this.objects,
-            passwordSecured: this.passwordSecured,
             useFileSource: this.useFileSource,
             useFileTarget: this.useFileTarget
         }));
@@ -633,10 +632,10 @@ export class Config {
             bulkApiV1BatchSize: this.bulkApiV1BatchSize,
             bulkApiVersion: this.bulkApiVersion,
             createTargetCSVFiles: this.createTargetCSVFiles,
+            excludeIdsFromCSVFiles: this.excludeIdsFromCSVFiles,
             validateCSVFilesOnly: this.validateCSVFilesOnly,
             importCSVFilesAsIs: this.importCSVFilesAsIs,
             promptOnUpdateError: false, // Always false
-            encryptDataFiles: this.encryptDataFiles,
             pollingIntervalMs: this.pollingIntervalMs,
             bulkThreshold: this.bulkThreshold,
             apiVersion: this.apiVersion
@@ -675,7 +674,6 @@ export class Config {
 
         this.objects.forEach(object => {
             script.objects.push({
-                name: object.name,
                 operation: OPERATIONS[object.operation],
                 externalId: object.externalId,
                 mockFields: object.mockFields,

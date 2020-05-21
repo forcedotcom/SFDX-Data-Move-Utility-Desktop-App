@@ -28,6 +28,7 @@ import { Enums, CONSTANTS } from "../sfdmu-plugin/modules/models";
 import { CommonUtils } from "../sfdmu-plugin/modules/common";
 import { fdatasync } from "fs";
 import { consoleUtils } from "../app/consoleUtils";
+import { contextBridge } from "electron";
 const path = require("path");
 const fs = require('fs');
 
@@ -692,10 +693,9 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
             config.bulkApiV1BatchSize = data.bulkApiV1BatchSize;
             config.bulkApiVersion = data.bulkApiVersion ? "2.0" : "1.0";
             config.createTargetCSVFiles = data.createTargetCSVFiles;
+            config.excludeIdsFromCSVFiles = data.excludeIdsFromCSVFiles,
             config.validateCSVFilesOnly = data.validateCSVFilesOnly;
             config.importCSVFilesAsIs = data.importCSVFilesAsIs;
-            config.encryptDataFiles = data.encryptDataFiles;
-            config.passwordSecured = data.passwordSecured;
             config.useFileSource = data.sourceTarget == "File2Org";
             config.useFileTarget = data.sourceTarget == "Org2File";
 
@@ -704,16 +704,13 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
         let state = res.locals.state as PageStateBase;
         let serializedScript = config.generatePackageScriptJsonString(userData, user.userPassword, state.isDebug);
 
-
-        let db = await AppUtils.db_loadOrCreateDatabaseAsync();
         config.scriptDirectory = await config.createAndGetScriptDirectory(userData);
         config.scriptPath = path.join(config.scriptDirectory, "export.json");
 
-
         if (!state.isWebApp) {
-            config.commandString = `sfdx sfdmu:run --sourceusername ${config.useFileSource ? "csvfile" : userData.sourceOrg.orgUsername} --targetusername ${config.useFileTarget ? "csvfile" : userData.targetOrg.orgUsername}${config.passwordSecured ? " --encryptkey " + user.userPassword : ""} --path ${config.scriptDirectory} --filelog --verbose`;
+            config.commandString = `sfdx sfdmu:run --sourceusername ${config.useFileSource ? "csvfile" : userData.sourceOrg.orgUsername} --targetusername ${config.useFileTarget ? "csvfile" : userData.targetOrg.orgUsername} --path ${config.scriptDirectory} --filelog --verbose`;
         } else {
-            config.commandString = `sfdx sfdmu:run --sourceusername ${config.useFileSource ? "csvfile" : userData.sourceOrg.orgUsername} --targetusername ${config.useFileTarget ? "csvfile" : userData.targetOrg.orgUsername}${config.passwordSecured ? " --encryptkey " + user.userPassword : ""} --filelog --verbose`;
+            config.commandString = `sfdx sfdmu:run --sourceusername ${config.useFileSource ? "csvfile" : userData.sourceOrg.orgUsername} --targetusername ${config.useFileTarget ? "csvfile" : userData.targetOrg.orgUsername} --filelog --verbose`;
         }
 
         fs.writeFileSync(config.scriptPath, serializedScript);
@@ -728,10 +725,9 @@ router.post("/createpackagescript", async (req: express.Request, res: ExtendedRe
             bulkApiV1BatchSize: config.bulkApiV1BatchSize,
             bulkApiVersion: config.bulkApiVersion == "2.0",
             createTargetCSVFiles: config.createTargetCSVFiles,
+            excludeIdsFromCSVFiles: config.excludeIdsFromCSVFiles,
             validateCSVFilesOnly: config.validateCSVFilesOnly,
             importCSVFilesAsIs: config.importCSVFilesAsIs,
-            encryptDataFiles: config.encryptDataFiles,
-            passwordSecured: config.passwordSecured,
             sourceTarget: config.useFileSource ? "File2Org" : config.useFileTarget ? "Org2File" : "Orgs",
             commandString: config.commandString,
             packageName: config.name,
