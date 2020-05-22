@@ -14,7 +14,7 @@
     "repository": "https://github.com/hknokh/sfdmu-gui-desktop",
     "keywords": [],
     "author": "haim.knokh@gmail.com",
-    "license": "Apache License 2.0",
+    "license": "BSD-3-Clause",
     "devDependencies": {
         "@types/express": "^4.17.2",
         "@types/express-session": "^1.15.15",
