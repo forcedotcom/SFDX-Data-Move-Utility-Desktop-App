@@ -1,7 +1,7 @@
 {
-    "name": "sfdmu-gui-desktop",
+    "name": "sfdx-data-move-utility-desktop-app",
     "version": "2.1.1",
-    "description": "The Desktop GUI Application for the Salesforce Data Move Utility (SFDMU)",
+    "description": "The Desktop GUI Application for the Salesforce Data Loader SFDX Plugin (SFDMU)",
     "scripts": {
         "prebuild": "tslint -c tslint.json -p tsconfig.json",
         "build": "tsc",
@@ -11,9 +11,9 @@
         "debug": "npm run build && electron --inspect-brk=3000 ./dist/main.js --debug",
         "main": "electron ./dist/main.js"
     },
-    "repository": "https://github.com/hknokh/sfdmu-gui-desktop",
+    "repository": "https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
     "keywords": [],
-    "author": "haim.knokh@gmail.com",
+    "author": "hknokh@salesforce.com",
     "license": "BSD-3-Clause",
     "devDependencies": {
         "@types/express": "^4.17.2",
