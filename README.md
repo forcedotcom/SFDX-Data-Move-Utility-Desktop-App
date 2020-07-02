@@ -1,8 +1,8 @@
 # The Desktop GUI Application for the Salesforce Data Loader SFDX Plugin (SFDMU)
 
-The plugin repository:   https://github.com/forcedotcom/SFDX-Data-Move-Utility
+#### The plugin repository:   [https://github.com/forcedotcom/SFDX-Data-Move-Utility](https://github.com/forcedotcom/SFDX-Data-Move-Utility)
 
-The project WIKI:   https://github.com/forcedotcom/SFDX-Data-Move-Utility/wiki
+#### For the detailed documentation visit our Help Center: [https://help.sfdmu.com](https://help.sfdmu.com)
 
 ----
 
