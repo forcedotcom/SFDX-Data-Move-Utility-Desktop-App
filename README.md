@@ -2,7 +2,7 @@
 
 - #### The plugin repository:   [https://github.com/forcedotcom/SFDX-Data-Move-Utility](https://github.com/forcedotcom/SFDX-Data-Move-Utility)
 - ##### For the detailed documentation, visit our Help Center: [https://help.sfdmu.com](https://help.sfdmu.com)
-- #####  Submit your issues in the [SFDMU User Support Area](https://help.sfdmu.com/hc/en-us/requests/new) or use the [GitHub Issues Tracker](https://github.com/forcedotcom/SFDX-Data-Move-Utility/issues/new/choose).
+- #####  Submit your issues in the [SFDMU User Support Area](https://help.sfdmu.com/hc/en-us/requests/new).
 
 ----
 
