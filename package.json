@@ -29,7 +29,7 @@
     },
     "dependencies": {
         "@types/nedb": "^1.8.9",
-        "alasql": "^0.5.5",
+        "alasql": "^0.6.0",
         "body-parser": "^1.19.0",
         "casual": "^1.6.2",
         "class-transformer": "^0.2.3",
