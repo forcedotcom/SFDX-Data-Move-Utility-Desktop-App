@@ -21,7 +21,7 @@
         "@types/http-errors": "^1.6.2",
         "@types/morgan": "^1.7.37",
         "@types/node": "12",
-        "electron": "^8.2.0",
+        "electron": "^8.2.4",
         "eslint": "^6.6.0",
         "eslint-plugin-react": "^7.16.0",
         "tslint": "^5.19.0",
