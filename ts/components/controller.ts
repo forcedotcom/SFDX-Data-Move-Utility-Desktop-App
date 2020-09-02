@@ -1012,7 +1012,7 @@ export class Controller {
                 self.ui.executePage.executeLogHtml = self._trustHtml(executeLogPlain);
                 self.ui.state.scriptIsExecuting = !stopExecuting;
                 self.$scope.$apply(undefined);
-                $(".execute-page-section").animate({ scrollTop: $(".execute-page-section").height() }, 100);
+                $(".execute-page-section").animate({ scrollTop: $(".execute-page-section").prop("scrollHeight") }, 100);
             }
 
         }, null, null, false);
