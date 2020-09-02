@@ -1,11 +1,12 @@
 # The Desktop GUI Application for the Salesforce Data Loader SFDX Plugin (SFDMU)
 
 ```
-THE APP VERSION SINCE 3.0.0 IS NOT COMPATIBLE TO EARLIER VERSIONS AND YOU NEED COMPLETELY REMOVE AND REINSTALL THE APPLICATION.
+THE APP VERSION SINCE 3.0.0 IS NOT COMPATIBLE TO EARLIER VERSIONS! PLEASE REINSTALL THE APPLICATION.
 --------------------------------------------------------------------------------------
 Consider the following:
 - You will need to sign-up to the Application again, using the Register page.
-- All configurations, created by the previous versions, will not work now, you need to re-create them from scratch or you can import .cfg file created by the previous version of the Application.
+- All configurations, created by the previous versions, will not work now, you need to re-create them from scratch 
+or you can also transfer the Configuration from oldest APP version to the current by importing a .cfg file created (exported) by the old version.
 
 ```
 
@@ -17,8 +18,6 @@ Consider the following:
 ### - *** the latest version installed    *** - ###
 ### ------------------------------------------- ###
 ```
-
-
 
 - #### The plugin repository:   [https://github.com/forcedotcom/SFDX-Data-Move-Utility](https://github.com/forcedotcom/SFDX-Data-Move-Utility)
 - ##### For the detailed documentation, visit our Help Center: [https://help.sfdmu.com](https://help.sfdmu.com)
