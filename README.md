@@ -6,7 +6,7 @@ THE APP VERSION SINCE 3.0.0 IS NOT COMPATIBLE TO EARLIER VERSIONS! PLEASE REINST
 Consider the following:
 - You will need to sign-up to the Application again, using the Register page.
 - All configurations, created by the previous versions, will not work now, you need to re-create them from scratch 
-or you can also transfer the Configuration from older APP version to the current by importing a .cfg file created (exported) by the old version.
+or you can also transfer the Configuration from older application version to the current by importing a .cfg file created (exported) in the previous version.
 
 ```
 
