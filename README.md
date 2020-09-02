@@ -12,7 +12,7 @@ or you can also transfer the Configuration from older application version to the
 
 ```
 ### ------------------------------------------- ###
-### - *** Latest version: v3.0.0          ***-  ###
+### - *** Latest version: v3.0.1          ***-  ###
 ### ------------------------------------------- ###
 ### - *** Always make sure, that you have *** - ###
 ### - *** the latest version installed    *** - ###
