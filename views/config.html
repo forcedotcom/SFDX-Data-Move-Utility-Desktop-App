@@ -1,0 +1,135 @@
+<!--Top section-->
+<section class="row mb-3">
+
+    <div class="col-md-6 page-title">
+        <h2><i class="fa fa-database"></i>&nbsp;{{res.Menu_DataMigration}}</h2>
+        <hr />
+        <h4><i class="fa fa-wrench"></i>&nbsp;{{res.Menu_Configuration}}&nbsp;{{ui.state.config().name}}
+            &nbsp;<i data-custom-class='tooltip-warning' data-toggle='tooltip'
+                title="{{ui.state.config().errorMessage}}"
+                ng-show="!ui.state.config().isValid() && ui.configPage.isShown()"
+                class="fa fa-xs fa-exclamation-triangle text-warning"></i>
+        </h4>
+        <small>{{res.Page_Configuration}}</small>
+    </div>
+
+    <div class="col-md-6 text-right" ng-show="ui.configPage.isShown()">
+        <!--Next button -->
+        <button class="btn btn-secondary btn-md" ng-disabled="!ui.configPage.isValid() || ui.state.scriptIsExecuting" type="button"
+            ng-click="ui.configPage.goNext()" popover-placement="bottom" popover-trigger="'mouseenter'"
+            uib-popover="{{res.GoToNextStep}}">
+            {{res.Next}}&nbsp;<i class="fa fa-arrow-right"></i>
+        </button>
+    </div>
+</section>
+
+<!--Abort execution button -->
+<section ng-show="ui.state.scriptIsExecuting">
+    <div uib-alert ng-class="'alert-info'">
+        <img src="./images/loader.gif" style="width:32px; height: 32px;" />
+        &nbsp;{{res.Page_ScriptIsExecuting}}
+        <button ng-click="ui.state.abortExecutionHandler()" type="button" class="btn btn-danger btn-sm ml-0"><i
+                class="fa fa-close"></i>&nbsp;{{res.Page_AbortExecutionButton}}</button>
+    </div>
+</section>
+
+<!--Messages -->
+<section ng-show="ui.configPage.isValid() && !ui.state.scriptIsExecuting">
+    <div uib-alert ng-class="'alert-success'">
+        <i class="fa fa-thumbs-up"></i>&nbsp;{{res.Page_StepIsCompleted}}
+    </div>
+</section>
+
+<section ng-show="!ui.configPage.isValid() && ui.configPage.isShown()">
+    <div uib-alert ng-class="'alert-info'">
+        <i class="fa fa-rocket"></i>&nbsp;{{res.Page_StepIsNotCompleted}}
+    </div>
+</section>
+
+<section ng-show="!ui.configPage.isShown()">
+    <div uib-alert ng-class="'alert-warning'">
+        <i class="fa fa-exclamation-triangle"></i>&nbsp;{{res.PleaseCompletePrevStep}}
+    </div>
+</section>
+
+<!--Objects section-->
+<section ng-show="ui.configPage.isShown()" class="overlay-container">
+    <div class="overlay" ng-show="ui.state.scriptIsExecuting"></div>
+    <div class="initialism d-flex justify-content-start bold">
+        <div class="mr-2">
+            <!--Swap button -->
+            <button class="btn btn-sm btn-icon" ng-click="ui.configPage.switchOrgsHandler()" popover-placement="bottom"
+                popover-trigger="'mouseenter'" uib-popover="{{res.Config_SwapOrgs}}">
+                <i class="fa fa-exchange"></i>
+            </button>
+            <!--Reconnect button -->
+            <button class="btn btn-sm btn-icon" type="button" ng-click="ui.configPage.reconnectOrgsHandler()"
+                popover-placement="bottom" popover-trigger="'mouseenter'"
+                uib-popover="{{res.Config_Help_ReconnectOrgsButton}}">
+                <i class="fa fa-link"></i>
+            </button>
+
+            <!--Validate button -->
+            <button class="btn btn-sm btn-icon" ng-disabled="ui.state.config().objects.length == 0" type="button"
+                ng-click="ui.configPage.validateConfigurationHandler()" popover-placement="bottom"
+                popover-trigger="'mouseenter'" uib-popover="{{res.Config_Help_ValidateConfigurationButton}}">
+                <i class="fa fa-check"></i>
+            </button>
+        </div>
+        <!--Org names config -->
+        <div class="mr-4 align-self-center">
+            {{ui.state.sourceOrg().name}}
+        </div>
+        <div class="align-self-center">
+            -->
+        </div>
+        <div class="ml-4 align-self-center">
+            {{ui.state.targetOrg().name}}
+        </div>
+    </div>
+
+    <!-- Config selector section -->
+    <ng-include src="'./views/partials/config_sections/configSelector.html'"></ng-include>
+
+    <!--Message-->
+    <div ng-hide="ui.configPage.allConfigIds[0]" uib-alert ng-class="'alert-info'">
+        <i class="fa fa-info-circle"></i>&nbsp;{{res.Config_SelectConfiguration}}
+    </div>
+
+    <!-- Object Settings Tab -->
+    <div ng-show="ui.configPage.allConfigIds[0]">
+        <uib-tabset class="primary-tabs">
+            <uib-tab heading="{{res.Config_Tab_ConfigObjects}}">
+                <div class="card bg-light-light">
+                    <div class="card-body">
+                        <!-- Object selector -->
+                        <ng-include src="'./views/partials/config_sections/objectSelector.html'"></ng-include>
+                        <!--Tabs-->
+                        <div class="row mt-2" ng-show="ui.state.config().objects.length > 0">
+                            <!--Object list -->
+                            <div class="col-4">
+                                <ng-include src="'./views/partials/config_sections/objectList.html'"></ng-include>
+                            </div>
+                            <!-- Object editor -->
+                            <div class="col-8">
+                                <ng-include src="'./views/partials/config_sections/objectEditor.html'"></ng-include>
+                            </div>
+                        </div>
+                        <div uib-alert ng-class="'alert-info'" ng-hide="ui.state.config().objects.length > 0">
+                            <i class="fa fa-info-circle"></i>&nbsp;{{res.Config_AddObjectsToTheConfiguration}}
+                        </div>
+                    </div>
+                </div>
+            </uib-tab>
+
+            <!-- Global Config Settings Tab -->
+            <uib-tab heading="{{res.Config_Tab_ConfigSettings}}">
+                <div class="card bg-light-light">
+                    <div class="card-body">
+                        <ng-include src="'./views/partials/config_sections/configSettings.html'"></ng-include>
+                    </div>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</section>

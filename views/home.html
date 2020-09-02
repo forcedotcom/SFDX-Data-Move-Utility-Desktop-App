@@ -1,0 +1,59 @@
+<!--Top section-->
+<section class="row mb-3">
+    <div class="col-md-6 page-title">
+        <h2><i class="fa fa-database"></i>&nbsp;{{res.Menu_DataMigration}}</h2>
+        <hr />
+        <h4><i class="fa fa-link"></i>&nbsp;{{res.Menu_Connection}}</h4>
+        <small>{{res.Page_Connection}}</small>
+    </div>
+    <!--Next button -->
+    <div class="col-md-6 text-right" ng-show="ui.homePage.isShown()">
+        <button class="btn btn-secondary btn-md" ng-disabled="!ui.homePage.isValid() || ui.state.scriptIsExecuting" type="button"
+            ng-click="ui.homePage.goNext()" popover-placement="bottom" popover-trigger="'mouseenter'"
+            uib-popover="{{res.GoToNextStep}}">
+            {{res.Next}}&nbsp;<i class="fa fa-arrow-right"></i>
+        </button>
+    </div>
+</section>
+
+<!--Abort execution button -->
+<section ng-show="ui.state.scriptIsExecuting">
+    <div uib-alert ng-class="'alert-info'">
+        <img src="./images/loader.gif" style="width:32px; height: 32px;" />
+        &nbsp;{{res.Page_ScriptIsExecuting}}
+        <button ng-click="ui.state.abortExecutionHandler()" type="button" class="btn btn-danger btn-sm ml-0"><i
+                class="fa fa-close"></i>&nbsp;{{res.Page_AbortExecutionButton}}</button>
+    </div>
+</section>
+
+<!--Messages -->
+<section ng-show="!ui.homePage.isValid()">
+    <div uib-alert ng-class="'alert-info'">
+        <i class="fa fa-rocket"></i>&nbsp;{{res.Page_StepIsNotCompleted}}
+    </div>
+</section>
+
+<section ng-show="ui.homePage.isValid() && !ui.state.scriptIsExecuting">
+    <div uib-alert ng-class="'alert-success'">
+        <i class="fa fa-thumbs-up"></i>&nbsp;{{res.Page_StepIsCompleted}}
+    </div>
+</section>
+
+<section ng-show="!ui.homePage.isShown()">
+    <div uib-alert ng-class="'alert-danger'">
+        <i class="fa fa-exclamation-triangle"></i>&nbsp;{{res.Auth_PleaseSignIn}}
+    </div>
+</section>
+
+<!--Tabs -->
+<section ng-show="ui.homePage.isShown()" class="overlay-container">
+    <div class="overlay" ng-show="ui.state.scriptIsExecuting"></div>
+    <uib-tabset class="primary-tabs">
+        <uib-tab heading="{{res.Home_Tab_Connections}}">
+            <ng-include src="'./views/partials/home_tabs/connections_tab.html'"></ng-include>
+        </uib-tab>
+        <uib-tab heading="{{res.Home_Tab_TestSFDXCommands}}">
+            <ng-include src="'./views/partials/home_tabs/testsfdx_tab.html'"></ng-include>
+        </uib-tab>
+    </uib-tabset>
+</section>

@@ -1,0 +1,54 @@
+<div class="card config-page-section">
+    <div class="card-header">
+        {{ui.state.config().name}} : {{res.Config_SObjectsInTheConfiguration}}
+    </div>
+    <div class="card-body object-list">
+        <div class="list-group">
+            <!--List of Objects-->
+            <a ng-repeat="object in ui.state.config().objects track by object.name" href="javascript:void(0)"
+                class="list-group-item list-group-item-action {{object.name == ui.configPage.currentSObjectId ? 'active' : ''}}"
+                ng-click="ui.configPage.selectObjectClickHandler($event)" data-id="{{object.name}}">
+                <div class="row justify-content-between">
+                    <div class="col no-wrap">
+                        <!--Up/Down Arrows-->
+                        <uib-span class="arrow arrow-up-down up pointer"
+                            ng-click="ui.configPage.upDownObjectHandler($index, -1, $first, $last)"
+                            help="{{res.Config_MoveObjectUp}}">
+                        </uib-span>
+                        <uib-span class="arrow arrow-up-down down pointer"
+                            ng-click="ui.configPage.upDownObjectHandler($index, 1, $first, $last)"
+                            help="{{res.Config_MoveObjectDown}}">
+                        </uib-span>
+                        <!--Title-->
+                        {{$index + 1}}.
+                        <i data-custom-class='tooltip-warning' data-toggle='tooltip' data-placement="right"
+                            title='{{object.errorMessage}}' ng-show="!object.isValid()"
+                            class="fa fa-xs fa-exclamation-triangle text-warning"></i>
+                        <!--Exclamation sign-->
+                        <i ng-show="object.hasNonBreakingIssues" class="fa fa-exclamation-circle text-warning"
+                            data-custom-class='tooltip-warning' data-toggle='tooltip'
+                            title="{{res.ValidationError_ObjectHasUnbreakingIssues}}. {{res.ValidationError_FieldMappingCanContinueUsingThem}}"></i>
+                        &nbsp;{{object.name}}
+                    </div>
+                    <div class="col text-right pr-0">
+                        <uib-switch ng-change="ui.configPage.saveConfigHandler()" class="inline"
+                            id="configParameterExcludedSwitch_{{$index}}"
+                            ng-model="ui.state.config().objects[$index].included" title="{{res.Config_ExcludeObject}}">
+                        </uib-switch>
+                        <!--Remove  button-->
+                        <uib-btn-icon ng-click="ui.configPage.removeObjectHandler($index)"
+                            help="{{res.Config_RemoveObject}}" variant="danger" icon="trash" class="btn-xs inline">
+                        </uib-btn-icon>
+                    </div>
+                </div>
+                <div class="no-wrap quick-info" popover-placement="top" popover-trigger="'mouseenter'"
+                    uib-popover="{{ui.configPage.getObjectQuickInfoString($index)}}">
+                    <!--Quick info-->
+                    <small>
+                        {{ui.configPage.getObjectQuickInfoString($index)}}
+                    </small>
+                </div>
+            </a>
+        </div>
+    </div>
+</div>

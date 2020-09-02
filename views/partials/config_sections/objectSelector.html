@@ -1,0 +1,28 @@
+<div class="row">
+    <div class="col-12">
+        <div class="form-group mb-3 mt-3">
+            <div class="input-group">
+                <label>{{res.Config_ObjectsList}}:</label>
+                <div class="break"></div>
+                <!--Objects selector -->
+                <select data-config-sobjects-selector select-picker data-multiple="true"
+                    data-collection="ui.configPage.availableSObjects()" data-model="ui.configPage.allSObjectIds"
+                    class="form-control form-control-sm">
+                    <option
+                        ng-repeat="sobject in ui.configPage.availableSObjects() | orderBy : 'label' track by sobject.name"
+                        value={{sobject.name}}>
+                        {{sobject.label}} ({{sobject.name}})
+                    </option>
+                </select>
+                <div class="input-group-append">
+                    <!--Add object -->
+                    <button class="btn btn-primary btn-sm" type="button"
+                        ng-click="ui.configPage.addObjectsClickHandler()" popover-placement="bottom"
+                        popover-trigger="'mouseenter'" uib-popover="{{res.Config_AddObjects}}">
+                        <i class="fa fa-plus"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

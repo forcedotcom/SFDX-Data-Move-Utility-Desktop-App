@@ -1,0 +1,90 @@
+<div class="card">
+    <div class="card-body">
+        <div class="row">
+            <div class="col-md-12">
+                <div uib-alert ng-class="'alert-info'"
+                    ng-show="ui.state.sobject().mockFields.length == 0 && ui.state.sobject().availableFieldItemsForMocking.length > 0">
+                    <i class="fa fa-info-circle"></i>&nbsp;{{res.Config_AddNewMockingFieldItemButtonDescription}}
+                </div>
+                <div uib-alert ng-class="'alert-info'"
+                    ng-show="ui.state.sobject().availableFieldItemsForMocking.length == 0">
+                    <i class="fa fa-info-circle"></i>&nbsp;{{res.Config_NoFieldsAvailableForAnonymization}}
+                </div>
+            </div>
+        </div>
+        <div class="row" ng-show="ui.state.sobject().availableFieldItemsForMocking.length > 0">
+            <div class="col-md-6">
+                <div class="input-group">
+                    <!--Field to anonymize-->
+                    <select ng-model="ui.configPage.selectedFieldNameForMock" name="mockFieldsSelector"
+                        class="form-control mt-2">
+                        <option ng-repeat="option in ui.state.sobject().availableFieldItemsForMocking"
+                            value="{{option.name}}">
+                            {{option.label}}
+                        </option>
+                    </select>
+                    <!--Add button-->
+                    <div class="input-group-append btn-group">
+                        <button type="button" class="btn btn-primary btn-sm"
+                            ng-click="ui.configPage.addMockingItemHandler()">
+                            <i class="fa fa-plus"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+        <!-- List of mock fields-->
+        <div ng-show="ui.state.sobject().mockFields.length > 0">
+            <div class="row">
+                <div class="col-md-2 required">
+                    <label>{{res.Column_FieldName}}</label>
+                </div>
+                <div class="col-md-3 required">
+                    <label>{{res.Column_Pattern}}</label>
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        {{res.Column_ExcludeRegExp}}
+                    </label>
+                    
+                </div>
+                <div class="col-md-3">
+                    <label>
+                        {{res.Column_IncludeRegExp}}
+                    </label>                    
+                </div>
+            </div>
+            <div class="row" ng-repeat="mockField in ui.state.sobject().mockFields">
+                <div class="col-md-2">
+                    <strong class="inline-block" style="margin-top: 20px">
+                        {{mockField.name}}
+                    </strong>
+                </div>
+                <div class="col-md-3">
+                    <select name="mockPatternSelector" class="form-control mt-2" ng-model="mockField.pattern"
+                        ng-change="ui.configPage.saveConfigParameterHandler()">
+                        <option ng-repeat="option in ui.state.sobject().mockPatterns" value="{{option.value}}">
+                            {{option.text}}
+                        </option>
+                    </select>
+                </div>
+                <div class="col-md-3">
+                    <input placeholder="{{res.Config_EnterRegExp}}"
+                        ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control mt-2"
+                        ng-model="mockField.excludedRegex" />
+                </div>
+                <div class="col-md-3">
+                    <input placeholder="{{res.Config_EnterRegExp}}"
+                        ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control mt-2"
+                        ng-model="mockField.includedRegex" />
+                </div>
+                <!--Remove button-->
+                <div class="col-md-1 bottom-container">
+                    <uib-btn-icon ng-click="ui.configPage.removeMockingItemHandler($index)" variant="danger"
+                        icon="trash" class="btn-xs">
+                    </uib-btn-icon>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

@@ -1,23 +1,28 @@
 # The Desktop GUI Application for the Salesforce Data Loader SFDX Plugin (SFDMU)
 
 ```
----------------------------------------------
----------------------------------------------
-!!! The new GUI Application is coming soon !!!
----------------------------------------------
----------------------------------------------
+THE APP VERSION SINCE 3.0.0 IS NOT COMPATIBLE TO EARLIER VERSIONS AND YOU NEED COMPLETELY REMOVE AND REINSTALL THE APPLICATION.
+--------------------------------------------------------------------------------------
+Consider the following:
+- You will need to sign-up to the Application again, using the Register page.
+- All configurations, created by the previous versions, will not work now, you need to re-create them from scratch or you can import .cfg file created by the previous version of the Application.
+
 ```
 
 ```
-Important notification! This version of the App is not supported any more, 
-since the new GUI Application is on the way.
+### ------------------------------------------- ###
+### - *** Latest version: v3.0.0          ***-  ###
+### ------------------------------------------- ###
+### - *** Always make sure, that you have *** - ###
+### - *** the latest version installed    *** - ###
+### ------------------------------------------- ###
 ```
+
+
 
 - #### The plugin repository:   [https://github.com/forcedotcom/SFDX-Data-Move-Utility](https://github.com/forcedotcom/SFDX-Data-Move-Utility)
-
-- ##### For the detailed documentation, visit the project Wiki: [https://github.com/forcedotcom/SFDX-Data-Move-Utility/wiki)
-
-- ##### Download also the SFDMU Desktop GUI Application: [https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App](https://github.com/forcedotcom/
+- ##### For the detailed documentation, visit our Help Center: [https://help.sfdmu.com](https://help.sfdmu.com)
+- #####  Submit your issues in the [SFDMU User Support Area](https://help.sfdmu.com/hc/en-us/requests/new).
 
 ----
 
@@ -73,6 +78,8 @@ npm run build
 
 # 11. Run.
 npm run main
+#    or
+npm start
 ```
 
 
@@ -80,13 +87,11 @@ npm run main
 ## Notes
 
 * This Application must have the [SFDMU Plugin](https://github.com/forcedotcom/SFDX-Data-Move-Utility) to be installed in your system previously.
-  
-* The Application puts its configuration & data files into the standard user's Documents path inside dedicated directory named **/SFDMU**.
-  
+* The Application puts its configuration & data files into the standard user's Documents path inside dedicated directory named **/SFDMU_APP**.
+* You can change the default directory in the application's *App Settings* page.
 * The Application supports multiple local users. 
   Each user has his own local profile contains all his data, that is encrypted by the encryption key which is the password that is used to login into the application. 
   So user's data never directly exposed to others. But after the creating of your local user's profile, you need to well remember your password because there is no password recovery option.
-
 * Supported all major hosts (Win, MACOS, Linux)
 
 

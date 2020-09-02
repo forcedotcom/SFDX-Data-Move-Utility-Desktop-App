@@ -4,16 +4,24 @@
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata":true,
+    "esModuleInterop": true,
     "target": "es6",
     "noImplicitAny": false,
     "sourceMap": true,
-    "outDir": "dist",
+    "outDir": "javascripts",
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]
-    }
+    },
+    "rootDir": "ts",
+    "lib": [
+      "dom",
+      "es6",
+      "dom.iterable",
+      "scripthost"
+    ]
   },
   "include": [
-    "src/**/*"
+    "ts/**/*"
   ]
 }

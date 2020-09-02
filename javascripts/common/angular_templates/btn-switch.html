@@ -1,0 +1,9 @@
+<div class="form-group" ng-show="show" class="{{class}}" id="{{id}}">
+    <uib-label ng-show="label" help="{{help}}">{{label}}</uib-label>
+    <div class="btn-group inline-block" >
+        <label ng-click="change()" class="btn btn-default btn-switch btn-sm {{model == valueTrue ? 'active' : ''}}" ng-model="model"
+            uib-btn-radio="valueTrue">{{labelTrue}}</label>
+        <label ng-click="change()" class="btn btn-default btn-switch btn-sm {{model == valueFalse ? 'active' : ''}}" ng-model="model"
+            uib-btn-radio="valueFalse">{{labelFalse}}</label>
+    </div>
+</div>

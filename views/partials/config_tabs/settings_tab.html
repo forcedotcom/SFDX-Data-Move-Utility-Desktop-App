@@ -1,0 +1,137 @@
+<div class="row">
+    <div class="col-4 border-right pr-0">
+        <!-- Boolean object properties -->
+        <div class="mt-3"
+            ng-repeat="prop in ['excluded','master','deleteOldData','useFieldMapping','useValuesMapping','useCSVValuesMapping','updateWithMockData','mockCSVData'] | orderBy : 'prop' track by prop">
+            <uib-switch ng-change="ui.configPage.saveConfigParameterHandler()" id="configParameterSwitch_{{$index}}"
+                ng-model="ui.state.sobject()[prop]">
+                <strong>{{prop}}</strong>
+            </uib-switch>
+        </div>
+    </div>
+    <div class="col-8 pl-0">
+        <div class="pl-2">
+            <!--Operation selector -->
+            <div class="form-group mb-5">
+                <label>{{res.Config_Operation}}</label>
+                <select class="form-control form-control-sm" ng-model="ui.state.sobject().operation"
+                    ng-change="ui.configPage.saveConfigParameterHandler()">
+                    <option ng-repeat="item in ui.configPage.operationList() | orderBy : 'text' track by item.value"
+                        value={{item.value}}>
+                        {{item.text}}
+                    </option>
+                </select>
+            </div>
+            <!--External Id selector -->
+            <div class="form-group mb-5">
+                <label>{{res.Config_ExternalIdField}}</label>
+                <uib-btn-switch ng-change="ui.configPage.externalIdEnterModeChangeHandler()" class="inline-block mb-0"
+                    label="{{res.Config_ExternalIdEnterMode}}:" label-true="{{res.Config_ManualExternalIdMode}}"
+                    label-false="{{res.Config_FromListExternalIdMode}}"
+                    ng-model="ui.configPage.isComplexExternalIdEditMode"
+                    help="{{res.Config_Help_ManualExternalIdEnterModeSwitch}}">
+                </uib-btn-switch>
+                <input type="text" class="form-control" ng-model="ui.state.sobject().externalId"
+                    ng-show="ui.configPage.isComplexExternalIdEditMode"
+                    ng-change="ui.configPage.saveConfigParameterDelayedHandler()" />
+                <div ng-hide="ui.configPage.isComplexExternalIdEditMode">
+                    <select select-picker data-config-externalid-selector
+                        data-collection="ui.state.sobject().externalIdFieldItems" class="form-control form-control-sm"
+                        data-model="ui.externalId">
+                        <option
+                            ng-repeat="field in ui.state.sobject().externalIdFieldItems | orderBy : 'label' track by field.name"
+                            value={{field.name}}>
+                            {{field.label}} ({{field.name}})
+                        </option>
+                    </select>
+                </div>
+            </div>
+            <uib-accordion close-others="oneAtATime">
+                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                    <!-- WHERE -->
+                    <uib-accordion-heading>
+                        <div class="heading">
+                            {{res.Config_WhereClause}}
+                        </div>
+                        <div class="ellipsis text-black small w-100">
+                            {{ui.state.sobject().where}}
+                        </div>
+                    </uib-accordion-heading>
+                    <div class="form-group mb-4">
+                        <uib-label help="{{res.Config_Help_WhereClause}}">{{res.Config_WhereClause}}:</uib-label>
+                        <textarea rows="6" ng-model="ui.state.sobject().where"
+                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
+                            class="form-control"></textarea>
+                    </div>
+                </div>
+                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                    <!-- LIMIT -->
+                    <uib-accordion-heading>
+                        <div class="heading">
+                            {{res.Config_LimitClause}}
+                        </div>
+                        <div class="ellipsis text-black small w-100">
+                            {{ui.state.sobject().limit}}
+                        </div>
+                    </uib-accordion-heading>
+                    <div class="form-group mb-4">
+                        <uib-label help="{{res.Config_Help_LimitClause}}">{{res.Config_LimitClause}}:</uib-label>
+                        <input type="number" ng-model="ui.state.sobject().limit"
+                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control" />
+                    </div>
+                </div>
+                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                    <!-- ORDER BY -->
+                    <uib-accordion-heading>
+                        <div class="heading">
+                            {{res.Config_OrderByClause}}
+                        </div>
+                        <div class="ellipsis text-black small w-100">
+                            {{ui.state.sobject().orderBy}}
+                        </div>
+                    </uib-accordion-heading>
+                    <div class="form-group mb-4">
+                        <uib-label help="{{res.Config_Help_OrderByClause}}">{{res.Config_OrderByClause}}:</uib-label>
+                        <input type="text" ng-model="ui.state.sobject().orderBy"
+                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control" />
+                    </div>
+                </div>
+                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                    <!-- Delete WHERE -->
+                    <uib-accordion-heading>
+                        <div class="heading">
+                            {{res.Config_DeleteWhereClause}}
+                        </div>
+                        <div class="ellipsis text-black small w-100">
+                            {{ui.state.sobject().deleteWhere}}
+                        </div>
+                    </uib-accordion-heading>
+                    <div class="form-group mb-4">
+                        <uib-label help="{{res.Config_Help_DeleteWhereClause}}">{{res.Config_DeleteWhereClause}}:
+                        </uib-label>
+                        <textarea rows="6" ng-model="ui.state.sobject().deleteWhere"
+                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
+                            class="form-control"></textarea>
+                    </div>
+                </div>
+                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                    <!-- Target Filter -->
+                    <uib-accordion-heading>
+                        <div class="heading">
+                            {{res.Config_TargetFilter}}
+                        </div>
+                        <div class="ellipsis text-black small w-100">
+                            {{ui.state.sobject().targetRecordsFilter}}
+                        </div>
+                    </uib-accordion-heading>
+                    <div class="form-group mb-4">
+                        <uib-label help="{{res.Config_Help_TargetFilter}}">{{res.Config_TargetFilter}}:</uib-label>
+                        <textarea rows="6" ng-model="ui.state.sobject().targetRecordsFilter"
+                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
+                            class="form-control"></textarea>
+                    </div>
+                </div>
+            </uib-accordion>
+        </div>
+    </div>
+</div>

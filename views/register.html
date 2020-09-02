@@ -1,0 +1,24 @@
+<section class="login-wrapper fadeInDown">
+    <div id="formContent">
+        <!-- Title -->
+        <div class="fadeIn first mt-4">
+            <h3><i class="fa fa-user-plus"></i> {{res.Auth_NewApplicationUser}}</h3>
+        </div>
+
+        <!--Form -->
+        <form>
+            <input type="email" id="login" ng-model="ui.registerPage.form.email" required class="fadeIn second"
+                name="email" placeholder="* {{res.Auth_EmailAddress}}">
+            <input type="password" id="password" ng-model="ui.registerPage.form.password" required class="fadeIn third"
+                name="password" placeholder="* {{res.Auth_Password}}">
+            <input type="submit" ng-click="ui.registerPage.registerHandler()" class="fadeIn fourth" value="{{res.Create}}">
+            <div class="error" ng-show="ui.registerPage.form.invalid">{{res.Auth_Error_InvalidUserData}}</div>
+        </form>
+
+        <!--Footer -->
+        <div id="formFooter">
+            {{ui.common.app_title}}
+        </div>
+
+    </div>
+</section>

@@ -1,0 +1,39 @@
+<nav class="navbar navbar-expand-sm navbar-dark bg-dark">
+    <a class="navbar-brand" ui-sref="profile">{{ui.state.userData.plainEmail}}</a>
+    <button class="navbar-toggler" type="button" data-toggle="collapse" data-target="#navbarCollapse"
+        aria-controls="navbarCollapse" aria-expanded="false" aria-label="Toggle navigation">
+        <span class="navbar-toggler-icon"></span>
+    </button>
+    <div class="collapse navbar-collapse justify-content-between" id="navbarCollapse">
+        <ul class="navbar-nav mr-auto">
+            <li class="nav-item  {{ui.indexPage.menuActiveClasses().profile}}" ng-show="ui.state.isLoggedIn()">
+                <a class="nav-link" ui-sref="profile">
+                    <i class="fa fa-cog"></i>&nbsp;{{res.Menu_UserProfile}}
+                </a>
+            </li>
+            <li class="nav-item {{ui.indexPage.menuActiveClasses().home}}" ng-show="ui.state.isLoggedIn()">
+                <a class="nav-link" ui-sref="home"><i class="fa fa-database"></i>&nbsp;{{res.Menu_DataMigration}}</a>
+            </li>
+            <li class="nav-item {{ui.indexPage.menuActiveClasses().login}}" ng-hide="ui.state.isLoggedIn()">
+                <a class="nav-link" ui-sref="login"><i class="fa fa-user"></i>&nbsp;{{res.Menu_SignIn}}</a>
+            </li>
+            <li class="nav-item {{ui.indexPage.menuActiveClasses().register}}" ng-hide="ui.state.isLoggedIn()">
+                <a class="nav-link" ui-sref="register"><i class="fa fa-user-plus"></i>&nbsp;{{res.Menu_Register}}</a>
+            </li>
+            <li class="nav-item divider" ng-show="ui.state.isLoggedIn()">
+                <a class="nav-link" ng-click="ui.state.openBasePathInExplorerHandler()">
+                    <i class="fa fa-folder-open-o"></i>&nbsp;{{res.Menu_OpenBaseDirectoryInExplorer}}</a>
+            </li>
+            <li class="nav-item" ng-show="ui.state.isLoggedIn() && ui.configPage.allConfigIds[0]">
+                <a class="nav-link" ng-click="ui.state.openConfigInExplorerHandler()">
+                    <i class="fa fa-file-code-o"></i>&nbsp;{{res.Menu_OpenExportJson}}</a>
+            </li>
+        </ul>
+        <ul class="navbar-nav">
+            <li class="nav-item">
+                <a class="nav-link" ng-show="ui.state.isLoggedIn()" ng-click="ui.indexPage.logOffHandler()"><i
+                        class="fa fa-sign-out"></i>&nbsp;{{res.Menu_SignOut}}</a>
+            </li>            
+      </ul>
+    </div>
+</nav>

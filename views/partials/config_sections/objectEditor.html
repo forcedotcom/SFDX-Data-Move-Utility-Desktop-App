@@ -1,0 +1,63 @@
+<div class="card config-page-section config-page-section-auto-h overflow-initial"
+    ng-show="ui.configPage.currentSObjectId && !ui.state.sobject().isMissingInBothOrgs()">
+    <div class="card-header">
+        {{ui.state.config().name}} : {{ui.state.sobject().name}} ({{ui.state.sobject().label}})
+    </div>
+    <div class="card-body">
+        <uib-tabset>
+            <!--Fields Tab-->
+            <uib-tab>
+                <uib-tab-heading>
+                    <i class="fa fa-exclamation-triangle text-warning" data-custom-class='tooltip-warning'
+                        data-toggle='tooltip' title="{{res.ValidationError_InvalidFields}}"
+                        ng-show="ui.state.sobject().hasInvalidFields || ui.state.sobject().hasUnresolvedPolymorphicFields"></i>&nbsp;
+                    {{res.Config_Tab_Fields}}
+                </uib-tab-heading>
+                <div class="mt-3">
+                    <ng-include src="'./views/partials/config_tabs/fields_tab.html'"></ng-include>
+                </div>
+            </uib-tab>
+            <!--Settings Tab-->
+            <uib-tab heading="{{res.Config_Tab_Settings}}">
+                <div class="mt-3">
+                    <ng-include src="'./views/partials/config_tabs/settings_tab.html'"></ng-include>
+                </div>
+            </uib-tab>
+            <!--Field Mapping Tab-->
+            <uib-tab>
+                <uib-tab-heading>
+                    <i ng-show="ui.state.sobject().hasInvalidFieldMappings"
+                        class="fa fa-exclamation-circle text-warning" data-custom-class='tooltip-warning'
+                        data-toggle='tooltip' title="{{res.ValidationError_HasSomeInvalidFieldMappings}}"></i>
+                    &nbsp;
+                    {{res.Config_Tab_FieldMapping}}
+                </uib-tab-heading>
+                <div class="mt-3">
+                    <ng-include src="'./views/partials/config_tabs/mapping_tab.html'"></ng-include>
+                </div>
+            </uib-tab>
+            <!--Data Masking Tab-->
+            <uib-tab heading="{{res.Config_Tab_DataMasking}}">
+                <div class="mt-3">
+                    <ng-include src="'./views/partials/config_tabs/masking_tab.html'"></ng-include>
+                </div>
+            </uib-tab>
+            <!--Query Test Tab-->
+            <uib-tab heading="{{res.Config_Tab_QueryTest}}">
+                <div class="mt-3">
+                    <ng-include src="'./views/partials/config_tabs/test_tab.html'"></ng-include>
+                </div>
+            </uib-tab>
+        </uib-tabset>
+    </div>
+</div>
+
+<!--Messages-->
+<div uib-alert ng-class="'alert-info'" ng-hide="ui.configPage.currentSObjectId">
+    <i class="fa fa-info-circle"></i>&nbsp;{{res.Config_SelectSObject}}
+</div>
+
+<div uib-alert ng-class="'alert-warning'"
+    ng-show="ui.configPage.currentSObjectId && ui.state.sobject().isMissingInBothOrgs()">
+    <i class="fa fa-exclamation-triangle"></i>&nbsp;{{res.Config_Message_SObjectIsMissingInBothOrgs}}
+</div>

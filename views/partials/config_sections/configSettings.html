@@ -1,0 +1,52 @@
+<div class="card config-page-section">
+    <div class="card-header">
+        {{ui.state.config().name}} : {{res.Config_GlobalConfigSettings}}
+    </div>
+    <div class="card-body">
+        <div class="row">
+            <div class="col-4 border-right pr-0">
+                <!-- Boolean config properties -->
+                <div class="mt-3"
+                    ng-repeat="prop in ['keepObjectOrderWhileExecute','allOrNone','promptOnUpdateError','promptOnMissingParentObjects','promptOnIssuesInCSVFiles','validateCSVFilesOnly','createTargetCSVFiles','importCSVFilesAsIs','alwaysUseRestApiToUpdateRecords', 'excludeIdsFromCSVFiles', 'fileLog'] | orderBy : 'prop' track by prop">
+                    <uib-switch ng-change="ui.configPage.saveConfigHandler()"
+                        id="configGlobalParameterSwitch_{{$index}}" ng-model="ui.state.config()[prop]">
+                        <strong>{{prop}}</strong>
+                    </uib-switch>
+                </div>
+            </div>
+            <!--Other config properties -->
+            <div class="col-8 pl-0">
+                <div class="pl-2">
+                    <div class="form-group mb-4">
+                        <label>apiVersion:</label>
+                        <input type="text" ng-model="ui.state.config().apiVersion"
+                            ng-change="ui.configPage.saveConfigDelayedHandler()" class="form-control" />
+                    </div>
+                    <div class="form-group mb-4">
+                        <label>bulkApiVersion:</label>
+                        <select class="form-control form-control-sm" ng-model="ui.state.config().bulkApiVersion"
+                            ng-change="ui.configPage.saveConfigHandler()">
+                            <option>1.0</option>
+                            <option>2.0</option>
+                        </select>
+                    </div>
+                    <div class="form-group mb-4">
+                        <label>pollingIntervalMs:</label>
+                        <input type="number" min="100" ng-model="ui.state.config().pollingIntervalMs"
+                            ng-change="ui.configPage.saveConfigDelayedHandler()" class="form-control" />
+                    </div>
+                    <div class="form-group mb-4">
+                        <label>bulkThreshold:</label>
+                        <input type="number" min="0" ng-model="ui.state.config().bulkThreshold"
+                            ng-change="ui.configPage.saveConfigDelayedHandler()" class="form-control" />
+                    </div>
+                    <div class="form-group mb-4">
+                        <label>bulkApiV1BatchSize:</label>
+                        <input type="number" min="100" ng-model="ui.state.config().bulkApiV1BatchSize"
+                            ng-change="ui.configPage.saveConfigDelayedHandler()" class="form-control" />
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>

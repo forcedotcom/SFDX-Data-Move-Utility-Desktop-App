@@ -1,0 +1,31 @@
+<ul class="nav flex-column nav-pills side-nav" role="tablist" aria-orientation="vertical">
+    <li class="nav-item">
+        <a class="nav-link py-1" data-submenu href="javascript:void(0)" data-toggle="collapse" data-target="#submenu"><span>Data
+                Migration Wizard</span></a>
+        <div class="collapse show" id="submenu">
+            <ul class="nav flex-column nav-pills pl-4">
+                <li class="nav-item">
+                    <a class="nav-link active" data-state="home" data-toggle="pill"
+                        ng-click="ui.state.switchStateHandler('home')" href="javascript:void(0)" role="tab"><i
+                            class="fa fa-link"></i>&nbsp;{{res.Menu_Connection}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-state="config" data-toggle="pill"
+                        ng-click="ui.state.switchStateHandler('config')" href="javascript:void(0)" role="tab"><i
+                            class="fa fa-wrench"></i>&nbsp;{{res.Menu_Configuration}}</a>
+                </li>
+                <li class="nav-item">
+                    <a class="nav-link" data-state="preview" data-toggle="pill"
+                        ng-click="ui.state.switchStateHandler('preview')" href="javascript:void(0)" role="tab"><i
+                            class="fa fa-eye"></i>&nbsp;{{res.Menu_PreviewScript}}</a>
+                </li>
+            </ul>
+        </div>
+    </li>
+    <li class="nav-item nav-separator">
+    </li>
+    <li class="nav-item">
+        <a class="nav-link" data-state="execute" data-toggle="pill" ng-click="ui.state.switchStateHandler('execute')"
+            href="javascript:void(0)" role="tab"><i class="fa fa-play"></i>&nbsp;{{res.Menu_ExecuteScript}}</a>
+    </li>
+</ul>
