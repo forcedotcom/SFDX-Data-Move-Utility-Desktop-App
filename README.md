@@ -46,41 +46,36 @@ Now with this Desktop Application you don't have to work with the Notepad and th
 
 ### Installation and running.
 ```bash
-# 1. Install the SFDMU Plugin from: https://github.com/forcedotcom/SFDX-Data-Move-Utility
 
-# 2. Clone this repository.
-git clone https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App.git
+# Make sure you have the latest nodejs / npm installed.
+# If you have no modules listed below installed on your machine, perform steps 1 - 4. 
+# If you have them previously installed, start from the step 5.
 
-# 3. Go into the project directory.
-cd SFDX-Data-Move-Utility-Desktop-App
-
-# 4. Install Python
+# 1. Install Python
 https://www.python.org/downloads/release/python-2717/
 
-# 5. Install yarn
+# 2. Install yarn
 https://classic.yarnpkg.com/en/docs/install
 
-# 6. Install node-gyp globally
+# 3. Install node-gyp globally
 yarn global add node-gyp
 
-# 7. Install electron globally
-yarn global add electron
+# 4. Install electron globally
+yarn global add electron 
 
-# 8. Install electron into app directory
-yarn add electron
+# 5. Clone this repository.
+git clone https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App.git
 
-# 9. Install other dependencies
+# 6. Go into the project directory.
+cd SFDX-Data-Move-Utility-Desktop-App
+
+# 7. Install npm dependencies
 npm install
 
-# 10. Compile.
-npm run build
-
-# 11. Run.
-npm run main
-#    or
+# 8. Run the Application.
 npm start
-```
 
+```
 
 
 ## Notes
