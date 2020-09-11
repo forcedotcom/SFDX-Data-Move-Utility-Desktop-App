@@ -47,7 +47,10 @@
     <ng-include src="'./views/partials/loader.html'"></ng-include>
     <div ng-controller="appController" ng-init="init()">
         <wrapper class="d-flex flex-column hidden" ng-cloak id="wrapper">
-            <main class="flex-fill container-fluid pt-3">
+            <!--MAUN MENU-->
+            <ng-include src="'./views/partials/mainMenu.html'"></ng-include>
+
+            <main class="flex-fill container-fluid">
                 <div class="row">
                     <!--SIDE MENU-->
                     <div class="col-12 col-lg-2 pr-0 pl-0 h-100vh bg-dark" ng-show="ui.state.isLoggedIn()">
@@ -59,8 +62,6 @@
                     </div>
                 </div>
             </main>
-            <!--BOTTOM MENU-->
-            <ng-include src="'./views/partials/mainMenu.html'"></ng-include>
         </wrapper>
     </div>
 

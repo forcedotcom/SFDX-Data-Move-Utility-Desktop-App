@@ -473,6 +473,7 @@ class Controller {
         }));
     }
     selectObjectClickHandler($event) {
+        let self = this;
         let isButtonClicked = $event.target.className.indexOf('btn') >= 0
             || $event.target.className.indexOf('custom-control-label') >= 0
             || $event.target.className.indexOf('custom-control-input') >= 0;
@@ -490,6 +491,15 @@ class Controller {
                     oldExternalId: undefined
                 });
                 this.ui.configPage.isComplexExternalIdEditMode = scriptObject.isComplexExternalId;
+                // Workarround to refresh the externalId selector ----
+                this._preventExtraEvents();
+                let temp = this.ui.externalId;
+                this.ui.externalId = ['Dummy'];
+                this.$timeout(function () {
+                    self._preventExtraEvents();
+                    self.ui.externalId = temp;
+                }, 200);
+                // -------------------------------------------------------
                 this._displayDataTable('#testQueryRecordTable', [{}]);
                 this._updateFieldItems(scriptObject);
                 $(`[data-target="#fields"]`).click();
@@ -692,7 +702,8 @@ class Controller {
     externalIdChangedHandler($new, $old, $scope) {
         if ($new.length == 0
             || $scope.ui.controller._blockExternalIdChangedEvent
-            || $scope.ui.configPage.objectEditData.oldExternalId == $new[0]) {
+            || $scope.ui.configPage.objectEditData.oldExternalId == $new[0]
+            || !$scope.ui.state.sobject().isOrgDescribed) {
             return;
         }
         $scope.ui.controller._execAsyncSync(() => __awaiter(this, void 0, void 0, function* () {

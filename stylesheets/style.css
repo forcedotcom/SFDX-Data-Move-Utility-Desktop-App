@@ -232,6 +232,26 @@ h2 .fa {
     min-width: 29px;
 }
 
+.transfer-double {
+    border: none !important;
+    box-shadow: none;
+    padding-top: 0px;
+}
+
+.transfer-double-header {
+    display:none;
+}
+
+
+/* NAVBAR */
+.navbar{
+    z-index: 999;
+}
+
+main {
+    margin-top: 55px;
+}
+
 /* TABS */
 
 .nav-tabs .nav-item.show .nav-link, .nav-tabs .nav-link.active {
@@ -253,6 +273,22 @@ h2 .fa {
 .nav-link[data-toggle][data-submenu]:not(.collapsed):before {
     content: " ▴";
 }
+
+.config-editor .tab-pane .nav .nav-item > a {
+    height: 32px;
+    padding-top: 2px;
+}
+
+.config-editor .tab-pane .nav .nav-item > a.active {
+    background-color: #5073b0;
+}
+
+.config-editor .tab-pane .tab-content {
+    border: solid 2px #cfd6e3;
+    padding: 10px;
+}
+
+
 
 /* LOGIN FORM  */
 

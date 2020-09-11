@@ -12,7 +12,7 @@
     <div class="col-8 pl-0">
         <div class="pl-2">
             <!--Operation selector -->
-            <div class="form-group mb-5">
+            <div class="form-group mb-4">
                 <label>{{res.Config_Operation}}</label>
                 <select class="form-control form-control-sm" ng-model="ui.state.sobject().operation"
                     ng-change="ui.configPage.saveConfigParameterHandler()">
@@ -23,14 +23,17 @@
                 </select>
             </div>
             <!--External Id selector -->
-            <div class="form-group mb-5">
-                <label>{{res.Config_ExternalIdField}}</label>
-                <uib-btn-switch ng-change="ui.configPage.externalIdEnterModeChangeHandler()" class="inline-block mb-0"
-                    label="{{res.Config_ExternalIdEnterMode}}:" label-true="{{res.Config_ManualExternalIdMode}}"
-                    label-false="{{res.Config_FromListExternalIdMode}}"
-                    ng-model="ui.configPage.isComplexExternalIdEditMode"
-                    help="{{res.Config_Help_ManualExternalIdEnterModeSwitch}}">
-                </uib-btn-switch>
+            <div class="form-group mb-4">
+                <div class="mb-2">
+                    <label>{{res.Config_ExternalIdField}}</label>
+                    <uib-btn-switch ng-change="ui.configPage.externalIdEnterModeChangeHandler()"
+                        class="inline-block mb-0" label="{{res.Config_ExternalIdEnterMode}}:"
+                        label-true="{{res.Config_ManualExternalIdMode}}"
+                        label-false="{{res.Config_FromListExternalIdMode}}"
+                        ng-model="ui.configPage.isComplexExternalIdEditMode"
+                        help="{{res.Config_Help_ManualExternalIdEnterModeSwitch}}">
+                    </uib-btn-switch>
+                </div>
                 <input type="text" class="form-control" ng-model="ui.state.sobject().externalId"
                     ng-show="ui.configPage.isComplexExternalIdEditMode"
                     ng-change="ui.configPage.saveConfigParameterDelayedHandler()" />
@@ -46,92 +49,96 @@
                     </select>
                 </div>
             </div>
-            <uib-accordion close-others="oneAtATime">
-                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
-                    <!-- WHERE -->
-                    <uib-accordion-heading>
-                        <div class="heading">
-                            {{res.Config_WhereClause}}
+            <div class="form-group">
+                <label>{{res.Config_OtherSettings}}</label>
+                <uib-accordion close-others="oneAtATime">
+                    <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                        <!-- WHERE -->
+                        <uib-accordion-heading>
+                            <div class="heading">
+                                {{res.Config_WhereClause}}
+                            </div>
+                            <div class="ellipsis text-black small w-100">
+                                {{ui.state.sobject().where}}
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="form-group mb-4">
+                            <uib-label help="{{res.Config_Help_WhereClause}}">{{res.Config_WhereClause}}:</uib-label>
+                            <textarea rows="6" ng-model="ui.state.sobject().where"
+                                ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
+                                class="form-control"></textarea>
                         </div>
-                        <div class="ellipsis text-black small w-100">
-                            {{ui.state.sobject().where}}
-                        </div>
-                    </uib-accordion-heading>
-                    <div class="form-group mb-4">
-                        <uib-label help="{{res.Config_Help_WhereClause}}">{{res.Config_WhereClause}}:</uib-label>
-                        <textarea rows="6" ng-model="ui.state.sobject().where"
-                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
-                            class="form-control"></textarea>
                     </div>
-                </div>
-                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
-                    <!-- LIMIT -->
-                    <uib-accordion-heading>
-                        <div class="heading">
-                            {{res.Config_LimitClause}}
+                    <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                        <!-- LIMIT -->
+                        <uib-accordion-heading>
+                            <div class="heading">
+                                {{res.Config_LimitClause}}
+                            </div>
+                            <div class="ellipsis text-black small w-100">
+                                {{ui.state.sobject().limit}}
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="form-group mb-4">
+                            <uib-label help="{{res.Config_Help_LimitClause}}">{{res.Config_LimitClause}}:</uib-label>
+                            <input type="number" ng-model="ui.state.sobject().limit"
+                                ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control" />
                         </div>
-                        <div class="ellipsis text-black small w-100">
-                            {{ui.state.sobject().limit}}
-                        </div>
-                    </uib-accordion-heading>
-                    <div class="form-group mb-4">
-                        <uib-label help="{{res.Config_Help_LimitClause}}">{{res.Config_LimitClause}}:</uib-label>
-                        <input type="number" ng-model="ui.state.sobject().limit"
-                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control" />
                     </div>
-                </div>
-                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
-                    <!-- ORDER BY -->
-                    <uib-accordion-heading>
-                        <div class="heading">
-                            {{res.Config_OrderByClause}}
+                    <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                        <!-- ORDER BY -->
+                        <uib-accordion-heading>
+                            <div class="heading">
+                                {{res.Config_OrderByClause}}
+                            </div>
+                            <div class="ellipsis text-black small w-100">
+                                {{ui.state.sobject().orderBy}}
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="form-group mb-4">
+                            <uib-label help="{{res.Config_Help_OrderByClause}}">{{res.Config_OrderByClause}}:
+                            </uib-label>
+                            <input type="text" ng-model="ui.state.sobject().orderBy"
+                                ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control" />
                         </div>
-                        <div class="ellipsis text-black small w-100">
-                            {{ui.state.sobject().orderBy}}
-                        </div>
-                    </uib-accordion-heading>
-                    <div class="form-group mb-4">
-                        <uib-label help="{{res.Config_Help_OrderByClause}}">{{res.Config_OrderByClause}}:</uib-label>
-                        <input type="text" ng-model="ui.state.sobject().orderBy"
-                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()" class="form-control" />
                     </div>
-                </div>
-                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
-                    <!-- Delete WHERE -->
-                    <uib-accordion-heading>
-                        <div class="heading">
-                            {{res.Config_DeleteWhereClause}}
+                    <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                        <!-- Delete WHERE -->
+                        <uib-accordion-heading>
+                            <div class="heading">
+                                {{res.Config_DeleteWhereClause}}
+                            </div>
+                            <div class="ellipsis text-black small w-100">
+                                {{ui.state.sobject().deleteWhere}}
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="form-group mb-4">
+                            <uib-label help="{{res.Config_Help_DeleteWhereClause}}">{{res.Config_DeleteWhereClause}}:
+                            </uib-label>
+                            <textarea rows="6" ng-model="ui.state.sobject().deleteWhere"
+                                ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
+                                class="form-control"></textarea>
                         </div>
-                        <div class="ellipsis text-black small w-100">
-                            {{ui.state.sobject().deleteWhere}}
-                        </div>
-                    </uib-accordion-heading>
-                    <div class="form-group mb-4">
-                        <uib-label help="{{res.Config_Help_DeleteWhereClause}}">{{res.Config_DeleteWhereClause}}:
-                        </uib-label>
-                        <textarea rows="6" ng-model="ui.state.sobject().deleteWhere"
-                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
-                            class="form-control"></textarea>
                     </div>
-                </div>
-                <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
-                    <!-- Target Filter -->
-                    <uib-accordion-heading>
-                        <div class="heading">
-                            {{res.Config_TargetFilter}}
+                    <div uib-accordion-group class="panel-default uib-acordion-group-arrow">
+                        <!-- Target Filter -->
+                        <uib-accordion-heading>
+                            <div class="heading">
+                                {{res.Config_TargetFilter}}
+                            </div>
+                            <div class="ellipsis text-black small w-100">
+                                {{ui.state.sobject().targetRecordsFilter}}
+                            </div>
+                        </uib-accordion-heading>
+                        <div class="form-group mb-4">
+                            <uib-label help="{{res.Config_Help_TargetFilter}}">{{res.Config_TargetFilter}}:</uib-label>
+                            <textarea rows="6" ng-model="ui.state.sobject().targetRecordsFilter"
+                                ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
+                                class="form-control"></textarea>
                         </div>
-                        <div class="ellipsis text-black small w-100">
-                            {{ui.state.sobject().targetRecordsFilter}}
-                        </div>
-                    </uib-accordion-heading>
-                    <div class="form-group mb-4">
-                        <uib-label help="{{res.Config_Help_TargetFilter}}">{{res.Config_TargetFilter}}:</uib-label>
-                        <textarea rows="6" ng-model="ui.state.sobject().targetRecordsFilter"
-                            ng-change="ui.configPage.saveConfigParameterDelayedHandler()"
-                            class="form-control"></textarea>
                     </div>
-                </div>
-            </uib-accordion>
+                </uib-accordion>
+            </div>
         </div>
     </div>
 </div>
