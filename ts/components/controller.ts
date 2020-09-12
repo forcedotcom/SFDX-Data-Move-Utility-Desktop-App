@@ -177,6 +177,7 @@ export class Controller {
 
     loginPageSetup() {
         this.controllerSetup();
+        this._displayNewVersionMessage();
         this._refreshUI();
     }
 
@@ -1391,4 +1392,12 @@ export class Controller {
             fs.writeFileSync(this.ui.state.config().exportJsonFilename, this.ui.previewPage.exportJson);
         } catch (ex) { }
     }
+
+    private _displayNewVersionMessage(){
+        setTimeout(async () => {            
+            await this.ui.state.setNewVersionMessage();
+            this.$scope.$apply(undefined);
+        });
+    }
+
 }

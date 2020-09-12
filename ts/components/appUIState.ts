@@ -14,11 +14,12 @@ import { SObjectDescribe } from "../models/sobjectDescribe";
 import { AppUtils } from "./appUtils";
 import { ScriptObject } from "../models/scriptObject";
 import { ScriptObjectField } from "../models/ScriptObjectField";
-import { IAngularScope, IAppSettings } from "./helper_interfaces";
+import { IAngularScope, IAppSettings, IPackageJson } from "./helper_interfaces";
 import { Form } from "../models/form";
 import { RESOURCES } from "./resources";
 import { FieldItem } from "../models/fieldItem";
 import { ObjectEditData, SelectItem } from "./helper_classes";
+const path = require('path')
 const platformFolders = require('platform-folders');
 
 /**
@@ -115,16 +116,21 @@ export class AppUIState {
             const userJson = AppUtils.readUserJson();
             AppUIState._appSettings = AppUtils.objectAssignSafeDefined({},
 
-                // The default settings *************
+                // Basic default app settings *************
                 CONSTANTS.DEFAULT_APP_SETTINGS,
-                {
+
+                // Extended default app settings *************                
+                <IAppSettings>{
                     db_basePath: platformFolders.getDesktopFolder(),
-                    isDebug: process.env.DEBUG == "true"
+                    isDebug: process.env.DEBUG == "true",
+                    app_title: packageJson.description + ' (v' + packageJson.version + ')',
+                    version: packageJson.version,
+                    repoUrl: packageJson.repository,
+                    packageJsonUrl: packageJson.package_json
                 },
 
                 // User settings override the defaults **********
-                {
-                    app_title: packageJson.description,
+                <IAppSettings>{
                     db_name: userJson.db_name,
                     db_path: userJson.db_path,
                     db_basePath: userJson.db_basePath || platformFolders.getDesktopFolder()
@@ -150,6 +156,7 @@ export class AppUIState {
         // Fields  ********************************
         userData: <UserDataWrapper>null,
         scriptIsExecuting: false,
+        newVersionMessage: <string>null,
 
         // Methods / Properties ********************************
         isLoggedIn: () => this.state.userData != null,
@@ -209,7 +216,14 @@ export class AppUIState {
             });
         },
         abortExecutionHandler: <Function>null,
-
+        setNewVersionMessage: async () => {
+            const packageJsonRemote: IPackageJson = await AppUtils.readRemoveJsonAsync(this.settings.packageJsonUrl);
+            if (packageJsonRemote.version != this.settings.version) {
+                this.state.newVersionMessage = RESOURCES.NewVersionAvailable.format(packageJsonRemote.version, this.settings.version, this.settings.repoUrl);
+            } else {
+                this.state.newVersionMessage = "";
+            }
+        }
     };
 
     indexPage = {

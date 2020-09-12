@@ -5,6 +5,15 @@
  * SPDX-License-Identifier: BSD-3-Clause
  * For full license text, see the LICENSE file in the repo root or https://opensource.org/licenses/BSD-3-Clause
  */
+var __awaiter = (this && this.__awaiter) || function (thisArg, _arguments, P, generator) {
+    function adopt(value) { return value instanceof P ? value : new P(function (resolve) { resolve(value); }); }
+    return new (P || (P = Promise))(function (resolve, reject) {
+        function fulfilled(value) { try { step(generator.next(value)); } catch (e) { reject(e); } }
+        function rejected(value) { try { step(generator["throw"](value)); } catch (e) { reject(e); } }
+        function step(result) { result.done ? resolve(result.value) : adopt(result.value).then(fulfilled, rejected); }
+        step((generator = generator.apply(thisArg, _arguments || [])).next());
+    });
+};
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AppUIState = void 0;
 const org_1 = require("../models/org");
@@ -17,6 +26,7 @@ const form_1 = require("../models/form");
 const resources_1 = require("./resources");
 const fieldItem_1 = require("../models/fieldItem");
 const helper_classes_1 = require("./helper_classes");
+const path = require('path');
 const platformFolders = require('platform-folders');
 /**
  * Class to hold all UI data
@@ -33,6 +43,7 @@ class AppUIState {
             // Fields  ********************************
             userData: null,
             scriptIsExecuting: false,
+            newVersionMessage: null,
             // Methods / Properties ********************************
             isLoggedIn: () => this.state.userData != null,
             orgs: () => this.state.isLoggedIn() ? this.state.userData.orgs : [],
@@ -88,6 +99,15 @@ class AppUIState {
                 });
             },
             abortExecutionHandler: null,
+            setNewVersionMessage: () => __awaiter(this, void 0, void 0, function* () {
+                const packageJsonRemote = yield appUtils_1.AppUtils.readRemoveJsonAsync(this.settings.packageJsonUrl);
+                if (packageJsonRemote.version != this.settings.version) {
+                    this.state.newVersionMessage = resources_1.RESOURCES.NewVersionAvailable.format(packageJsonRemote.version, this.settings.version, this.settings.repoUrl);
+                }
+                else {
+                    this.state.newVersionMessage = "";
+                }
+            })
         };
         this.indexPage = {
             // Methods / Properties ********************************
@@ -384,14 +404,19 @@ class AppUIState {
             const packageJson = appUtils_1.AppUtils.readPackageJson();
             const userJson = appUtils_1.AppUtils.readUserJson();
             AppUIState._appSettings = appUtils_1.AppUtils.objectAssignSafeDefined({}, 
-            // The default settings *************
-            statics_1.CONSTANTS.DEFAULT_APP_SETTINGS, {
+            // Basic default app settings *************
+            statics_1.CONSTANTS.DEFAULT_APP_SETTINGS, 
+            // Extended default app settings *************                
+            {
                 db_basePath: platformFolders.getDesktopFolder(),
-                isDebug: process.env.DEBUG == "true"
+                isDebug: process.env.DEBUG == "true",
+                app_title: packageJson.description + ' (v' + packageJson.version + ')',
+                version: packageJson.version,
+                repoUrl: packageJson.repository,
+                packageJsonUrl: packageJson.package_json
             }, 
             // User settings override the defaults **********
             {
-                app_title: packageJson.description,
                 db_name: userJson.db_name,
                 db_path: userJson.db_path,
                 db_basePath: userJson.db_basePath || platformFolders.getDesktopFolder()

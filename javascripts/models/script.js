@@ -45,6 +45,7 @@ class Script {
         this.alwaysUseRestApiToUpdateRecords = false;
         this.excludeIdsFromCSVFiles = false;
         this.fileLog = true;
+        this.allowFieldTruncation = false;
     }
 }
 __decorate([
@@ -115,5 +116,9 @@ __decorate([
     appUtils_1.NonSerializableIfDefault(true, [statics_1.CONSTANTS.EXPORT_JSON_TAG]),
     __metadata("design:type", Boolean)
 ], Script.prototype, "fileLog", void 0);
+__decorate([
+    appUtils_1.NonSerializableIfDefault(false, [statics_1.CONSTANTS.EXPORT_JSON_TAG]),
+    __metadata("design:type", Boolean)
+], Script.prototype, "allowFieldTruncation", void 0);
 exports.Script = Script;
 //# sourceMappingURL=script.js.map

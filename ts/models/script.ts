@@ -70,4 +70,7 @@ export class Script {
     @NonSerializableIfDefault(true, [CONSTANTS.EXPORT_JSON_TAG])
     fileLog: boolean = true;
 
+    @NonSerializableIfDefault(false, [CONSTANTS.EXPORT_JSON_TAG])
+    allowFieldTruncation: boolean = false;
+
 }

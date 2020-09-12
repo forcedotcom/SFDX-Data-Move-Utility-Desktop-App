@@ -76,6 +76,7 @@ class Config extends script_1.Script {
         this.objects.forEach(object => {
             object.config = this;
             object.master = typeof object.allRecords != 'undefined' ? object.allRecords : object.master;
+            object.externalId = object.externalId || statics_1.CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAME;
         });
     }
     toExportJson(ui, addOrgsProperty, scriptName) {

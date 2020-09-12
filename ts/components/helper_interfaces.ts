@@ -48,12 +48,17 @@ export interface IAppSettings {
     db_path?: string,
     db_basePath?: string,
     db_moveFiles?: boolean,
-    isDebug?:boolean
+    isDebug?:boolean,
+    version?: string,
+    repoUrl?: string,
+    packageJsonUrl?: string
 }
 
 export interface IPackageJson {
     version: string;
     description: string;
+    repository: string;
+    package_json: string;
 }
 
 export interface IFileEntry {

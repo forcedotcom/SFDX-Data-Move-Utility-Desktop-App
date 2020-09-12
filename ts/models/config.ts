@@ -96,6 +96,7 @@ export class Config extends Script implements IDatabaseModel, IAppModel {
         this.objects.forEach(object => {
             object.config = this;
             object.master = typeof object.allRecords != 'undefined' ? object.allRecords : object.master;
+            object.externalId = object.externalId || CONSTANTS.DEFAULT_EXTERNAL_ID_FIELD_NAME;
         });
     }
 

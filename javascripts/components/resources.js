@@ -8,7 +8,7 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.RESOURCES = void 0;
 exports.RESOURCES = {
-    // Common words +++++++++++++++++++++
+    // Common messages +++++++++++++++++++++
     Source: "Source",
     Target: "Target",
     PleaseCompletePrevStep: "Please, complete previous wizard steps.",
@@ -28,6 +28,7 @@ exports.RESOURCES = {
     OffButton: "Off",
     ExpandCollapse: "Expand/Collapse",
     ExecuteJob: "Run the Script",
+    NewVersionAvailable: "New version of the Application is available: v{0} > v{1}.",
     // Menus ++++++++++++++++++++++++++++++++++
     Menu_Connection: "Step 1. Connection",
     Menu_Configuration: "Step 2. Configuration",

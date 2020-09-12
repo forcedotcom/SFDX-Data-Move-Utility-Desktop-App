@@ -384,6 +384,7 @@ class ScriptObject {
                 && !fieldItem.sFieldDescribe.lookup
                 && !fieldItem.sFieldDescribe.readonly
                 // To also support complex external ids
+                && this.externalId
                 && this.externalId.indexOf(fieldItem.name) < 0
                 && !fieldItem.isMultiselect
                 && fieldItem.isValid()

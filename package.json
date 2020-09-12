@@ -1,6 +1,6 @@
 {
     "name": "sfdx-data-move-utility-desktop-app",
-    "version": "3.0.3",
+    "version": "3.1.0",
     "description": "Data Loader SFDX Plugin (SFDMU) GUI Application",
     "main": "main.js",
     "scripts": {
@@ -9,7 +9,8 @@
         "build": "tsc",
         "main": "npm start"
     },
-    "repository": "https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
+    "repository": "forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
+    "package_json": "https://raw.githubusercontent.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/master/package.json",
     "keywords": [],
     "author": "hknokh@salesforce.com",
     "license": "BSD-3-Clause",

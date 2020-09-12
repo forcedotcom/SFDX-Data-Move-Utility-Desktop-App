@@ -39,6 +39,7 @@ const openExplorer = require('open-file-explorer');
 const fse = require('fs-extra');
 const { readdirSync } = require('fs');
 const { distance, closest } = require('fastest-levenshtein');
+var request = require("request");
 String.prototype.format = function () {
     var args = arguments;
     return this.replace(/{(\d+)}/g, function (match, number) {
@@ -541,6 +542,22 @@ class AppUtils {
     static writeUserJson(settings) {
         let filePath = path_1.default.join(process.cwd(), statics_1.CONSTANTS.USER_SETTINGS_FILE_NAME);
         fs.writeFileSync(filePath, AppUtils.pretifyJson(settings));
+    }
+    static readRemoveJsonAsync(url) {
+        return __awaiter(this, void 0, void 0, function* () {
+            return new Promise((resolve) => {
+                request({
+                    url,
+                    json: true
+                }, function (error, response, body) {
+                    if (!error && response.statusCode === 200) {
+                        resolve(body);
+                        return;
+                    }
+                    resolve({});
+                });
+            });
+        });
     }
     static copyDirAsync(source, destination) {
         return __awaiter(this, void 0, void 0, function* () {

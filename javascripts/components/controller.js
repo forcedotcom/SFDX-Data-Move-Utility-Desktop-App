@@ -153,6 +153,7 @@ class Controller {
     ////////////////////////////////////////////////////////////////
     loginPageSetup() {
         this.controllerSetup();
+        this._displayNewVersionMessage();
         this._refreshUI();
     }
     loginHandler() {
@@ -1224,6 +1225,12 @@ class Controller {
             fs.writeFileSync(this.ui.state.config().exportJsonFilename, this.ui.previewPage.exportJson);
         }
         catch (ex) { }
+    }
+    _displayNewVersionMessage() {
+        setTimeout(() => __awaiter(this, void 0, void 0, function* () {
+            yield this.ui.state.setNewVersionMessage();
+            this.$scope.$apply(undefined);
+        }));
     }
 }
 exports.Controller = Controller;

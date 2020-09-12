@@ -7,7 +7,7 @@
 
 export const RESOURCES = {
 
-    // Common words +++++++++++++++++++++
+    // Common messages +++++++++++++++++++++
     Source: "Source",
     Target: "Target",
     PleaseCompletePrevStep: "Please, complete previous wizard steps.",
@@ -27,6 +27,7 @@ export const RESOURCES = {
     OffButton: "Off",
     ExpandCollapse: "Expand/Collapse",
     ExecuteJob: "Run the Script",
+    NewVersionAvailable: "New version of the Application is available: v{0} > v{1}.",
 
 
     // Menus ++++++++++++++++++++++++++++++++++
