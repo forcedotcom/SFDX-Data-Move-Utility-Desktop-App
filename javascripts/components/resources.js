@@ -136,7 +136,7 @@ exports.RESOURCES = {
     ValidationError_Separator: "; ",
     // Config -> Tabs
     Config_Tab_ConfigSettings: "Configuration Settings",
-    Config_Tab_ConfigObjects: "Configurataion Objects",
+    Config_Tab_ConfigObjects: "Configuration Objects",
     Config_Tab_Fields: "Object Fields",
     Config_Tab_Settings: "Object Settings",
     Config_Tab_Polymorphic: "Polymorphic Fields",
