@@ -2,7 +2,7 @@
 
 ```
 ### ------------------------------------------- ###
-### - *** Latest version: v3.1.1          ***-  ###
+### - *** Latest version: v3.1.2          ***-  ###
 ### ------------------------------------------- ###
 ### - *** Always make sure, that you have *** - ###
 ### - *** the latest version installed    *** - ###
@@ -71,8 +71,10 @@ npm start
 ## Notes
 
 * This Application must have the [SFDMU Plugin](https://github.com/forcedotcom/SFDX-Data-Move-Utility) to be installed in your system previously.
-* The Application puts its configuration & data files into the standard user's Documents path inside dedicated directory named **/SFDMU_APP**.
-* You can change the default directory in the application's *App Settings* page.
+* The Application puts user's data files into the standard **Documents** folder inside dedicated sub-folder named **/SFDMU_APP**.  
+  You can change the default path in the application's ***App Settings*** page. 
+* The Application also creates a file **user.json** in the application installation directory. This file is being used to store the application settings.
+  Make sure you are **NOT DELETING** this file during upgrade the Application from the git repository, otherwise the settings will be lost.
 * The Application supports multiple local users. 
   Each user has his own local profile contains all his data, that is encrypted by the encryption key which is the password that is used to login into the application. 
   So user's data never directly exposed to others. But after the creating of your local user's profile, you need to well remember your password because there is no password recovery option.

@@ -408,7 +408,7 @@ class AppUIState {
             statics_1.CONSTANTS.DEFAULT_APP_SETTINGS, 
             // Extended default app settings *************                
             {
-                db_basePath: platformFolders.getDesktopFolder(),
+                db_basePath: platformFolders.getDocumentsFolder(),
                 isDebug: process.env.DEBUG == "true",
                 app_title: packageJson.description + ' (v' + packageJson.version + ')',
                 version: packageJson.version,
@@ -419,7 +419,7 @@ class AppUIState {
             {
                 db_name: userJson.db_name,
                 db_path: userJson.db_path,
-                db_basePath: userJson.db_basePath || platformFolders.getDesktopFolder()
+                db_basePath: userJson.db_basePath || platformFolders.getDocumentsFolder()
             });
         }
         return this._appSettings;

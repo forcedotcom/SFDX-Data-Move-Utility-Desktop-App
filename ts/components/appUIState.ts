@@ -121,7 +121,7 @@ export class AppUIState {
 
                 // Extended default app settings *************                
                 <IAppSettings>{
-                    db_basePath: platformFolders.getDesktopFolder(),
+                    db_basePath: platformFolders.getDocumentsFolder(),
                     isDebug: process.env.DEBUG == "true",
                     app_title: packageJson.description + ' (v' + packageJson.version + ')',
                     version: packageJson.version,
@@ -133,7 +133,7 @@ export class AppUIState {
                 <IAppSettings>{
                     db_name: userJson.db_name,
                     db_path: userJson.db_path,
-                    db_basePath: userJson.db_basePath || platformFolders.getDesktopFolder()
+                    db_basePath: userJson.db_basePath || platformFolders.getDocumentsFolder()
                 });
         }
         return this._appSettings;

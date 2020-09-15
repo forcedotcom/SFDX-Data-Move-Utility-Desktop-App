@@ -1020,7 +1020,7 @@
             var transferDoubleSelectedListLis = self.$element.find(self.transferDoubleSelectedListLiClass);
             self.$element.find(self.transferDoubleSelectedListUlClass).css('display', 'block');
 
-            let searchString = $(self.selectedItemSearcherId).val();
+            let searchString = $(self.selectedItemSearcherId).val().toLowerCase();
 
             if (searchString == "") {
                 transferDoubleSelectedListLis.css('display', 'block');
