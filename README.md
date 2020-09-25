@@ -37,12 +37,10 @@ Now with this Desktop Application you don't have to work with the Notepad and th
 ### Installation and running.
 ```bash
 
-# Make sure you have the latest nodejs / npm installed.
-# If you have no modules listed below installed on your machine, perform steps 1 - 4. 
-# If you have them previously installed, start from the step 5.
+# Make sure you have the latest npm / python / yarn / electron installed on your machine, otherwise perform steps 1 - 4 accordingly. 
 
 # 1. Install Python
-https://www.python.org/downloads/release/python-2717/
+https://www.python.org/downloads/
 
 # 2. Install yarn
 https://classic.yarnpkg.com/en/docs/install
