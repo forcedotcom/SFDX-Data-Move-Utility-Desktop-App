@@ -388,9 +388,21 @@ export class AppUtils {
     }
 
     public static async getOrgObjectsList(org: Org): Promise<Array<SObjectDescribe>> {
-        let query = "SELECT  QualifiedApiName, Label FROM EntityDefinition where IsRetrieveable = true AND IsQueryable = true AND IsIdEnabled = true AND IsEverUpdatable = true AND IsEverCreatable = true AND IsEverDeletable = true AND IsDeprecatedAndHidden = false ORDER BY QualifiedApiName";
+        let query = `SELECT QualifiedApiName, Label,
+                            IsEverUpdatable, IsEverCreatable, 
+                            IsEverDeletable 
+                        FROM EntityDefinition 
+                        WHERE IsRetrieveable = true AND IsQueryable = true 
+                            AND IsIdEnabled = true 
+                            AND IsDeprecatedAndHidden = false
+                        ORDER BY QualifiedApiName`;
         let records = await this.queryAsync(org, query, false);
-        return records.records.map((record: any) => {
+        return records.records.filter((record: any) => {
+            return (record.IsEverUpdatable && 
+                    record.IsEverCreatable && 
+                    record.IsEverDeletable)
+                    || record.QualifiedApiName == 'RecordType'
+        }) .map((record: any) => {
             return new SObjectDescribe({
                 label: String(record["Label"]),
                 name: String(record["QualifiedApiName"]),
