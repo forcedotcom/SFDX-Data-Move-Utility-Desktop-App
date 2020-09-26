@@ -208,10 +208,13 @@ class AppUIState {
             },
             getObjectQuickInfoString: (objectIndex) => {
                 let scriptObject = this.state.config().objects[objectIndex];
-                return `${scriptObject.master ? resources_1.RESOURCES.Config_MasterTag + ' | ' : ''}${scriptObject.operation} | ${scriptObject.externalId}${scriptObject.deleteOldData ? ' | ' + resources_1.RESOURCES.Config_DeleteOldDataTag : ''}`;
+                return `${scriptObject.master ? resources_1.RESOURCES.Config_MasterTag
+                    + ' | ' : ''}${scriptObject.operation} | ${scriptObject.externalId}${scriptObject.deleteOldData ? ' | ' + resources_1.RESOURCES.Config_DeleteOldDataTag : ''}`;
             },
             disableAddNewFieldMappingItemButton: () => {
-                return this.state.sobject().fieldMapping.length > 0 && !this.state.sobject().targetSobjectNameForFieldMapping;
+                return this.state.sobject().fieldMapping.length > 0
+                    && (!this.state.sobject().targetSobjectNameForFieldMapping
+                        || this.state.sobject().fieldMapping.some(fieldMapping => (!fieldMapping.sourceField || !fieldMapping.targetField) && !fieldMapping.targetObject));
             },
             // Event Handlers ********************************
             goNext: null,

@@ -148,7 +148,7 @@ export class ScriptObject implements IAppModel {
 
     @NonSerializable()
     availableTargetSFieldsNamesForFieldMapping: Array<FieldItem> = new Array<FieldItem>();
-    
+
     @NonSerializable()
     mockPatterns: SelectItem[] = new Array<SelectItem>();
 
@@ -473,6 +473,12 @@ export class ScriptObject implements IAppModel {
         return fields;
     }
 
+    getFullQueryFieldsDescriptions(): SFieldDescribe[] {
+        return this.getFullQueryFields().map(field => {
+            return this.sObjectDescribe.fieldsMap.get(field) || new SFieldDescribe();
+        });
+    }
+
     getQueryTemplate(limit?: number): string {
         return `SELECT {0} FROM ${this.name}${this.where ? ' WHERE ' + this.where : ''}${this.orderBy ? " ORDER BY " + this.orderBy : ""}${limit || this.limit ? " LIMIT " + (limit || this.limit) : ""}`;
     }
@@ -501,37 +507,47 @@ export class ScriptObject implements IAppModel {
             });
     }
 
-    getAvailableFieldItemsForFieldMapping(): FieldItem[] {
-        let fields = this.getFullQueryFields();
-        return this.fieldItems.filter(fieldItem => {
-            return fieldItem.name != "Id"
-                && fieldItem.sFieldDescribe
-                && !fieldItem.sFieldDescribe.lookup
-                && !fieldItem.isMultiselect
-                && fieldItem.isValid()
-                && this.fullQueryFields.indexOf(fieldItem.name) >= 0
-                && CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MAPPING.indexOf(fieldItem.name) < 0
-                // Only from the selected fields
-                && fieldItem.selected;
+    getAvailableFieldItemsForFieldMapping(): FieldItem[] {    
+        return this.getFullQueryFieldsDescriptions().filter(fieldDescr => {
+            return fieldDescr.name != "Id"
+                && !fieldDescr.lookup
+                && fieldDescr.isValid()
+                && CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MAPPING.indexOf(fieldDescr.name) < 0
+        }).map(fieldItem => {
+            let item = this.fieldItems.filter(item => item.name == fieldItem.name)[0];
+            if (item) {
+                return item;
+            }
+            return new FieldItem({
+                name: fieldItem.name,
+                sFieldDescribe: fieldItem,
+            });
         });
     }
 
-    getAvailableFieldItemsForMocking(): FieldItem[] {
-        let fields = this.getFullQueryFields();
-        return this.fieldItems.filter(fieldItem => {
-            return fieldItem.name != "Id"
-                && fieldItem.sFieldDescribe
-                && !fieldItem.sFieldDescribe.lookup
-                && !fieldItem.sFieldDescribe.readonly
-                // To also support complex external ids
+    getAvailableFieldItemsForMocking(): FieldItem[] {     
+        return this.getFullQueryFieldsDescriptions().filter(fieldDescr => {
+            return fieldDescr.name != "Id"
+                && !fieldDescr.lookup
+                && !fieldDescr.readonly
+
+                // Can't anonymize external id fields
                 && this.externalId
-                && this.externalId.indexOf(fieldItem.name) < 0
-                && !fieldItem.isMultiselect
-                && fieldItem.isValid()
-                && !this.mockFields.some(field => field.name == fieldItem.name)
-                && CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MOCKING.indexOf(fieldItem.name) < 0
-                // Only from the selected fields
-                && fieldItem.selected;
+                && this.externalId.indexOf(fieldDescr.name) < 0
+                
+                && fieldDescr.isValid()
+                && !this.mockFields.some(field => field.name == fieldDescr.name)
+                && CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MOCKING.indexOf(fieldDescr.name) < 0
+
+        }).map(fieldItem => {
+            let item = this.fieldItems.filter(item => item.name == fieldItem.name)[0];
+            if (item) {
+                return item;
+            }
+            return new FieldItem({
+                name: fieldItem.name,
+                sFieldDescribe: fieldItem,
+            });
         });
     }
 

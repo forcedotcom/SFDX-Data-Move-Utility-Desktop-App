@@ -346,10 +346,14 @@ export class AppUIState {
         },
         getObjectQuickInfoString: (objectIndex: number): string => {
             let scriptObject = this.state.config().objects[objectIndex];
-            return `${scriptObject.master ? RESOURCES.Config_MasterTag + ' | ' : ''}${scriptObject.operation} | ${scriptObject.externalId}${scriptObject.deleteOldData ? ' | ' + RESOURCES.Config_DeleteOldDataTag : ''}`;
+            return `${scriptObject.master ? RESOURCES.Config_MasterTag 
+                + ' | ' : ''}${scriptObject.operation} | ${scriptObject.externalId}${scriptObject.deleteOldData ? ' | ' + RESOURCES.Config_DeleteOldDataTag : ''}`;
         },
         disableAddNewFieldMappingItemButton: () => {
-            return this.state.sobject().fieldMapping.length > 0 && !this.state.sobject().targetSobjectNameForFieldMapping;
+            return this.state.sobject().fieldMapping.length > 0
+                && (!this.state.sobject().targetSobjectNameForFieldMapping
+                    || this.state.sobject().fieldMapping.some(fieldMapping =>
+                        (!fieldMapping.sourceField || !fieldMapping.targetField) && !fieldMapping.targetObject));
         },
 
 

@@ -12,11 +12,10 @@
         <button ng-show="ui.state.sobject().availableFieldItemsForFieldMapping.length > 0"
             ng-disabled="ui.configPage.disableAddNewFieldMappingItemButton()" class="btn btn-sm btn-primary mb-3"
             ng-click="ui.configPage.addFieldMappingHandler()">
-            {{res.Config_AddNewMappingButton}}
+            {{ ui.state.sobject().fieldMapping.length == 0 ? res.Config_AddNewMappingButton_TargetSObject : res.Config_AddNewMappingButton_Field}}
         </button>
         <div ng-repeat-start="field in ui.state.sobject().fieldMapping track by $index"></div>
-        <div class="row"
-            ng-show="ui.state.sobject().fieldMapping.length > 0">
+        <div class="row" ng-show="ui.state.sobject().fieldMapping.length > 0">
             <div class="col-5">
                 <!--Target object input-->
                 <div class="form-group required" ng-if="$index == 0">
@@ -73,6 +72,11 @@
                 <hr />
             </div>
         </div>
+        <button ng-show="ui.state.sobject().availableFieldItemsForFieldMapping.length > 0 && ui.state.sobject().fieldMapping.length > 1"
+            ng-disabled="ui.configPage.disableAddNewFieldMappingItemButton()" class="btn btn-sm btn-primary mb-3"
+            ng-click="ui.configPage.addFieldMappingHandler()">
+            {{res.Config_AddNewMappingButton_Field}}
+        </button>
     </div>
 
 </div>

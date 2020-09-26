@@ -267,6 +267,12 @@ class Controller {
         this._execAsyncSync(() => __awaiter(this, void 0, void 0, function* () {
             this._showUILoader(resources_1.RESOURCES.Home_Message_ReadingOrgList);
             let orgList = yield appUtils_1.AppUtils.execForceOrgList();
+            if (orgList.orgs.length == 0) {
+                this._showUIToast("warning", {
+                    title: resources_1.RESOURCES.DefaultToastWarningTitle,
+                    content: resources_1.RESOURCES.Home_Message_NoSFDXOrgsDetected
+                });
+            }
             this.ui.state.userData.orgs = [].concat(orgList.orgs.map(org => {
                 return new org_1.Org({
                     instanceUrl: org.instanceUrl,
@@ -515,15 +521,18 @@ class Controller {
         }
         this._blockAddRemoveObjectFieldsEvent = true;
         $scope.ui.controller._execAsyncSync(() => __awaiter(this, void 0, void 0, function* () {
+            // Add/Remove fields -------------------
             $scope.ui.state.sobject().fields = appUtils_1.AppUtils.distinctArray([].concat(selectedFields, statics_1.CONSTANTS.MANDATORY_FIELDS.map(name => new ScriptObjectField_1.ScriptObjectField({ name }))), "name");
-            // Remove field mappings
+            // Filter other parameters --------------
+            let fullQueryFields = $scope.ui.state.sobject().getFullQueryFields();
+            // Remove incorect field mappings
             $scope.ui.state.sobject().fieldMapping = $scope.ui.state
-                .sobject().fieldMapping.filter(field => $scope.ui.state.sobject()
-                .fields.some(f => f.name == field.sourceField));
-            // Remove field mocking
+                .sobject().fieldMapping.filter(field => fullQueryFields.some(name => name == field.sourceField)
+                || !field.sourceField && field.targetObject);
+            // Remove incorrect field mocking
             $scope.ui.state.sobject().mockFields = $scope.ui.state
-                .sobject().mockFields.filter(field => $scope.ui.state.sobject()
-                .fields.some(f => f.name == field.name));
+                .sobject().mockFields.filter(field => fullQueryFields.some(name => name == field.name));
+            // Save user +++++++++++++++++++++++++++
             $scope.ui.controller._updateFieldItems($scope.ui.state.sobject());
             yield dbUtils_1.DbUtils.saveUserAsync($scope.ui.state.userData);
             this._preventExtraEvents();

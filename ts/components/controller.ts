@@ -318,6 +318,12 @@ export class Controller {
         this._execAsyncSync(async () => {
             this._showUILoader(RESOURCES.Home_Message_ReadingOrgList);
             let orgList = await AppUtils.execForceOrgList();
+            if (orgList.orgs.length == 0) {
+                this._showUIToast("warning", {
+                    title: RESOURCES.DefaultToastWarningTitle,
+                    content: RESOURCES.Home_Message_NoSFDXOrgsDetected
+                });
+            }
             this.ui.state.userData.orgs = [].concat(orgList.orgs.map(org => {
                 return new Org({
                     instanceUrl: org.instanceUrl,
@@ -327,6 +333,7 @@ export class Controller {
                     media: DATA_MEDIA_TYPE.Org
                 })
             }), this.ui.state.userData.orgs.filter(org => org.orgName == CONSTANTS.CSV_FILES_SOURCENAME));
+
             await DbUtils.saveUserAsync(this.ui.state.userData);
             this.$scope.$apply(undefined);
         });
@@ -591,18 +598,26 @@ export class Controller {
         }
         this._blockAddRemoveObjectFieldsEvent = true;
         $scope.ui.controller._execAsyncSync(async () => {
+
+            // Add/Remove fields -------------------
             $scope.ui.state.sobject().fields = AppUtils.distinctArray([].concat(
                 selectedFields,
                 CONSTANTS.MANDATORY_FIELDS.map(name => new ScriptObjectField({ name }))
             ), "name");
-            // Remove field mappings
+
+            // Filter other parameters --------------
+            let fullQueryFields = $scope.ui.state.sobject().getFullQueryFields();
+
+            // Remove incorect field mappings
             $scope.ui.state.sobject().fieldMapping = $scope.ui.state
-                .sobject().fieldMapping.filter(field => $scope.ui.state.sobject()
-                    .fields.some(f => f.name == field.sourceField));
-            // Remove field mocking
+                .sobject().fieldMapping.filter(field => fullQueryFields.some(name => name == field.sourceField)
+                    || !field.sourceField && field.targetObject);
+
+            // Remove incorrect field mocking
             $scope.ui.state.sobject().mockFields = $scope.ui.state
-                .sobject().mockFields.filter(field => $scope.ui.state.sobject()
-                    .fields.some(f => f.name == field.name));
+                .sobject().mockFields.filter(field => fullQueryFields.some(name => name == field.name));
+
+            // Save user +++++++++++++++++++++++++++
             $scope.ui.controller._updateFieldItems($scope.ui.state.sobject());
             await DbUtils.saveUserAsync($scope.ui.state.userData);
             this._preventExtraEvents();
@@ -1393,8 +1408,8 @@ export class Controller {
         } catch (ex) { }
     }
 
-    private _displayNewVersionMessage(){
-        setTimeout(async () => {            
+    private _displayNewVersionMessage() {
+        setTimeout(async () => {
             await this.ui.state.setNewVersionMessage();
             this.$scope.$apply(undefined);
         });

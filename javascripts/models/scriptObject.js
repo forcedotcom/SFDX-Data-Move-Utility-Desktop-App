@@ -337,6 +337,11 @@ class ScriptObject {
         fields = appUtils_1.AppUtils.uniqueArray(fields);
         return fields;
     }
+    getFullQueryFieldsDescriptions() {
+        return this.getFullQueryFields().map(field => {
+            return this.sObjectDescribe.fieldsMap.get(field) || new sfieldDescribe_1.SFieldDescribe();
+        });
+    }
     getQueryTemplate(limit) {
         return `SELECT {0} FROM ${this.name}${this.where ? ' WHERE ' + this.where : ''}${this.orderBy ? " ORDER BY " + this.orderBy : ""}${limit || this.limit ? " LIMIT " + (limit || this.limit) : ""}`;
     }
@@ -363,35 +368,42 @@ class ScriptObject {
         }));
     }
     getAvailableFieldItemsForFieldMapping() {
-        let fields = this.getFullQueryFields();
-        return this.fieldItems.filter(fieldItem => {
-            return fieldItem.name != "Id"
-                && fieldItem.sFieldDescribe
-                && !fieldItem.sFieldDescribe.lookup
-                && !fieldItem.isMultiselect
-                && fieldItem.isValid()
-                && this.fullQueryFields.indexOf(fieldItem.name) >= 0
-                && statics_1.CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MAPPING.indexOf(fieldItem.name) < 0
-                // Only from the selected fields
-                && fieldItem.selected;
+        return this.getFullQueryFieldsDescriptions().filter(fieldDescr => {
+            return fieldDescr.name != "Id"
+                && !fieldDescr.lookup
+                && fieldDescr.isValid()
+                && statics_1.CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MAPPING.indexOf(fieldDescr.name) < 0;
+        }).map(fieldItem => {
+            let item = this.fieldItems.filter(item => item.name == fieldItem.name)[0];
+            if (item) {
+                return item;
+            }
+            return new fieldItem_1.FieldItem({
+                name: fieldItem.name,
+                sFieldDescribe: fieldItem,
+            });
         });
     }
     getAvailableFieldItemsForMocking() {
-        let fields = this.getFullQueryFields();
-        return this.fieldItems.filter(fieldItem => {
-            return fieldItem.name != "Id"
-                && fieldItem.sFieldDescribe
-                && !fieldItem.sFieldDescribe.lookup
-                && !fieldItem.sFieldDescribe.readonly
-                // To also support complex external ids
+        return this.getFullQueryFieldsDescriptions().filter(fieldDescr => {
+            return fieldDescr.name != "Id"
+                && !fieldDescr.lookup
+                && !fieldDescr.readonly
+                // Can't anonymize external id fields
                 && this.externalId
-                && this.externalId.indexOf(fieldItem.name) < 0
-                && !fieldItem.isMultiselect
-                && fieldItem.isValid()
-                && !this.mockFields.some(field => field.name == fieldItem.name)
-                && statics_1.CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MOCKING.indexOf(fieldItem.name) < 0
-                // Only from the selected fields
-                && fieldItem.selected;
+                && this.externalId.indexOf(fieldDescr.name) < 0
+                && fieldDescr.isValid()
+                && !this.mockFields.some(field => field.name == fieldDescr.name)
+                && statics_1.CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MOCKING.indexOf(fieldDescr.name) < 0;
+        }).map(fieldItem => {
+            let item = this.fieldItems.filter(item => item.name == fieldItem.name)[0];
+            if (item) {
+                return item;
+            }
+            return new fieldItem_1.FieldItem({
+                name: fieldItem.name,
+                sFieldDescribe: fieldItem,
+            });
         });
     }
     parseQueryString(query) {
