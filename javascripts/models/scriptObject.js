@@ -52,7 +52,8 @@ class ScriptObject {
         this.useValuesMapping = false;
         this.master = true;
         this.excludedFields = new Array();
-        // Other members (in memory only) ----------------------------     
+        // Other members ----------------------------     
+        this.deleteAllData = false;
         this.fields = new Array();
         this.fieldItems = new Array();
         this.fullQueryFields = new Array();
@@ -72,8 +73,14 @@ class ScriptObject {
         return this.getQueryTemplate().format(this.fields.map(field => field.name).join(', '));
     }
     get deleteQuery() {
-        if ((this.deleteOldData || this.enumOperation == statics_1.OPERATION.Delete) && this.deleteWhere)
-            return `SELECT Id FROM ${this.name} WHERE ${this.deleteWhere}`;
+        if (this.deleteOldData || this.enumOperation == statics_1.OPERATION.Delete) {
+            if (this.deleteWhere)
+                return `SELECT Id FROM ${this.name} WHERE ${this.deleteWhere}`;
+            else if (this.deleteAllData)
+                return `SELECT Id FROM ${this.name}`;
+            else
+                return undefined;
+        }
         else
             return undefined;
     }
@@ -781,6 +788,10 @@ __decorate([
     appUtils_1.NonSerializableIfDefault([], [statics_1.CONSTANTS.EXPORT_JSON_TAG]),
     __metadata("design:type", Array)
 ], ScriptObject.prototype, "excludedFields", void 0);
+__decorate([
+    appUtils_1.NonSerializable([statics_1.CONSTANTS.EXPORT_JSON_TAG, statics_1.CONSTANTS.EXPORT_JSON_FULL_TAG]),
+    __metadata("design:type", Boolean)
+], ScriptObject.prototype, "deleteAllData", void 0);
 __decorate([
     appUtils_1.NonSerializable([statics_1.CONSTANTS.EXPORT_JSON_TAG, statics_1.CONSTANTS.EXPORT_JSON_FULL_TAG]),
     class_transformer_1.Type(() => ScriptObjectField_1.ScriptObjectField),

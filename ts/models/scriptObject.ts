@@ -55,8 +55,14 @@ export class ScriptObject implements IAppModel {
 
     @SerializableGetter([CONSTANTS.EXPORT_JSON_TAG, CONSTANTS.EXPORT_JSON_FULL_TAG])
     get deleteQuery(): string {
-        if ((this.deleteOldData || this.enumOperation == OPERATION.Delete) && this.deleteWhere)
-            return `SELECT Id FROM ${this.name} WHERE ${this.deleteWhere}`;
+        if (this.deleteOldData || this.enumOperation == OPERATION.Delete) {
+            if (this.deleteWhere)
+                return `SELECT Id FROM ${this.name} WHERE ${this.deleteWhere}`;
+            else if (this.deleteAllData)
+                return `SELECT Id FROM ${this.name}`;
+            else
+                return undefined;
+        }
         else
             return undefined;
     }
@@ -95,7 +101,10 @@ export class ScriptObject implements IAppModel {
     excludedFields: Array<string> = new Array<string>();
 
 
-    // Other members (in memory only) ----------------------------     
+    // Other members ----------------------------     
+    @NonSerializable([CONSTANTS.EXPORT_JSON_TAG, CONSTANTS.EXPORT_JSON_FULL_TAG])
+    deleteAllData: boolean = false;
+
     @NonSerializable([CONSTANTS.EXPORT_JSON_TAG, CONSTANTS.EXPORT_JSON_FULL_TAG])
     @Type(() => ScriptObjectField)
     fields: Array<ScriptObjectField> = new Array<ScriptObjectField>();
@@ -507,7 +516,7 @@ export class ScriptObject implements IAppModel {
             });
     }
 
-    getAvailableFieldItemsForFieldMapping(): FieldItem[] {    
+    getAvailableFieldItemsForFieldMapping(): FieldItem[] {
         return this.getFullQueryFieldsDescriptions().filter(fieldDescr => {
             return fieldDescr.name != "Id"
                 && !fieldDescr.lookup
@@ -525,7 +534,7 @@ export class ScriptObject implements IAppModel {
         });
     }
 
-    getAvailableFieldItemsForMocking(): FieldItem[] {     
+    getAvailableFieldItemsForMocking(): FieldItem[] {
         return this.getFullQueryFieldsDescriptions().filter(fieldDescr => {
             return fieldDescr.name != "Id"
                 && !fieldDescr.lookup
@@ -534,7 +543,7 @@ export class ScriptObject implements IAppModel {
                 // Can't anonymize external id fields
                 && this.externalId
                 && this.externalId.indexOf(fieldDescr.name) < 0
-                
+
                 && fieldDescr.isValid()
                 && !this.mockFields.some(field => field.name == fieldDescr.name)
                 && CONSTANTS.FIELDS_NOT_TO_USE_IN_FIELD_MOCKING.indexOf(fieldDescr.name) < 0

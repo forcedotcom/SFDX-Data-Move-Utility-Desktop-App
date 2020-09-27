@@ -2,7 +2,7 @@
     <div class="col-4 border-right pr-0">
         <!-- Boolean object properties -->
         <div class="mt-3"
-            ng-repeat="prop in ['excluded','master','deleteOldData','useFieldMapping','useValuesMapping','useCSVValuesMapping','updateWithMockData','mockCSVData'] | orderBy : 'prop' track by prop">
+            ng-repeat="prop in ['excluded','master','deleteOldData','deleteAllData','useFieldMapping','useValuesMapping','useCSVValuesMapping','updateWithMockData','mockCSVData'] | orderBy : 'prop' track by prop">
             <uib-switch ng-change="ui.configPage.saveConfigParameterHandler()" id="configParameterSwitch_{{$index}}"
                 ng-model="ui.state.sobject()[prop]">
                 <strong>{{prop}}</strong>
