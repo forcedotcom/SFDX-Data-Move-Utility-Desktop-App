@@ -12,7 +12,7 @@
     "repository": "forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
     "package_json": "https://raw.githubusercontent.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/master/package.json",
     "keywords": [],
-    "author": "hknokh@salesforce.com",
+    "author": "Haim Knokh",
     "license": "BSD-3-Clause",
     "devDependencies": {
         "@types/deep-equal": "^1.0.1",
