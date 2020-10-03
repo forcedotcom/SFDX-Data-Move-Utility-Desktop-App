@@ -49,5 +49,7 @@ export class SObjectDescribe implements IAppModel {
         return this.isDescribed() && this.fieldsMap.size > 0;
     }
 
+    
+
 
 }

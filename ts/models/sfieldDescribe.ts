@@ -70,6 +70,10 @@ export class SFieldDescribe implements IAppModel {
             || this.name == "Id"
             || !this.readonly && !this.lookup;
     }
+    get standard(){
+        return !this.custom;
+    }
+
 
 
 

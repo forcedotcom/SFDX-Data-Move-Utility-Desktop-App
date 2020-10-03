@@ -121,6 +121,8 @@ export const CONSTANTS = {
         "readonly_false",
         "custom_true",
         "custom_false",
+        "standard_true",
+        "standard_false",
         "updateable_true",
         "updateable_false",
         "createable_true",

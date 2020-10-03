@@ -61,6 +61,9 @@ class SFieldDescribe {
             || this.name == "Id"
             || !this.readonly && !this.lookup;
     }
+    get standard() {
+        return !this.custom;
+    }
     // --------------- Methods ---------- //
     initialize(init) {
         if (init) {
