@@ -376,7 +376,7 @@ class AppUtils {
                         WHERE IsRetrieveable = true AND IsQueryable = true 
                             AND IsIdEnabled = true 
                             AND IsDeprecatedAndHidden = false
-                        ORDER BY QualifiedApiName`;
+                        ORDER BY QualifiedApiName LIMIT 2000`;
             let records = yield this.queryAsync(org, query, false);
             return records.records.filter((record) => {
                 return (record.IsEverUpdatable &&
