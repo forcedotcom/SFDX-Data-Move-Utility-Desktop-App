@@ -49,6 +49,9 @@ class Org {
     get isConnected() {
         return !!this.accessToken || this.isFile();
     }
+    get aliasOrName() {
+        return this.alias || this.name;
+    }
     // --------------- Methods ---------- //
     initialize(init) {
         if (init) {

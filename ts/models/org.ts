@@ -29,6 +29,7 @@ export class Org implements IDatabaseModel, IAppModel {
     id: string;
     orgName: string;
     name: string = "";
+    alias: string;
     media: DATA_MEDIA_TYPE = DATA_MEDIA_TYPE.Unknown;
 
     // Others ----------------------------
@@ -68,6 +69,10 @@ export class Org implements IDatabaseModel, IAppModel {
 
     get isConnected(): boolean {
         return !!this.accessToken || this.isFile();
+    }
+
+    get aliasOrName(): string {
+        return this.alias || this.name;
     }
 
 

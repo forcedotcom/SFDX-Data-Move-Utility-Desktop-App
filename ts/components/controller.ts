@@ -330,6 +330,7 @@ export class Controller {
                     orgId: org.orgId,
                     orgName: org.username,
                     name: org.username,
+                    alias: org.alias,
                     media: DATA_MEDIA_TYPE.Org
                 })
             }), this.ui.state.userData.orgs.filter(org => org.orgName == CONSTANTS.CSV_FILES_SOURCENAME));

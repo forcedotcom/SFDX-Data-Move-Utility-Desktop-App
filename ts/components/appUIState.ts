@@ -474,7 +474,7 @@ export class AppUIState {
             }
             let useFileSource = this.previewPage.getSelectedMigrationDirectionEnum() == MIGRATION_DIRECTION.File2Org;
             let useFileTarget = this.previewPage.getSelectedMigrationDirectionEnum() == MIGRATION_DIRECTION.Org2File;
-            return `sfdx sfdmu:run --sourceusername ${useFileSource ? "csvfile" : this.state.sourceOrg().name} --targetusername ${useFileTarget ? "csvfile" : this.state.targetOrg().name} --path ${this.state.config().exportJsonFilepath} --verbose`;
+            return `sfdx sfdmu:run --sourceusername ${useFileSource ? "csvfile" : this.state.sourceOrg().aliasOrName} --targetusername ${useFileTarget ? "csvfile" : this.state.targetOrg().aliasOrName} --path ${this.state.config().exportJsonFilepath} --verbose`;
         },
 
 

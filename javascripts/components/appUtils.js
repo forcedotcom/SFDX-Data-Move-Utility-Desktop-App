@@ -382,7 +382,8 @@ class AppUtils {
                 return (record.IsEverUpdatable &&
                     record.IsEverCreatable &&
                     record.IsEverDeletable)
-                    || record.QualifiedApiName == 'RecordType';
+                    || record.QualifiedApiName == 'RecordType'
+                    || record.QualifiedApiName == 'ContentVersion';
             }).map((record) => {
                 return new sobjectDescribe_1.SObjectDescribe({
                     label: String(record["Label"]),

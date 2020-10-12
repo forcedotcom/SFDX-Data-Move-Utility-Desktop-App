@@ -20,9 +20,9 @@
                     <label>{{res.Source}}:</label>
                     <select data-org-selector1 select-picker data-collection="ui.state.orgs()"
                         data-model="ui.homePage.currentSourceOrgIds" class="form-control form-control-sm">
-                        <option ng-repeat="org in ui.state.orgs() | orderBy : 'name' track by org.id"
+                        <option ng-repeat="org in ui.state.orgs() | orderBy : 'aliasOrName' track by org.id"
                             value={{org.id}}>
-                            {{org.name}}
+                            {{org.aliasOrName}}
                         </option>
                     </select>
                 </div>
@@ -35,9 +35,9 @@
                     <div class="input-group">
                         <select data-org-selector2 select-picker data-collection="ui.state.orgs()"
                             data-model="ui.homePage.currentTargetOrgIds" class="form-control form-control-sm">
-                            <option ng-repeat="org in ui.state.orgs() | orderBy : 'name' track by org.id"
+                            <option ng-repeat="org in ui.state.orgs() | orderBy : 'aliasOrName' track by org.id"
                                 value={{org.id}}>
-                                {{org.name}}
+                                {{org.aliasOrName}}
                             </option>
                         </select>
                         <div class="input-group-append">

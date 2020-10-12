@@ -279,6 +279,7 @@ class Controller {
                     orgId: org.orgId,
                     orgName: org.username,
                     name: org.username,
+                    alias: org.alias,
                     media: statics_1.DATA_MEDIA_TYPE.Org
                 });
             }), this.ui.state.userData.orgs.filter(org => org.orgName == statics_1.CONSTANTS.CSV_FILES_SOURCENAME));

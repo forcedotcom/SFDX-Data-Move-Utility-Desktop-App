@@ -402,6 +402,7 @@ export class AppUtils {
                     record.IsEverCreatable && 
                     record.IsEverDeletable)
                     || record.QualifiedApiName == 'RecordType'
+                    || record.QualifiedApiName == 'ContentVersion'
         }) .map((record: any) => {
             return new SObjectDescribe({
                 label: String(record["Label"]),
