@@ -66,6 +66,7 @@ npm start
 ```
 
 
+
 ## Notes
 
 * This Application must have the [SFDMU Plugin](https://github.com/forcedotcom/SFDX-Data-Move-Utility) to be installed in your system previously.
@@ -76,7 +77,16 @@ npm start
 * The Application supports multiple local users. 
   Each user has his own local profile contains all his data, that is encrypted by the encryption key which is the password that is used to login into the application. 
   So user's data never directly exposed to others. But after the creating of your local user's profile, you need to well remember your password because there is no password recovery option.
-* Supported all major hosts (Win, MACOS, Linux)
+
+
+
+## Supported OS
+
+Normally all major OS (Win, MACOS, Linux) should be supported.  It was successfully tested on Windows and MACOS machines.
+
+Sometimes MAC users may have problems installing and launching the Application, because the Electron platform fails to install and run correctly on these local systems. For the current moment we can't provide a reliable solution for this issue. 
+
+According to the live experience the Application is always working fine in Windows-based systems.
 
 
 
