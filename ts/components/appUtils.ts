@@ -388,7 +388,7 @@ export class AppUtils {
     }
 
     public static async getOrgObjectsList(org: Org): Promise<Array<SObjectDescribe>> {
-        let queryNoCustom = `SELECT QualifiedApiName, Label, DeveloperName,
+        let queryNoCustom = `SELECT QualifiedApiName, Label,
                             IsEverUpdatable, IsEverCreatable, 
                             IsEverDeletable 
                         FROM EntityDefinition 
@@ -396,7 +396,7 @@ export class AppUtils {
                             AND IsIdEnabled = true 
                             AND IsDeprecatedAndHidden = false and IsCustomizable = false`;
 
-        let queryWithCustom = `SELECT QualifiedApiName, Label, DeveloperName,
+        let queryWithCustom = `SELECT QualifiedApiName, Label,
                         IsEverUpdatable, IsEverCreatable, 
                         IsEverDeletable 
                     FROM EntityDefinition 
@@ -411,6 +411,7 @@ export class AppUtils {
                     record.IsEverCreatable && 
                     record.IsEverDeletable)
                     || record.QualifiedApiName == 'RecordType'
+                    || record.QualifiedApiName == 'ContentVersion'
         })
         .sort((a, b) => b.QualifiedApiName - a.QualifiedApiName)
         .map((record: any) => {
