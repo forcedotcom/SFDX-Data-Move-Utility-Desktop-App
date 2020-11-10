@@ -369,22 +369,32 @@ class AppUtils {
     }
     static getOrgObjectsList(org) {
         return __awaiter(this, void 0, void 0, function* () {
-            let query = `SELECT QualifiedApiName, Label,
+            let queryNoCustom = `SELECT QualifiedApiName, Label,
                             IsEverUpdatable, IsEverCreatable, 
                             IsEverDeletable 
                         FROM EntityDefinition 
                         WHERE IsRetrieveable = true AND IsQueryable = true 
                             AND IsIdEnabled = true 
-                            AND IsDeprecatedAndHidden = false
-                        ORDER BY QualifiedApiName LIMIT 2000`;
-            let records = yield this.queryAsync(org, query, false);
-            return records.records.filter((record) => {
+                            AND IsDeprecatedAndHidden = false and IsCustomizable = false`;
+            let queryWithCustom = `SELECT QualifiedApiName, Label,
+                        IsEverUpdatable, IsEverCreatable, 
+                        IsEverDeletable 
+                    FROM EntityDefinition 
+                    WHERE IsRetrieveable = true AND IsQueryable = true 
+                        AND IsIdEnabled = true 
+                        AND IsDeprecatedAndHidden = false and IsCustomizable = true`;
+            let recordsWithNoCustom = yield this.queryAsync(org, queryNoCustom, false);
+            let recordsWithCustom = yield this.queryAsync(org, queryWithCustom, false);
+            let records = [...recordsWithNoCustom.records, ...recordsWithCustom.records];
+            return records.filter((record) => {
                 return (record.IsEverUpdatable &&
                     record.IsEverCreatable &&
                     record.IsEverDeletable)
                     || record.QualifiedApiName == 'RecordType'
                     || record.QualifiedApiName == 'ContentVersion';
-            }).map((record) => {
+            })
+                .sort((a, b) => b.QualifiedApiName - a.QualifiedApiName)
+                .map((record) => {
                 return new sobjectDescribe_1.SObjectDescribe({
                     label: String(record["Label"]),
                     name: String(record["QualifiedApiName"]),
