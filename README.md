@@ -9,7 +9,7 @@
 ### ------------------------------------------- ###
 ```
 
-- **[The SFDMU plugin repository](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
+- **[The SFDMU plugin repository can be accessed here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
 
 ----
