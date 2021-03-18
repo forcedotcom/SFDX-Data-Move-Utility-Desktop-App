@@ -87,7 +87,13 @@ Sometimes MAC users may have problems installing and launching the Application, 
 
 According to the live experience the Application is always working fine in Windows-based systems.
 
+For the windows-based machines you can try to fix the incorrect electron installation by:
 
+```bash
+npm install --global windows-build-tools
+
+npm install electron
+```
 
 ## License
 
