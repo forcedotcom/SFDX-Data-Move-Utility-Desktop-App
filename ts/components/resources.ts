@@ -92,7 +92,7 @@ export const RESOURCES = {
     Auth_Error_UserNotFound: "User not found.",
 
     // Login/Register -> All
-    Auth_NewApplicationUser: "New applciation user",
+    Auth_NewApplicationUser: "New application user",
     Auth_EmailAddress: "Email address",
     Auth_Password: "Auth_Password",
     Auth_PleaseSignIn: "Please, sign in",
