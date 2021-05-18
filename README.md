@@ -2,14 +2,14 @@
 
 ```
 ### ------------------------------------------- ###
-### - *** Latest version: v3.1.9          ***-  ###
+### - *** Latest version: v3.1.10         ***-  ###
 ### ------------------------------------------- ###
 ### - *** Always make sure, that you have *** - ###
 ### - *** the latest version installed    *** - ###
 ### ------------------------------------------- ###
 ```
 
-- **The SFDMU plugin repository can be accessed [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
+- **The SFDMU Plugin repository can be accessed [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
 
 ----
