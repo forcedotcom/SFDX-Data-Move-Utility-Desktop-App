@@ -17,7 +17,8 @@ function createWindow() {
         height: 600,
         webPreferences: {
             preload: path.join(__dirname, '/preload.js'),
-            nodeIntegration: true
+            nodeIntegration: true,
+            enableRemoteModule: true
         },
         icon: path.join(__dirname, "/images/favicon.png"),
         show: false // don't show the main window
