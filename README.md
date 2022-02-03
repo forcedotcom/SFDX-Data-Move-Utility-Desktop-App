@@ -1,12 +1,12 @@
-### PLEASE NOTE! THIS APPLICATION IS NOT MAINTAINED AND NOT SUPPORTED FOR THIS MOMENT.
-### THE REPOSITORY HASE BEAN ARCHIEVED.
-### IN CASE THAT YOU ARE NOT ABLE TO RUN THIS APP NORMALLY PLEASE CREATE SFDMU export.json CONFIG FILE MANUALLY. 
+#### PLEASE NOTE! THIS APPLICATION IS NOT MAINTAINED AND NOT SUPPORTED FOR THIS MOMENT.
+#### THE REPOSITORY HASE BEAN ARCHIEVED.
+#### IN CASE THAT YOU ARE NOT ABLE TO RUN THIS APP NORMALLY PLEASE CREATE SFDMU export.json CONFIG FILE MANUALLY. 
 
 
 
 ----
 
-# The Desktop GUI Application for the Salesforce Data Loader SFDX Plugin (SFDMU)
+#### The Desktop GUI Application for the Salesforce Data Loader SFDX Plugin (SFDMU)
 
 - **The SFDMU Plugin repository can be accessed [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
