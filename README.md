@@ -2,12 +2,10 @@
 #### THE REPOSITORY HASE BEEN ARCHIEVED.
 #### IN CASE THAT YOU ARE NOT ABLE TO RUN THIS APP NORMALLY PLEASE CREATE SFDMU export.json CONFIG FILE MANUALLY. 
 
-
 ----
+**The advanced Salesforce Data Loader SFDX Plugin (SFDMU) will assist you to populate your org (scratch/development/sandbox/production) with data imported from another org or CSV files. Supports Delete, Insert, Update and Upsert for multiple related sObjects.**<br />
 - **The SFDMU Plugin repository can be accessed [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
-----
-**The advanced Salesforce Data Loader SFDX Plugin (SFDMU) will assist you to populate your org (scratch/development/sandbox/production) with data imported from another org or CSV files. Supports Delete, Insert, Update and Upsert for multiple related sObjects.**<br /> 
 
 ----
 ### About this App.
