@@ -8,10 +8,10 @@
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
 ----
 **The advanced Salesforce Data Loader SFDX Plugin (SFDMU) will assist you to populate your org (scratch/development/sandbox/production) with data imported from another org or CSV files. Supports Delete, Insert, Update and Upsert for multiple related sObjects.**<br /> 
-**This repository contains the the Desktop UI App helps you to create SFDMU plugin configuration files from the simple and intuitive UI.**
 
 ----
-
+### About this App.
+**This application can help you to create SFDMU plugin configuration files from the simple and intuitive UI.**
 
 
 ### When can this Application be very useful ?
