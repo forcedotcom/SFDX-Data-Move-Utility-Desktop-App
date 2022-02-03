@@ -12,7 +12,7 @@
 **This application can help you to create SFDMU plugin configuration files from the simple and intuitive UI.**
 
 
-### When can this Application be very useful ?
+### When can this Application be useful ?
 
 Apart from the minimal setup the export.json file has a lot of advanced properties that can be leveraged in creating and running complex migration jobs.
 
