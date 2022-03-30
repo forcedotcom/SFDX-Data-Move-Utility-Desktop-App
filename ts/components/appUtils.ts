@@ -412,6 +412,7 @@ export class AppUtils {
                     record.IsEverDeletable)
                     || record.QualifiedApiName == 'RecordType'
                     || record.QualifiedApiName == 'ContentVersion'
+                    || record.QualifiedApiName == 'ServiceResource'                 
         })
         .sort((a, b) => b.QualifiedApiName - a.QualifiedApiName)
         .map((record: any) => {
