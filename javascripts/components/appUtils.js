@@ -391,7 +391,8 @@ class AppUtils {
                     record.IsEverCreatable &&
                     record.IsEverDeletable)
                     || record.QualifiedApiName == 'RecordType'
-                    || record.QualifiedApiName == 'ContentVersion';
+                    || record.QualifiedApiName == 'ContentVersion'
+                    || record.QualifiedApiName == 'ServiceResource';
             })
                 .sort((a, b) => b.QualifiedApiName - a.QualifiedApiName)
                 .map((record) => {
