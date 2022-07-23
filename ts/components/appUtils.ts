@@ -293,7 +293,11 @@ export class AppUtils {
             return this._parseForceOrgDisplayResult(response.cliCommand, response.commandOutput);
         }
         let response = await AppUtils.execSfdxCommand("force:org:display --json", userName);
-        let result = new ForceOrgDisplayResult(JSON.parse(response.commandOutput));
+        let commandOutput = JSON.parse(response.commandOutput);
+        if (!commandOutput.result) {
+            return new ForceOrgDisplayResult();
+        }
+        let result = new ForceOrgDisplayResult(commandOutput.result);
         result.cliCommand = response.cliCommand;
         result.commandOutput = response.commandOutput;
         return result;
@@ -471,10 +475,10 @@ export class AppUtils {
     };
 
     public static async connectOrg(org: Org): Promise<void> {
-        let result = await this.execForceOrgDisplay(org.orgName);
+        let result = await this.execForceOrgDisplay(org.orgName, true);
         if (result.isConnected) {
-            org.instanceUrl = result.InstanceUrl;
-            org.accessToken = result.AccessToken;
+            org.instanceUrl = result.instanceUrl;
+            org.accessToken = result.accessToken;
         } else {
             throw new Error(RESOURCES.Home_Error_UnableToConnect);
         }
@@ -822,20 +826,21 @@ export class AppUtils {
         output.commandOutput = commandResult;
         output.cliCommand = cliCommand;
         lines.forEach(line => {
+            line = line.trim();
             if (line.startsWith("Access Token"))
-                output.AccessToken = line.split(' ').pop();
+                output.accessToken = line.split(' ').pop();
             if (line.startsWith("Client Id"))
-                output.ClientId = line.split(' ').pop();
+                output.clientId = line.split(' ').pop();
             if (line.startsWith("Connected Status"))
-                output.ConnectedStatus = line.split(' ').pop();
+                output.connectedStatus = line.split(' ').pop();
             if (line.startsWith("Status"))
-                output.Status = line.split(' ').pop();
+                output.status = line.split(' ').pop();
             if (line.startsWith("Id"))
-                output.OrgId = line.split(' ').pop();
+                output.orgId = line.split(' ').pop();
             if (line.startsWith("Instance Url"))
-                output.InstanceUrl = line.split(' ').pop();
+                output.instanceUrl = line.split(' ').pop();
             if (line.startsWith("Username"))
-                output.Username = line.split(' ').pop();
+                output.username = line.split(' ').pop();
         });
         return output;
     };

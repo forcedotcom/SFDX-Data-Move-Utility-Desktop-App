@@ -74,19 +74,19 @@ export class ForceOrgDisplayResult {
         }
     }
 
-    AccessToken: string;
-    ClientId: string;
-    ConnectedStatus: string;
-    Status: string;
-    OrgId: string;
-    UserId: string;
-    InstanceUrl: string;
-    Username: string;
+    accessToken: string;
+    clientId: string;
+    connectedStatus: string;
+    status: string;
+    orgId: string;
+    userId: string;
+    instanceUrl: string;
+    username: string;
     commandOutput: string;
     cliCommand: string;
 
     get isConnected() {
-        return this.ConnectedStatus == "Connected" || this.Status == "Active";
+        return this.connectedStatus == "Connected" || this.status == "Active";
     }
 }
 

@@ -97,7 +97,7 @@ class ForceOrgDisplayResult {
         }
     }
     get isConnected() {
-        return this.ConnectedStatus == "Connected" || this.Status == "Active";
+        return this.connectedStatus == "Connected" || this.status == "Active";
     }
 }
 exports.ForceOrgDisplayResult = ForceOrgDisplayResult;
