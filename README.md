@@ -1,15 +1,26 @@
-#### THIS APPLICATION IS NOT MAINTAINED AND NOT SUPPORTED FOR THIS MOMENT.
-#### THE REPOSITORY HASE BEEN ARCHIEVED.
-#### IN CASE THAT YOU ARE NOT ABLE TO RUN THIS APP NORMALLY PLEASE CREATE SFDMU export.json CONFIG FILE MANUALLY. 
-
 ----
 **The advanced Salesforce Data Loader SFDX Plugin (SFDMU) will assist you to populate your org (scratch/development/sandbox/production) with data imported from another org or CSV files. Supports Delete, Insert, Update and Upsert for multiple related sObjects.**<br />
+
 - **The SFDMU Plugin repository can be accessed [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
 
 ----
+
+
+**THIS VERSION OF THE GUI APP HAS BEEN STOPPED MAINTAINED BY US.**
+
+**IT'S STILL WORKING WELL, BUT WE DO NOT PROVIDE ANY BUG FIXES.**
+
+**INSTEAD, WE ARE CURRENTLY WORKING ON THE NEXT GENERATION OF THE APP, WHICH **
+
+**WILL INCLUDE SUPPORT FOR ALL THE LATEST SFDMU FEATURES.**
+
+
+
 ### About this App.
+
 **This application can help you to create SFDMU plugin configuration files from the simple and intuitive UI.**
+
 
 
 ### When can this Application be useful ?
@@ -87,7 +98,6 @@ npm install electron
 ## License
 
 This product is licensed under the BSD-3-Clause - see the [LICENSE.txt](LICENSE.txt) file for details.
-
 
 
 
