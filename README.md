@@ -13,6 +13,10 @@
 
 **WILL SUPPORT ALL THE LATEST SFDMU FEATURES.**
 
+**FOLLOW OUR UPDATES :)**
+
+
+
 ---
 
 ### About this App.
