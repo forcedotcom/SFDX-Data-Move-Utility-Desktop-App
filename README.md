@@ -4,25 +4,11 @@
 - **The SFDMU Plugin repository can be accessed [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
 
-----
-**NOTE,  WE HAVE STOPPED MAINTAINING THIS VERSION OF THE APP.**
-
-**IT'S FULLY OPERATIONAL, BUT WE WILL NOT PROVIDE ANY BUG FIXES.**
-
-**INSTEAD, WE WORK ON THE NEXT GENERATION OF THIS GUI APP, WHICH**
-
-**WILL SUPPORT ALL THE LATEST SFDMU FEATURES.**
-
-**FOLLOW OUR UPDATES :)**
-
-
-
 ---
 
 ### About this App.
 
 **This application can help you to create SFDMU plugin configuration files from the simple and intuitive UI.**
-
 
 
 ### When can this Application be useful ?
