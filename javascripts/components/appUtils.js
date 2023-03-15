@@ -245,7 +245,7 @@ class AppUtils {
         return __awaiter(this, void 0, void 0, function* () {
             try {
                 //let responseString = SfdxUtils.execSfdx("force:org:list --json", undefined);
-                let response = yield AppUtils.execSfdxCommand("force:org:list --json", undefined);
+                let response = yield AppUtils.execSfdxCommand("force:org:list --json", undefined, false);
                 let jsonObject = JSON.parse(response.commandOutput);
                 let responseObject = class_transformer_1.plainToClass(helper_classes_1.ForceOrgListCommandResponse, jsonObject, {
                     enableImplicitConversion: true,
@@ -275,10 +275,10 @@ class AppUtils {
     static execForceOrgDisplay(userName, asJson) {
         return __awaiter(this, void 0, void 0, function* () {
             if (!asJson) {
-                let response = yield AppUtils.execSfdxCommand("force:org:display", userName);
+                let response = yield AppUtils.execSfdxCommand("force:org:display", userName, false);
                 return this._parseForceOrgDisplayResult(response.cliCommand, response.commandOutput);
             }
-            let response = yield AppUtils.execSfdxCommand("force:org:display --json", userName);
+            let response = yield AppUtils.execSfdxCommand("force:org:display --json", userName, false);
             let commandOutput = JSON.parse(response.commandOutput);
             if (!commandOutput.result) {
                 return new helper_classes_1.ForceOrgDisplayResult();
