@@ -56,6 +56,7 @@ class ScriptObject {
         this.deleteAllData = false;
         this.fields = new Array();
         this.fieldItems = new Array();
+        this.externalFieldItems = new Array();
         this.fullQueryFields = new Array();
         this.availableFieldItemsForFieldMapping = new Array();
         this.availableFieldItemsForMocking = new Array();
@@ -215,7 +216,7 @@ class ScriptObject {
         }));
     }
     get externalIdFieldItems() {
-        return this.fieldItems.filter(field => field.sFieldDescribe && field.sFieldDescribe.canBeExternalId);
+        return this.externalFieldItems;
     }
     get included() {
         return !this.excluded;
@@ -280,7 +281,6 @@ class ScriptObject {
         items = items.concat(
         // --------- All SObject metadata fields -------------------// 
         [...this.sObjectDescribe.fieldsMap.keys()]
-            .filter(field => !this.sObjectDescribe.fieldsMap.get(field).readonly)
             .map(field => {
             return new fieldItem_1.FieldItem({
                 name: field,
@@ -335,7 +335,14 @@ class ScriptObject {
             }
             field.errorMessage = errors.join('; ');
         });
-        return appUtils_1.AppUtils.sortArray(items, "category", "cleanName");
+        items = appUtils_1.AppUtils.sortArray(items, "category", "cleanName");
+        this.externalFieldItems = items;
+        //only filter out readonly fields from items array. Leave readonly items in external fields list
+        items = items.filter(field => {
+            let mappedField = this.sObjectDescribe.fieldsMap.get(field.name);
+            return !mappedField || !this.sObjectDescribe.fieldsMap.get(field.name).readonly;
+        });
+        return items;
     }
     getFullQueryFields() {
         let fields = [].concat(this.specialQueryFields.map(field => field.name), this.fields.map(x => x.cleanName), !this.isComplexExternalId ? this.externalId : undefined).filter(field => !!field);
@@ -829,6 +836,10 @@ __decorate([
     appUtils_1.NonSerializable(),
     __metadata("design:type", Array)
 ], ScriptObject.prototype, "fieldItems", void 0);
+__decorate([
+    appUtils_1.NonSerializable(),
+    __metadata("design:type", Array)
+], ScriptObject.prototype, "externalFieldItems", void 0);
 __decorate([
     appUtils_1.NonSerializable(),
     __metadata("design:type", Array)
