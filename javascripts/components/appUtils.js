@@ -317,6 +317,22 @@ class AppUtils {
         }
         return operation;
     }
+    static queryAsyncBatched(org, soql) {
+        return __awaiter(this, void 0, void 0, function* () {
+            const batchSize = 2000;
+            let recordsProcessed = 0;
+            let rowsReturned = batchSize;
+            let result = [];
+            while (rowsReturned == batchSize) {
+                let batchQuery = `${soql} LIMIT ${batchSize} OFFSET ${recordsProcessed}`;
+                let batchedResult = yield this.queryAsync(org, batchQuery, false);
+                result.push(...batchedResult.records);
+                rowsReturned = batchedResult.records.length;
+                recordsProcessed += rowsReturned;
+            }
+            return result;
+        });
+    }
     static queryAsync(org, soql, useBulkQueryApi) {
         return __awaiter(this, void 0, void 0, function* () {
             const makeQueryAsync = (soql) => new Promise((resolve, reject) => {
@@ -387,9 +403,9 @@ class AppUtils {
                     WHERE IsRetrieveable = true AND IsQueryable = true 
                         AND IsIdEnabled = true 
                         AND IsDeprecatedAndHidden = false and IsCustomizable = true`;
-            let recordsWithNoCustom = yield this.queryAsync(org, queryNoCustom, false);
-            let recordsWithCustom = yield this.queryAsync(org, queryWithCustom, false);
-            let records = [...recordsWithNoCustom.records, ...recordsWithCustom.records];
+            let recordsWithNoCustom = yield this.queryAsyncBatched(org, queryNoCustom);
+            let recordsWithCustom = yield this.queryAsyncBatched(org, queryWithCustom);
+            let records = [...recordsWithNoCustom, ...recordsWithCustom];
             return records.filter((record) => {
                 return (record.IsEverUpdatable &&
                     record.IsEverCreatable &&
