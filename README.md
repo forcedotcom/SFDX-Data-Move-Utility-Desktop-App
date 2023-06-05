@@ -3,7 +3,7 @@
 
 - **The SFDMU Plugin repository can be accessed [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**
 - **For the detailed documentation, visit the [SFDMU Help Center](https://help.sfdmu.com)**
-- We are currently in the process of developing a new generation of this GUI App. As a result, this version is no longer supported. However we highly appreciate any pull requests that address bug fixes or introduce new features. Your contributions are invaluable in improving the application. Thank you for your support!
+- We are currently in the process of developing a new generation of this GUI App. As a result, this version is no longer supported. However we highly appreciate any pull requests that address bug fixes or introduce new features. Your contributions are invaluable in improving the current version of the application. Thank you for your support!
 
 ---
 
