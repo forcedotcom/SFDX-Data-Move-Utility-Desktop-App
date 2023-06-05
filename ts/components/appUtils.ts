@@ -116,7 +116,7 @@ export function NonSerializableIfDefault($default: any, tags?: Array<string>) {
 
 export class AppUtils {
 
-    public static makeId(length: Number = 10) {
+    public static makeId(length: number = 10) {
         var result = '';
         var characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
         var charactersLength = characters.length;
@@ -198,7 +198,7 @@ export class AppUtils {
         return new Promise<any>((resolve, reject) => {
             setTimeout(async function () {
                 if (!fn) {
-                    resolve();
+                    resolve(undefined);
                 } else {
                     try {
                         let result = await fn();
@@ -261,7 +261,7 @@ export class AppUtils {
     public static async execForceOrgList(): Promise<{ orgs: Array<ForceOrgListResult>, commandOutput: string }> {
         try {
             //let responseString = SfdxUtils.execSfdx("force:org:list --json", undefined);
-            let response = await AppUtils.execSfdxCommand("force:org:list --json", undefined);
+            let response = await AppUtils.execSfdxCommand("force:org:list --json", undefined, false);
             let jsonObject = JSON.parse(response.commandOutput);
             let responseObject = plainToClass(ForceOrgListCommandResponse, jsonObject, {
                 enableImplicitConversion: true,
@@ -289,10 +289,10 @@ export class AppUtils {
 
     public static async execForceOrgDisplay(userName: string, asJson?: boolean): Promise<ForceOrgDisplayResult> {
         if (!asJson) {
-            let response = await AppUtils.execSfdxCommand("force:org:display", userName);
+            let response = await AppUtils.execSfdxCommand("force:org:display", userName, false);
             return this._parseForceOrgDisplayResult(response.cliCommand, response.commandOutput);
         }
-        let response = await AppUtils.execSfdxCommand("force:org:display --json", userName);
+        let response = await AppUtils.execSfdxCommand("force:org:display --json", userName, false);
         let commandOutput = JSON.parse(response.commandOutput);
         if (!commandOutput.result) {
             return new ForceOrgDisplayResult();
@@ -861,4 +861,3 @@ export class AppUtils {
     };
 
 }
-

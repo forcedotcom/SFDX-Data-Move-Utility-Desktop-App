@@ -1,6 +1,6 @@
 {
     "name": "sfdx-data-move-utility-desktop-app",
-    "version": "3.1.15",
+    "version": "3.1.16",
     "description": "Data Loader SFDX Plugin (SFDMU) GUI Application",
     "main": "main.js",
     "scripts": {
