@@ -144,6 +144,9 @@ export class ScriptObject implements IAppModel {
     fieldItems: FieldItem[] = new Array<FieldItem>();
 
     @NonSerializable()
+    externalFieldItems: FieldItem[] = new Array<FieldItem>();
+
+    @NonSerializable()
     fullQueryFields: string[] = new Array<string>();
 
     @NonSerializable()
@@ -325,7 +328,7 @@ export class ScriptObject implements IAppModel {
     }
 
     get externalIdFieldItems(): FieldItem[] {
-        return this.fieldItems.filter(field => field.sFieldDescribe && field.sFieldDescribe.canBeExternalId);
+        return this.externalFieldItems;
     }
 
     get included(): boolean {
@@ -401,12 +404,11 @@ export class ScriptObject implements IAppModel {
         this._polymorphicFields = this.getPolymorphicFields();
 
         let compoundFields = this.name == "Account" ? [...CONSTANTS.COMPOUND_FIELDS.keys()] : new Array<string>();
-
+        
         items = items.concat
             (
                 // --------- All SObject metadata fields -------------------// 
                 [...this.sObjectDescribe.fieldsMap.keys()]
-                    .filter(field => !this.sObjectDescribe.fieldsMap.get(field).readonly)
                     .map(field => {
                         return new FieldItem({
                             name: field,
@@ -467,8 +469,17 @@ export class ScriptObject implements IAppModel {
             field.errorMessage = errors.join('; ');
         });
 
-        return AppUtils.sortArray(items, "category", "cleanName");
+        items = AppUtils.sortArray(items, "category", "cleanName");
+        this.externalFieldItems = items;
+
+        //only filter out readonly fields from items array. Leave readonly items in external fields list
+        items = items.filter(field => {
+            let mappedField = this.sObjectDescribe.fieldsMap.get(field.name);
+            return !mappedField || !this.sObjectDescribe.fieldsMap.get(field.name).readonly;
+        })
+        return items;
     }
+
 
     getFullQueryFields(): string[] {
         let fields: Array<string> = [].concat(
