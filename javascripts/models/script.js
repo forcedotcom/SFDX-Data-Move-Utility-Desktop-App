@@ -35,6 +35,7 @@ class Script {
         this.bulkApiV1BatchSize = statics_1.CONSTANTS.DEFAULT_BULK_API_V1_BATCH_SIZE;
         this.keepObjectOrderWhileExecute = false;
         this.allOrNone = false;
+        this.simulationMode = false;
         this.promptOnUpdateError = true;
         this.promptOnMissingParentObjects = false; // Other then default
         this.promptOnIssuesInCSVFiles = false; // Other then default
@@ -76,6 +77,10 @@ __decorate([
     appUtils_1.NonSerializableIfDefault(false, [statics_1.CONSTANTS.EXPORT_JSON_TAG]),
     __metadata("design:type", Boolean)
 ], Script.prototype, "allOrNone", void 0);
+__decorate([
+    appUtils_1.NonSerializableIfDefault(false, [statics_1.CONSTANTS.EXPORT_JSON_TAG]),
+    __metadata("design:type", Boolean)
+], Script.prototype, "simulationMode", void 0);
 __decorate([
     appUtils_1.NonSerializableIfDefault(true, [statics_1.CONSTANTS.EXPORT_JSON_TAG]),
     __metadata("design:type", Boolean)

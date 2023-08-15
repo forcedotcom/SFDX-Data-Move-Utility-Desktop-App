@@ -40,6 +40,9 @@ export class Script {
     @NonSerializableIfDefault(false, [CONSTANTS.EXPORT_JSON_TAG])
     allOrNone: boolean = false; 
 
+    @NonSerializableIfDefault(false, [CONSTANTS.EXPORT_JSON_TAG])
+    simulationMode: boolean = false;
+
     @NonSerializableIfDefault(true, [CONSTANTS.EXPORT_JSON_TAG])
     promptOnUpdateError: boolean = true;
 
