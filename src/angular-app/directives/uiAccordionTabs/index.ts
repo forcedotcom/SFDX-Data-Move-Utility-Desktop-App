@@ -1,0 +1,1 @@
+export * from './uiAccordionTabs.directive';

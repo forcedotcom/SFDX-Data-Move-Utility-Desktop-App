@@ -1,0 +1,14 @@
+@font-face {
+  font-family: 'News Cycle';
+  font-style: normal;
+  font-weight: 400;
+  font-display: swap;
+  src: url(../fonts/CSR64z1Qlv-GDxkbKVQ_TOc.ttf) format('truetype');
+}
+@font-face {
+  font-family: 'News Cycle';
+  font-style: normal;
+  font-weight: 700;
+  font-display: swap;
+  src: url(../fonts/CSR54z1Qlv-GDxkbKVQ_dFsvaNM.ttf) format('truetype');
+}

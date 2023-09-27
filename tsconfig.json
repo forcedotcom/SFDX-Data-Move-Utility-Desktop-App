@@ -1,27 +1,31 @@
 {
   "compilerOptions": {
     "module": "commonjs",
+    "noImplicitAny": false,
+    "suppressImplicitAnyIndexErrors": true,
+    "ignoreDeprecations": "5.0",
     "downlevelIteration": true,
     "experimentalDecorators": true,
     "emitDecoratorMetadata":true,
     "esModuleInterop": true,
-    "target": "es6",
-    "noImplicitAny": false,
+    "allowSyntheticDefaultImports": true,
+    "strictNullChecks": false,
     "sourceMap": true,
-    "outDir": "javascripts",
+    "moduleResolution": "node",
+    "target": "es2018",
+    "outDir": "js",
     "baseUrl": ".",
     "paths": {
       "*": ["node_modules/*"]
     },
-    "rootDir": "ts",
     "lib": [
       "dom",
-      "es6",
+      "es2018",
       "dom.iterable",
       "scripthost"
     ]
   },
   "include": [
-    "ts/**/*"
+    "src/**/*"
   ]
 }

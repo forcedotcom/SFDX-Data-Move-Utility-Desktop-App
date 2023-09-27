@@ -1,0 +1,26 @@
+<ui-alert id="configurationIntroductionAlert"
+    message="{{ 'TIPS.CONFIGURATION_STEP_INTRODUCTION' | translate : { APP_NAME : package.description } | md }}"
+    dismissable="true">
+</ui-alert>
+
+<div class="card p-2">
+    <div ng-if="$ctrl.isConfigurationSelected">
+
+        <!-- Main Tabs -->
+        <ui-tabs id="scriptTabs" orientation="horizontal">
+            
+            <!-- Object Manager Tab -->
+            <ui-tab title="{{ 'TABS.SCRIPT_OBJECTS_MANAGER' | translate  }}" icon="cloud" tab-id="tabObjectManager">
+                <object-manager></object-manager>
+            </ui-tab>
+
+            <!-- Main Script Settings Tab -->
+            <ui-tab title="{{ 'TABS.SCRIPT_SETTINGS' | translate }}" icon="settings" tab-id="tabScriptSettings">
+                <main-script-settings></main-script-settings>
+            </ui-tab>
+
+        </ui-tabs>
+
+    </div>
+    <div ng-if="!$ctrl.isConfigurationSelected"> {{ 'NO_CONFIGURATION_SELECTED' | translate }} </div>
+</div>

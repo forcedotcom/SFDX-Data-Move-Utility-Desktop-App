@@ -1,0 +1,13 @@
+<ui-alert id="workspaceIntroductionAlert"
+     message="{{ 'TIPS.WORKSPACE_STEP_INTRODUCTION' | translate : { APP_NAME : package.description } | md }}"
+     dismissable="true">
+</ui-alert>
+
+<div class="card p-2">
+     <div ng-if="$ctrl.isWorkspaceSelected" ng-bind-html="$ctrl.selectedWorkspaceMessage"> </div>
+     <div ng-if="!$ctrl.isWorkspaceSelected"> {{ 'NO_WORKSPACE_SELECTED' | translate }} </div>
+</div>
+
+
+
+

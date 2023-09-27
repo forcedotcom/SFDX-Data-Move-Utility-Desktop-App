@@ -1,0 +1,42 @@
+<div class="app-container">
+
+    <header class="app-header" ng-transclude="header">
+        <!-- Header -->
+    </header>
+
+
+    <div class="app-body">
+        <div class="app-sidebar left border">
+            <button tooltip="{{ 'EXPAND_COLLAPSE' | translate }}" ng-click="$ctrl.toggleLeft()"
+                class="btn btn-sm btn-primary rounded-circle toggle-btn">
+                {{$ctrl.leftButtonSymbol}}
+            </button>
+            <div ng-transclude="leftSidebar">
+                <!-- Left Sidebar -->
+            </div>
+        </div>
+
+        <div class="app-content">
+            <div ng-transclude="toolbar" class="app-toolbar">
+                <!-- Toolbar -->
+            </div>
+            <div ng-transclude="body" class="app-body-content">
+                <!-- Body -->
+            </div>
+        </div>
+
+        <div class="app-sidebar right border">
+            <button tooltip="{{ 'EXPAND_COLLAPSE_APP_LOG' | translate }}" ng-click="$ctrl.toggleRight()"
+                class="btn btn-sm btn-primary rounded-circle toggle-btn">
+                {{$ctrl.rightButtonSymbol}}
+            </button>
+            <div ng-transclude="rightSidebar">
+                <!-- Right Sidebar -->
+            </div>
+        </div>
+    </div>
+
+    <footer class="app-footer" ng-transclude="footer">
+        <!-- Footer -->
+    </footer>
+</div>
