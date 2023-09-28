@@ -17,7 +17,7 @@
   "devDependencies": {
     "@types/angular": "^1.8.5",
     "@types/angular-animate": "^1.5.11",
-    "@types/angular-sanitize": "^1.8.1",
+    "@types/angular-sanitize": "^1.8.2",
     "@types/angular-ui-router": "^1.1.41",
     "@types/angular-wizard": "^1.1.1",
     "@types/bootstrap": "^5.2.6",
