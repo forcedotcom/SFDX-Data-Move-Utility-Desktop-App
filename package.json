@@ -15,7 +15,7 @@
   "author": "Haim Knokh",
   "keywords": [],
   "devDependencies": {
-    "@types/angular": "^1.8.5",
+    "@types/angular": "^1.8.8",
     "@types/angular-animate": "^1.5.11",
     "@types/angular-sanitize": "^1.8.1",
     "@types/angular-ui-router": "^1.1.41",
