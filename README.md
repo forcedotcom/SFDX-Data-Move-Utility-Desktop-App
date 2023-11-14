@@ -14,16 +14,11 @@ This user-friendly application is a valuable tool for creating SFDMU plugin conf
 
 ### Why Use This Application?
 
-The `export.json` file, essential for SFDMU setup, houses numerous advanced properties pivotal for crafting and executing complex migration jobs. As the complexity of these jobs escalates, the corresponding JSON file can become extensive and unwieldy, making manual editing using standard text editors a daunting task.
+The `export.json` file, essential for SFDX Data Move Utility Plugin setup, houses numerous advanced properties pivotal for crafting and executing complex migration jobs. As the complexity of these jobs escalates, the corresponding JSON file can become extensive and unwieldy, making manual editing using standard text editors a daunting task.
 
 Eliminate the need for Notepad and Console with this Desktop Application. Execute all tasks visually within the application’s interface, transforming the management of migration jobs into a hassle-free experience. Add or remove org connections with ease, swiftly configure SObjects and fields, and initiate the Plugin directly from within the application, saving time and reducing the possibility of errors.
-
-### Transitioning to Version 4
-
-We are excited to announce the release of a new major version of the Application (version 4). If you have previously utilized the SFDMU GUI App, it is crucial to review the extensive list of improvements and breaking changes below prior to transitioning to this updated version. These enhancements are designed to offer a more streamlined and efficient user experience, ensuring your data migration tasks are completed effortlessly and accurately.
 
 **For detailed instructions on how to install, configure, run, and debug the application, please visit:**
 
 **[SFDMU GUI App Help](https://help.sfdmu.com/sfdmu-gui-app)**
 
-Embark on a smoother, more intuitive data migration journey with the updated SFDMU application, ensuring reliable and efficient data transfer across your Salesforce orgs.
