@@ -35,29 +35,32 @@ class MainScriptSettingsController {
                 bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, widthOf12: 3 },
                 pollingIntervalMs: { type: 'number', label: 'pollingIntervalMs', required: false, min: 1, widthOf12: 3 },
                 bulkThreshold: { type: 'number', label: 'bulkThreshold', required: false, min: 1, widthOf12: 3 },
-                // CSV HANDLING
                 // Row 2
+                queryBulkApiThreshold: { type: 'number', label: 'queryBulkApiThreshold', required: false, min: 1, widthOf12: 3 },
+                pollingQueryTimeoutMs: { type: 'number', label: 'pollingQueryTimeoutMs', required: false, min: 1, widthOf12: 9 },
+                // CSV HANDLING
+                // Row 3
                 validateCSVFilesOnly: { type: 'toggle', label: 'validateCSVFilesOnly', required: false, widthOf12: 3 },
                 createTargetCSVFiles: { type: 'toggle', label: 'createTargetCSVFiles', required: false, widthOf12: 3 },
                 importCSVFilesAsIs: { type: 'toggle', label: 'importCSVFilesAsIs', required: false, widthOf12: 3 },
                 excludeIdsFromCSVFiles: { type: 'toggle', label: 'excludeIdsFromCSVFiles', required: false, widthOf12: 3 },
-                // Row 3
+                // Row 4
                 csvReadFileDelimiter: { type: 'select', label: 'csvReadFileDelimiter', options: createSelectOption([',', ';']), required: false, widthOf12: 3 },
                 csvWriteFileDelimiter: { type: 'select', label: 'csvWriteFileDelimiter', options: createSelectOption([',', ';']), required: false, widthOf12: 3 },
                 useSeparatedCSVFiles: { type: 'toggle', label: 'useSeparatedCSVFiles', required: false, widthOf12: 6 },
                 // EXECUTION SETTINGS
-                // Row 4
+                // Row 5
                 keepObjectOrderWhileExecute: { type: 'toggle', label: 'keepObjectOrderWhileExecute', required: false, widthOf12: 3 },
                 allowFieldTruncation: { type: 'toggle', label: 'allowFieldTruncation', required: false, widthOf12: 3 },
                 parallelBinaryDownloads: { type: 'number', label: 'parallelBinaryDownloads', required: false, min: 1, widthOf12: 3 },
                 simulationMode: { type: 'toggle', label: 'simulationMode', required: false, widthOf12: 3 },
                 // ERROR HANDLING
-                // Row 5
+                // Row 6
                 allOrNone: { type: 'toggle', label: 'allOrNone', required: false, widthOf12: 3 },
                 promptOnIssuesInCSVFiles: { type: 'toggle', label: 'promptOnIssuesInCSVFiles', required: false, widthOf12: 3 },
                 promptOnMissingParentObjects: { type: 'toggle', label: 'promptOnMissingParentObjects', required: false, widthOf12: 6 },
                 // OTHER SETTINGS
-                // Row 6
+                // Row 7
                 proxyUrl: { type: 'input', label: 'proxyUrl', required: false, widthOf12: 3 },
                 binaryDataCache: { type: 'select', label: 'binaryDataCache', options: createSelectOption(Object.values(common_1.DataCacheTypes)), required: false, widthOf12: 3 },
                 sourceRecordsCache: { type: 'select', label: 'sourceRecordsCache', options: createSelectOption(Object.values(common_1.DataCacheTypes)), required: false, widthOf12: 6 }
@@ -72,6 +75,8 @@ class MainScriptSettingsController {
                 bulkApiV1BatchSize: config.script.bulkApiV1BatchSize,
                 pollingIntervalMs: config.script.pollingIntervalMs,
                 bulkThreshold: config.script.bulkThreshold,
+                queryBulkApiThreshold: config.script.queryBulkApiThreshold,
+                pollingQueryTimeoutMs: config.script.pollingQueryTimeoutMs,
                 // CSV HANDLING
                 validateCSVFilesOnly: config.script.validateCSVFilesOnly,
                 createTargetCSVFiles: config.script.createTargetCSVFiles,
@@ -97,6 +102,7 @@ class MainScriptSettingsController {
             this.scriptSettingsTitles = [
                 // API SETTINGS
                 this.$app.$translate.translate({ key: 'API_SETTINGS' }),
+                '',
                 '',
                 // CSV HANDLING 
                 this.$app.$translate.translate({ key: 'CSV_HANDLING' }),

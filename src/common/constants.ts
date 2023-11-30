@@ -138,6 +138,11 @@ export const CONSTANTS = {
         DEFAULT_BULK_API_THRESHOLD_RECORDS: 200,
 
         /**
+         * Default threshold for using Bulk Query API based on the number of records.
+         */
+        QUERY_BULK_API_THRESHOLD: 30000,
+
+        /**
          * Maximum record size for batch queries.
          */
         BATCH_QUERY_MAX_RECORD_SIZE: 2000,
@@ -186,6 +191,13 @@ export const CONSTANTS = {
          * Default CSV file delimiter.
          */ 
         DEFAULT_CSV_FILE_DELIMITER: ',',
+
+        /*
+         *  Default polling query timeout in milliseconds.
+            Used to poll for Bulk Query API results.
+         */
+        DEFAULT_POLLING_QUERY_TIMEOUT_MS: 4 * 60 * 1000,
+        
 
         /**
          * Fields to ignore for polymorphic relationships.

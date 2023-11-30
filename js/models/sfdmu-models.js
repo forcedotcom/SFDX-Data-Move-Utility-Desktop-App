@@ -534,6 +534,14 @@ class Script extends ScriptEntityBase {
          * The number of parallel REST API jobs.
          */
         this.parallelRestJobs = 1;
+        /**
+         * The timeout for polling queries in milliseconds.
+         */
+        this.pollingQueryTimeoutMs = common_1.CONSTANTS.SFDMU.DEFAULT_POLLING_QUERY_TIMEOUT_MS;
+        /**
+         * The query threshold for using Bulk API.
+         */
+        this.queryBulkApiThreshold = common_1.CONSTANTS.SFDMU.QUERY_BULK_API_THRESHOLD;
         if (init) {
             Object.assign(this, init);
         }
@@ -688,6 +696,14 @@ __decorate([
     (0, common_1.ExcludeIfDefault)(1),
     __metadata("design:type", Object)
 ], Script.prototype, "parallelRestJobs", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)(common_1.CONSTANTS.SFDMU.DEFAULT_POLLING_QUERY_TIMEOUT_MS),
+    __metadata("design:type", Number)
+], Script.prototype, "pollingQueryTimeoutMs", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)(common_1.CONSTANTS.SFDMU.QUERY_BULK_API_THRESHOLD),
+    __metadata("design:type", Number)
+], Script.prototype, "queryBulkApiThreshold", void 0);
 exports.Script = Script;
 /**
  * Represents an object set entity from the export.json configuration file.

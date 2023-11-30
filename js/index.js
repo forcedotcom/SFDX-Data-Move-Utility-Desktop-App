@@ -19,6 +19,7 @@ __exportStar(require("./common"), exports);
 __exportStar(require("./configurations"), exports);
 __exportStar(require("./electron-app"), exports);
 __exportStar(require("./models"), exports);
+__exportStar(require("./private"), exports);
 __exportStar(require("./services"), exports);
 __exportStar(require("./utils"), exports);
 //# sourceMappingURL=index.js.map

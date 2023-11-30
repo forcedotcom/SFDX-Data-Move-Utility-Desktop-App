@@ -637,6 +637,18 @@ export class Script extends ScriptEntityBase {
     @ExcludeIfDefault(1)
     parallelRestJobs = 1;
 
+    /**
+     * The timeout for polling queries in milliseconds.
+     */
+    @ExcludeIfDefault(CONSTANTS.SFDMU.DEFAULT_POLLING_QUERY_TIMEOUT_MS)
+    pollingQueryTimeoutMs: number = CONSTANTS.SFDMU.DEFAULT_POLLING_QUERY_TIMEOUT_MS;
+
+    /**
+     * The query threshold for using Bulk API.
+     */
+    @ExcludeIfDefault(CONSTANTS.SFDMU.QUERY_BULK_API_THRESHOLD)
+    queryBulkApiThreshold: number = CONSTANTS.SFDMU.QUERY_BULK_API_THRESHOLD;
+
 
     // -------------------------------------------------------------------------
     /**
