@@ -74,15 +74,15 @@
       "CLEANUP_PROMPT": "Êtes-vous sûr de vouloir nettoyer le dossier de l'application ? Cette action supprimera définitivement tous les dossiers qui ne sont associés à aucun des espaces de travail existants."
     },
     "CONFIGURATION": {
-      "CLONE": "Saisissez le nom de la nouvelle configuration :",
+      "CLONE": "Entrez le nom de la nouvelle configuration :",
       "DELETE": "Êtes-vous sûr de vouloir supprimer la configuration « {{ CONFIGURATION_NAME }} » ? Cette action supprimera définitivement la configuration et tous ses ensembles d'objets.",
-      "NEW": "Entrez le nom de la nouvelle configuration :",
+      "NEW": "Saisissez le nom de la nouvelle configuration :",
       "RENAME": "Entrez le nouveau nom de la configuration :",
       "SELECT": "Sélectionnez la configuration que vous souhaitez utiliser :"
     },
     "EXPORT_TO_EXPORT_JSON": {
       "TITLE": "Exporter vers export.json",
-      "WITH_ORGS_PROMPT": "Souhaitez-vous inclure les informations d'authentification des organisations Salesforce dans le fichier export.json ?"
+      "WITH_ORGS_PROMPT": "Souhaitez-vous inclure les informations d'authentification des organisations Salesforce dans le fichier export.json ? N'oubliez pas de conserver le fichier exporté dans un endroit sécurisé."
     },
     "IMPORT_CONFIGURATION": {
       "RENAME": "La configuration a été importée sous le nom '{{ CONFIGURATION_NAME }}'. Voulez-vous le renommer ?"
@@ -179,7 +179,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "Ouvrir le dossier de configuration dans l'Explorateur",
     "OPEN_LOG_FILE": "Ouvrir le fichier journal",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "Ouvrir le dossier Espace de travail dans l'Explorateur",
-    "REFRESH_SFDX_CONNECTIONS": "Actualiser les connexions SFDX",
+    "REFRESH_SFDX_CONNECTIONS": "Détecter les connexions SFDX disponibles",
     "RENAME_CONFIGURATION": "Renommer la configuration",
     "RENAME_WORKSPACE": "Renommer l'espace de travail",
     "SELECT_CONFIGURATION": "Sélectionnez Configuration",
@@ -207,13 +207,13 @@
   "POLYMORPHIC_FIELDS": "Champs polymorphes",
   "POLYMORPHIC_FIELDS_HAS_MISSING_REFERENCED_OBJECTS": "Le champ polymorphe a référencé des sobjects qui manquent dans l'organisation source ou cible.",
   "PREVIEW_CONFIGURATION": "<b>Script d&#39;aperçu :</b> &#39;{{ CONFIGURATION_NAME }}&#39;<br /> <b>Sens de migration :</b> {{ SOURCE_ORG_NAME }} -&gt; {{ TARGET_ORG_NAME }}",
-  "QUERY_RESULTS_LIMITED_TO_RECORDS": "Résultats de requête limités à {{ RECORDS_LIMIT }} enregistrements",
+  "QUERY_RESULTS_LIMITED_TO_RECORDS": "Les résultats de la requête sont limités à {{ RECORDS_LIMIT }} et incluent uniquement des champs qui existent dans les deux organisations.",
   "QUERY_TEST_ERROR": "Impossible de terminer le test de requête. Veuillez vérifier la requête et réessayer.",
   "QUERY_TEST_SUCCESS": "Test de requête terminé avec succès.",
   "QUIT_APP": "Quitter l'application",
   "RECORD_PROCESSING_MODE": "Mode de traitement des enregistrements",
   "REFERENCED_SOBJECT": "sObject référencé",
-  "REFRESHING_CONNECTIONS": "Des connexions rafraîchissantes...",
+  "REFRESHING_CONNECTIONS": "Détection des connexions...",
   "REMOVE_SELECTED": "Enlever la sélection",
   "RENAME_SELECTED": "Renommer la sélection",
   "RETRIEVENG_ORG_OBJECTS": "Récupération d'objets de l'organisation {{ USER_NAME }}...",

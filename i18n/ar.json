@@ -82,7 +82,7 @@
     },
     "EXPORT_TO_EXPORT_JSON": {
       "TITLE": "تصدير إلىexport.json",
-      "WITH_ORGS_PROMPT": "هل تريد تضمين معلومات المصادقة الخاصة بمؤسسات Salesforce في ملف Export.json؟"
+      "WITH_ORGS_PROMPT": "هل تريد تضمين معلومات المصادقة الخاصة بمؤسسات Salesforce في ملف Export.json؟ تذكر الاحتفاظ بالملف الذي تم تصديره في مكان آمن."
     },
     "IMPORT_CONFIGURATION": {
       "RENAME": "تم استيراد التكوين باسم \"{{ CONFIGURATION_NAME }}\". هل تريد إعادة تسميته؟"
@@ -179,7 +179,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "افتح مجلد التكوين في Explorer",
     "OPEN_LOG_FILE": "افتح ملف السجل",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "افتح مجلد مساحة العمل في Explorer",
-    "REFRESH_SFDX_CONNECTIONS": "قم بتحديث اتصالات SFDX",
+    "REFRESH_SFDX_CONNECTIONS": "كشف اتصالات SFDX المتاحة",
     "RENAME_CONFIGURATION": "إعادة تسمية التكوين",
     "RENAME_WORKSPACE": "إعادة تسمية مساحة العمل",
     "SELECT_CONFIGURATION": "حدد التكوين",
@@ -207,13 +207,13 @@
   "POLYMORPHIC_FIELDS": "الحقول متعددة الأشكال",
   "POLYMORPHIC_FIELDS_HAS_MISSING_REFERENCED_OBJECTS": "يشير الحقل متعدد الأشكال إلى كائنات مفقودة إما في مؤسسة المصدر أو الهدف",
   "PREVIEW_CONFIGURATION": "<b>معاينة النص البرمجي:</b> &#39;{{ CONFIGURATION_NAME }}&#39;<br /> <b>اتجاه الترحيل:</b> {{ SOURCE_ORG_NAME }} -&gt; {{ TARGET_ORG_NAME }}",
-  "QUERY_RESULTS_LIMITED_TO_RECORDS": "تقتصر نتائج الاستعلام على {{ RECORDS_LIMIT }} من السجلات",
+  "QUERY_RESULTS_LIMITED_TO_RECORDS": "نتائج الاستعلام تقتصر على {{ RECORDS_LIMIT }} من السجلات وتتضمن الحقول الموجودة في كلا المؤسستين فقط.",
   "QUERY_TEST_ERROR": "تعذر إكمال اختبار الاستعلام. الرجاء التحقق من الاستعلام والمحاولة مرة أخرى.",
   "QUERY_TEST_SUCCESS": "تم إكمال اختبار الاستعلام بنجاح.",
   "QUIT_APP": "قم بإنهاء التطبيق",
   "RECORD_PROCESSING_MODE": "وضع معالجة السجل",
   "REFERENCED_SOBJECT": "الكائن المشار إليه",
-  "REFRESHING_CONNECTIONS": "جارٍ تحديث الاتصالات...",
+  "REFRESHING_CONNECTIONS": "كشف الاتصالات...",
   "REMOVE_SELECTED": "ازل المحدد",
   "RENAME_SELECTED": "إعادة تسمية المحدد",
   "RETRIEVENG_ORG_OBJECTS": "جارٍ استرداد الكائنات من المؤسسة {{ USER_NAME }}...",

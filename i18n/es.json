@@ -82,7 +82,7 @@
     },
     "EXPORT_TO_EXPORT_JSON": {
       "TITLE": "Exportar a export.json",
-      "WITH_ORGS_PROMPT": "¿Quiere incluir la información de autenticación de las organizaciones de Salesforce en el archivo export.json?"
+      "WITH_ORGS_PROMPT": "¿Quiere incluir la información de autenticación para las organizaciones de Salesforce en el archivo export.json? Recuerde guardar el archivo exportado en un lugar seguro."
     },
     "IMPORT_CONFIGURATION": {
       "RENAME": "La configuración se ha importado como '{{ CONFIGURATION_NAME }}'. ¿Quieres cambiarle el nombre?"
@@ -179,7 +179,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "Abra la carpeta de configuración en el Explorador",
     "OPEN_LOG_FILE": "Abrir archivo de registro",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "Abrir la carpeta del espacio de trabajo en el Explorador",
-    "REFRESH_SFDX_CONNECTIONS": "Actualizar conexiones SFDX",
+    "REFRESH_SFDX_CONNECTIONS": "Detectar conexiones SFDX disponibles",
     "RENAME_CONFIGURATION": "Cambiar nombre de configuración",
     "RENAME_WORKSPACE": "Cambiar nombre del espacio de trabajo",
     "SELECT_CONFIGURATION": "Seleccione Configuración",
@@ -207,13 +207,13 @@
   "POLYMORPHIC_FIELDS": "Campos polimórficos",
   "POLYMORPHIC_FIELDS_HAS_MISSING_REFERENCED_OBJECTS": "El campo polimórfico ha hecho referencia a objetos que faltan en la organización de origen o de destino.",
   "PREVIEW_CONFIGURATION": "<b>Script de vista previa:</b> &#39;{{ CONFIGURATION_NAME }}&#39;<br /> <b>Dirección de migración:</b> {{ SOURCE_ORG_NAME }} -&gt; {{ TARGET_ORG_NAME }}",
-  "QUERY_RESULTS_LIMITED_TO_RECORDS": "Resultados de la consulta limitados a hasta registros {{ RECORDS_LIMIT }}",
+  "QUERY_RESULTS_LIMITED_TO_RECORDS": "Los resultados de la consulta se limitan a registros {{ RECORDS_LIMIT }} e incluyen solo campos que existen en ambas organizaciones.",
   "QUERY_TEST_ERROR": "No se pudo completar la prueba de consulta. Por favor revisa la consulta y vuelve a intentarlo.",
   "QUERY_TEST_SUCCESS": "La prueba de consulta se completó con éxito.",
   "QUIT_APP": "Salir de la aplicación",
   "RECORD_PROCESSING_MODE": "Modo de procesamiento de registros",
   "REFERENCED_SOBJECT": "Objeto referenciado",
-  "REFRESHING_CONNECTIONS": "Conexiones refrescantes...",
+  "REFRESHING_CONNECTIONS": "Detectando conexiones...",
   "REMOVE_SELECTED": "Eliminar selección",
   "RENAME_SELECTED": "Cambiar nombre seleccionado",
   "RETRIEVENG_ORG_OBJECTS": "Recuperando objetos de la organización {{ USER_NAME }}...",

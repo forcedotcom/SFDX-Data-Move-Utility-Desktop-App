@@ -118,13 +118,13 @@ class FsUtils {
     static navigateToPathOrUrl(directoryPathOrUrl) {
         switch (process.platform) {
             case 'darwin':
-                (0, child_process_1.exec)(`open ${directoryPathOrUrl}`);
+                (0, child_process_1.exec)(`open "${directoryPathOrUrl}"`);
                 break;
             case 'win32':
-                (0, child_process_1.exec)(`start ${directoryPathOrUrl}`);
+                (0, child_process_1.exec)(`start "" "${directoryPathOrUrl}"`);
                 break;
             case 'linux':
-                (0, child_process_1.exec)(`xdg-open ${directoryPathOrUrl}`);
+                (0, child_process_1.exec)(`xdg-open "${directoryPathOrUrl}"`);
                 break;
         }
     }

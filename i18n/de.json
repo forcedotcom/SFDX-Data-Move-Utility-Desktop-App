@@ -14,7 +14,7 @@
     "STEP_COMPLETED_TOOLTIP": "Schritt wurde erfolgreich abgeschlossen. Sie können mit dem nächsten Schritt fortfahren.",
     "STEP_CREATE_OR_SELECT_WORKSPACE": "Erstellen Sie einen Arbeitsbereich oder wählen Sie ihn aus",
     "STEP_SCAN_FOR_SFDX_ORGS": "Suchen Sie nach verfügbaren SFDX-Organisationen",
-    "STEP_SELECT_CONFIGURATION": "Erstellen Sie eine Konfiguration oder wählen Sie sie aus",
+    "STEP_SELECT_CONFIGURATION": "Erstellen oder wählen Sie eine Konfiguration aus",
     "STEP_SELECT_OBJECT_SET": "Wählen Sie einen Objektsatz aus",
     "STEP_SELECT_SOURCE_AND_TARGET_ORGS": "Wählen Sie Quell- und Zielorganisationen aus. Sie können dieselbe Organisation sowohl als Quelle als auch als Ziel auswählen.",
     "STEP_WARNING_MESSAGE": "Schritt enthält Warnungen",
@@ -82,7 +82,7 @@
     },
     "EXPORT_TO_EXPORT_JSON": {
       "TITLE": "Export nach export.json",
-      "WITH_ORGS_PROMPT": "Möchten Sie die Authentifizierungsinformationen für die Salesforce-Organisationen in die export.json-Datei aufnehmen?"
+      "WITH_ORGS_PROMPT": "Möchten Sie die Authentifizierungsinformationen für die Salesforce-Organisationen in die export.json-Datei aufnehmen? Denken Sie daran, die exportierte Datei an einem sicheren Ort aufzubewahren."
     },
     "IMPORT_CONFIGURATION": {
       "RENAME": "Die Konfiguration wurde als „{{ CONFIGURATION_NAME }}“ importiert. Möchten Sie es umbenennen?"
@@ -148,7 +148,7 @@
   "INCLUDE_SELECTED_SOBJECTS": "Ausgewählte sObjects einschließen",
   "INFO": "Die Info",
   "INPUT_PLACEHOLDER": "Wert eingeben",
-  "INTERNET_CONNECTION_LOST": "Verbindung zum Internet verloren. Diese Anwendung funktioniert möglicherweise nicht ordnungsgemäß, wenn sie offline ist. Außerdem sind einige Funktionen möglicherweise nicht verfügbar.",
+  "INTERNET_CONNECTION_LOST": "Verbindung zum Internet unterbrochen. Diese Anwendung funktioniert möglicherweise nicht ordnungsgemäß, wenn sie offline ist. Außerdem sind einige Funktionen möglicherweise nicht verfügbar.",
   "INVALID_DELETE_QUERY": "Ungültige Löschabfrage",
   "INVALID_EXTERNAL_ID_FIELD": "Externe ID-Felder sind falsch geschrieben oder sind weder in der Quell- noch in der Zielorganisation vorhanden",
   "INVALID_SOQL_QUERY": "Ungültige SOQL-Abfrage",
@@ -179,7 +179,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "Öffnen Sie den Konfigurationsordner im Explorer",
     "OPEN_LOG_FILE": "Öffnen Sie die Protokolldatei",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "Öffnen Sie den Arbeitsbereichsordner im Explorer",
-    "REFRESH_SFDX_CONNECTIONS": "SFDX-Verbindungen aktualisieren",
+    "REFRESH_SFDX_CONNECTIONS": "Verfügbare SFDX-Verbindungen erkennen",
     "RENAME_CONFIGURATION": "Konfiguration umbenennen",
     "RENAME_WORKSPACE": "Arbeitsbereich umbenennen",
     "SELECT_CONFIGURATION": "Wählen Sie Konfiguration",
@@ -207,13 +207,13 @@
   "POLYMORPHIC_FIELDS": "Polymorphe Felder",
   "POLYMORPHIC_FIELDS_HAS_MISSING_REFERENCED_OBJECTS": "Das polymorphe Feld hat auf Objekte verwiesen, die entweder in der Quell- oder Zielorganisation fehlen",
   "PREVIEW_CONFIGURATION": "<b>Vorschauskript:</b> „{{ CONFIGURATION_NAME }}“<br /> <b>Migrationsrichtung:</b> {{ SOURCE_ORG_NAME }} -&gt; {{ TARGET_ORG_NAME }}",
-  "QUERY_RESULTS_LIMITED_TO_RECORDS": "Abfrageergebnisse auf maximal {{ RECORDS_LIMIT }} Datensätze begrenzt",
+  "QUERY_RESULTS_LIMITED_TO_RECORDS": "Die Abfrageergebnisse sind auf {{ RECORDS_LIMIT }} Datensätze beschränkt und umfassen nur Felder, die in beiden Organisationen vorhanden sind.",
   "QUERY_TEST_ERROR": "Der Abfragetest konnte nicht abgeschlossen werden. Bitte überprüfen Sie die Abfrage und versuchen Sie es erneut.",
   "QUERY_TEST_SUCCESS": "Abfragetest erfolgreich abgeschlossen.",
   "QUIT_APP": "Beenden Sie die Anwendung",
   "RECORD_PROCESSING_MODE": "Datensatzverarbeitungsmodus",
   "REFERENCED_SOBJECT": "Referenziertes sObject",
-  "REFRESHING_CONNECTIONS": "Erfrischende Verbindungen...",
+  "REFRESHING_CONNECTIONS": "Verbindungen werden erkannt...",
   "REMOVE_SELECTED": "Ausgewählte entfernen",
   "RENAME_SELECTED": "Ausgewählte umbenennen",
   "RETRIEVENG_ORG_OBJECTS": "Objekte werden von Org {{ USER_NAME }} abgerufen...",

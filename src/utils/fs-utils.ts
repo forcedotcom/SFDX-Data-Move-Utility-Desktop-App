@@ -101,13 +101,13 @@ export class FsUtils {
     static navigateToPathOrUrl(directoryPathOrUrl: string) {
         switch (process.platform) {
             case 'darwin':
-                exec(`open ${directoryPathOrUrl}`);
+                exec(`open "${directoryPathOrUrl}"`);
                 break;
             case 'win32':
-                exec(`start ${directoryPathOrUrl}`);
+                exec(`start "" "${directoryPathOrUrl}"`);
                 break;
             case 'linux':
-                exec(`xdg-open ${directoryPathOrUrl}`);
+                exec(`xdg-open "${directoryPathOrUrl}"`);
                 break;
 
         }

@@ -243,22 +243,18 @@ export class AppService implements IAppService {
 				this.$spinner.showSpinner();
 				this.orgDescribe = new OrgDescribe();
 
-				if (!ws.sourceConnection.isOrgDescribed) {
 					const sourceOrgDescribeResult = await SfdmuService.connectToOrgAsync(ws.sourceConnection);
 					if (sourceOrgDescribeResult.isError) {
 						_handleConnectionFailed(sourceOrgDescribeResult);
 						return;
 					}
-				}
 
 				if (ws.targetConnectionId != ws.sourceConnectionId) {
-					if (!ws.targetConnection.isOrgDescribed) {
 						const targetOrgDescribeResult = await SfdmuService.connectToOrgAsync(ws.targetConnection);
 						if (targetOrgDescribeResult.isError) {
 							_handleConnectionFailed(targetOrgDescribeResult);
 							return;
 						}
-					}
 				} else {
 					ws.targetConnection.orgDescribe = ws.sourceConnection.orgDescribe;
 				}

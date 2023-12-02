@@ -131,20 +131,16 @@ class AppService {
             if (toState.name == common_1.View.configuration && global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.connection]) {
                 this.$spinner.showSpinner();
                 this.orgDescribe = new models_1.OrgDescribe();
-                if (!ws.sourceConnection.isOrgDescribed) {
-                    const sourceOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.sourceConnection);
-                    if (sourceOrgDescribeResult.isError) {
-                        _handleConnectionFailed(sourceOrgDescribeResult);
-                        return;
-                    }
+                const sourceOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.sourceConnection);
+                if (sourceOrgDescribeResult.isError) {
+                    _handleConnectionFailed(sourceOrgDescribeResult);
+                    return;
                 }
                 if (ws.targetConnectionId != ws.sourceConnectionId) {
-                    if (!ws.targetConnection.isOrgDescribed) {
-                        const targetOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.targetConnection);
-                        if (targetOrgDescribeResult.isError) {
-                            _handleConnectionFailed(targetOrgDescribeResult);
-                            return;
-                        }
+                    const targetOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.targetConnection);
+                    if (targetOrgDescribeResult.isError) {
+                        _handleConnectionFailed(targetOrgDescribeResult);
+                        return;
                     }
                 }
                 else {
