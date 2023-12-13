@@ -33,7 +33,7 @@
     "typescript": "^4.9.5"
   },
   "dependencies": {
-    "@electron/remote": "^2.0.10",
+    "@electron/remote": "^2.1.1",
     "angular": "^1.8.3",
     "angular-animate": "^1.8.3",
     "angular-messages": "^1.8.3",
