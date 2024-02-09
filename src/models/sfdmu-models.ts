@@ -1378,10 +1378,19 @@ export class JSforceConnection extends jsforce.Connection {
 
     constructor(connection?: Partial<JSforceConnection | jsforce.ConnectionOptions | Connection>) {
         if (connection) {
-            super({
-                accessToken: connection.accessToken,
-                instanceUrl: connection.instanceUrl,
-            });
+            if (connection instanceof Connection) {
+                super({
+                    accessToken: connection.accessToken,
+                    instanceUrl: connection.instanceUrl,
+                    version: (connection as Connection).apiVersion,
+                });
+            } else {
+                super({
+                    accessToken: connection.accessToken,
+                    instanceUrl: connection.instanceUrl,
+                    version: CONSTANTS.SFDMU.DEFAULT_API_VERSION,
+                });
+            }
             if (connection instanceof JSforceConnection
                 || connection instanceof Connection) {
                 Object.assign(this, {
