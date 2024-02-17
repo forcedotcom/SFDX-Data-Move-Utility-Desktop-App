@@ -1368,10 +1368,20 @@ exports.ScriptMockField = ScriptMockField;
 class JSforceConnection extends jsforce.Connection {
     constructor(connection) {
         if (connection) {
-            super({
-                accessToken: connection.accessToken,
-                instanceUrl: connection.instanceUrl,
-            });
+            if (connection instanceof database_models_1.Connection) {
+                super({
+                    accessToken: connection.accessToken,
+                    instanceUrl: connection.instanceUrl,
+                    version: connection.apiVersion,
+                });
+            }
+            else {
+                super({
+                    accessToken: connection.accessToken,
+                    instanceUrl: connection.instanceUrl,
+                    version: common_1.CONSTANTS.SFDMU.DEFAULT_API_VERSION,
+                });
+            }
             if (connection instanceof JSforceConnection
                 || connection instanceof database_models_1.Connection) {
                 Object.assign(this, {
