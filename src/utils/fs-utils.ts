@@ -1,7 +1,8 @@
+import { exec } from 'child_process';
 import * as fs from 'fs';
 import fsExtra from 'fs-extra';
 import * as path from 'path';
-import { exec } from 'child_process';
+import { CONSTANTS } from '../common';
 
 export class FsUtils {
 
@@ -99,18 +100,38 @@ export class FsUtils {
      * @param directoryPathOrUrl - The directory path or URL.
      */
     static navigateToPathOrUrl(directoryPathOrUrl: string) {
+        const logfileExtension = path.extname(CONSTANTS.LOG_FILENAME_TEMPLATE);
         switch (process.platform) {
             case 'darwin':
+                if (path.extname(directoryPathOrUrl) === logfileExtension) {
+                    exec(`open -a TextEdit "${directoryPathOrUrl}"`);
+                    return;
+                }
                 exec(`open "${directoryPathOrUrl}"`);
                 break;
             case 'win32':
+                if (path.extname(directoryPathOrUrl) === logfileExtension) {
+                    exec(`notepad "" "${directoryPathOrUrl}"`);
+                    return;
+                }
                 exec(`start "" "${directoryPathOrUrl}"`);
                 break;
             case 'linux':
+                if (path.extname(directoryPathOrUrl) === logfileExtension) {
+                    exec(`gedit "${directoryPathOrUrl}"`);
+                    return;
+                }
                 exec(`xdg-open "${directoryPathOrUrl}"`);
                 break;
 
         }
+    }
+
+    /**
+     * Determines whether the specified file path is a file.
+     */
+    static isFile(filePath: string): boolean {
+        return fs.existsSync(filePath) && fs.lstatSync(filePath).isFile();
     }
 
 

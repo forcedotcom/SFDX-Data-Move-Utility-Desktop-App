@@ -47,8 +47,6 @@ export interface IAppConfig {
     backupEveryNMinutes: number;
     /** Flag indicating whether to use Salesforce CLI commands. */
     useSfCliCommands: boolean;
-    /** Command used for running SFDX Data Import (sfdmu). */
-    sfdmuRunCommand: string;
     /** Theme to use for the application. */
     theme: string;
 

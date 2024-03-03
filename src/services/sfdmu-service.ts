@@ -715,7 +715,7 @@ export class SfdmuService {
                 } else if (targetField) {
                     sObjectDescribe.fieldsMap.set(targetField.name, targetField);
                     targetField.dataSource = DataSource.target;
-                } 
+                }
             });
         }
 
@@ -724,14 +724,14 @@ export class SfdmuService {
         return sObjectDescribe;
     }
 
-     /**
-     *  Generate CLI command string from CLI JSON.
-     * @param cliJson  The CLI JSON object to generate the command string from.
-     * @returns  The CLI command string.
-     */
+    /**
+    *  Generate CLI command string from CLI JSON.
+    * @param cliJson  The CLI JSON object to generate the command string from.
+    * @returns  The CLI command string.
+    */
 
-     static generateCLIString(cliJson: any): string {
-        if (!cliJson){
+    static generateCLIString(cliJson: any): string {
+        if (!cliJson) {
             return
         }
         const flagsMap: { [key: string]: string } = {
@@ -759,7 +759,7 @@ export class SfdmuService {
 
         const quote = global.appGlobal.isWindows ? '"' : "'";
 
-        let command = "sfdx sfdmu:run";
+        let command = global.appGlobal.packageJson.appConfig.useSfCliCommands ? "sf sfdmu run" : "sfdx sfdmu:run";
 
         // Logic to handle sourceusername
         if (cliJson['sourceusername'] === cliJson['targetusername']) {
@@ -811,30 +811,30 @@ export class SfdmuService {
 
 
     /**
-	 * Navigates to the specified help article.
-	 * @param searchTerm The search term.
-	 */ 
-	static navigateToHelpArticle(searchTerm: string) {
-		
+     * Navigates to the specified help article.
+     * @param searchTerm The search term.
+     */
+    static navigateToHelpArticle(searchTerm: string) {
+
         const encodeUri = (uri) => {
             return encodeURIComponent(uri).replace(/%23/g, '#').replace(/%2F/g, '/');
         }
-        
+
         const configArticle = Object.keys(HelpArticlesConfig).find(x => x.split(',').includes(searchTerm));
-		
+
         searchTerm = configArticle && HelpArticlesConfig[configArticle] || searchTerm;
-		
+
         if (searchTerm.startsWith('http')) {
-			FsUtils.navigateToPathOrUrl(searchTerm);
-			return;
-		}
-		if (searchTerm.startsWith('/')) {
-			FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseUrl}/${encodeUri(searchTerm.substring(1))}`);
-			return;
-		}
-		FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseSearchUrl}${encodeUri(searchTerm)}`);
-        
-	}
+            FsUtils.navigateToPathOrUrl(searchTerm);
+            return;
+        }
+        if (searchTerm.startsWith('/')) {
+            FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseUrl}/${encodeUri(searchTerm.substring(1))}`);
+            return;
+        }
+        FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseSearchUrl}${encodeUri(searchTerm)}`);
+
+    }
 
 
 }

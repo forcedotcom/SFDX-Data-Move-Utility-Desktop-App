@@ -134,7 +134,7 @@ exports.CONSTANTS = {
         /**
          * Default API version for Salesforce.
          */
-        DEFAULT_API_VERSION: '58.0',
+        DEFAULT_API_VERSION: '59.0',
         /**
          * Default maximum number of parallel blob downloads.
          */

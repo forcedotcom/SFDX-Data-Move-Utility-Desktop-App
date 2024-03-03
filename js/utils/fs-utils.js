@@ -27,10 +27,11 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.FsUtils = void 0;
+const child_process_1 = require("child_process");
 const fs = __importStar(require("fs"));
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const path = __importStar(require("path"));
-const child_process_1 = require("child_process");
+const common_1 = require("../common");
 class FsUtils {
     /**
     * Retrieves the directories within the specified directory path.
@@ -116,17 +117,36 @@ class FsUtils {
      * @param directoryPathOrUrl - The directory path or URL.
      */
     static navigateToPathOrUrl(directoryPathOrUrl) {
+        const logfileExtension = path.extname(common_1.CONSTANTS.LOG_FILENAME_TEMPLATE);
         switch (process.platform) {
             case 'darwin':
+                if (path.extname(directoryPathOrUrl) === logfileExtension) {
+                    (0, child_process_1.exec)(`open -a TextEdit "${directoryPathOrUrl}"`);
+                    return;
+                }
                 (0, child_process_1.exec)(`open "${directoryPathOrUrl}"`);
                 break;
             case 'win32':
+                if (path.extname(directoryPathOrUrl) === logfileExtension) {
+                    (0, child_process_1.exec)(`notepad "" "${directoryPathOrUrl}"`);
+                    return;
+                }
                 (0, child_process_1.exec)(`start "" "${directoryPathOrUrl}"`);
                 break;
             case 'linux':
+                if (path.extname(directoryPathOrUrl) === logfileExtension) {
+                    (0, child_process_1.exec)(`gedit "${directoryPathOrUrl}"`);
+                    return;
+                }
                 (0, child_process_1.exec)(`xdg-open "${directoryPathOrUrl}"`);
                 break;
         }
+    }
+    /**
+     * Determines whether the specified file path is a file.
+     */
+    static isFile(filePath) {
+        return fs.existsSync(filePath) && fs.lstatSync(filePath).isFile();
     }
 }
 exports.FsUtils = FsUtils;

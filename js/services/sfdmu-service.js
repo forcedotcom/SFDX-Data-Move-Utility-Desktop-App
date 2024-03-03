@@ -636,7 +636,7 @@ class SfdmuService {
         const ws = _1.DatabaseService.getWorkspace();
         const selectedTargetConnection = db.connections.find(c => c.userName === ws.cli.targetusername);
         const quote = global.appGlobal.isWindows ? '"' : "'";
-        let command = "sfdx sfdmu:run";
+        let command = global.appGlobal.packageJson.appConfig.useSfCliCommands ? "sf sfdmu run" : "sfdx sfdmu:run";
         // Logic to handle sourceusername
         if (cliJson['sourceusername'] === cliJson['targetusername']) {
             delete cliJson['sourceusername'];
