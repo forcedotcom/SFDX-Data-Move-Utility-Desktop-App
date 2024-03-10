@@ -187,6 +187,11 @@ export const CONSTANTS = {
          */
         CSV_FILE_ORG_NAME: 'csvfile',
 
+        /** 
+         *  Option displayed in the data source selection for CSV file connections.         
+        */
+        CSV_FILE_OPTION_NAME: 'CSV_FILE',        
+
         /**
          * Default CSV file delimiter.
          */ 

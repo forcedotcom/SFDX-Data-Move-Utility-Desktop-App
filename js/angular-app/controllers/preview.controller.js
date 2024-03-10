@@ -33,44 +33,19 @@ class PreviewController {
             const ws = services_1.DatabaseService.getWorkspace();
             const db = services_1.DatabaseService.getOrCreateAppDb();
             this.scriptPreview || (this.scriptPreview = services_1.DatabaseService.readExportJsonFile(ws.id));
-            const selectedSourceConnection = db.connections.find(c => c.userName === ws.cli.sourceusername);
             const selectedTargetConnection = db.connections.find(c => c.userName === ws.cli.targetusername);
-            let targetConnectionOptions = [];
-            let sourceConnectionOptions = [];
-            if ((selectedSourceConnection === null || selectedSourceConnection === void 0 ? void 0 : selectedSourceConnection.type) === common_1.ConnectionType.File) {
-                targetConnectionOptions = db.connections.filter(c => c.type === common_1.ConnectionType.Org)
-                    .map(c => {
-                    return {
-                        value: c.userName,
-                        label: c.userName
-                    };
-                });
-            }
-            else {
-                targetConnectionOptions = db.connections.map(c => {
-                    return {
-                        value: c.userName,
-                        label: c.userName
-                    };
-                });
-            }
-            if ((selectedTargetConnection === null || selectedTargetConnection === void 0 ? void 0 : selectedTargetConnection.type) === common_1.ConnectionType.File) {
-                sourceConnectionOptions = db.connections.filter(c => c.type === common_1.ConnectionType.Org)
-                    .map(c => {
-                    return {
-                        value: c.userName,
-                        label: c.userName
-                    };
-                });
-            }
-            else {
-                sourceConnectionOptions = db.connections.map(c => {
-                    return {
-                        value: c.userName,
-                        label: c.userName
-                    };
-                });
-            }
+            const targetConnectionOptions = db.connections.map(c => {
+                return {
+                    value: c.userName,
+                    label: c.userName
+                };
+            });
+            const sourceConnectionOptions = db.connections.map(c => {
+                return {
+                    value: c.userName,
+                    label: c.userName
+                };
+            });
             this.sfdmuCommandSetup = {
                 // AUTHENTICATION
                 // row 1
@@ -115,16 +90,7 @@ class PreviewController {
         }
     }
     handleSfdmuCommandFormChange(args) {
-        const ws = services_1.DatabaseService.getWorkspace();
-        if (this.validateSfdmuCommandForm()) {
-            this.$app.updateCliCommand(ws, args.args[0]);
-            this.setup();
-            this.$app.clearViewErrors();
-        }
-        else {
-            this.$app.setViewErrors(common_1.ErrorSource.cliSettings);
-        }
-        this.$app.buildMainToolbar();
+        this._validate(args.args[0]);
     }
     async handleCopyCliCommandToClipboard() {
         const ws = services_1.DatabaseService.getWorkspace();
@@ -148,9 +114,31 @@ class PreviewController {
         }
     }
     /** Private/Helper Members --------------------------------------------------------------------------------------------- */
-    validateSfdmuCommandForm() {
-        const scriptSettingsFormController = utils_1.AngularUtils.$getController(`#scriptSettingsForm`);
+    _validateCliCommandForm() {
+        const scriptSettingsFormController = utils_1.AngularUtils.$getController(`#sfdmuCommandSetupForm`);
         return scriptSettingsFormController && scriptSettingsFormController.validate();
+    }
+    _validateCliCommand(cliCommand) {
+        const errors = [];
+        if (cliCommand.sourceusername == cliCommand.targetusername
+            && cliCommand.targetusername == common_1.CONSTANTS.SFDMU.CSV_FILE_OPTION_NAME) {
+            errors.push(this.$app.$translate.translate({ key: 'SELECT_DIFFERENT_DATA_SOURCE_AND_TARGET' }));
+        }
+        return errors;
+    }
+    _validate(cliCommand) {
+        const ws = services_1.DatabaseService.getWorkspace();
+        const isValidForm = this._validateCliCommandForm();
+        const cliCommandErrors = this._validateCliCommand(cliCommand);
+        if (isValidForm && !cliCommandErrors.length) {
+            this.$app.updateCliCommand(ws, cliCommand);
+            this.setup();
+            this.$app.clearViewErrors();
+        }
+        else {
+            this.$app.setViewErrors(!isValidForm && common_1.ErrorSource.cliSettings, cliCommandErrors);
+        }
+        this.$app.buildMainToolbar();
     }
 }
 exports.PreviewController = PreviewController;

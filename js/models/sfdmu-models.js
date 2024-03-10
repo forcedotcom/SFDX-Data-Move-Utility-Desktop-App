@@ -860,6 +860,14 @@ class ScriptObject extends ScriptEntityBase {
          * The number of parallel REST API jobs for the script object.
          */
         this.parallelRestJobs = 1;
+        /**
+         *  Addon definitions which are executed before the target org is updated.
+         * TODO: Addon definitions UI is not implemented yet.
+         *
+         * @type {any[]}
+         * @memberof ScriptObject
+         */
+        this.beforeUpdateAddons = [];
         //-------------------------------------------------------------------------
         /**
          * The WHERE clause of the query.
@@ -1141,6 +1149,10 @@ __decorate([
     (0, common_1.ExcludeIfDefault)(1),
     __metadata("design:type", Object)
 ], ScriptObject.prototype, "parallelRestJobs", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
+], ScriptObject.prototype, "beforeUpdateAddons", void 0);
 __decorate([
     (0, class_transformer_1.Expose)({ groups: ['db'] }),
     __metadata("design:type", Object)

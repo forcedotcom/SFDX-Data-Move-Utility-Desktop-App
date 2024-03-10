@@ -925,6 +925,17 @@ export class ScriptObject extends ScriptEntityBase {
     parallelRestJobs = 1;
 
 
+    /**
+     *  Addon definitions which are executed before the target org is updated.
+     * TODO: Addon definitions UI is not implemented yet.
+     *
+     * @type {any[]}
+     * @memberof ScriptObject
+     */
+    @ExcludeIfDefault([])
+    beforeUpdateAddons: any[] = [];
+
+
     //-------------------------------------------------------------------------
     /**
      * The WHERE clause of the query.

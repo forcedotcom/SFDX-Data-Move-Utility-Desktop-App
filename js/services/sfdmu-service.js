@@ -614,6 +614,7 @@ class SfdmuService {
         if (!cliJson) {
             return;
         }
+        cliJson = { ...cliJson };
         const flagsMap = {
             sourceusername: "--sourceusername",
             targetusername: "--targetusername",
@@ -656,7 +657,7 @@ class SfdmuService {
             let value = cliJson[key];
             if (value !== undefined && value !== null) {
                 if (key === 'sourceusername' || key === 'targetusername') {
-                    if (value == 'CSV_FILE') {
+                    if (value == common_1.CONSTANTS.SFDMU.CSV_FILE_OPTION_NAME) {
                         value = common_1.CONSTANTS.SFDMU.CSV_FILE_ORG_NAME;
                     }
                 }

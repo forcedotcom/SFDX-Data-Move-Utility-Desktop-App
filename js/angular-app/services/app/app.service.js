@@ -150,9 +150,11 @@ class AppService {
             }
             // Navigation from configuration to preview
             if (toState.name == common_1.View.preview && global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.configuration]) {
+                const cliSourceConnection = ws.db.connections.find(connection => connection.userName == ws.cli.sourceusername);
+                const cliTargetConnection = ws.db.connections.find(connection => connection.userName == ws.cli.targetusername);
                 this.updateCliCommand(ws, {
-                    sourceusername: ws.sourceConnection.userName,
-                    targetusername: ws.targetConnection.userName,
+                    sourceusername: !cliSourceConnection ? ws.sourceConnection.userName : ws.cli.sourceusername,
+                    targetusername: !cliTargetConnection ? ws.targetConnection.userName : ws.cli.targetusername,
                     path: services_1.DatabaseService.getConfigPath(config)
                 });
                 services_1.DatabaseService.exportConfig(ws.id, null, true);
@@ -636,8 +638,9 @@ class AppService {
             [common_1.ErrorSource.configurationSettings]: 'CONFIGURATION_HAS_ERRORS_IN_SETTINGS',
             [common_1.ErrorSource.cliSettings]: 'ERRORS_IN_CLI_STRING_SETTINGS'
         };
-        const errorMessage = this.$translate.translate({ key: errorMessages[errorSource] });
-        errors = errors.concat(errorMessage);
+        const key = errorMessages[errorSource];
+        const errorMessage = key && this.$translate.translate({ key });
+        errors = errorMessage ? errors.concat(errorMessage) : errors;
         this.viewErrorsMap.set(errorSource, errors);
     }
     /**

@@ -731,9 +731,13 @@ export class SfdmuService {
     */
 
     static generateCLIString(cliJson: any): string {
+
         if (!cliJson) {
             return
         }
+
+        cliJson = { ...cliJson };
+
         const flagsMap: { [key: string]: string } = {
             sourceusername: "--sourceusername",
             targetusername: "--targetusername",
@@ -784,7 +788,7 @@ export class SfdmuService {
 
             if (value !== undefined && value !== null) {
                 if (key === 'sourceusername' || key === 'targetusername') {
-                    if (value == 'CSV_FILE') {
+                    if (value == CONSTANTS.SFDMU.CSV_FILE_OPTION_NAME) {
                         value = CONSTANTS.SFDMU.CSV_FILE_ORG_NAME
                     }
                 }

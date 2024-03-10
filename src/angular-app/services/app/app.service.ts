@@ -81,11 +81,11 @@ export interface IAppService {
 	 * @param ws The workspace to update
 	 * @param cli The  object to update the workspace cli command with
 	 */
-	updateCliCommand(ws: Workspace, cli: any) : void;
+	updateCliCommand(ws: Workspace, cli: any): void;
 
 	/**
 	 * Whether the script is currently running.
-	 */ 
+	 */
 	isScriptRunning: boolean;
 
 }
@@ -122,7 +122,7 @@ export class AppService implements IAppService {
 
 	orgDescribe: OrgDescribe = new OrgDescribe();
 	viewErrorsMap: Map<ErrorSource, string[]> = new Map();
-	isScriptRunning =  false;
+	isScriptRunning = false;
 
 
 	// Service Setup Methods ----------------------------------------------------------	
@@ -142,7 +142,7 @@ export class AppService implements IAppService {
 
 		// Initialize language change
 		this.setupLanguageChange();
-		
+
 		// Initialize UI notification events
 		this.setupUiNotificationEvent();
 
@@ -243,18 +243,18 @@ export class AppService implements IAppService {
 				this.$spinner.showSpinner();
 				this.orgDescribe = new OrgDescribe();
 
-					const sourceOrgDescribeResult = await SfdmuService.connectToOrgAsync(ws.sourceConnection);
-					if (sourceOrgDescribeResult.isError) {
-						_handleConnectionFailed(sourceOrgDescribeResult);
-						return;
-					}
+				const sourceOrgDescribeResult = await SfdmuService.connectToOrgAsync(ws.sourceConnection);
+				if (sourceOrgDescribeResult.isError) {
+					_handleConnectionFailed(sourceOrgDescribeResult);
+					return;
+				}
 
 				if (ws.targetConnectionId != ws.sourceConnectionId) {
-						const targetOrgDescribeResult = await SfdmuService.connectToOrgAsync(ws.targetConnection);
-						if (targetOrgDescribeResult.isError) {
-							_handleConnectionFailed(targetOrgDescribeResult);
-							return;
-						}
+					const targetOrgDescribeResult = await SfdmuService.connectToOrgAsync(ws.targetConnection);
+					if (targetOrgDescribeResult.isError) {
+						_handleConnectionFailed(targetOrgDescribeResult);
+						return;
+					}
 				} else {
 					ws.targetConnection.orgDescribe = ws.sourceConnection.orgDescribe;
 				}
@@ -264,10 +264,14 @@ export class AppService implements IAppService {
 
 			// Navigation from configuration to preview
 			if (toState.name == View.preview && global.appGlobal.wizardStep == WizardStepByView[View.configuration]) {
+
+				const cliSourceConnection = ws.db.connections.find(connection => connection.userName == ws.cli.sourceusername);
+				const cliTargetConnection = ws.db.connections.find(connection => connection.userName == ws.cli.targetusername);
+
 				this.updateCliCommand(ws, {
-					sourceusername: ws.sourceConnection.userName,
-					targetusername: ws.targetConnection.userName,	
-					path: DatabaseService.getConfigPath(config)				
+					sourceusername: !cliSourceConnection ? ws.sourceConnection.userName : ws.cli.sourceusername,
+					targetusername: !cliTargetConnection ? ws.targetConnection.userName : ws.cli.targetusername,
+					path: DatabaseService.getConfigPath(config)
 				});
 				DatabaseService.exportConfig(ws.id, null, true);
 			}
@@ -313,18 +317,18 @@ export class AppService implements IAppService {
 		this.$rootScope["goNextStep"] = () => {
 			const nextView: View = ViewByWizardStep[global.appGlobal.wizardStep + 1];
 			//this.$timeout(() => {
-				this.$state.go(nextView, null, {
-					reload: true
-				});
+			this.$state.go(nextView, null, {
+				reload: true
+			});
 			//});
 		};
 
 		this.$rootScope["goPreviousStep"] = () => {
 			const previousView: View = ViewByWizardStep[global.appGlobal.wizardStep - 1];
 			//this.$timeout(() => {
-				this.$state.go(previousView, {
-					reload: true
-				});
+			this.$state.go(previousView, {
+				reload: true
+			});
 			//});
 		};
 	}
@@ -392,7 +396,7 @@ export class AppService implements IAppService {
 		this.$broadcast.broadcastAction('buildViewComponents', null, {});
 	}
 
-	
+
 	/**
 	 * Builds the main menu of the application.
 	 */
@@ -683,12 +687,12 @@ export class AppService implements IAppService {
 			const objectsLength = ws.config.objectSet.objects.length;
 			const objectSetsLength = ws.config.script.objectSets.length;
 			const objectSetId = ws.config.objectSetId;
-			_setToolbarModel(!isConfigInitialized || !objectSetId || !objectsLength || this.viewErrorsMap.size > 0, false, 
-				"SELECTED_CONFIGURATION", { 
-					CONFIGURATION_NAME: ws.config.name || notSetMessage,
-					SOURCE_ORG_NAME: ws.sourceConnection.userName,
-					TARGET_ORG_NAME: ws.targetConnection.userName 
-				});
+			_setToolbarModel(!isConfigInitialized || !objectSetId || !objectsLength || this.viewErrorsMap.size > 0, false,
+				"SELECTED_CONFIGURATION", {
+				CONFIGURATION_NAME: ws.config.name || notSetMessage,
+				SOURCE_ORG_NAME: ws.sourceConnection.userName,
+				TARGET_ORG_NAME: ws.targetConnection.userName
+			});
 
 			if (!isConfigInitialized) {
 				_setMainStateAlertBox('action-required', "ALERT.STEP_ACTION_REQUIRED_MESSAGE", "ALERT.STEP_SELECT_CONFIGURATION");
@@ -718,10 +722,10 @@ export class AppService implements IAppService {
 		};
 
 		const _handleRun = () => {
-			_setToolbarModel(true, this.isScriptRunning, "RUN_CONFIGURATION", { 
+			_setToolbarModel(true, this.isScriptRunning, "RUN_CONFIGURATION", {
 				CONFIGURATION_NAME: ws.config.name,
 				SOURCE_ORG_NAME: ws.cli.sourceusername || ws.cli.targetusername,
-				TARGET_ORG_NAME: ws.cli.targetusername 
+				TARGET_ORG_NAME: ws.cli.targetusername
 			});
 			_setMainStateAlertBox('success', "ALERT.WIZARD_COMPLETED_MESSAGE", "ALERT.WIZARD_COMPLETED_TOOLTIP");
 		};
@@ -787,6 +791,7 @@ export class AppService implements IAppService {
 	 * @param errorMessage The error message.
 	 */
 	setViewErrors(errorSource: ErrorSource, errors: string[] = []) {
+
 		const errorMessages: Record<ErrorSource, string> = {
 			[ErrorSource.objectSets]: 'CONFIGURATION_NO_OBJECT_SET_WITH_ACTIVE_SOBJECTS',
 			[ErrorSource.objectFields]: 'CONFIGURATION_SOBJECTS_HAVE_ERRORS_IN_FIELDS',
@@ -796,8 +801,9 @@ export class AppService implements IAppService {
 			[ErrorSource.cliSettings]: 'ERRORS_IN_CLI_STRING_SETTINGS'
 		};
 
-		const errorMessage = this.$translate.translate({ key: errorMessages[errorSource] });
-		errors = errors.concat(errorMessage);
+		const key = errorMessages[errorSource];
+		const errorMessage = key && this.$translate.translate({ key });
+		errors = errorMessage ? errors.concat(errorMessage) : errors;
 
 		this.viewErrorsMap.set(errorSource, errors);
 	}
@@ -862,18 +868,18 @@ export class AppService implements IAppService {
 	}
 
 	/**
-     *  Set CLI JSON from CLI command string.
-     * @param ws  The workspace to update the CLI JSON in.
-     * @param cliString  The CLI command string to generate the JSON from.
-     * @returns  The CLI JSON object.
-     */
-    updateCliCommand(ws: Workspace, cli: any) {
-        ws.cli = Object.assign({}, ws.cli, cli);
-        ws.cli.command = SfdmuService.generateCLIString(ws.cli);
-        DatabaseService.updateWorkspace(ws);
-        LogService.info(`CLI string updated: ${ws.cli.command}`);
-        return ws.cli;
-    }
+	 *  Set CLI JSON from CLI command string.
+	 * @param ws  The workspace to update the CLI JSON in.
+	 * @param cliString  The CLI command string to generate the JSON from.
+	 * @returns  The CLI JSON object.
+	 */
+	updateCliCommand(ws: Workspace, cli: any) {
+		ws.cli = Object.assign({}, ws.cli, cli);
+		ws.cli.command = SfdmuService.generateCLIString(ws.cli);
+		DatabaseService.updateWorkspace(ws);
+		LogService.info(`CLI string updated: ${ws.cli.command}`);
+		return ws.cli;
+	}
 
 
 

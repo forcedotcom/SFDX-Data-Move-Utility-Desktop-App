@@ -237,6 +237,7 @@
   "SELECTED_WORKSPACE": "<b>סביבת עבודה שנבחרה:</b> &quot;{{ WORKSPACE_NAME }}&quot;",
   "SELECTING_SOBJECT": "טוען נתוני אובייקט...",
   "SELECT_ALL": "בחר הכל",
+  "SELECT_DIFFERENT_DATA_SOURCE_AND_TARGET": "לא ניתן לבחור קובץ CSV ואובייקט כמקור ויעד נתונים כאחד",
   "SELECT_FILE": "בחר קובץ",
   "SELECT_OBJECT_SET": "לא נבחרה ערכת אובייקטים",
   "SELECT_PLACEHOLDER": "- בחר ערך -",

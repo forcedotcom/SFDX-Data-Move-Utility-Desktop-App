@@ -176,7 +176,7 @@ export class SfdmuUtils {
 
         soql = soql.replace(/\n/gm, ' ').replace(/\r/gm, '').trim();
 
-        const fieldMatch = soql.match(/SELECT\s(.*?)FROM/i);
+        const fieldMatch = soql.match(/SELECT(.*)FROM/i);
         const fields = (fieldMatch ? fieldMatch[1].split(',').map(field => {
             field = field.trim();
             if (extractAliasesFromAggregadedFields) {

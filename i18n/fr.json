@@ -74,9 +74,9 @@
       "CLEANUP_PROMPT": "Êtes-vous sûr de vouloir nettoyer le dossier de l'application ? Cette action supprimera définitivement tous les dossiers qui ne sont associés à aucun des espaces de travail existants."
     },
     "CONFIGURATION": {
-      "CLONE": "Entrez le nom de la nouvelle configuration :",
+      "CLONE": "Saisissez le nom de la nouvelle configuration :",
       "DELETE": "Êtes-vous sûr de vouloir supprimer la configuration « {{ CONFIGURATION_NAME }} » ? Cette action supprimera définitivement la configuration et tous ses ensembles d'objets.",
-      "NEW": "Saisissez le nom de la nouvelle configuration :",
+      "NEW": "Entrez le nom de la nouvelle configuration :",
       "RENAME": "Entrez le nouveau nom de la configuration :",
       "SELECT": "Sélectionnez la configuration que vous souhaitez utiliser :"
     },
@@ -237,6 +237,7 @@
   "SELECTED_WORKSPACE": "<b>Espace de travail sélectionné :</b> &quot;{{ WORKSPACE_NAME }}&quot;",
   "SELECTING_SOBJECT": "Chargement des données sObject...",
   "SELECT_ALL": "Tout sélectionner",
+  "SELECT_DIFFERENT_DATA_SOURCE_AND_TARGET": "Impossible de sélectionner le fichier CSV comme source de données et cible en même temps",
   "SELECT_FILE": "Choisir le dossier",
   "SELECT_OBJECT_SET": "Aucun ensemble d'objets sélectionné",
   "SELECT_PLACEHOLDER": "- Sélectionnez une valeur -",
@@ -283,7 +284,7 @@
   "TOTAL_ITEMS": "Total : {total_num}",
   "TOTAL_RECORDS": "Nombre total d'enregistrements : {{ COUNT }}",
   "UNABLE_TO_DESCRIBE_SOBJECT": "Impossible de décrire le sObject {{ OBJECT_NAME }} sur l'organisation {{ USER_NAME }}.",
-  "UNABLE_TO_RUN_SCRIPT": "Impossible d'exécuter le script. Vérifiez si sfdx-cli est installé et disponible dans le chemin du système et si le plugin est installé.",
+  "UNABLE_TO_RUN_SCRIPT": "L'exécution a échoué en raison d'erreurs ou d'avertissements. Assurez-vous que SFDX CLI est installé, que le plug-in est en place et examinez le script et les journaux d'erreurs pour détecter les problèmes.",
   "UNKNOWN_OBJECT": "Objet inconnu",
   "USE_SOURCE_CONNECTION": "Utiliser la connexion source",
   "VERIFYING_ORG_CONNECTION": "Vérification de la connexion à l'organisation {{ USER_NAME }}...",

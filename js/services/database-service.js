@@ -578,13 +578,13 @@ class DatabaseService {
         if (!newConnections.some(conn => conn.id == "csvfile")) {
             newConnections.push(new models_1.Connection({
                 type: common_1.ConnectionType.File,
-                orgId: 'csvfile',
-                name: 'CSV_FILE',
+                orgId: common_1.CONSTANTS.SFDMU.CSV_FILE_ORG_NAME,
+                name: common_1.CONSTANTS.SFDMU.CSV_FILE_OPTION_NAME,
                 id: utils_1.CommonUtils.randomString()
             }));
         }
         newConnections = newConnections.sortByKey('userName', "asc", [
-            "CSV_FILE"
+            common_1.CONSTANTS.SFDMU.CSV_FILE_OPTION_NAME
         ]);
         const connectionIDsToRemove = db.connections.excludeBy(newConnections, "id", "id").map(conn => conn.id);
         db.connections = newConnections;

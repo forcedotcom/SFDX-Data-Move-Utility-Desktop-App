@@ -251,7 +251,7 @@ export class ObjectManagerController {
         }
 
         // Check fields
-        if (objectOption.data.missingFieldsInSource) {
+        if (objectOption.data.missingFieldsInSource.length) {
             objectOption.data.fieldErrors += '\n' + this.$app.$translate.translate({
                 key: 'SOBJECT_HAS_FIELDS_MISSING_IN_SOURCE_ORG',
                 params: {
@@ -260,7 +260,7 @@ export class ObjectManagerController {
             });
         }
 
-        if (objectOption.data.missingFieldsInTarget) {
+        if (objectOption.data.missingFieldsInTarget.length) {
             objectOption.data.fieldErrors += '\n' + this.$app.$translate.translate({
                 key: 'SOBJECT_HAS_FIELDS_MISSING_IN_TARGET_ORG',
                 params: {
