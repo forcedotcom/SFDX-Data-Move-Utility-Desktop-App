@@ -4,4 +4,8 @@ node_modules
 .vscode
 js/private
 src/private
+!js/private/index.js
+!src/private/index.ts
+!js/private/dev.js
+!src/private/dev.ts
 
