@@ -5,7 +5,7 @@ import { MessageType } from "./enumerations";
 export const CONSTANTS = {
 
     // Application constants. These are used to configure the application.
-    SPLASH_DELAY: 500,
+    SPLASH_DELAY: 3000,
     TOASTS_DELAY: 6000,
     LONG_OPERATION_MESSAGE_THRESHOLD: 15000,
     BOTTOM_TOAST_ANIMATION_DURATION: 500,

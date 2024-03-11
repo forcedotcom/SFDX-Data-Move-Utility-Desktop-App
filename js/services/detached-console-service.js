@@ -21,13 +21,18 @@ class DetachedConsoleService {
             const [cmd, ...args] = command.split(' ');
             // Determine the platform and execute the command accordingly
             if (process.platform === "win32") {
-                this.process = (0, child_process_1.spawn)(`cmd.exe`, ['/c', cmd, ...args], { detached: false, shell: true });
+                this.process = (0, child_process_1.spawn)(`cmd.exe`, ['/c', cmd, ...args], { detached: true, shell: true });
             }
             else if (process.platform === "darwin") {
-                this.process = (0, child_process_1.spawn)(`open`, ['-a', 'Terminal', cmd, ...args], { detached: false, shell: true });
+                const appleScript = `tell application "Terminal" 
+                                        do script "${cmd} ${args.join(' ')}"
+                                        activate                                         
+                                     end tell
+                                     `;
+                this.process = (0, child_process_1.spawn)('osascript', ['-e', appleScript]);
             }
             else {
-                this.process = (0, child_process_1.spawn)(`gnome-terminal`, ['--', cmd, ...args], { detached: false, shell: true });
+                this.process = (0, child_process_1.spawn)(`gnome-terminal`, ['--', cmd, ...args], { detached: true, shell: true });
             }
             // Listen for the close event to get the exit code
             this.process.on('close', (code) => {

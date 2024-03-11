@@ -142,6 +142,7 @@ function createMainWindow() {
 function runApplication() {
     services_1.LogService.info("#\n\n\n\n\n----------------------------------------");
     services_1.LogService.info("Application started.");
+    services_1.LogService.info(JSON.stringify(utils_1.OsUtils.getOSDetails()));
     electron_1.app.whenReady().then(function appWhenReady() {
         // Create the main window
         createMainWindow();

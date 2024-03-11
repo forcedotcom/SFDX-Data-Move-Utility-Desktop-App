@@ -175,6 +175,7 @@ class ObjectManagerController {
      * @param objectOption  The object option to set the errors
      */
     setObjectErrors(objectOption) {
+        var _a, _b, _c;
         const sObject = services_1.DatabaseService.getSObject(objectOption === null || objectOption === void 0 ? void 0 : objectOption.value);
         const objectDescribe = this.$app.orgDescribe.objectsMap.get(sObject.name);
         objectOption.data.fieldErrors = '';
@@ -205,7 +206,7 @@ class ObjectManagerController {
             });
         }
         // Check fields
-        if (objectOption.data.missingFieldsInSource.length) {
+        if ((_a = objectOption.data.missingFieldsInSource) === null || _a === void 0 ? void 0 : _a.length) {
             objectOption.data.fieldErrors += '\n' + this.$app.$translate.translate({
                 key: 'SOBJECT_HAS_FIELDS_MISSING_IN_SOURCE_ORG',
                 params: {
@@ -213,7 +214,7 @@ class ObjectManagerController {
                 }
             });
         }
-        if (objectOption.data.missingFieldsInTarget.length) {
+        if ((_b = objectOption.data.missingFieldsInTarget) === null || _b === void 0 ? void 0 : _b.length) {
             objectOption.data.fieldErrors += '\n' + this.$app.$translate.translate({
                 key: 'SOBJECT_HAS_FIELDS_MISSING_IN_TARGET_ORG',
                 params: {
@@ -241,7 +242,7 @@ class ObjectManagerController {
                 }
             });
         }
-        if (objectOption.data.mappedFieldsMissingInTarget.length > 0) {
+        if (((_c = objectOption.data.mappedFieldsMissingInTarget) === null || _c === void 0 ? void 0 : _c.length) > 0) {
             objectOption.data.settingsErrors += '\n' + this.$app.$translate.translate({
                 key: 'MAPPED_FIELDS_MISSING_IN_THE_TARGET_ORG',
                 params: {

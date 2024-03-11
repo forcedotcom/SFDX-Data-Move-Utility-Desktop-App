@@ -19,5 +19,6 @@ __exportStar(require("./app-utils"), exports);
 __exportStar(require("./common-utils"), exports);
 __exportStar(require("./fs-utils"), exports);
 __exportStar(require("./lang-utils"), exports);
+__exportStar(require("./os-utils"), exports);
 __exportStar(require("./sfdmu-utils"), exports);
 //# sourceMappingURL=index.js.map

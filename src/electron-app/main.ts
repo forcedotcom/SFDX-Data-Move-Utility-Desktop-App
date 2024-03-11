@@ -3,7 +3,7 @@ import * as path from "path";
 import { AppPathType, CONSTANTS, DialogType } from "../common";
 import { AppGlobalData } from "../models";
 import { DialogService, LogService, WindowService } from "../services";
-import { AppUtils } from "../utils";
+import { AppUtils, OsUtils } from "../utils";
 import { AppConfig } from "../configurations";
 
 
@@ -158,6 +158,7 @@ function runApplication() {
 
   LogService.info("#\n\n\n\n\n----------------------------------------");
   LogService.info("Application started.");
+  LogService.info(JSON.stringify(OsUtils.getOSDetails()));
 
   app.whenReady().then(function appWhenReady() {
 
