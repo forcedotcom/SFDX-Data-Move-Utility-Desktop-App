@@ -27,11 +27,11 @@ export class DetachedConsoleService {
 
             // Determine the platform and execute the command accordingly
             if (process.platform === "win32") {
-                this.process = spawn(`cmd.exe`, ['/c', cmd, ...args], { detached: true, shell: true });
+                this.process = spawn(`cmd.exe`, ['/c', cmd, ...args], { detached: false, shell: true });
             } else if (process.platform === "darwin") {
-                this.process = spawn(`open`, ['-a', 'Terminal', cmd, ...args], { detached: true, shell: true });
+                this.process = spawn(`open`, ['-a', 'Terminal', cmd, ...args], { detached: false, shell: true });
             } else {
-                this.process = spawn(`gnome-terminal`, ['--', cmd, ...args], { detached: true, shell: true });
+                this.process = spawn(`gnome-terminal`, ['--', cmd, ...args], { detached: false, shell: true });
             }
 
             // Listen for the close event to get the exit code
