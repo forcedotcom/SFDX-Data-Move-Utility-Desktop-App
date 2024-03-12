@@ -728,18 +728,24 @@ class ObjectManagerEditorController {
     setupObjectSettingsEditor() {
         const sobject = services_1.DatabaseService.getSObject();
         this.objectSettingsSetup = {
+            // Row 1
             bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, max: 100000, widthOf12: 3 },
             restApiBatchSize: { type: 'number', label: 'restApiBatchSize', required: false, min: 1, max: 100000, widthOf12: 3 },
             parallelBulkJobs: { type: 'number', label: 'parallelBulkJobs', required: false, min: 1, max: 100, widthOf12: 3 },
             parallelRestJobs: { type: 'number', label: 'parallelRestJobs', required: false, min: 1, max: 100, widthOf12: 3 },
+            // Row 2
             useQueryAll: { type: 'toggle', label: 'useQueryAll', required: false, widthOf12: 3 },
             queryAllTarget: { type: 'toggle', label: 'queryAllTarget', required: false, widthOf12: 3 },
             skipExistingRecords: { type: 'toggle', label: 'skipExistingRecords', required: false, widthOf12: 3 },
             useSourceCSVFile: { type: 'toggle', label: 'useSourceCSVFile', required: false, widthOf12: 3 },
+            // Row 3
+            skipRecordsComparison: { type: 'toggle', label: 'skipRecordsComparison', required: false, widthOf12: 12 },
+            // Row 4
             deleteOldData: { type: 'toggle', label: 'deleteOldData', required: false, widthOf12: 3 },
             deleteFromSource: { type: 'toggle', label: 'deleteFromSource', required: false, widthOf12: 3 },
             deleteByHierarchy: { type: 'toggle', label: 'deleteByHierarchy', required: false, widthOf12: 3 },
             hardDelete: { type: 'toggle', label: 'hardDelete', required: false, widthOf12: 3 },
+            // Row 5
             useCSVValuesMapping: { type: 'toggle', label: 'useCSVValuesMapping', required: false, widthOf12: 3 },
             useValuesMapping: { type: 'toggle', label: 'useValuesMapping', required: false, widthOf12: 3 },
             useFieldMapping: { type: 'toggle', label: 'useFieldMapping', required: false, widthOf12: 3 },
@@ -747,34 +753,42 @@ class ObjectManagerEditorController {
         };
         this.objectSettingsJson = {
             // API_CONFIGURATION
+            // Row 1
             bulkApiV1BatchSize: sobject.bulkApiV1BatchSize,
             restApiBatchSize: sobject.restApiBatchSize,
             parallelBulkJobs: sobject.parallelBulkJobs,
             parallelRestJobs: sobject.parallelRestJobs,
             // RECORD_PROCESSING_MODE
+            // Row 2
             useQueryAll: sobject.useQueryAll,
             queryAllTarget: sobject.queryAllTarget,
             skipExistingRecords: sobject.skipExistingRecords,
             useSourceCSVFile: sobject.useSourceCSVFile,
+            // Row 3
+            skipRecordsComparison: sobject.skipRecordsComparison,
             // DATA_DELETION_FLAGS
+            // Row 4
             deleteOldData: sobject.deleteOldData,
             deleteFromSource: sobject.deleteFromSource,
             deleteByHierarchy: sobject.deleteByHierarchy,
             hardDelete: sobject.hardDelete,
             // DATA_TRANSFORMATION
+            // Row 5
             useCSVValuesMapping: sobject.useCSVValuesMapping,
             useValuesMapping: sobject.useValuesMapping,
             useFieldMapping: sobject.useFieldMapping,
             updateWithMockData: sobject.updateWithMockData
         };
         this.objectSettingsTitles = [
-            // row 0
-            this.$app.$translate.translate({ key: 'API_SETTINGS' }),
             // row 1
-            this.$app.$translate.translate({ key: 'RECORD_PROCESSING_MODE' }),
+            this.$app.$translate.translate({ key: 'API_SETTINGS' }),
             // row 2
-            this.$app.$translate.translate({ key: 'DATA_DELETION_FLAGS' }),
+            this.$app.$translate.translate({ key: 'RECORD_PROCESSING_MODE' }),
             // row 3
+            '',
+            // row 4
+            this.$app.$translate.translate({ key: 'DATA_DELETION_FLAGS' }),
+            // row 5
             this.$app.$translate.translate({ key: 'DATA_TRANSFORMATION' }),
         ];
     }

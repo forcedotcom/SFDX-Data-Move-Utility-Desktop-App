@@ -542,6 +542,29 @@ class Script extends ScriptEntityBase {
          * The query threshold for using Bulk API.
          */
         this.queryBulkApiThreshold = common_1.CONSTANTS.SFDMU.QUERY_BULK_API_THRESHOLD;
+        // Addons
+        // TODO: UI for all addon definitions not implemented yet
+        /**
+         * Addon definitions which are executed before the script is executed.
+         *
+         * @type {any[]}
+         * @memberof Script
+         */
+        this.beforeAddons = [];
+        /**
+         * Addon definitions which are executed after the script is executed.
+         *
+         * @type {any[]}
+         * @memberof Script
+         */
+        this.afterAddons = [];
+        /**
+         * Addon definitions which are executed when the source org is queried for the first time.
+         *
+         * @type {any[]}
+         * @memberof Script
+         */
+        this.dataRetrievedAddons = [];
         if (init) {
             Object.assign(this, init);
         }
@@ -704,6 +727,18 @@ __decorate([
     (0, common_1.ExcludeIfDefault)(common_1.CONSTANTS.SFDMU.QUERY_BULK_API_THRESHOLD),
     __metadata("design:type", Number)
 ], Script.prototype, "queryBulkApiThreshold", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
+], Script.prototype, "beforeAddons", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
+], Script.prototype, "afterAddons", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
+], Script.prototype, "dataRetrievedAddons", void 0);
 exports.Script = Script;
 /**
  * Represents an object set entity from the export.json configuration file.
@@ -805,6 +840,10 @@ class ScriptObject extends ScriptEntityBase {
          */
         this.useSourceCSVFile = false;
         /**
+         * Sets whether should skip records comparison for the script object to identify records to update.
+         */
+        this.skipRecordsComparison = false;
+        /**
          * The target records filter for the script object.
          */
         this.targetRecordsFilter = "";
@@ -860,14 +899,42 @@ class ScriptObject extends ScriptEntityBase {
          * The number of parallel REST API jobs for the script object.
          */
         this.parallelRestJobs = 1;
+        // TODO:  UI for all addon definitions not implemented yet
         /**
-         *  Addon definitions which are executed before the target org is updated.
-         * TODO: Addon definitions UI is not implemented yet.
+         * Addon definitions which are executed before this object processed, even before it is queried.
+         *
+         * @type {any[]}
+         * @memberof ScriptObject
+         */
+        this.beforeAddons = [];
+        /**
+         * Addon definitions which are executed after this object is fully processed.
+         *
+         * @type {any[]}
+         * @memberof ScriptObject
+         */
+        this.afterAddons = [];
+        /**
+         *  Addon definitions which are executed just before the target org is updated on this object.
          *
          * @type {any[]}
          * @memberof ScriptObject
          */
         this.beforeUpdateAddons = [];
+        /**
+         * Addon definitions which are executed after the target org is updated on this object.
+         *
+         * @type {any[]}
+         * @memberof ScriptObject
+         */
+        this.afterUpdateAddons = [];
+        /**
+         *  Addon definitions which are executed when the update records are prepared to update the target org, i.e. filter records.
+         *
+         * @type {any[]}
+         * @memberof ScriptObject
+         */
+        this.filterRecordsAddons = [];
         //-------------------------------------------------------------------------
         /**
          * The WHERE clause of the query.
@@ -1090,6 +1157,10 @@ __decorate([
     __metadata("design:type", Object)
 ], ScriptObject.prototype, "useSourceCSVFile", void 0);
 __decorate([
+    (0, common_1.ExcludeIfDefault)(false),
+    __metadata("design:type", Object)
+], ScriptObject.prototype, "skipRecordsComparison", void 0);
+__decorate([
     (0, common_1.ExcludeIfDefault)(""),
     __metadata("design:type", Object)
 ], ScriptObject.prototype, "targetRecordsFilter", void 0);
@@ -1152,7 +1223,23 @@ __decorate([
 __decorate([
     (0, common_1.ExcludeIfDefault)([]),
     __metadata("design:type", Array)
+], ScriptObject.prototype, "beforeAddons", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
+], ScriptObject.prototype, "afterAddons", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
 ], ScriptObject.prototype, "beforeUpdateAddons", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
+], ScriptObject.prototype, "afterUpdateAddons", void 0);
+__decorate([
+    (0, common_1.ExcludeIfDefault)([]),
+    __metadata("design:type", Array)
+], ScriptObject.prototype, "filterRecordsAddons", void 0);
 __decorate([
     (0, class_transformer_1.Expose)({ groups: ['db'] }),
     __metadata("design:type", Object)

@@ -650,6 +650,36 @@ export class Script extends ScriptEntityBase {
     queryBulkApiThreshold: number = CONSTANTS.SFDMU.QUERY_BULK_API_THRESHOLD;
 
 
+    // Addons
+    // TODO: UI for all addon definitions not implemented yet
+    /**
+     * Addon definitions which are executed before the script is executed.
+     *
+     * @type {any[]}
+     * @memberof Script
+     */
+    @ExcludeIfDefault([])
+    beforeAddons: any[] = [];
+
+    /**
+     * Addon definitions which are executed after the script is executed.
+     *
+     * @type {any[]}
+     * @memberof Script
+     */
+    @ExcludeIfDefault([])
+    afterAddons: any[] = [];
+
+
+    /**
+     * Addon definitions which are executed when the source org is queried for the first time.
+     *
+     * @type {any[]}
+     * @memberof Script
+     */
+    @ExcludeIfDefault([])
+    dataRetrievedAddons: any[] = [];
+
     // -------------------------------------------------------------------------
     /**
      * Initializes the script object.
@@ -835,6 +865,12 @@ export class ScriptObject extends ScriptEntityBase {
     useSourceCSVFile = false;
 
     /**
+     * Sets whether should skip records comparison for the script object to identify records to update.
+     */
+    @ExcludeIfDefault(false)
+    skipRecordsComparison = false;
+
+    /**
      * The target records filter for the script object.
      */
     @ExcludeIfDefault("")
@@ -925,15 +961,52 @@ export class ScriptObject extends ScriptEntityBase {
     parallelRestJobs = 1;
 
 
+    // TODO:  UI for all addon definitions not implemented yet
     /**
-     *  Addon definitions which are executed before the target org is updated.
-     * TODO: Addon definitions UI is not implemented yet.
+     * Addon definitions which are executed before this object processed, even before it is queried.
+     *
+     * @type {any[]}
+     * @memberof ScriptObject
+     */
+    @ExcludeIfDefault([])
+    beforeAddons: any[] = [];
+    
+    /**
+     * Addon definitions which are executed after this object is fully processed.
+     *
+     * @type {any[]}
+     * @memberof ScriptObject
+     */
+    @ExcludeIfDefault([])
+    afterAddons: any[] = [];    
+
+    /**
+     *  Addon definitions which are executed just before the target org is updated on this object.
      *
      * @type {any[]}
      * @memberof ScriptObject
      */
     @ExcludeIfDefault([])
     beforeUpdateAddons: any[] = [];
+    
+
+    /**
+     * Addon definitions which are executed after the target org is updated on this object.
+     *
+     * @type {any[]}
+     * @memberof ScriptObject
+     */
+    @ExcludeIfDefault([])
+    afterUpdateAddons: any[] = [];
+    
+    /**
+     *  Addon definitions which are executed when the update records are prepared to update the target org, i.e. filter records.
+     *
+     * @type {any[]}
+     * @memberof ScriptObject
+     */
+    @ExcludeIfDefault([])
+    filterRecordsAddons: any[] = [];
 
 
     //-------------------------------------------------------------------------
