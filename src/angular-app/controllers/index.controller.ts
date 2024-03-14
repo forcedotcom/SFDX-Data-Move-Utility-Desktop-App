@@ -421,23 +421,16 @@ export class IndexController {
                     LogService.info(`Opening get help: ${global.appGlobal.packageJson.appConfig.getHelpUrl}`);
                 } break;
 
+                case "Help:ShowQuickTips": {
+                    this.$app.showHiddenQuickTips();
+                    LogService.info(`Showing hidden quick tips`);
+                    ToastService.showSuccess();
+                } break;
+
 
             }
         }, this.$scope);
-
-        // TEST:
-        // this.$app.$timeout(async () => {
-        //     // const db = DatabaseService.getOrCreateAppDb();
-        //     // let test = await SfdmuService.queryBatchedAsync("SELECT Id, Name FROM Account LIMIT 1", db.workspace.sourceConnection);
-        //     // console.log(test);
-        //     // test = await SfdmuService.queryBatchedAsync("SELECT Id, Name, Phone FROM Account LIMIT 100", db.workspace.sourceConnection);
-        //     // console.log(test);
-
-        //     const ws = DatabaseService.getWorkspace();
-        //     const describeResult = await SfdmuService.connectToOrgAsync(ws.sourceConnection);
-        //     console.log(describeResult); 
-        // }, 10000);
-
+       
     }
 
 

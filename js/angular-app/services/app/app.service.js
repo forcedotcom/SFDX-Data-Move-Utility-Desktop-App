@@ -8,6 +8,7 @@ const angular_1 = __importDefault(require("angular"));
 const common_1 = require("../../../common");
 const models_1 = require("../../../models");
 const services_1 = require("../../../services");
+const utils_1 = require("../../../utils");
 /**
  * Represents the application service interface containing multiple utility services
  * and methods to build main application components like menus and wizards.
@@ -258,9 +259,6 @@ class AppService {
     buildAllApplicationViewComponents() {
         this.$broadcast.broadcastAction('buildViewComponents', null, {});
     }
-    /**
-     * Builds the main menu of the application.
-     */
     buildMainMenu() {
         const ws = services_1.DatabaseService.getWorkspace();
         // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -450,6 +448,13 @@ class AppService {
                 action: 'Menu:Help',
                 children: [
                     {
+                        title: this.$translate.translate({ key: "MENU.SHOW_QUICK_TIPS" }),
+                        icons: [{ icon: common_1.FaIcon.lightbulb }],
+                        action: "Help:ShowQuickTips"
+                    }, {
+                        itemType: "divider"
+                    },
+                    {
                         title: this.$translate.translate({ key: "MENU.VIEW_APP_ON_GITHUB", params: { APP_NAME: global.appGlobal.packageJson.description } }),
                         icons: [{ icon: common_1.FaIcon.github }],
                         action: "Help:ViewAppOnGithub"
@@ -593,9 +598,6 @@ class AppService {
                 break;
         }
     }
-    /**
-     * Builds the footer of the application.
-     */
     buildFooter() {
         const ws = services_1.DatabaseService.getWorkspace();
         const _setWorkspacePath = () => {
@@ -624,11 +626,6 @@ class AppService {
         _setWorkspacePath();
         _setConnectedOrgs();
     }
-    /**
-     * Sets the error messages associated with the current view and the specified error source.
-     * @param errorSource The error source.
-     * @param errorMessage The error message.
-     */
     setViewErrors(errorSource, errors = []) {
         const errorMessages = {
             [common_1.ErrorSource.objectSets]: 'CONFIGURATION_NO_OBJECT_SET_WITH_ACTIVE_SOBJECTS',
@@ -643,11 +640,6 @@ class AppService {
         errors = errorMessage ? errors.concat(errorMessage) : errors;
         this.viewErrorsMap.set(errorSource, errors);
     }
-    /**
-     * Clears the error message associated with the current view and the specified error source.
-     * If error source is not specified, clears all errors associated with the current view.
-     * @param errorSource The error source.
-     */
     clearViewErrors(errorSource) {
         if (errorSource) {
             this.viewErrorsMap.delete(errorSource);
@@ -655,6 +647,14 @@ class AppService {
         else {
             this.viewErrorsMap.clear();
         }
+    }
+    showHiddenQuickTips() {
+        utils_1.CommonUtils.getAllLocalStorageItems().forEach((keyValuePair) => {
+            const key = keyValuePair.key;
+            if (key.startsWith('quickTip')) {
+                localStorage.removeItem(key);
+            }
+        });
     }
     // SFDMU Service Methods ----------------------------------------------------	
     async describeWorkspaceSObjectAsync(objectName) {

@@ -79,6 +79,10 @@ textarea[readonly] {
     vertical-align: middle;
 }
 
+[dir="rtl"] .dir-ltr {
+    direction: rtl;
+}
+
 
 /* Specific Styling ----------------- */
 #scriptSettingsForm>.row:first-child {

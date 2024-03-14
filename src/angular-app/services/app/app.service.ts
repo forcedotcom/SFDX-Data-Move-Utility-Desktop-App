@@ -11,6 +11,7 @@ import {
 import { CONSTANTS, ErrorSource, FaIcon, ProgressEventType, View, ViewByWizardStep, WizardStepByView } from "../../../common";
 import { ConsoleEventType, IActionEventArgParam, IAlert, IDataResult, IMenuItem, IOption, IProgressInfo, IState, IStateChangeEvent, OrgDescribe, SObjectDescribe, Workspace } from "../../../models";
 import { DatabaseService, LogService, SfdmuService, ToastService } from "../../../services";
+import { CommonUtils } from "../../../utils";
 
 
 /**
@@ -58,8 +59,13 @@ export interface IAppService {
 	 * @param errorMessage The error message.
 	*/
 	setViewErrors(errorSource: ErrorSource, errors?: string[]): void;
+	
 	/** Clears the error message associated with the current view and the specified error source. */
 	clearViewErrors(errorSource?: ErrorSource): void;
+	/**
+	 *  Show all hidden quick tips.
+	 */
+	showHiddenQuickTips(): void;
 
 	/**
 	 * Contains descriptions of all objects from source and target orgs, including 'source' property of each object's description.
@@ -396,10 +402,6 @@ export class AppService implements IAppService {
 		this.$broadcast.broadcastAction('buildViewComponents', null, {});
 	}
 
-
-	/**
-	 * Builds the main menu of the application.
-	 */
 	buildMainMenu() {
 
 		const ws = DatabaseService.getWorkspace();
@@ -593,6 +595,13 @@ export class AppService implements IAppService {
 				action: 'Menu:Help',
 				children: [
 					{
+						title: this.$translate.translate({ key: "MENU.SHOW_QUICK_TIPS" }),
+						icons: [{ icon: FaIcon.lightbulb }],
+						action: "Help:ShowQuickTips"
+					}, {
+						itemType: "divider"
+					},
+					{
 						title: this.$translate.translate({ key: "MENU.VIEW_APP_ON_GITHUB", params: { APP_NAME: global.appGlobal.packageJson.description } }),
 						icons: [{ icon: FaIcon.github }],
 						action: "Help:ViewAppOnGithub"
@@ -749,10 +758,6 @@ export class AppService implements IAppService {
 		}
 	}
 
-
-	/**
-	 * Builds the footer of the application.
-	 */
 	buildFooter() {
 		const ws = DatabaseService.getWorkspace();
 
@@ -784,12 +789,6 @@ export class AppService implements IAppService {
 		_setConnectedOrgs();
 	}
 
-
-	/**
-	 * Sets the error messages associated with the current view and the specified error source.
-	 * @param errorSource The error source.
-	 * @param errorMessage The error message.
-	 */
 	setViewErrors(errorSource: ErrorSource, errors: string[] = []) {
 
 		const errorMessages: Record<ErrorSource, string> = {
@@ -807,12 +806,7 @@ export class AppService implements IAppService {
 
 		this.viewErrorsMap.set(errorSource, errors);
 	}
-
-	/**
-	 * Clears the error message associated with the current view and the specified error source.
-	 * If error source is not specified, clears all errors associated with the current view.
-	 * @param errorSource The error source.
-	 */
+	
 	clearViewErrors(errorSource?: ErrorSource) {
 		if (errorSource) {
 			this.viewErrorsMap.delete(errorSource);
@@ -820,6 +814,18 @@ export class AppService implements IAppService {
 			this.viewErrorsMap.clear();
 		}
 	}
+
+	showHiddenQuickTips(): void {
+		CommonUtils.getAllLocalStorageItems().forEach((keyValuePair) => {
+			const key = keyValuePair.key;
+			if (key.startsWith('quickTip')) {
+				localStorage.removeItem(key);				
+			}
+		});
+
+	}
+
+
 
 
 	// SFDMU Service Methods ----------------------------------------------------	
