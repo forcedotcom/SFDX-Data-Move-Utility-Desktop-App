@@ -1,0 +1,28 @@
+<div class="d-flex justify-content-between py-2 pe-4">
+    <div class="flex-grow-1 d-flex justify-content-start" style="flex-basis: 0; min-width: max-content;">
+        <ui-label class="text-primary-dashed" label="{{ 'SFDMU_ADDON_API_OVERVIEW' | translate }}"
+            help-search-word="INTRODUCTION_TO_SFDMU_API_ENGINE" add-help-links="true">
+        </ui-label>
+    </div>
+    <div class="flex-grow-2" style="flex-basis: 0; min-width: max-content;">
+        <small class="text-mute">
+            <em>
+                ({{ 'ADDON_TAB_DESCRIPTION' | translate }})
+            </em>
+        </small>
+    </div>
+
+    <div class="flex-grow-1 d-flex justify-content-end" style="flex-basis: 0; min-width: max-content;">
+
+        <button tooltip="{{ 'RESTORE_ADDONS' | translate }}" class="btn btn-outline-danger btn-sm"
+            ng-disabled="!$ctrl.isAddOnsChanged" ng-click="$ctrl.handleRestoreAddOns()">
+            <i class="{{ $ctrl.FaIcon.undo }}"></i>
+        </button>
+
+        <button tooltip="{{ 'SAVE_ADDONS' | translate }}" class="ms-2 btn btn-primary btn-sm"
+            ng-disabled="!$ctrl.isAddOnsChanged" ng-click="$ctrl.handleSaveAddOns()">
+            <i class="{{ $ctrl.FaIcon.save }}"></i>
+        </button>
+
+    </div>
+</div>

@@ -6,7 +6,8 @@ export const AppComponentsModule = angular.module('appComponentsModule', [
 	'objectManagerToolbarComponentModule',
 	'objectManagerComponentModule',
 	'objectManagerEditorComponentModule',
-	'mainScriptSettingsComponentModule'
+	'mainScriptSettingsComponentModule',
+	'scriptAddOnsComponentModule'
 
 ]);
 

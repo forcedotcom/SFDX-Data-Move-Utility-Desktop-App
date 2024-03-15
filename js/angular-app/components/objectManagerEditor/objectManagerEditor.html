@@ -35,6 +35,11 @@
 		<div ng-include="'./js/angular-app/components/objectManagerEditor/views/dataAnonymization.html'"></div>
 	</ui-tab>
 
+	<ui-tab title="{{ 'TABS.ADD_ONS' | translate }}" tab-id="addOns"
+		icon="{{ $ctrl.FaIcon.addOn  }}">
+		<div ng-include="'./js/angular-app/components/objectManagerEditor/views/addOns.html'"></div>
+	</ui-tab>
+
 	<ui-tab title="{{ 'TABS.OBJECT_SETTINGS' | translate }}" tab-id="objectSettings" icon="{{ $ctrl.FaIcon.settings }}">
 		<div ng-include="'./js/angular-app/components/objectManagerEditor/views/settings.html'"></div>
 	</ui-tab>

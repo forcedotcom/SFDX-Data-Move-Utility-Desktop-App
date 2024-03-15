@@ -14,11 +14,7 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
-__exportStar(require("./app"), exports);
-__exportStar(require("./app-components.module"), exports);
-__exportStar(require("./mainScriptSettings"), exports);
-__exportStar(require("./objectManager"), exports);
-__exportStar(require("./objectManagerEditor"), exports);
-__exportStar(require("./objectManagerToolbar"), exports);
-__exportStar(require("./scriptAddOns"), exports);
+__exportStar(require("./scriptAddOns.component"), exports);
+__exportStar(require("./scriptAddOns.controller"), exports);
+__exportStar(require("./scriptAddOns.module"), exports);
 //# sourceMappingURL=index.js.map

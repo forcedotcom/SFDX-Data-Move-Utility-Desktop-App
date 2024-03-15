@@ -9,6 +9,7 @@ class ConfigurationController {
         this.$app = $app;
         this.$scope = $scope;
         this.isConfigurationSelected = false;
+        this.scriptTabsSelectedTabId = "";
     }
     $onInit() {
         services_1.LogService.info('Initializing ConfigurationController...');
@@ -25,6 +26,7 @@ class ConfigurationController {
             const config = services_1.DatabaseService.getConfig();
             utils_1.AngularUtils.$apply(this.$scope, () => {
                 this.isConfigurationSelected = config.isInitialized;
+                this.scriptTabsSelectedTabId = "tabObjectManager";
             });
         }
     }

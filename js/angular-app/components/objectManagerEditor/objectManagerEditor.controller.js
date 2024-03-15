@@ -51,6 +51,10 @@ class ObjectManagerEditorController {
         this.objectSettingsJson = {};
         this.objectSettingsSetup = {};
         this.objectSettingsTitles = [];
+        // Object Add-Ons tab
+        this.scriptObjectAddOnFormData = {};
+        this.objectAddOnsSelectedTabId = "";
+        this.isAddOnsChanged = false;
         this._oldSelectedPolymorphicField = undefined;
     }
     get view() {
@@ -96,7 +100,7 @@ class ObjectManagerEditorController {
             this.$app.buildFooter();
         }, this.$scope);
         this.$app.$broadcast.onAction('tabSelected', 'uiTabs', (args) => {
-            if (args.componentId == 'objectFieldsTabset') {
+            if (['objectFieldsTabset'].includes(args.componentId)) {
                 this.handleTabChange(args);
             }
         }, this.$scope);
@@ -435,6 +439,20 @@ class ObjectManagerEditorController {
             }
         }, 600);
     }
+    setAddOnsTabsetTitles() {
+        this.$app.$timeout(() => {
+            var _a, _b, _c, _d, _e;
+            const $ctrl = utils_1.AngularUtils.$getController('#objectAddOnsTabset');
+            const sobject = services_1.DatabaseService.getSObject();
+            if ($ctrl) {
+                $ctrl.setTabTitle('objectOnBefore', `${this.$app.$translate.translate({ key: 'ON_BEFORE_ADD_ONS' })} (${((_a = sobject.beforeAddons) === null || _a === void 0 ? void 0 : _a.length) || 0})`);
+                $ctrl.setTabTitle('objectOnAfter', `${this.$app.$translate.translate({ key: 'ON_AFTER_ADD_ONS' })} (${((_b = sobject.afterAddons) === null || _b === void 0 ? void 0 : _b.length) || 0})`);
+                $ctrl.setTabTitle('objectOnBeforeUpdate', `${this.$app.$translate.translate({ key: 'ON_BEFORE_UPDATE_ADD_ONS' })} (${((_c = sobject.beforeUpdateAddons) === null || _c === void 0 ? void 0 : _c.length) || 0})`);
+                $ctrl.setTabTitle('objectOnAfterUpdate', `${this.$app.$translate.translate({ key: 'ON_AFTER_UPDATE_ADD_ONS' })} (${((_d = sobject.afterUpdateAddons) === null || _d === void 0 ? void 0 : _d.length) || 0})`);
+                $ctrl.setTabTitle('objectOnFlterRecords', `${this.$app.$translate.translate({ key: 'FILTER_RECORDS_ADD_ONS' })} (${((_e = sobject.filterRecordsAddons) === null || _e === void 0 ? void 0 : _e.length) || 0})`);
+            }
+        }, 600);
+    }
     /**
      * Set the polymorphic fields setup.
      * Used by the polymorphic fields tab.
@@ -725,6 +743,17 @@ class ObjectManagerEditorController {
         };
         this.dataAnonymizationJsonArray = sobject.mockFields;
     }
+    setupAddOnEditors() {
+        const sObject = services_1.DatabaseService.getSObject();
+        this.scriptObjectAddOnFormData = {
+            afterAddons: JSON.stringify(sObject.afterAddons || [], null, 2),
+            beforeAddons: JSON.stringify(sObject.beforeAddons || [], null, 2),
+            afterUpdateAddons: JSON.stringify(sObject.afterUpdateAddons || [], null, 2),
+            beforeUpdateAddons: JSON.stringify(sObject.beforeUpdateAddons || [], null, 2),
+            filterRecordsAddons: JSON.stringify(sObject.filterRecordsAddons || [], null, 2)
+        };
+        this.isAddOnsChanged = false;
+    }
     setupObjectSettingsEditor() {
         const sobject = services_1.DatabaseService.getSObject();
         this.objectSettingsSetup = {
@@ -911,7 +940,7 @@ class ObjectManagerEditorController {
      * @param args The event arguments.
      */
     handleTabChange(args) {
-        if (args.componentId == 'objectEditorTabs' || args.componentId == 'objectFieldsTabset') {
+        if (['objectEditorTabs', 'objectFieldsTabset'].includes(args.componentId)) {
             const sObject = services_1.DatabaseService.getSObject();
             utils_1.AngularUtils.$apply(this.$scope, async () => {
                 const tab = args.args[0];
@@ -983,9 +1012,59 @@ class ObjectManagerEditorController {
                             });
                         }
                         break;
+                    case 'addOns':
+                        {
+                            utils_1.AngularUtils.$apply(this.$scope, async () => {
+                                this.objectAddOnsSelectedTabId = "objectOnBefore";
+                                this.setupAddOnEditors();
+                            });
+                            this.setAddOnsTabsetTitles();
+                        }
+                        break;
                 }
             });
         }
+    }
+    handleAddOnsChange() {
+        utils_1.AngularUtils.$apply(this.$scope, () => {
+            this.isAddOnsChanged = true;
+        });
+    }
+    handleSaveAddOns() {
+        const sObject = services_1.DatabaseService.getSObject();
+        const config = services_1.DatabaseService.getConfig();
+        const ws = services_1.DatabaseService.getWorkspace();
+        let isIncorrectJson = false;
+        utils_1.AngularUtils.$apply(this.$scope, () => {
+            Object.keys(this.scriptObjectAddOnFormData).forEach(key => {
+                try {
+                    sObject[key] = this.scriptObjectAddOnFormData[key] ? JSON.parse(this.scriptObjectAddOnFormData[key]) : [];
+                }
+                catch (_a) {
+                    isIncorrectJson = true;
+                }
+                this.scriptObjectAddOnFormData[key] = JSON.stringify(sObject[key] || [], null, 2);
+            });
+            this.isAddOnsChanged = false;
+        });
+        this.setAddOnsTabsetTitles();
+        services_1.DatabaseService.updateConfig(ws.id, config);
+        if (!isIncorrectJson) {
+            services_1.ToastService.showSuccess();
+            services_1.LogService.info(`Add-ons for sobject ${sObject.name} updated.`);
+        }
+        else {
+            services_1.ToastService.showWarn(this.$app.$translate.translate({ key: 'SAVED_INCORRECT_JSON' }));
+            services_1.LogService.warn(`Some Add-ons for sobject ${sObject.name} were not saved due to incorrect JSON.`);
+        }
+    }
+    handleRestoreAddOns() {
+        const sObject = services_1.DatabaseService.getSObject();
+        utils_1.AngularUtils.$apply(this.$scope, () => {
+            this.setupAddOnEditors();
+            services_1.ToastService.showSuccess();
+            services_1.LogService.info(`Add-ons for sobject ${sObject.name} restored.`);
+        });
     }
     /**
      * Handle the run query string test button click.

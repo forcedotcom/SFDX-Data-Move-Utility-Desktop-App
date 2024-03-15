@@ -12,6 +12,7 @@ export class ConfigurationController {
     constructor(private $app: IAppService, private $scope: angular.IScope) { }
 
     isConfigurationSelected = false;
+    scriptTabsSelectedTabId = "";
 
     $onInit() {
 
@@ -35,6 +36,7 @@ export class ConfigurationController {
 
             AngularUtils.$apply(this.$scope, () => {
                 this.isConfigurationSelected = config.isInitialized;
+                this.scriptTabsSelectedTabId = "tabObjectManager";
             });
 
         }

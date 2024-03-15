@@ -7,6 +7,16 @@ import { UiEditFormArrayController, UiJsonEditorController, UiTabsController } f
 import { IAppService } from '../../services';
 
 
+
+interface IScriptObjectAddonFormData {
+	beforeAddons?: string;
+	afterAddons?: string;
+	beforeUpdateAddons?: string;
+	afterUpdateAddons?: string;
+	filterRecordsAddons?: string;
+}
+
+
 export class ObjectManagerEditorController {
 
 	static $inject = ['$app', '$scope'];
@@ -69,7 +79,10 @@ export class ObjectManagerEditorController {
 	objectSettingsSetup: SetupFormOptions = {};
 	objectSettingsTitles: string[] = [];
 
-
+	// Object Add-Ons tab
+	scriptObjectAddOnFormData: IScriptObjectAddonFormData = {};
+	objectAddOnsSelectedTabId = "";
+	isAddOnsChanged = false;
 
 
 	constructor(private $app: IAppService, private $scope: IScope) { }
@@ -125,7 +138,7 @@ export class ObjectManagerEditorController {
 		}, this.$scope);
 
 		this.$app.$broadcast.onAction('tabSelected', 'uiTabs', (args: IActionEventArgParam<ITabItem>) => {
-			if (args.componentId == 'objectFieldsTabset') {
+			if (['objectFieldsTabset'].includes(args.componentId)) {
 				this.handleTabChange(args);
 			}
 		}, this.$scope);
@@ -557,6 +570,21 @@ export class ObjectManagerEditorController {
 		}, 600);
 	}
 
+
+	private setAddOnsTabsetTitles() {
+		this.$app.$timeout(() => {
+			const $ctrl = AngularUtils.$getController<UiTabsController>('#objectAddOnsTabset');
+			const sobject = DatabaseService.getSObject();
+			if ($ctrl) {
+				$ctrl.setTabTitle('objectOnBefore', `${this.$app.$translate.translate({ key: 'ON_BEFORE_ADD_ONS' })} (${sobject.beforeAddons?.length || 0})`);
+				$ctrl.setTabTitle('objectOnAfter', `${this.$app.$translate.translate({ key: 'ON_AFTER_ADD_ONS' })} (${sobject.afterAddons?.length || 0})`);
+				$ctrl.setTabTitle('objectOnBeforeUpdate', `${this.$app.$translate.translate({ key: 'ON_BEFORE_UPDATE_ADD_ONS' })} (${sobject.beforeUpdateAddons?.length || 0})`);
+				$ctrl.setTabTitle('objectOnAfterUpdate', `${this.$app.$translate.translate({ key: 'ON_AFTER_UPDATE_ADD_ONS' })} (${sobject.afterUpdateAddons?.length || 0})`);
+				$ctrl.setTabTitle('objectOnFlterRecords', `${this.$app.$translate.translate({ key: 'FILTER_RECORDS_ADD_ONS' })} (${sobject.filterRecordsAddons?.length || 0})`);
+			}
+		}, 600);
+	}
+
 	private _oldSelectedPolymorphicField: string | undefined = undefined;
 	/**
 	 * Set the polymorphic fields setup.
@@ -885,6 +913,18 @@ export class ObjectManagerEditorController {
 		this.dataAnonymizationJsonArray = sobject.mockFields;
 	}
 
+	private setupAddOnEditors() {
+		const sObject = DatabaseService.getSObject();
+		this.scriptObjectAddOnFormData = {
+			afterAddons: JSON.stringify(sObject.afterAddons || [], null, 2),
+			beforeAddons: JSON.stringify(sObject.beforeAddons || [], null, 2),
+			afterUpdateAddons: JSON.stringify(sObject.afterUpdateAddons || [], null, 2),
+			beforeUpdateAddons: JSON.stringify(sObject.beforeUpdateAddons || [], null, 2),
+			filterRecordsAddons: JSON.stringify(sObject.filterRecordsAddons || [], null, 2)
+		};
+		this.isAddOnsChanged = false;
+	}
+
 	private setupObjectSettingsEditor() {
 
 		const sobject = DatabaseService.getSObject();
@@ -901,7 +941,7 @@ export class ObjectManagerEditorController {
 			useQueryAll: { type: 'toggle', label: 'useQueryAll', required: false, widthOf12: 3 },
 			queryAllTarget: { type: 'toggle', label: 'queryAllTarget', required: false, widthOf12: 3 },
 			skipExistingRecords: { type: 'toggle', label: 'skipExistingRecords', required: false, widthOf12: 3 },
-			useSourceCSVFile: { type: 'toggle', label: 'useSourceCSVFile', required: false, widthOf12: 3 },			
+			useSourceCSVFile: { type: 'toggle', label: 'useSourceCSVFile', required: false, widthOf12: 3 },
 			// Row 3
 			skipRecordsComparison: { type: 'toggle', label: 'skipRecordsComparison', required: false, widthOf12: 12 },
 
@@ -956,7 +996,7 @@ export class ObjectManagerEditorController {
 			// row 1
 			this.$app.$translate.translate({ key: 'API_SETTINGS' }),
 			// row 2
-			this.$app.$translate.translate({ key: 'RECORD_PROCESSING_MODE' }),			
+			this.$app.$translate.translate({ key: 'RECORD_PROCESSING_MODE' }),
 			// row 3
 			'',
 			// row 4
@@ -1111,7 +1151,7 @@ export class ObjectManagerEditorController {
 	 */
 	handleTabChange(args: IActionEventArgParam<ITabItem>) {
 
-		if (args.componentId == 'objectEditorTabs' || args.componentId == 'objectFieldsTabset') {
+		if (['objectEditorTabs', 'objectFieldsTabset'].includes(args.componentId)) {
 
 			const sObject = DatabaseService.getSObject();
 
@@ -1137,7 +1177,7 @@ export class ObjectManagerEditorController {
 							deleteQueryWhere: { type: 'textarea', label: 'Delete query WHERE clause', widthOf12: 6, helpSearchWord: "DELETE_QUERY", addHelpLinks: true },
 							targetRecordsFilter: { type: 'textarea', label: 'Target records filter', widthOf12: 6, helpSearchWord: "TARGET_RECORDS_FILTER", addHelpLinks: true }
 						};
-						
+
 						const json = {
 							externalId: sObject.externalId,
 							master: sObject.master || false,
@@ -1184,9 +1224,60 @@ export class ObjectManagerEditorController {
 						});
 
 					} break;
+
+					case 'addOns': {
+						AngularUtils.$apply(this.$scope, async () => {
+							this.objectAddOnsSelectedTabId = "objectOnBefore";
+							this.setupAddOnEditors();
+						});
+						this.setAddOnsTabsetTitles();
+					} break;
 				}
 			});
 		}
+	}
+
+	
+	handleAddOnsChange() {
+		AngularUtils.$apply(this.$scope, () => {
+			this.isAddOnsChanged = true;
+		});
+	}
+
+	handleSaveAddOns() {
+		const sObject = DatabaseService.getSObject();
+		const config = DatabaseService.getConfig();
+		const ws = DatabaseService.getWorkspace();
+		let isIncorrectJson = false;
+		AngularUtils.$apply(this.$scope, () => {
+			Object.keys(this.scriptObjectAddOnFormData).forEach(key => {
+				try {
+					sObject[key] = this.scriptObjectAddOnFormData[key] ? JSON.parse(this.scriptObjectAddOnFormData[key]) : [];
+				} catch {
+					isIncorrectJson = true;
+				}
+				this.scriptObjectAddOnFormData[key] = JSON.stringify(sObject[key] || [], null, 2);
+			});
+			this.isAddOnsChanged = false;
+		});
+		this.setAddOnsTabsetTitles();
+		DatabaseService.updateConfig(ws.id, config);
+		if (!isIncorrectJson) {
+			ToastService.showSuccess();
+			LogService.info(`Add-ons for sobject ${sObject.name} updated.`);
+		} else {
+			ToastService.showWarn(this.$app.$translate.translate({ key: 'SAVED_INCORRECT_JSON' }));
+			LogService.warn(`Some Add-ons for sobject ${sObject.name} were not saved due to incorrect JSON.`);
+		}
+	}
+
+	handleRestoreAddOns() {
+		const sObject = DatabaseService.getSObject();
+		AngularUtils.$apply(this.$scope, () => {
+			this.setupAddOnEditors();
+			ToastService.showSuccess();
+			LogService.info(`Add-ons for sobject ${sObject.name} restored.`);
+		});
 	}
 
 	/**

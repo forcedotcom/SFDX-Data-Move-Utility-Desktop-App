@@ -10,6 +10,7 @@ exports.AppComponentsModule = angular_1.default.module('appComponentsModule', [
     'objectManagerToolbarComponentModule',
     'objectManagerComponentModule',
     'objectManagerEditorComponentModule',
-    'mainScriptSettingsComponentModule'
+    'mainScriptSettingsComponentModule',
+    'scriptAddOnsComponentModule'
 ]);
 //# sourceMappingURL=app-components.module.js.map

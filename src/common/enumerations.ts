@@ -318,6 +318,8 @@ export enum FaIcon {
     cube = 'fas fa-cube',
     /** Ban icon. */
     ban = 'fas fa-ban',
+    /** Play icon */
+    play = 'fas fa-play',
     /** Question icon. */
     question = 'fas fa-question',
     /** Icons representing adding item to list. */
@@ -339,7 +341,11 @@ export enum FaIcon {
     /** Representing a eye icon. */
     eye = 'fa fa-eye',
     /** Representing a level down icon. */
-    child =  'fa fa-level-down-alt'
+    child =  'fa fa-level-down-alt',
+    /** Representing add-on icon. */
+    addOn = 'fas fa-plus-square',
+    /** Representing an undo icon. */
+    undo= 'fas fa-undo',
 }
 
 /** Enumeration of button styles. */

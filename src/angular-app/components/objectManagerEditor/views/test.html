@@ -13,11 +13,11 @@
             <div class="col-md-2 d-flex flex-row-reverse justify-content-evenly ">
                 <button class="btn btn-outline-primary btn-sm" ng-click="$ctrl.handleCopyQueryStringToClipboard()"
                     tooltip="{{ 'COPY_TO_CLIPBOARD' | translate }}">
-                    <i class="fas fa-copy"></i>
+                    <i class="{{ $ctrl.FaIcon.copy }}"></i>
                 </button>
                 <button class="btn btn-primary btn-sm" ng-click="$ctrl.handleRunQueryStringTest()"
                     tooltip="{{ 'RUN_QUERY_TEST' | translate }}">
-                    <i class="fas fa-play"></i>
+                    <i class="{{ $ctrl.FaIcon.play }}"></i>
                 </button>
             </div>
         </div>

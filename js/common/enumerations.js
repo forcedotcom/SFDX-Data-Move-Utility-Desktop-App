@@ -310,6 +310,8 @@ var FaIcon;
     FaIcon["cube"] = "fas fa-cube";
     /** Ban icon. */
     FaIcon["ban"] = "fas fa-ban";
+    /** Play icon */
+    FaIcon["play"] = "fas fa-play";
     /** Question icon. */
     FaIcon["question"] = "fas fa-question";
     /** Icons representing adding item to list. */
@@ -332,6 +334,10 @@ var FaIcon;
     FaIcon["eye"] = "fa fa-eye";
     /** Representing a level down icon. */
     FaIcon["child"] = "fa fa-level-down-alt";
+    /** Representing add-on icon. */
+    FaIcon["addOn"] = "fas fa-plus-square";
+    /** Representing an undo icon. */
+    FaIcon["undo"] = "fas fa-undo";
 })(FaIcon = exports.FaIcon || (exports.FaIcon = {}));
 /** Enumeration of button styles. */
 var BsButtonStyle;

@@ -13,5 +13,6 @@ export const HelpArticlesConfig = {
 	"POLYMORPHIC_FIELDS": "/full-documentation/advanced-features/polymorphic-lookup-fields",
 	"QUERIES_AND_FILTERS": "/full-configuration#query",
 	"SCRIPT_SETTINGS": "/full-configuration#script-object",
-	"TARGET_RECORDS_FILTER": "/full-documentation/advanced-features/target-records-filter"
+	"TARGET_RECORDS_FILTER": "/full-documentation/advanced-features/target-records-filter",
+	"INTRODUCTION_TO_SFDMU_API_ENGINE": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine"
 }

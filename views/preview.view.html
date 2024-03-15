@@ -13,7 +13,7 @@
     <div class="col-md-1">
         <button class="btn btn-primary btn-sm" ng-click="$ctrl.handleCopyCliCommandToClipboard()"
             tooltip="{{ 'COPY_TO_CLIPBOARD' | translate }}">
-            <i class="fas fa-copy"></i>
+            <i class="{{ $ctrl.FaIcon.copy }}"></i>
         </button>
     </div>
 </div>
@@ -30,7 +30,7 @@
             <div class="col-md-1">
                 <button class="btn btn-primary btn-sm" ng-click="$ctrl.handleCopyScriptPreviewToClipboard()"
                     tooltip="{{ 'COPY_TO_CLIPBOARD' | translate }}">
-                    <i class="fas fa-copy"></i>
+                    <i class="{{ $ctrl.FaIcon.copy }}"></i>
             </div>
         </div>
     </ui-tab>
