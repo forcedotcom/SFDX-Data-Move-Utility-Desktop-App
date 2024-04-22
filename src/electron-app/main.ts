@@ -2,7 +2,7 @@ import { app, BrowserWindow, dialog, screen, webContents } from "electron";
 import * as path from "path";
 import { AppPathType, CONSTANTS, DialogType } from "../common";
 import { AppGlobalData } from "../models";
-import { DialogService, LogService, WindowService } from "../services";
+import { DialogService, LogService, TranslationService, WindowService } from "../services";
 import { AppUtils, OsUtils } from "../utils";
 import { AppConfig } from "../configurations";
 
@@ -35,9 +35,10 @@ function setupApplication() {
   Object.assign(global.appGlobal.packageJson.appConfig, AppConfig);
 
   // Populate the global data
-  global.appGlobal.packageJson.appConfig.copyrightsDisplayText
-    = global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
-
+  global.appGlobal.packageJson.appConfig.copyrightsDisplayText = (lang) => {
+    return TranslationService.translate({ key: 'DEVELOPED_BY', lang }) + ': ' + global.appGlobal.packageJson.author
+      + ' | ' + global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
+  };
 
 
   // Setup unhandled errors handling

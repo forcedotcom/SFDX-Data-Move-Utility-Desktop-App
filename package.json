@@ -1,6 +1,6 @@
 {
   "name": "sfdx-data-move-utility-desktop-app",
-  "version": "4.4.0",
+  "version": "4.4.1",
   "description": "SFDMU GUI App",
   "scripts": {
     "start": "electron --enable-transparent-visuals --disable-gpu ./js/electron-app/main.js",

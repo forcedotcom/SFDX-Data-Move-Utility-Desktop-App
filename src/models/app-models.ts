@@ -53,7 +53,7 @@ export interface IAppConfig {
     //-------------------------------------------------------------------------
     // The following properties are not loaded from the config file but are populated by the application.
     /**  The display text for the copyrights */
-    copyrightsDisplayText: string;
+    copyrightsDisplayText: (lang: string) => string;
 
 }
 

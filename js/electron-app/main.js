@@ -51,8 +51,10 @@ function setupApplication() {
     // From config file
     Object.assign(global.appGlobal.packageJson.appConfig, configurations_1.AppConfig);
     // Populate the global data
-    global.appGlobal.packageJson.appConfig.copyrightsDisplayText
-        = global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
+    global.appGlobal.packageJson.appConfig.copyrightsDisplayText = (lang) => {
+        return services_1.TranslationService.translate({ key: 'DEVELOPED_BY', lang }) + ': ' + global.appGlobal.packageJson.author
+            + ' | ' + global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
+    };
     // Setup unhandled errors handling
     process.on('uncaughtException', (error) => {
         services_1.LogService.unhandledExeption(error);
