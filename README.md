@@ -1,6 +1,6 @@
 ### SFDMU GUI Application Overview
 
-The **SFDMU GUI Application** streamlines the creation and management of data migrations within Salesforce environments. It serves as a practical extension of the **SFDX Data Move Utility (SFDMU) plugin**, offering a graphical interface for easily configuring complex migrations. Users can visually manage sObjects, fields, and org connections to enhance accuracy and reduce errors in data migration processes.
+The **SFDMU GUI App** streamlines the creation and management of data migrations within Salesforce environments. It serves as a practical extension of the **SFDX Data Move Utility (SFDMU) plugin**, offering a graphical interface for easily configuring complex migrations. Users can visually manage sObjects, fields, and org connections to enhance accuracy and reduce errors in data migration processes.
 
 - **Access additional resources and the SFDMU Plugin Repository [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility).**
 - **For detailed documentation and support, visit the [SFDMU Help Center](https://help.sfdmu.com/).**
@@ -8,7 +8,7 @@ The **SFDMU GUI Application** streamlines the creation and management of data mi
 
 ### Application Benefits
 
-The **SFDMU GUI Application** significantly enhances user productivity by offering the following advantages:
+The **SFDMU GUI App** significantly enhances user productivity by offering the following advantages:
 
 - **Ease of Use:** With its intuitive graphical interface, the application makes it simple to configure migration tasks, even for users with minimal technical expertise.
 - **Visual Management:** Users can easily add, modify, or remove migration components such as sObjects and field mappings, providing a clear overview of changes.
