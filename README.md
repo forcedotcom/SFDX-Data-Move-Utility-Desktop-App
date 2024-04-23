@@ -8,7 +8,7 @@ The **SFDMU GUI Application** streamlines the creation and management of data mi
 
 ### Application Benefits
 
-The SFDMU GUI App significantly enhances user productivity by offering the following advantages:
+The **SFDMU GUI Application** significantly enhances user productivity by offering the following advantages:
 
 - **Ease of Use:** With its intuitive graphical interface, the application makes it simple to configure migration tasks, even for users with minimal technical expertise.
 - **Visual Management:** Users can easily add, modify, or remove migration components such as sObjects and field mappings, providing a clear overview of changes.
