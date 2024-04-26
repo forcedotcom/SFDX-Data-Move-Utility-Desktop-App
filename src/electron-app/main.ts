@@ -2,7 +2,7 @@ import { app, BrowserWindow, dialog, screen, webContents } from "electron";
 import * as path from "path";
 import { AppPathType, CONSTANTS, DialogType } from "../common";
 import { AppGlobalData } from "../models";
-import { DialogService, LogService, TranslationService, WindowService } from "../services";
+import { DialogService, LogService, WindowService } from "../services";
 import { AppUtils, OsUtils } from "../utils";
 import { AppConfig } from "../configurations";
 
@@ -34,10 +34,12 @@ function setupApplication() {
   // From config file
   Object.assign(global.appGlobal.packageJson.appConfig, AppConfig);
 
-  // Populate the global data
+  // Populate the global data  
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   global.appGlobal.packageJson.appConfig.copyrightsDisplayText = (lang) => {
-    return TranslationService.translate({ key: 'DEVELOPED_BY', lang }) + ': ' + global.appGlobal.packageJson.author
-      + ' | ' + global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
+    // return TranslationService.translate({ key: 'DEVELOPED_BY', lang }) + ': ' + global.appGlobal.packageJson.author
+    //   + ' | ' + global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
+    return global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
   };
 
 
