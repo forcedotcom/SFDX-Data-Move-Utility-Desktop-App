@@ -1,13 +1,12 @@
 {
-  "name": "sfdx-data-move-utility-desktop-app",
-  "version": "4.4.2",
+  "name": "sfdmu-gui-app",
+  "version": "4.4.3",
   "description": "SFDMU GUI App",
   "scripts": {
     "start": "electron --enable-transparent-visuals --disable-gpu ./js/electron-app/main.js",
+    "debug": "npm run build && electron --enable-transparent-visuals --disable-gpu --trace-warnings ./js/electron-app/main.js --inspect=3000",    
     "build": "tsc && npm run copy-templates",
-    "debug": "npm run build-debug && electron --enable-transparent-visuals --disable-gpu --trace-warnings ./js/electron-app/main.js --inspect=3000",
-    "copy-templates": "node ./copyFiles.js html ./src json",
-    "build-debug": "tsc && npm run copy-templates"
+    "copy-templates": "node ./copyFiles.js html ./src json"    
   },
   "repository": "forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
   "license": "BSD-3-Clause",
