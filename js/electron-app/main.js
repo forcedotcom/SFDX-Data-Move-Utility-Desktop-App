@@ -50,10 +50,12 @@ function setupApplication() {
     });
     // From config file
     Object.assign(global.appGlobal.packageJson.appConfig, configurations_1.AppConfig);
-    // Populate the global data
+    // Populate the global data  
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     global.appGlobal.packageJson.appConfig.copyrightsDisplayText = (lang) => {
-        return services_1.TranslationService.translate({ key: 'DEVELOPED_BY', lang }) + ': ' + global.appGlobal.packageJson.author
-            + ' | ' + global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
+        // return TranslationService.translate({ key: 'DEVELOPED_BY', lang }) + ': ' + global.appGlobal.packageJson.author
+        //   + ' | ' + global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
+        return global.appGlobal.packageJson.appConfig.copyrights.replace('[DATE]', new Date().getFullYear().toString());
     };
     // Setup unhandled errors handling
     process.on('uncaughtException', (error) => {
