@@ -37,6 +37,8 @@ Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup
 
 ### Installation Steps
 
+**All releases can be found in the "release" branch of the SFDMU GUI App GitHub repository.**
+
 #### Step 1. Select the Release Tag
 
 Navigate to the repository's release page, find the sidebar, and click on the release tag associated with your desired version.
@@ -59,44 +61,32 @@ Download the appropriate setup file for your OS from the subdirectories under `d
 Follow the instructions below based on your operating system to complete the installation:
 
 ##### macOS:
-
 1. Open `Downloads`, find the `.zip` file, and extract it to get the `sfdmu-gui-app.app`.
 2. Move the application to your `Applications` folder.
 
 ##### Linux (Debian-based):
-
 1. Open a terminal.
-
 2. Go to `Downloads`:
-
    ```bash
    cd ~/Downloads
    ```
-
 3. Install with:
-
    ```bash
    sudo dpkg -i sfdmu-gui-app_X.X.X_amd64.deb
    ```
 
 ##### Linux (RPM-based):
-
 1. Open a terminal.
-
 2. Navigate to `Downloads`:
-
    ```bash
    cd ~/Downloads
    ```
-
 3. Install using:
-
    ```bash
    sudo rpm -i SFDMU-GUI-App-X.X.X-1.x86_64.rpm
    ```
 
 ##### Windows:
-
 1. Go to the download location, extract the `.zip` file, and run `sfdmu-gui-app-X.X.X Setup.exe`.
 2. The app will auto-launch after installation, creating shortcuts on your desktop and in the Start menu.
 
@@ -106,7 +96,6 @@ Follow the instructions below based on your operating system to complete the ins
 - **Linux:** Use the application menu to launch the SFDMU GUI
 
  App.
-
 - **Windows:** The app typically launches automatically after installation; for later use, find it via the Start menu or desktop shortcut.
 
 
