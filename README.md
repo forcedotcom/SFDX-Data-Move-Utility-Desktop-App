@@ -37,7 +37,7 @@ Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup
 
 ### Installation Steps
 
-**All releases can be found in the "release" branch of the SFDMU GUI App GitHub repository.**
+**All releases can be found in the ["release"](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release?tab=readme-ov-file) branch of the SFDMU GUI App GitHub repository.**
 
 #### Step 1. Select the Release Tag
 
