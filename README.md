@@ -2,7 +2,7 @@
 
 The **SFDMU GUI App** enhances the efficiency of creating and managing data migrations within Salesforce environments. 
 
-This tool acts as a valuable extension of the [**SFDX Data Move Utility (SFDMU) plugin**](https://github.com/forcedotcom/SFDX-Data-Move-Utility), providing a graphical interface that simplifies the setup of complex migrations. Users can visually manage sObjects, fields, and organization connections, which helps improve accuracy and reduce errors in data migration tasks.
+This tool is a graphical interface for creating and maintaining the **export.json** configuration file used by the [**SFDX Data Move Utility (SFDMU) plugin**](https://github.com/forcedotcom/SFDX-Data-Move-Utility), facilitating the management of sObjects, fields, and organization connections to enhance accuracy and efficiency in data migration tasks.
 
 ## Useful Resources
 
@@ -17,7 +17,7 @@ The **SFDMU GUI App** offers several advantages that enhance user productivity a
 - **Ease of Use:** The intuitive graphical interface simplifies the SFDMU Plugin configuration of migration tasks, even for users with limited technical skills, making complex operations more accessible.
 - **Visual Management:** Users can easily add, modify, or remove migration components such as sObjects and field mappings, offering a clear visual representation of changes. This visual approach helps users better manage and organize their data migration tasks.
 - **Error Reduction:** By minimizing common configuration mistakes made during manual file editing, the graphical interface enhances the reliability of data migrations.
-- **Secure Data Handling:** All data is processed locally on the client’s machine, with no data sent to any third parties over the internet. All external interactions occur exclusively with the Salesforce REST API, ensuring your data remains secure and is handled in compliance with stringent privacy and security policies.
+- **Secure Data Handling:** All data is processed locally on the client's machine, with the only exception being interaction with the Salesforce REST API. This ensures that your data remains secure and is handled in compliance with strict privacy and security policies.
 
 ## Supported OS
 
