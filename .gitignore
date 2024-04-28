@@ -1,7 +1,9 @@
 node_modules
-.trash
-.sfdx
 .vscode
+.sfdx
+.trash
+logs
+out
 js/private
 src/private
 !js/private/index.js
