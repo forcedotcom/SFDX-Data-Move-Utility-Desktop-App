@@ -7,6 +7,7 @@ export enum AppPathType {
     scriptPath = 'scriptPath',
     logsPath = 'logsPath',
     imagesPath = 'imagesPath',
+    themesPath = 'themesPath',
     i18nPath = 'i18nPath',
     dbBackupPath = 'dbBackupPath',
 }

@@ -30,7 +30,6 @@
   "API_CONFIGURATION": "Конфигурация API",
   "API_SETTINGS": "API Настройки",
   "AUTHENTICATION_SETTINGS": "Настройки аутентификации",
-  "DEVELOPED_BY": "Разработано",
   "AVAILABLE_FIELDS": "Доступные поля",
   "AVAILABLE_ITEMS": "Доступные элементы",
   "CANCEL": "Отмена",
@@ -66,10 +65,11 @@
   "DESCRIBING_SOBJECT_ON_ORG": "Описание объекта {{ OBJECT_NAME }} в организации {{ USER_NAME }}...",
   "DESELECTED": "Невыбранные",
   "DESELECT_ALL": "Отменить выбор",
+  "DEVELOPED_BY": "Разработано",
   "DIALOG": {
     "ABOUT": {
-      "TEXT": "#### О [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 Версия: {{ REPO_VERSION }}\n👤 Автор: {{ REPO_AUTHOR }}\n⭐ {{ REPO_LIKES }}\n🍴 {{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
-      "TEXT_MINIMAL": "#### О [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}"
+      "TEXT": "#### О [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 Версия: {{ REPO_VERSION }}\n📜 Лицензия: {{ REPO_LICENSE }}.\n👩‍💻 Разработчик: {{ REPO_DEVELOPED_BY }}\n⭐ {{ REPO_LIKES }}\n🍴 {{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
+      "TEXT_MINIMAL": "#### О [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n📜 Лицензия: {{ REPO_LICENSE }}.\n👩‍💻 Разработчик: {{ REPO_DEVELOPED_BY }}\n"
     },
     "APPLICATION": {
       "CLEANUP": "Очистка каталога приложения",

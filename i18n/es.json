@@ -30,7 +30,6 @@
   "API_CONFIGURATION": "Configuración API",
   "API_SETTINGS": "Configuración de API",
   "AUTHENTICATION_SETTINGS": "Configuración de autenticación",
-  "DEVELOPED_BY": "Desarrollado por",
   "AVAILABLE_FIELDS": "Campos disponibles",
   "AVAILABLE_ITEMS": "Objetos disponibles",
   "CANCEL": "Cancelar",
@@ -66,10 +65,11 @@
   "DESCRIBING_SOBJECT_ON_ORG": "Describiendo el sObject {{ OBJECT_NAME }} en la organización {{ USER_NAME }}...",
   "DESELECTED": "Deseleccionado",
   "DESELECT_ALL": "Deseleccionar todo",
+  "DEVELOPED_BY": "Desarrollado por",
   "DIALOG": {
     "ABOUT": {
-      "TEXT": "#### Acerca de [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 Versión: {{ REPO_VERSION }}\n👤 Autor: {{ REPO_AUTHOR }}\n⭐{{ REPO_LIKES }}\n🍴 {{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
-      "TEXT_MINIMAL": "#### Acerca de [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}"
+      "TEXT": "#### Acerca de [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 Versión: {{ REPO_VERSION }}\n📜 Licencia: {{ REPO_LICENSE }}\n👩‍💻 Desarrollador: {{ REPO_DEVELOPED_BY }}\n⭐{{ REPO_LIKES }}\n🍴 {{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
+      "TEXT_MINIMAL": "#### Acerca de [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n📜 Licencia: {{ REPO_LICENSE }}\n👩‍💻 Desarrollador: {{ REPO_DEVELOPED_BY }}\n"
     },
     "APPLICATION": {
       "CLEANUP": "Carpeta de aplicación de limpieza",

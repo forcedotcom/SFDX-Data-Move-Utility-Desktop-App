@@ -1,6 +1,6 @@
 import { TranslationService } from ".";
-import { CONSTANTS } from "../common";
-import { FsUtils } from "../utils";
+import { AppPathType, CONSTANTS } from "../common";
+import { AppUtils, FsUtils } from "../utils";
 import { LogService } from "./log-service";
 
 /**
@@ -68,7 +68,7 @@ export class ThemeService {
     */
     static setTheme(theme?: string) {
         theme ||= global.appGlobal.packageJson.appConfig.theme;
-        const availableThemes = FsUtils.getDirectories(CONSTANTS.THEMES_HREF);
+        const availableThemes = FsUtils.getDirectories(AppUtils.getAppPath(AppPathType.themesPath));
         global.appGlobal.themeService = new ThemeService(CONSTANTS.THEMES_HREF, '[data-bootstrap]', availableThemes);
         global.appGlobal.themeService.setTheme(theme, TranslationService.activeLanguageRtl);
     }

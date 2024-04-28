@@ -30,7 +30,6 @@
   "API_CONFIGURATION": "תצורת API",
   "API_SETTINGS": "הגדרות API",
   "AUTHENTICATION_SETTINGS": "הגדרות אימות",
-  "DEVELOPED_BY": "פותח על יד",
   "AVAILABLE_FIELDS": "שדות זמינים",
   "AVAILABLE_ITEMS": "פריטים זמינים",
   "CANCEL": "ביטול",
@@ -66,10 +65,11 @@
   "DESCRIBING_SOBJECT_ON_ORG": "שולף נתוני אובייקט {{ OBJECT_NAME }} ב-סביבה {{ USER_NAME }}...",
   "DESELECTED": "לא נבחר",
   "DESELECT_ALL": "בטל בחירה",
+  "DEVELOPED_BY": "פותח על יד",
   "DIALOG": {
     "ABOUT": {
-      "TEXT": "#### אודות [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 Version: {{ REPO_VERSION }}\n👤 Author: {{ REPO_AUTHOR }}\n⭐ {{ REPO_LIKES }}\n🍴 {{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
-      "TEXT_MINIMAL": "#### אודות ה-[{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}"
+      "TEXT": "#### אודות ה-[{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 גרסה: {{ REPO_VERSION }}\n📜 רישיון: {{ REPO_LICENSE }}\n👩‍💻 מפתח: {{ REPO_DEVELOPED_BY }}\n⭐ {{ REPO_LIKES }}\n🍴 {{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
+      "TEXT_MINIMAL": "#### אודות ה-[{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n📜 רישיון: {{ REPO_LICENSE }}\n👩‍💻 מפתח: {{ REPO_DEVELOPED_BY }}\n"
     },
     "APPLICATION": {
       "CLEANUP": "ניקוי של ספריית האפליקציה",

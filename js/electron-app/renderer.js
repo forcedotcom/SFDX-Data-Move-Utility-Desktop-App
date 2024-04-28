@@ -36,6 +36,7 @@ function renderer() {
     services_1.TranslationService.setLanguage();
     // Setup theme ----------------------------------------------------------------
     services_1.LogService.info("Setting up theme...");
+    console.log('appGlobal', global.appGlobal);
     services_1.ThemeService.setTheme();
     // Loading database -----------------------------------------------------------------
     services_1.LogService.info("Loading database...");

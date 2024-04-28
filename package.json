@@ -1,17 +1,12 @@
 {
   "name": "sfdmu-gui-app",
-  "version": "4.4.3",
+  "version": "4.4.4",
   "description": "SFDMU GUI App",
-  "scripts": {
-    "start": "electron --enable-transparent-visuals --disable-gpu ./js/electron-app/main.js",
-    "debug": "npm run build && electron --enable-transparent-visuals --disable-gpu --trace-warnings ./js/electron-app/main.js --inspect=3000",    
-    "build": "tsc && npm run copy-templates",
-    "copy-templates": "node ./copyFiles.js html ./src json"    
-  },
   "repository": "forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
   "license": "BSD-3-Clause",
   "copyright": "Salesforce.com, Inc.",
   "author": "Salesforce",
+  "developedBy": "Haim Knokh",
   "keywords": [],
   "devDependencies": {
     "@types/angular": "^1.8.5",
@@ -53,8 +48,15 @@
     "winston": "^3.10.0",
     "winston-daily-rotate-file": "^4.7.1"
   },
+  "main": "js/electron-app/main.js",
+  "exeName": "sfdmu-gui-app",
+  "exeDescription": "A user-friendly GUI for the SFDMU Plugin to simplify Salesforce data migrations.",
+  "exeCompany": "Salesforce.com, Inc.",
+  "exeProductName": "SFDMU GUI App",
+  "exeCopyright": "Salesforce.com, Inc. under BSD-3-Clause",
+  "exeHomepage": "https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
   "appConfig": {
-    "dataRoot": "SFDMU-GUI-APP-DATA",
+    "dataRoot": "sfdmu-gui-app",
     "appRoot": "",
     "databaseFilename": "db.json",
     "locales": [
@@ -74,5 +76,11 @@
     "backupEveryNMinutes": 5,
     "useSfCliCommands": true,
     "theme": "cosmo"
+  },
+  "scripts": {
+    "start": "electron --enable-transparent-visuals --disable-gpu ./js/electron-app/main.js",
+    "debug": "npm run build && electron --enable-transparent-visuals --disable-gpu --trace-warnings ./js/electron-app/main.js --inspect=3000",    
+    "build": "tsc && npm run copy-templates",
+    "copy-templates": "node ./copyFiles.js html ./src json"    
   }
 }

@@ -13,6 +13,7 @@ class DialogService {
     * @returns The dialog result.
     */
     static showDialog(message, dialogType = common_1.DialogType.info, buttons = [common_1.DialogButton.ok], title) {
+        var _a, _b;
         const dialog = global.appGlobal.dialog;
         let type;
         switch (dialogType) {
@@ -34,7 +35,7 @@ class DialogService {
                 break;
         }
         let isSplashWindowShown = false;
-        if (!global.appGlobal.splashWindow.isDestroyed() && global.appGlobal.splashWindow.isVisible()) {
+        if (!((_a = global.appGlobal.splashWindow) === null || _a === void 0 ? void 0 : _a.isDestroyed()) && ((_b = global.appGlobal.splashWindow) === null || _b === void 0 ? void 0 : _b.isVisible())) {
             isSplashWindowShown = true;
             global.appGlobal.splashWindow.hide();
         }

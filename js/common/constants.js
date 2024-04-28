@@ -15,11 +15,13 @@ exports.CONSTANTS = {
     INPUT_DEBOUNCE_DELAY: 500,
     QUERY_TEST_MAX_RECORDS_COUNT: 50,
     // Paths constants. These are used to configure the paths of the application.
+    APP_CONFIG_JSON_FULL_PATH: 'app-config.json',
     APP_BASE_PATH: '.',
     APP_JS_PATH: './js',
     APP_IMAGES_PATH: 'images',
     APP_I18N_PATH: 'i18n',
     APP_LOGS_PATH: 'logs',
+    APP_THEMES_PATH: 'themes',
     WORKSPACES_PATH: 'workspaces',
     APP_DB_BACKUP_PATH: 'db_backup',
     DEFAULT_DATABASE_FILENAME: 'db.json',

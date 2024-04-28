@@ -12,6 +12,6 @@ exports.AppConfig = {
     "knowledgebaseUrl": "https://help.sfdmu.com",
     "knowledgebaseSearchUrl": "https://help.sfdmu.com/?search=",
     "knowledgebaseTitle": "SFDMU Help Center",
-    "getHelpUrl": "https://github.com/forcedotcom/SFDX-Data-Move-Utility/issues/new/choose",
+    "getHelpUrl": "https://github.com/forcedotcom/SFDX-Data-Move-Utility/issues/new/choose"
 };
 //# sourceMappingURL=app-config.js.map

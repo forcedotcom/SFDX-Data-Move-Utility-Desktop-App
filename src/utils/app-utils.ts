@@ -17,7 +17,7 @@ export class AppUtils {
     static getAppPath(pathType: AppPathType, relativePath?: string): string {
 
         relativePath ||= "";
-        
+
         // Switch on the path type
         switch (pathType) {
 
@@ -45,6 +45,9 @@ export class AppUtils {
             case AppPathType.imagesPath:
                 return AppUtils.getAppPath(AppPathType.appPath, path.join(CONSTANTS.APP_IMAGES_PATH, relativePath));
 
+            case AppPathType.themesPath:
+                return AppUtils.getAppPath(AppPathType.appPath, path.join(CONSTANTS.APP_THEMES_PATH, relativePath));                
+
             // Path to i18n within the root app path
             case AppPathType.i18nPath:
                 return AppUtils.getAppPath(AppPathType.appPath, path.join(CONSTANTS.APP_I18N_PATH, relativePath));
@@ -54,9 +57,11 @@ export class AppUtils {
                 return AppUtils.getAppPath(AppPathType.dataRootPath, path.join(CONSTANTS.APP_DB_BACKUP_PATH, relativePath));
 
             // Path to the root of the application
-            default: {
-                const p = path.resolve(path.normalize(path.join(CONSTANTS.APP_BASE_PATH, relativePath)));
-                fsExtra.ensureDirSync(path.dirname(p));
+            case AppPathType.appPath: {
+                const p = path.resolve(path.normalize(path.join(global.appGlobal.appBasePath, relativePath)));
+                if (!fsExtra.existsSync(p)) {
+                    fsExtra.ensureDirSync(path.dirname(p));
+                }
                 return p;
             }
         }

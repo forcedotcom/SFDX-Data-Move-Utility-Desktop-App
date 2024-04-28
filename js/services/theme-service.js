@@ -60,7 +60,7 @@ class ThemeService {
     */
     static setTheme(theme) {
         theme || (theme = global.appGlobal.packageJson.appConfig.theme);
-        const availableThemes = utils_1.FsUtils.getDirectories(common_1.CONSTANTS.THEMES_HREF);
+        const availableThemes = utils_1.FsUtils.getDirectories(utils_1.AppUtils.getAppPath(common_1.AppPathType.themesPath));
         global.appGlobal.themeService = new ThemeService(common_1.CONSTANTS.THEMES_HREF, '[data-bootstrap]', availableThemes);
         global.appGlobal.themeService.setTheme(theme, _1.TranslationService.activeLanguageRtl);
     }

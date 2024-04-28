@@ -57,6 +57,8 @@ class AppUtils {
             // Path to images within the root app path
             case common_1.AppPathType.imagesPath:
                 return AppUtils.getAppPath(common_1.AppPathType.appPath, path.join(common_1.CONSTANTS.APP_IMAGES_PATH, relativePath));
+            case common_1.AppPathType.themesPath:
+                return AppUtils.getAppPath(common_1.AppPathType.appPath, path.join(common_1.CONSTANTS.APP_THEMES_PATH, relativePath));
             // Path to i18n within the root app path
             case common_1.AppPathType.i18nPath:
                 return AppUtils.getAppPath(common_1.AppPathType.appPath, path.join(common_1.CONSTANTS.APP_I18N_PATH, relativePath));
@@ -64,9 +66,11 @@ class AppUtils {
             case common_1.AppPathType.dbBackupPath:
                 return AppUtils.getAppPath(common_1.AppPathType.dataRootPath, path.join(common_1.CONSTANTS.APP_DB_BACKUP_PATH, relativePath));
             // Path to the root of the application
-            default: {
-                const p = path.resolve(path.normalize(path.join(common_1.CONSTANTS.APP_BASE_PATH, relativePath)));
-                fs_extra_1.default.ensureDirSync(path.dirname(p));
+            case common_1.AppPathType.appPath: {
+                const p = path.resolve(path.normalize(path.join(global.appGlobal.appBasePath, relativePath)));
+                if (!fs_extra_1.default.existsSync(p)) {
+                    fs_extra_1.default.ensureDirSync(path.dirname(p));
+                }
                 return p;
             }
         }

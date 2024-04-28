@@ -43,7 +43,7 @@ export class DialogService {
 
         let isSplashWindowShown = false;
 
-        if (!global.appGlobal.splashWindow.isDestroyed() && global.appGlobal.splashWindow.isVisible()) {
+        if (!global.appGlobal.splashWindow?.isDestroyed() && global.appGlobal.splashWindow?.isVisible()) {
             isSplashWindowShown = true;
             global.appGlobal.splashWindow.hide();
         }

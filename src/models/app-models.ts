@@ -59,6 +59,8 @@ export interface IAppConfig {
 
 /** Interface representing the package.json file. */
 export interface IAppPackageJson {
+    /** The name of the package. */
+    name: string;
     /** The version of the package. */
     version: string;
     /** The application configuration. */
@@ -67,6 +69,10 @@ export interface IAppPackageJson {
     description: string;
     /** The author of the package. */
     author: string;
+    /** The name of the  application developer. */
+    developedBy: string;
+    /** The license of the package. */
+    license: string;
 }
 
 /** Shared data of the application. */
@@ -80,6 +86,10 @@ export class AppGlobalData {
     packageJson: IAppPackageJson;
     /** Flag indicating whether the application is in debug mode. */
     isDebug: boolean;
+    /** Flag indicating whether the running app is packaged */
+    isPackaged: boolean;
+    /** The base path of the application. */    
+    appBasePath: string;
     /** Main window of the application. */
     mainWindow: BrowserWindow;
     /** Splash window of the application. */

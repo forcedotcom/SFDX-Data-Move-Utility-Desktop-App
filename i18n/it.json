@@ -30,7 +30,6 @@
   "API_CONFIGURATION": "Configurazione dell'API",
   "API_SETTINGS": "Impostazioni dell'API",
   "AUTHENTICATION_SETTINGS": "Impostazioni di autenticazione",
-  "DEVELOPED_BY": "Sviluppato da",
   "AVAILABLE_FIELDS": "Campi disponibili",
   "AVAILABLE_ITEMS": "Articoli disponibili",
   "CANCEL": "Annulla",
@@ -66,10 +65,11 @@
   "DESCRIBING_SOBJECT_ON_ORG": "Descrizione di sObject PLChold_0 sull'organizzazione PLChold_1...",
   "DESELECTED": "Deselezionato",
   "DESELECT_ALL": "Deselezionare tutto",
+  "DEVELOPED_BY": "Sviluppato da",
   "DIALOG": {
     "ABOUT": {
-      "TEXT": "#### Informazioni su [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\nPLChold_2\n\n🔢 Versione: PLChold_3\n👤 Autore: PLChold_4\n⭐PLChold_5\n🍴PLChold_6\n🕒PLChold_7",
-      "TEXT_MINIMAL": "#### Informazioni su [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\nPLChold_2"
+      "TEXT": "#### Informazioni su [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\nPLChold_2\n\n🔢 Versione: PLChold_3\n📜 Licenza: PLChold_4\n👩‍💻 Sviluppatore: PLChold_5\n⭐PLChold_6\n🍴PLChold_7\n🕒PLChold_8",
+      "TEXT_MINIMAL": "#### Informazioni su [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\nPLChold_2\n📜 Licenza: PLChold_3\n👩‍💻 Sviluppatore: PLChold_4\n"
     },
     "APPLICATION": {
       "CLEANUP": "Cartella dell'applicazione di pulizia",

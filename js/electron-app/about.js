@@ -25,7 +25,8 @@ if (global.appGlobal.githubRepoInfo && global.appGlobal.githubRepoInfo.statusCod
             REPO_DESCRIPTION: global.appGlobal.githubRepoInfo.description,
             REPO_LIKES: String(global.appGlobal.githubRepoInfo.stars),
             REPO_FORKS: String(global.appGlobal.githubRepoInfo.forks),
-            REPO_AUTHOR: global.appGlobal.packageJson.author,
+            REPO_DEVELOPED_BY: global.appGlobal.packageJson.developedBy,
+            REPO_LICENSE: global.appGlobal.packageJson.license,
             REPO_VERSION: global.appGlobal.githubRepoInfo.latestRelease.name,
             REPO_LAST_UPDATED: utils_1.CommonUtils.timeAgo(new Date(global.appGlobal.githubRepoInfo.lastCommitDate), global.appGlobal.activeLang)
         },
@@ -38,7 +39,9 @@ else {
         params: {
             REPO_NAME: global.appGlobal.packageJson.appConfig.pluginTitle,
             REPO_URL: global.appGlobal.packageJson.appConfig.pluginGithubUrl,
-            REPO_DESCRIPTION: global.appGlobal.packageJson.appConfig.pluginDescription
+            REPO_DESCRIPTION: global.appGlobal.packageJson.appConfig.pluginDescription,
+            REPO_LICENSE: global.appGlobal.packageJson.license,
+            REPO_DEVELOPED_BY: global.appGlobal.packageJson.developedBy
         },
         useMarkdownFormat: true
     });

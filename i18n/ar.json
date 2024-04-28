@@ -30,7 +30,6 @@
   "API_CONFIGURATION": "تكوين واجهة برمجة التطبيقات",
   "API_SETTINGS": "إعدادات واجهة برمجة التطبيقات",
   "AUTHENTICATION_SETTINGS": "إعدادات المصادقة",
-  "DEVELOPED_BY": "تم تطويره بواسطة",
   "AVAILABLE_FIELDS": "الحقول المتاحة",
   "AVAILABLE_ITEMS": "القطع المتاحة",
   "CANCEL": "يلغي",
@@ -66,10 +65,11 @@
   "DESCRIBING_SOBJECT_ON_ORG": "وصف sObject {{ OBJECT_NAME }} على المؤسسة {{ USER_NAME }}...",
   "DESELECTED": "تم إلغاء التحديد",
   "DESELECT_ALL": "الغاء تحديد الكل",
+  "DEVELOPED_BY": "تم تطويره بواسطة",
   "DIALOG": {
     "ABOUT": {
-      "TEXT": "#### حول [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 الإصدار: {{ REPO_VERSION }}\n👤 المؤلف: {{ REPO_AUTHOR }}\n⭐{{ REPO_LIKES }}\n🍴{{ REPO_FORKS }}\n🕒{{ REPO_LAST_UPDATED }}",
-      "TEXT_MINIMAL": "#### حول [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}"
+      "TEXT": "#### حول [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n\n🔢 الإصدار: {{ REPO_VERSION }}\n📜 الترخيص: {{ REPO_LICENSE }}\n👩‍💻 المطور: {{ REPO_DEVELOPED_BY }}\n⭐{{ REPO_LIKES }}\n🍴{{ REPO_FORKS }}\n🕒{{ REPO_LAST_UPDATED }}",
+      "TEXT_MINIMAL": "#### حول [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^).\n{{ REPO_DESCRIPTION }}\n📜 الترخيص: {{ REPO_LICENSE }}\n👩‍💻 المطور: {{ REPO_DEVELOPED_BY }}\n"
     },
     "APPLICATION": {
       "CLEANUP": "تنظيف مجلد التطبيق",

@@ -10,6 +10,7 @@ var AppPathType;
     AppPathType["scriptPath"] = "scriptPath";
     AppPathType["logsPath"] = "logsPath";
     AppPathType["imagesPath"] = "imagesPath";
+    AppPathType["themesPath"] = "themesPath";
     AppPathType["i18nPath"] = "i18nPath";
     AppPathType["dbBackupPath"] = "dbBackupPath";
 })(AppPathType = exports.AppPathType || (exports.AppPathType = {}));

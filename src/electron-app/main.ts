@@ -1,15 +1,19 @@
 import { app, BrowserWindow, dialog, screen, webContents } from "electron";
-import * as path from "path";
 import { AppPathType, CONSTANTS, DialogType } from "../common";
-import { AppGlobalData } from "../models";
+import { AppGlobalData, IAppConfig } from "../models";
 import { DialogService, LogService, WindowService } from "../services";
 import { AppUtils, OsUtils } from "../utils";
 import { AppConfig } from "../configurations";
+import * as fs from 'fs-extra';
+import * as os from 'os';
+import * as path from 'path';
+import * as childProcess from 'child_process';
 
 
 const remoteMain = require('@electron/remote/main')
+const platformFolders = require('platform-folders');
 
-
+// Application methods -------------------------------------------------
 /** Sets up the application. */
 function setupApplication() {
 
@@ -18,10 +22,14 @@ function setupApplication() {
 
   app.commandLine.appendSwitch('enable-experimental-web-platform-features');
 
+  // Setup variables
+  //VARIABLES.APP_BASE_PATH = app.isPackaged ? app.getAppPath() : '.';
+
   // Load the app data from the config file
   global.appGlobal = new AppGlobalData({
     isDebug: /--inspect/.test(process.argv.join(' ')),
-    packageJson: require(AppUtils.getAppPath(AppPathType.appPath, 'package.json')),
+    isPackaged: app.isPackaged,
+    appBasePath: app.isPackaged ? app.getAppPath() : CONSTANTS.APP_BASE_PATH,
     dialog,
     githubRepoInfo: {},
     BrowserWindow,
@@ -30,9 +38,15 @@ function setupApplication() {
     remoteMain: remoteMain,
     isWindows: process.platform === 'win32',
   });
+  global.appGlobal.packageJson = require(AppUtils.getAppPath(AppPathType.appPath, 'package.json'));
 
-  // From config file
+
+  // Add information from the runtime configuration file
+  const appConfigJson = { ...global.appGlobal.packageJson.appConfig };
   Object.assign(global.appGlobal.packageJson.appConfig, AppConfig);
+
+  // Create app-config.json in documents folder if not exists
+  createAppConfigJsonFile(appConfigJson);
 
   // Populate the global data  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -48,6 +62,23 @@ function setupApplication() {
     LogService.unhandledExeption(error);
   });
 
+}
+
+/**
+ * Creates the app-config.json file in the documents folder if it does not exist.
+ */
+function createAppConfigJsonFile(appConfigJson: IAppConfig) {
+  const appConfigJsonPath = path.join(
+    platformFolders.getDocumentsFolder(),
+    global.appGlobal.packageJson.name,
+    CONSTANTS.APP_CONFIG_JSON_FULL_PATH
+  );
+
+  fs.ensureDirSync(path.dirname(appConfigJsonPath));
+  if (!fs.existsSync(appConfigJsonPath)) {
+    fs.writeJsonSync(appConfigJsonPath, appConfigJson, { spaces: 2 });
+  }
+  Object.assign(global.appGlobal.packageJson.appConfig, fs.readJsonSync(appConfigJsonPath));
 }
 
 /** Creates the main window. */
@@ -101,7 +132,8 @@ function createMainWindow() {
   // Load the index.html of the app.
   LogService.info("Loading main window...");
 
-  mainWindow.loadFile(path.join(__dirname, "../../index.html"));
+  //mainWindow.loadFile(path.join(__dirname, "../../index.html"));
+  mainWindow.loadFile(AppUtils.getAppPath(AppPathType.appPath, "index.html"));
 
   // Show the main window when it's ready to be shown
   LogService.info("Showing main window...");
@@ -156,7 +188,7 @@ function createMainWindow() {
 
 }
 
-// This method will be called when Electron has finished
+/** * Runs the application this is the main entry point of the application. */
 function runApplication() {
 
   LogService.info("#\n\n\n\n\n----------------------------------------");
@@ -188,12 +220,68 @@ function runApplication() {
   });
 }
 
-// Set up the application
-setupApplication();
+/**
+* Handle Squirrel events for Windows immediately on start
+*/
+const handleSquirrelEvent = (app: Electron.App) => {
 
-// Run the application
-runApplication();
+  if (os.platform() != 'win32') {
+    return false;
+  }
 
-// We need this because we're using typescript and we don't have any module initializations here.
+  if (process.argv.length == 1) {
+    return false;
+  }
+
+  const appFolder = path.resolve(process.execPath, '..');
+  const rootAtomFolder = path.resolve(appFolder, '..');
+  const updateDotExe = path.join(rootAtomFolder, 'Update.exe');
+  const exeName = path.basename(process.execPath);
+
+  const spawn = function (command: any, args: any) {
+    let spawnedProcess: any;
+
+    try {
+      spawnedProcess = childProcess.spawn(command, args, { detached: true });
+    } catch (error) { }
+
+    return spawnedProcess;
+  };
+
+  const spawnUpdate = function (args: any[]) {
+    return spawn(updateDotExe, args);
+  };
+
+  const squirrelEvent = process.argv[1];
+
+  switch (squirrelEvent) {
+    case '--squirrel-install':
+    case '--squirrel-updated':
+      spawnUpdate(['--createShortcut', exeName]);
+      setTimeout(app.quit, 1000);
+      return true;
+
+    case '--squirrel-uninstall':
+      spawnUpdate(['--removeShortcut', exeName]);
+      setTimeout(app.quit, 1000);
+      return true;
+
+    case '--squirrel-obsolete':
+      app.quit();
+      return true;
+  }
+
+  return false;
+};
+
+if (!handleSquirrelEvent(app)) {
+
+  // Set up the application -----------------------------------------------
+  setupApplication();
+
+  // Run the application -------------------------------------------------
+  runApplication();
+}
+
 export { };
 

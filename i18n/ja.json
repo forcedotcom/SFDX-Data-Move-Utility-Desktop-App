@@ -30,7 +30,6 @@
   "API_CONFIGURATION": "API設定",
   "API_SETTINGS": "API設定",
   "AUTHENTICATION_SETTINGS": "認証設定",
-  "DEVELOPED_BY": "開発者",
   "AVAILABLE_FIELDS": "利用可能なフィールド",
   "AVAILABLE_ITEMS": "入手可能なアイテム",
   "CANCEL": "キャンセル",
@@ -66,10 +65,11 @@
   "DESCRIBING_SOBJECT_ON_ORG": "組織 {{ USER_NAME }} 上の sObject {{ OBJECT_NAME }} を説明しています...",
   "DESELECTED": "選択解除",
   "DESELECT_ALL": "すべての選択を解除",
+  "DEVELOPED_BY": "開発者",
   "DIALOG": {
     "ABOUT": {
-      "TEXT": "#### [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^) について。\n{{ REPO_DESCRIPTION }}\n\n🔢 バージョン: {{ REPO_VERSION }}\n👤 作者: {{ REPO_AUTHOR }}\n⭐{{ REPO_LIKES }}\n🍴{{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
-      "TEXT_MINIMAL": "#### [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^) について。\n{{ REPO_DESCRIPTION }}"
+      "TEXT": "#### [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^) について。\n{{ REPO_DESCRIPTION }}\n\n🔢 バージョン: {{ REPO_VERSION }}\n📜 ライセンス: {{ REPO_LICENSE }}\n👩‍💻 開発者: {{ REPO_DEVELOPED_BY }}\n⭐ {{ REPO_LIKES }}\n🍴 {{ REPO_FORKS }}\n🕒 {{ REPO_LAST_UPDATED }}",
+      "TEXT_MINIMAL": "#### [{{ REPO_NAME }}](javascript:openLink^!'{{ REPO_URL }}'!^) について。\n{{ REPO_DESCRIPTION }}\n📜 ライセンス: {{ REPO_LICENSE }}\n👩‍💻 開発者: {{ REPO_DEVELOPED_BY }}\n"
     },
     "APPLICATION": {
       "CLEANUP": "アプリケーションフォルダーのクリーンアップ",

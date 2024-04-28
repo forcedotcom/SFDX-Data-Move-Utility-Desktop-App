@@ -75,11 +75,11 @@
       <!-- Footer -->
       <footer-pane>
         <div class="d-flex align-items-center justify-content-between text-white me-2 ms-2 h-100">
-          <div id="workspacePath"></div>
+          <div class="dir-ltr" id="workspacePath"></div>
           <ui-divider></ui-divider>
-          <div id="connectedOrgs"></div>
+          <div class="dir-ltr" id="connectedOrgs"></div>
           <ui-divider></ui-divider>
-          <div ng-bind-html="config.copyrightsDisplayText"></div>
+          <div class="dir-ltr" ng-bind-html="config.copyrightsDisplayText(global.activeLang)"></div>
         </div>
       </footer-pane>
 
