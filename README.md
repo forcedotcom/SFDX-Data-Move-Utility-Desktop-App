@@ -31,6 +31,7 @@ The application is developed using the [ElectronJS](https://www.electronjs.org/)
 ## Application Quick Start
 
 Installing and running the **release version** of the SFDMU GUI App is straightforward, even for users with minimal technical expertise.
+All releases were made using the [Electron Forge Framework](https://www.electronforge.io/).
 
 ### Prerequisites
 
