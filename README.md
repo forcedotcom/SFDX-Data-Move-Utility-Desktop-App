@@ -26,6 +26,7 @@ The application is developed using the [ElectronJS](https://www.electronjs.org/)
 
 - Major operating systems including Windows, macOS, and Linux.
 - Requires Windows 10 or newer for Windows users.
+- Only **x64** CPU architecture is supported.
 
 ## Application Quick Start
 
