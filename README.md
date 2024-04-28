@@ -12,13 +12,12 @@ This tool acts as a valuable extension of the [**SFDX Data Move Utility (SFDMU) 
 
 ## Application Benefits
 
-The **SFDMU GUI App** offers several advantages that increase user productivity:
+The **SFDMU GUI App** offers several advantages that enhance user productivity and ensure secure data handling:
 
-- **Ease of Use:** The intuitive graphical interface simplifies the configuration of migration tasks, even for users with limited technical skills.
-- **Visual Management:** It allows users to add, modify, or remove migration components such as sObjects and field mappings easily, offering a clear visual representation of changes.
+- **Ease of Use:** The intuitive graphical interface simplifies the SFDMU Plugin configuration of migration tasks, even for users with limited technical skills, making complex operations more accessible.
+- **Visual Management:** Users can easily add, modify, or remove migration components such as sObjects and field mappings, offering a clear visual representation of changes. This visual approach helps users better manage and organize their data migration tasks.
 - **Error Reduction:** By minimizing common configuration mistakes made during manual file editing, the graphical interface enhances the reliability of data migrations.
-- **Time Efficiency:** Features like automated tasks and pre-configured templates expedite the setup process, reducing the time dedicated to repetitive actions.
-- **Scalability:** The app supports migrations of various complexities and sizes, suitable for both small businesses and large enterprises.
+- **Secure Data Handling:** All data is processed locally on the client’s machine, with no data sent to any third parties over the internet. All external interactions occur exclusively with the Salesforce REST API, ensuring your data remains secure and is handled in compliance with stringent privacy and security policies.
 
 ## Supported OS
 
