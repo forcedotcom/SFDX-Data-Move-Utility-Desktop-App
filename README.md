@@ -43,7 +43,7 @@ Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup
 
 #### Step 1. Select the Release Tag
 
-Navigate to the repository's release page, find the sidebar, and click on the release tag associated with your desired version.
+Navigate to the repository page, locate the "Releases" section on the sidebar, and click on the release tag associated with your desired version.
 
 #### Step 2. Download the Setup Files
 
