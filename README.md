@@ -138,7 +138,8 @@ Follow the installation instructions provided for each operating system:
 
 ## Running the Application from Source Code
 
-Alternatively, instead of using the installable executable, you can clone the source code and run the application directly from it. Detailed documentation for this process is available for guidance.
+Alternatively, instead of using the installable executable, you can clone the source code and run the application directly from it. 
+Detailed documentation for this process is [available for guidance](https://help.sfdmu.com/sfdmu-gui-app#installation-of-the-source-code).
 
 ---
 
