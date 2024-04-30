@@ -117,9 +117,23 @@ Follow the installation instructions provided for each operating system:
 
 #### Step 4. Run the Application
 
-- **macOS:** Open `sfdmu-gui-app.app` from your `Applications` folder.
-- **Linux:** Use the application menu to launch the SFDMU GUI App.
-- **Windows:** The app typically launches automatically after installation; for later use, find it via the Start menu or desktop shortcut.
+##### macOS:
+
+1. Open a Terminal window.
+
+2. Execute the following command to run the application:
+
+   ```bash
+   /Applications/sfdmu-gui-app.app/Contents/MacOS/sfdmu-gui-app
+   ```
+
+##### Linux:
+
+1. Use the application menu to launch the SFDMU GUI App.
+
+##### Windows:
+
+1. The app typically launches automatically after installation. For later use, locate it via the Start menu or a desktop shortcut.
 
 ## Running the Application from Source Code
 
