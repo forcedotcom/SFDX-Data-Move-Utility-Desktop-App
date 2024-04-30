@@ -25,17 +25,15 @@ The application is developed using the [ElectronJS](https://www.electronjs.org/)
 - Requires Windows 10 or newer for Windows users.
 - Only x64 CPU architecture is supported.
 
-## Application Quick Start
-
-Installing and running the **release version** of the SFDMU GUI App is straightforward, even for users with minimal technical expertise. All releases were made using the [Electron Forge Framework](https://www.electronforge.io/).
-
-## Prerequisites
-
-Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) is installed before using the SFDMU GUI App.
-
 ## Installation and Running
+Installing and running the **release version** of the SFDMU GUI App is straightforward, even for users with minimal technical expertise. 
+- All releases were made using the [Electron Forge Framework](https://www.electronforge.io/).
 - All releases are available on the "release" branch of the SFDMU GUI App GitHub repository.
 - Release setup executables are available for versions v4.5.0 and later. Older versions must be installed and run directly from the source code.
+
+### Prerequisites
+
+Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) is installed before using the SFDMU GUI App.
 
 ### Installation of Latest Release
 
