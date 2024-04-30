@@ -1,6 +1,6 @@
 ## Overview
 
-Welcome to the latest release version of the **SFDMU GUI Application**.
+Welcome to the release version of the **SFDMU GUI Application**.
 
 For installation instructions and running guidance, please refer to the [README on the master branch](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App?tab=readme-ov-file).
 
