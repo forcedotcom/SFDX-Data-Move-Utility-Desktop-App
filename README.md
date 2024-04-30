@@ -34,8 +34,8 @@ Installing and running the **release version** of the SFDMU GUI App is straightf
 Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) is installed before using the SFDMU GUI App.
 
 ## Installation and Running
-
-All releases can be found in the ["release"](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release?tab=readme-ov-file) branch of the SFDMU GUI App GitHub repository.
+All releases are available on the "release" branch of the SFDMU GUI App GitHub repository.
+Release setup executables are available for versions v4.5.0 and later. Older versions must be installed and run directly from the source code.
 
 ### Installation of Latest Release
 
