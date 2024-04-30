@@ -7,6 +7,7 @@ This tool is a graphical interface for creating and maintaining the **`export.js
 - **SFDMU GUI App Documentation**: [SFDMU GUI App Reference Guide](https://help.sfdmu.com/sfdmu-gui-app).
 - **SFDMU Plugin GitHub Repository**: [SFDMU Plugin Repo](https://github.com/forcedotcom/SFDX-Data-Move-Utility).
 - **SFDMU Knowledgebase and Help Portal**: [SFDMU Help Center](https://help.sfdmu.com/).
+- **SFDMU Support Policy**: [User Support Policy:](https://help.sfdmu.com/full-documentation/additional-information/support_policy) 
 
 ## Application Benefits
 
