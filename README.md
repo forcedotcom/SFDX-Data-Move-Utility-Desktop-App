@@ -29,6 +29,7 @@ The application is developed using the [ElectronJS](https://www.electronjs.org/)
 Installing and running the **release version** of the SFDMU GUI App is straightforward, even for users with minimal technical expertise. 
 - All releases were made using the [Electron Forge Framework](https://www.electronforge.io/).
 - All releases are available on the "release" branch of the SFDMU GUI App GitHub repository.
+- You can find the MD5 hash sums in the respective `.md5` files located in the same repository folder as the setup file.
 - Release setup executables are available for versions v4.5.0 and later. Older versions must be installed and run directly from the source code.
 
 ### Prerequisites
