@@ -1,4 +1,4 @@
-# ![SFDMU](https://github.com/forcedotcom/SFDX-Data-Move-Utility/blob/master/src/images/logo-black.png)&nbsp;SFDMU GUI Application
+# ![SFDMU](https://github.com/forcedotcom/SFDX-Data-Move-Utility/blob/master/src/images/logo-black.png)&nbsp;SFDMU GUI Desktop Application
 
 The **SFDMU GUI App** enhances the efficiency of creating and managing data migrations within Salesforce environments. 
 
