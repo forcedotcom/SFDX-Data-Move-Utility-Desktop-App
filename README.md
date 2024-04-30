@@ -46,9 +46,9 @@ Download and install the latest release of the SFDMU GUI App for your operating 
 
 To install:
 
-1. Click on the link provided for your operating system to navigate to the download page.
+1. Click on the file link provided for your operating system to navigate to the download page.
 2. Once on the page, use the download link located at the top right to download the file.
-3. Follow the steps specific to your operating system for installation and running the application as detailed in **Steps 3 and 4**.
+3. Follow the steps specific to your operating system for installation and running the application as detailed in **Steps 3 and 4** below.
 
 ### Installation of Specific Release
 
