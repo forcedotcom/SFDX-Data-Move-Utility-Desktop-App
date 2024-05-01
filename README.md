@@ -4,10 +4,8 @@ The **SFDMU GUI Desktop Application** is a comprehensive tool for Salesforce dat
 
 ### Useful Resources
 
-- **SFDMU GUI Desktop App Detailed Documentation**: [SFDMU GUI App Reference Guide](https://help.sfdmu.com/sfdmu-gui-app).
 - **Knowledgebase and Help Portal**: [SFDMU Help Center](https://help.sfdmu.com/).
-- **User Support Policy**: [SFDMU User Support Policy](https://help.sfdmu.com/full-documentation/additional-information/support_policy).
-- **How to contribute to SFDMU:**: [SFDMU Contribution Policy](https://help.sfdmu.com/full-documentation/additional-information/code_contribution_policy)
+- **SFDMU GUI Desktop App Detailed Documentation**: [SFDMU GUI App Reference Guide](https://help.sfdmu.com/sfdmu-gui-app).
 
 ## Benefits of the SFDMU GUI Desktop Application
 
@@ -147,6 +145,3 @@ Follow the installation instructions provided for each operating system:
 Alternatively, instead of using the installable executable, you can clone the source code and run the application directly from it. 
 Detailed documentation for this process is [available for guidance](https://help.sfdmu.com/sfdmu-gui-app#installation-of-the-source-code).
 
----
-
-**For comprehensive details on installation, operation, and configuration, visit the** [SFDMU GUI App Documentation](https://help.sfdmu.com/sfdmu-gui-app).
