@@ -1,3 +1,6 @@
+<ui-label class="d-block mb-1 text-size-2" label="{{ 'TABS.SCRIPT_OBJECTS_MANAGER' | translate }}">
+</ui-label>
+
 <div class="row flex-nowrap pt-4">
     <div class="col flex-shrink-0" style="min-width:400px; max-width:500px;">
         <!-- The toolbar for the object manager -->
@@ -11,7 +14,7 @@
     <div ng-if="$ctrl.view == 'editor'" class="col flex-grow-1 border overflow-x-auto">
         <!-- The object manager editor-->
         <object-manager-editor></object-manager-editor>
-    </div>    
+    </div>
 </div>
 
 <div ng-if="$ctrl.view == 'select-object-set-warning'" class="card p-2 mt-3">

@@ -62,11 +62,19 @@ input[type=checkbox]:disabled,
 }
 
 .text-primary-dashed,
-.text-primary-dashed>* {
+.text-primary-dashed * {
     color: var(--bs-primary) !important;
     text-decoration: underline dotted var(--bs-primary) !important;
     text-underline-offset: 20%;
+    cursor:  pointer !important;
+}
 
+.text-size-2 {
+    font-size: 120%;
+}
+
+.text-size-3 {
+    font-size: 150%;
 }
 
 textarea[readonly] {

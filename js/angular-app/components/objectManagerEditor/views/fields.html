@@ -1,6 +1,6 @@
 <ui-tabs id="objectFieldsTabset" selected-tab-id="$ctrl.fieldsSelectedTabId">
     <ui-tab title="{{ 'OBJECT_FIELDS' | translate }}" tab-id="objectFields">
-        <ui-label class="d-block mb-1 text-primary-dashed" label="{{ 'OBJECT_FIELDS' | translate }}"
+        <ui-label class="d-block mb-1 text-size-2" label="{{ 'OBJECT_FIELDS' | translate }}"
             help-search-word="OBJECT_FIELDS" add-help-links="true">
         </ui-label>
         <ui-transfer-picker id="objectFieldsSelector" height="calc(max(100vh - 500px, 390px))"
@@ -10,7 +10,7 @@
         </ui-transfer-picker>
     </ui-tab>
     <ui-tab title="{{ 'EXCLUDED_FIELDS' | translate }}" tab-id="excludedFields">
-        <ui-label class="d-block mb-1 text-primary-dashed" label="{{ 'EXCLUDED_FIELDS' | translate }}"
+        <ui-label class="d-block mb-1 text-size-2" label="{{ 'EXCLUDED_FIELDS' | translate }}"
             help-search-word="EXCLUDED_FIELDS" add-help-links="true">
         </ui-label>
         <ui-transfer-picker id="excludedFieldsSelector" height="calc(max(100vh - 500px, 390px))"
@@ -20,7 +20,7 @@
         </ui-transfer-picker>
     </ui-tab>
     <ui-tab title="{{ 'EXCLUDED_FROM_UPDATE_FIELDS' | translate }}" tab-id="excludedFromUpdateFields">
-        <ui-label class="d-block mb-1 text-primary-dashed" label="{{ 'EXCLUDED_FROM_UPDATE_FIELDS' | translate }}"
+        <ui-label class="d-block mb-1 text-size-2" label="{{ 'EXCLUDED_FROM_UPDATE_FIELDS' | translate }}"
             help-search-word="EXCLUDED_FROM_UPDATE_FIELDS" add-help-links="true">
         </ui-label>
         <ui-transfer-picker id="excludedFromUpdateFieldsSelector" height="calc(max(100vh - 500px, 390px))"
@@ -30,7 +30,7 @@
         </ui-transfer-picker>
     </ui-tab>
     <ui-tab title="{{ 'POLYMORPHIC_FIELDS' | translate }}" tab-id="polymorphicFields">
-        <ui-label class="d-block mb-1 text-primary-dashed" label="{{ 'POLYMORPHIC_FIELDS' | translate }}"
+        <ui-label class="d-block mb-1 text-size-2" label="{{ 'POLYMORPHIC_FIELDS' | translate }}"
             help-search-word="POLYMORPHIC_FIELDS" add-help-links="true">
         </ui-label>
         <ui-edit-form-array class="d-block mt-2" id="objectPolymorphicTabForm" setup="$ctrl.polymorphicFieldsSetup"

@@ -758,27 +758,27 @@ class ObjectManagerEditorController {
         const sobject = services_1.DatabaseService.getSObject();
         this.objectSettingsSetup = {
             // Row 1
-            bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, max: 100000, widthOf12: 3 },
-            restApiBatchSize: { type: 'number', label: 'restApiBatchSize', required: false, min: 1, max: 100000, widthOf12: 3 },
-            parallelBulkJobs: { type: 'number', label: 'parallelBulkJobs', required: false, min: 1, max: 100, widthOf12: 3 },
-            parallelRestJobs: { type: 'number', label: 'parallelRestJobs', required: false, min: 1, max: 100, widthOf12: 3 },
+            bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, max: 100000, widthOf12: 3, helpSearchWord: "BULK_API_V1_BATCH_SIZE", addHelpLinks: true },
+            restApiBatchSize: { type: 'number', label: 'restApiBatchSize', required: false, min: 1, max: 100000, widthOf12: 3, helpSearchWord: "REST_API_BATCH_SIZE", addHelpLinks: true },
+            parallelBulkJobs: { type: 'number', label: 'parallelBulkJobs', required: false, min: 1, max: 100, widthOf12: 3, helpSearchWord: "PARALLEL_BULK_JOBS", addHelpLinks: true },
+            parallelRestJobs: { type: 'number', label: 'parallelRestJobs', required: false, min: 1, max: 100, widthOf12: 3, helpSearchWord: "PARALLEL_REST_JOBS", addHelpLinks: true },
             // Row 2
-            useQueryAll: { type: 'toggle', label: 'useQueryAll', required: false, widthOf12: 3 },
-            queryAllTarget: { type: 'toggle', label: 'queryAllTarget', required: false, widthOf12: 3 },
-            skipExistingRecords: { type: 'toggle', label: 'skipExistingRecords', required: false, widthOf12: 3 },
-            useSourceCSVFile: { type: 'toggle', label: 'useSourceCSVFile', required: false, widthOf12: 3 },
+            useQueryAll: { type: 'toggle', label: 'useQueryAll', required: false, widthOf12: 3, helpSearchWord: "USE_QUERY_ALL", addHelpLinks: true },
+            queryAllTarget: { type: 'toggle', label: 'queryAllTarget', required: false, widthOf12: 3, helpSearchWord: "QUERY_ALL_TARGET", addHelpLinks: true },
+            skipExistingRecords: { type: 'toggle', label: 'skipExistingRecords', required: false, widthOf12: 3, helpSearchWord: "SKIP_EXISTING_RECORDS", addHelpLinks: true },
+            useSourceCSVFile: { type: 'toggle', label: 'useSourceCSVFile', required: false, widthOf12: 3, helpSearchWord: "USE_SOURCE_CSV_FILE", addHelpLinks: true },
             // Row 3
-            skipRecordsComparison: { type: 'toggle', label: 'skipRecordsComparison', required: false, widthOf12: 12 },
+            skipRecordsComparison: { type: 'toggle', label: 'skipRecordsComparison', required: false, widthOf12: 12, helpSearchWord: "SKIP_RECORDS_COMPARISON", addHelpLinks: true },
             // Row 4
-            deleteOldData: { type: 'toggle', label: 'deleteOldData', required: false, widthOf12: 3 },
-            deleteFromSource: { type: 'toggle', label: 'deleteFromSource', required: false, widthOf12: 3 },
-            deleteByHierarchy: { type: 'toggle', label: 'deleteByHierarchy', required: false, widthOf12: 3 },
-            hardDelete: { type: 'toggle', label: 'hardDelete', required: false, widthOf12: 3 },
+            deleteOldData: { type: 'toggle', label: 'deleteOldData', required: false, widthOf12: 3, helpSearchWord: "DELETE_OLD_DATA", addHelpLinks: true },
+            deleteFromSource: { type: 'toggle', label: 'deleteFromSource', required: false, widthOf12: 3, helpSearchWord: "DELETE_FROM_SOURCE", addHelpLinks: true },
+            deleteByHierarchy: { type: 'toggle', label: 'deleteByHierarchy', required: false, widthOf12: 3, helpSearchWord: "DELETE_BY_HIERARCHY", addHelpLinks: true },
+            hardDelete: { type: 'toggle', label: 'hardDelete', required: false, widthOf12: 3, helpSearchWord: "HARD_DELETE", addHelpLinks: true },
             // Row 5
-            useCSVValuesMapping: { type: 'toggle', label: 'useCSVValuesMapping', required: false, widthOf12: 3 },
-            useValuesMapping: { type: 'toggle', label: 'useValuesMapping', required: false, widthOf12: 3 },
-            useFieldMapping: { type: 'toggle', label: 'useFieldMapping', required: false, widthOf12: 3 },
-            updateWithMockData: { type: 'toggle', label: 'updateWithMockData', required: false, widthOf12: 3 },
+            useCSVValuesMapping: { type: 'toggle', label: 'useCSVValuesMapping', required: false, widthOf12: 3, helpSearchWord: "USE_CSV_VALUES_MAPPING", addHelpLinks: true },
+            useValuesMapping: { type: 'toggle', label: 'useValuesMapping', required: false, widthOf12: 3, helpSearchWord: "USE_VALUES_MAPPING", addHelpLinks: true },
+            useFieldMapping: { type: 'toggle', label: 'useFieldMapping', required: false, widthOf12: 3, helpSearchWord: "USE_FIELD_MAPPING", addHelpLinks: true },
+            updateWithMockData: { type: 'toggle', label: 'updateWithMockData', required: false, widthOf12: 3, helpSearchWord: "UPDATE_WITH_MOCK_DATA", addHelpLinks: true },
         };
         this.objectSettingsJson = {
             // API_CONFIGURATION
@@ -951,13 +951,35 @@ class ObjectManagerEditorController {
                     case 'query':
                         {
                             this.queryTabsFormSetup = {
-                                externalId: { type: 'autocomplete', label: 'External Id Field', options: this.getAllSObjectFieldDescriptions().filter(x => x.canBeExternalId).map(x => { return { value: x.name, label: x.name }; }).sortBy('label'), allowUnlistedInput: true, widthOf12: 7 },
-                                operation: { type: 'select', label: 'Operation', options: [{ value: 'Insert', label: 'Insert' }, { value: 'Update', label: 'Update' }, { value: 'Upsert', label: 'Upsert' }, { value: 'Delete', label: 'Delete' }, { value: 'DeleteSource', label: 'DeleteSource' }, { value: 'DeleteHierarchy', label: 'DeleteHierarchy' }, { value: 'HardDelete', label: 'HardDelete' }, { value: 'Readonly', label: 'Readonly' }], widthOf12: 3, helpSearchWord: "OPERATION", addHelpLinks: true },
+                                externalId: {
+                                    type: 'autocomplete',
+                                    label: 'External Id Field',
+                                    options: this.getAllSObjectFieldDescriptions().filter(x => x.canBeExternalId).map(x => { return { value: x.name, label: x.name }; }).sortBy('label'),
+                                    allowUnlistedInput: true,
+                                    widthOf12: 7,
+                                    helpSearchWord: "EXTERNAL_ID",
+                                    addHelpLinks: true
+                                },
+                                operation: {
+                                    type: 'select',
+                                    label: 'Operation',
+                                    options: [{ value: 'Insert', label: 'Insert' },
+                                        { value: 'Update', label: 'Update' },
+                                        { value: 'Upsert', label: 'Upsert' },
+                                        { value: 'Delete', label: 'Delete' },
+                                        { value: 'DeleteSource', label: 'DeleteSource' },
+                                        { value: 'DeleteHierarchy', label: 'DeleteHierarchy' },
+                                        { value: 'HardDelete', label: 'HardDelete' },
+                                        { value: 'Readonly', label: 'Readonly' }],
+                                    widthOf12: 3,
+                                    helpSearchWord: "OPERATION",
+                                    addHelpLinks: true
+                                },
                                 master: { type: 'toggle', label: 'Master', widthOf12: 2, helpSearchWord: "MASTER", addHelpLinks: true },
-                                where: { type: 'textarea', label: 'Query WHERE clause', widthOf12: 12 },
-                                orderBy: { type: 'input', label: 'Query ORDER BY clause', widthOf12: 4 },
-                                limit: { type: 'number', label: 'Query LIMIT clause', widthOf12: 4, min: 0 },
-                                offset: { type: 'number', label: 'Query OFFSET clause', widthOf12: 4, min: 0 },
+                                where: { type: 'textarea', label: 'Query WHERE clause', widthOf12: 12, helpSearchWord: "WHERE", addHelpLinks: true },
+                                orderBy: { type: 'input', label: 'Query ORDER BY clause', widthOf12: 4, helpSearchWord: "ORDER_BY", addHelpLinks: true },
+                                limit: { type: 'number', label: 'Query LIMIT clause', widthOf12: 4, min: 0, helpSearchWord: "LIMIT", addHelpLinks: true },
+                                offset: { type: 'number', label: 'Query OFFSET clause', widthOf12: 4, min: 0, helpSearchWord: "OFFSET", addHelpLinks: true },
                                 deleteQueryWhere: { type: 'textarea', label: 'Delete query WHERE clause', widthOf12: 6, helpSearchWord: "DELETE_QUERY", addHelpLinks: true },
                                 targetRecordsFilter: { type: 'textarea', label: 'Target records filter', widthOf12: 6, helpSearchWord: "TARGET_RECORDS_FILTER", addHelpLinks: true }
                             };

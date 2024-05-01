@@ -1,31 +1,36 @@
 <ui-tabs id="objectAddOnsTabset" selected-tab-id="$ctrl.objectAddOnsSelectedTabId">
     <ui-tab title="{{ 'ON_BEFORE_ADD_ONS' | translate }}" tab-id="objectOnBefore">
-        <div ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
+        <div ng-repeat="params in [{ label: 'ON_BEFORE_ADD_ONS', helpSearchWord: 'OBJECT_ON_BEFORE_EVENT' }]"
+            ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
         <ui-textarea id="beforeAddons" class="dir-ltr" style="height: calc(max(100vh - 557px, 390px)) !important;"
             on-change="$ctrl.handleAddOnsChange(args)" ng-model="$ctrl.scriptObjectAddOnFormData.beforeAddons">
         </ui-textarea>
     </ui-tab>
     <ui-tab title="{{ 'FILTER_RECORDS_ADD_ONS' | translate }}" tab-id="objectOnFlterRecords">
-        <div ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
+        <div ng-repeat="params in [{ label: 'FILTER_RECORDS_ADD_ONS', helpSearchWord: 'OBJECT_ON_FILTER_RECORDS_EVENT' }]"
+            ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
         <ui-textarea id="filterRecordsAddons" class="dir-ltr"
             style="height: calc(max(100vh - 557px, 390px)) !important;" on-change="$ctrl.handleAddOnsChange(args)"
             ng-model="$ctrl.scriptObjectAddOnFormData.filterRecordsAddons">
         </ui-textarea>
     </ui-tab>
     <ui-tab title="{{ 'ON_BEFORE_UPDATE_ADD_ONS' | translate }}" tab-id="objectOnBeforeUpdate">
-        <div ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
+        <div ng-repeat="params in [{ label: 'ON_BEFORE_UPDATE_ADD_ONS', helpSearchWord: 'OBJECT_ON_BEFORE_UPDATE_EVENT' }]"
+            ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
         <ui-textarea id="beforeUpdateAddons" class="dir-ltr" style="height: calc(max(100vh - 557px, 390px)) !important;"
             on-change="$ctrl.handleAddOnsChange(args)" ng-model="$ctrl.scriptObjectAddOnFormData.beforeUpdateAddons">
         </ui-textarea>
     </ui-tab>
     <ui-tab title="{{ 'ON_AFTER_UPDATE_ADD_ONS' | translate }}" tab-id="objectOnAfterUpdate">
-        <div ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
+        <div ng-repeat="params in [{ label: 'ON_AFTER_UPDATE_ADD_ONS', helpSearchWord: 'OBJECT_ON_AFTER_UPDATE_EVENT' }]"
+            ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
         <ui-textarea id="afterUpdateAddons" class="dir-ltr" style="height: calc(max(100vh - 557px, 390px)) !important;"
             on-change="$ctrl.handleAddOnsChange(args)" ng-model="$ctrl.scriptObjectAddOnFormData.afterUpdateAddons">
         </ui-textarea>
     </ui-tab>
     <ui-tab title="{{ 'ON_AFTER_ADD_ONS' | translate }}" tab-id="objectOnAfter">
-        <div ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
+        <div ng-repeat="params in [{ label: 'ON_AFTER_ADD_ONS', helpSearchWord: 'OBJECT_ON_AFTER_EVENT' }]"
+            ng-include="'./js/angular-app/components/objectManagerEditor/views/addOnsToolbar.html'"></div>
         <ui-textarea id="afterAddons" class="dir-ltr" style="height: calc(max(100vh - 557px, 390px)) !important;"
             on-change="$ctrl.handleAddOnsChange(args)" ng-model="$ctrl.scriptObjectAddOnFormData.afterAddons">
         </ui-textarea>

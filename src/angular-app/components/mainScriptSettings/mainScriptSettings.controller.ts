@@ -38,45 +38,45 @@ export class MainScriptSettingsController {
             this.scriptSettingsSetup = {
                 // API SETTINGS
                 // Row 0
-                bulkApiVersion: { type: 'select', label: 'bulkApiVersion', options: createSelectOption(['1.0', '2.0']), widthOf12: 3 },
-                concurrencyMode: { type: 'select', label: 'concurrencyMode', options: createSelectOption(['Parallel', 'Serial']), required: false, widthOf12: 3 },
-                apiVersion: { type: 'input', label: 'apiVersion', required: false, widthOf12: 3 },
-                alwaysUseRestApiToUpdateRecords: { type: 'toggle', label: 'alwaysUseRestApiToUpdateRecords', required: false, widthOf12: 3 },
+                bulkApiVersion: { type: 'select', label: 'bulkApiVersion', options: createSelectOption(['1.0', '2.0']), widthOf12: 3, helpSearchWord: "BULK_API_VERSION", addHelpLinks: true },
+                concurrencyMode: { type: 'select', label: 'concurrencyMode', options: createSelectOption(['Parallel', 'Serial']), required: false, widthOf12: 3, helpSearchWord: "CONCURRENCY_MODE", addHelpLinks: true},
+                apiVersion: { type: 'input', label: 'apiVersion', required: false, widthOf12: 3, helpSearchWord: "API_VERSION", addHelpLinks: true},
+                alwaysUseRestApiToUpdateRecords: { type: 'toggle', label: 'alwaysUseRestApiToUpdateRecords', required: false, widthOf12: 3, helpSearchWord: "ALWAYS_USE_REST_API_TO_UPDATE_RECORDS", addHelpLinks: true},
                 // Row 1
-                restApiBatchSize: { type: 'number', label: 'restApiBatchSize', required: false, min: 1, widthOf12: 3 },
-                bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, widthOf12: 3 },
-                pollingIntervalMs: { type: 'number', label: 'pollingIntervalMs', required: false, min: 1, widthOf12: 3 },
-                bulkThreshold: { type: 'number', label: 'bulkThreshold', required: false, min: 1, widthOf12: 3 },
+                restApiBatchSize: { type: 'number', label: 'restApiBatchSize', required: false, min: 1, widthOf12: 3, helpSearchWord: "OBJECT_REST_API_BATCH_SIZE", addHelpLinks: true},
+                bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, widthOf12: 3, helpSearchWord: "OBJECT_BULK_API_V1_BATCH_SIZE", addHelpLinks: true},
+                pollingIntervalMs: { type: 'number', label: 'pollingIntervalMs', required: false, min: 1, widthOf12: 3, helpSearchWord: "POLLING_INTERVAL_MS", addHelpLinks: true},
+                bulkThreshold: { type: 'number', label: 'bulkThreshold', required: false, min: 1, widthOf12: 3, helpSearchWord: "BULK_THRESHOLD", addHelpLinks: true},
                 // Row 2
-                queryBulkApiThreshold: { type: 'number', label: 'queryBulkApiThreshold', required: false, min: 1, widthOf12: 3 },
-                pollingQueryTimeoutMs: { type: 'number', label: 'pollingQueryTimeoutMs', required: false, min: 1, widthOf12: 9 },
+                queryBulkApiThreshold: { type: 'number', label: 'queryBulkApiThreshold', required: false, min: 1, widthOf12: 3, helpSearchWord: "QUERY_BULK_API_THRESHOLD", addHelpLinks: true},
+                pollingQueryTimeoutMs: { type: 'number', label: 'pollingQueryTimeoutMs', required: false, min: 1, widthOf12: 9, helpSearchWord: "POLLING_QUERY_TIMEOUT_MS", addHelpLinks: true},
 
                 // CSV HANDLING
                 // Row 3
-                validateCSVFilesOnly: { type: 'toggle', label: 'validateCSVFilesOnly', required: false, widthOf12: 3 },
-                createTargetCSVFiles: { type: 'toggle', label: 'createTargetCSVFiles', required: false, widthOf12: 3 },
-                importCSVFilesAsIs: { type: 'toggle', label: 'importCSVFilesAsIs', required: false, widthOf12: 3 },
-                excludeIdsFromCSVFiles: { type: 'toggle', label: 'excludeIdsFromCSVFiles', required: false, widthOf12: 3 },
+                validateCSVFilesOnly: { type: 'toggle', label: 'validateCSVFilesOnly', required: false, widthOf12: 3, helpSearchWord: "VALIDATE_CSV_FILES_ONLY", addHelpLinks: true},
+                createTargetCSVFiles: { type: 'toggle', label: 'createTargetCSVFiles', required: false, widthOf12: 3, helpSearchWord: "CREATE_TARGET_CSV_FILES", addHelpLinks: true},
+                importCSVFilesAsIs: { type: 'toggle', label: 'importCSVFilesAsIs', required: false, widthOf12: 3, helpSearchWord: "IMPORT_CSV_FILES_AS_IS", addHelpLinks: true},
+                excludeIdsFromCSVFiles: { type: 'toggle', label: 'excludeIdsFromCSVFiles', required: false, widthOf12: 3, helpSearchWord: "EXCLUDE_IDS_FROM_CSV_FILES", addHelpLinks: true},
                 // Row 4
-                csvReadFileDelimiter: { type: 'select', label: 'csvReadFileDelimiter', options: createSelectOption([',', ';']), required: false, widthOf12: 3 },
-                csvWriteFileDelimiter: { type: 'select', label: 'csvWriteFileDelimiter', options: createSelectOption([',', ';']), required: false, widthOf12: 3 },
-                useSeparatedCSVFiles: { type: 'toggle', label: 'useSeparatedCSVFiles', required: false, widthOf12: 6 },
+                csvReadFileDelimiter: { type: 'select', label: 'csvReadFileDelimiter', options: createSelectOption([',', ';']), required: false, widthOf12: 3, helpSearchWord: "CSV_READ_FILE_DELIMITER", addHelpLinks: true},
+                csvWriteFileDelimiter: { type: 'select', label: 'csvWriteFileDelimiter', options: createSelectOption([',', ';']), required: false, widthOf12: 3, helpSearchWord: "CSV_WRITE_FILE_DELIMITER", addHelpLinks: true},
+                useSeparatedCSVFiles: { type: 'toggle', label: 'useSeparatedCSVFiles', required: false, widthOf12: 6, helpSearchWord: "USE_SEPARATED_CSV_FILES", addHelpLinks: true},
                 // EXECUTION SETTINGS
                 // Row 5
-                keepObjectOrderWhileExecute: { type: 'toggle', label: 'keepObjectOrderWhileExecute', required: false, widthOf12: 3 },
-                allowFieldTruncation: { type: 'toggle', label: 'allowFieldTruncation', required: false, widthOf12: 3 },
-                parallelBinaryDownloads: { type: 'number', label: 'parallelBinaryDownloads', required: false, min: 1, widthOf12: 3 },
-                simulationMode: { type: 'toggle', label: 'simulationMode', required: false, widthOf12: 3 },
+                keepObjectOrderWhileExecute: { type: 'toggle', label: 'keepObjectOrderWhileExecute', required: false, widthOf12: 3, helpSearchWord: "KEEP_OBJECT_ORDER_WHILE_EXECUTE", addHelpLinks: true},
+                allowFieldTruncation: { type: 'toggle', label: 'allowFieldTruncation', required: false, widthOf12: 3, helpSearchWord: "ALLOW_FIELD_TRUNCATION", addHelpLinks: true},
+                parallelBinaryDownloads: { type: 'number', label: 'parallelBinaryDownloads', required: false, min: 1, widthOf12: 3, helpSearchWord: "PARALLEL_BINARY_DOWNLOADS", addHelpLinks: true},
+                simulationMode: { type: 'toggle', label: 'simulationMode', required: false, widthOf12: 3, helpSearchWord: "SIMULATION_MODE", addHelpLinks: true},
                 // ERROR HANDLING
                 // Row 6
-                allOrNone: { type: 'toggle', label: 'allOrNone', required: false, widthOf12: 3 },
-                promptOnIssuesInCSVFiles: { type: 'toggle', label: 'promptOnIssuesInCSVFiles', required: false, widthOf12: 3 },
-                promptOnMissingParentObjects: { type: 'toggle', label: 'promptOnMissingParentObjects', required: false, widthOf12: 6 },
+                allOrNone: { type: 'toggle', label: 'allOrNone', required: false, widthOf12: 3, helpSearchWord: "ALL_OR_NONE", addHelpLinks: true},
+                promptOnIssuesInCSVFiles: { type: 'toggle', label: 'promptOnIssuesInCSVFiles', required: false, widthOf12: 3, helpSearchWord: "PROMPT_ON_ISSUES_IN_CSV_FILES", addHelpLinks: true},
+                promptOnMissingParentObjects: { type: 'toggle', label: 'promptOnMissingParentObjects', required: false, widthOf12: 6, helpSearchWord: "PROMPT_ON_MISSING_PARENT_OBJECTS", addHelpLinks: true},
                 // OTHER SETTINGS
                 // Row 7
-                proxyUrl: { type: 'input', label: 'proxyUrl', required: false, widthOf12: 3 },
-                binaryDataCache: { type: 'select', label: 'binaryDataCache', options: createSelectOption(Object.values(DataCacheTypes)), required: false, widthOf12: 3 },
-                sourceRecordsCache: { type: 'select', label: 'sourceRecordsCache', options: createSelectOption(Object.values(DataCacheTypes)), required: false, widthOf12: 6 }
+                proxyUrl: { type: 'input', label: 'proxyUrl', required: false, widthOf12: 3, helpSearchWord: "PROXY_URL", addHelpLinks: true},
+                binaryDataCache: { type: 'select', label: 'binaryDataCache', options: createSelectOption(Object.values(DataCacheTypes)), required: false, widthOf12: 3, helpSearchWord: "BINARY_DATA_CACHE", addHelpLinks: true},
+                sourceRecordsCache: { type: 'select', label: 'sourceRecordsCache', options: createSelectOption(Object.values(DataCacheTypes)), required: false, widthOf12: 6, helpSearchWord: "SOURCE_RECORDS_CACHE", addHelpLinks: true}
             };
 
 

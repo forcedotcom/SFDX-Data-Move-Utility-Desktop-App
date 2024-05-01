@@ -15,7 +15,8 @@ class UiLabel {
 			<i ng-if="$ctrl.iconTooltip" class="{{ $ctrl.icon }}" data-bs-toggle="tooltip" title="{{ $ctrl.iconTooltip }}"></i>
 			<a data-bs-toggle="tooltip"	title="{{ 'CLICK_TO_NAVIGATE_TO_HELP_ARTICLE' | translate }}"
 				ng-if="$ctrl.addHelpLinks" href="javascript:void(0)"
-				ng-click="$ctrl.navigateToHelpArticle($ctrl.helpSearchWord || $ctrl.label)">
+				ng-click="$ctrl.navigateToHelpArticle($ctrl.helpSearchWord || $ctrl.label)"
+				class="text-primary-dashed">
 					<i class="fa fa-link fa-sm"></i>
 			</a>
 		</label>
