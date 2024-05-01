@@ -1,11 +1,11 @@
 ## Overview
 
-Welcome to the release version of the **SFDMU GUI Application**.
+This is the latest release version of the **SFDMU GUI Application**.
 
-For installation instructions and running guidance, please refer to the [README on the master branch](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App?tab=readme-ov-file#installation-of-latest-release).
+For quick installation instructions and guidance on how to run the application, please refer to this [README section](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App?tab=readme-ov-file#installation-of-latest-release).
 
-## Useful Resources
+## Resource
 
-- **Find comprehensive guidance on the SFDMU GUI App at the [SFDMU GUI App Documentation](https://help.sfdmu.com/sfdmu-gui-app).**
-- **Access the SFDMU Plugin Repository and additional resources [here](https://github.com/forcedotcom/SFDX-Data-Move-Utility).**
-- **For detailed documentation and support, visit the [SFDMU Help Center](https://help.sfdmu.com/).**
+- **[SFDMU GUI App Documentation](https://help.sfdmu.com/sfdmu-gui-app)**: Detailed guides and instructions for using the SFDMU GUI Desktop App.
+- **[SFDMU Plugin's Repository](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**: Access the official repository for source code, updates, and community insights on the SFDX Data Move Utility Plugin.
+- **[SFDMU Help Center](https://help.sfdmu.com/)**: Support resources, FAQs, and technical documentation.
