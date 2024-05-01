@@ -1,24 +1,23 @@
 # ![SFDMU](https://github.com/forcedotcom/SFDX-Data-Move-Utility/blob/master/src/images/logo-black.png)&nbsp;SFDMU GUI Desktop Application
 
-The **SFDMU GUI Desktop Application** is a comprehensive tool for Salesforce data migration between SF environments or importing/exporting CSV data into SF environments. It builds upon the capabilities of the **SFDX Data Move Utility Plugin (SFDMU)**, offering a user-friendly interface for seamless data management tasks.
+The **SFDMU GUI Desktop Application** is a comprehensive tool for Salesforce data migration between SF environments or importing/exporting CSV data into SF environments. It builds upon the capabilities of the **[SFDX Data Move Utility Plugin (SFDMU)](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**, offering a user-friendly interface for seamless data management tasks.
 
 ### Useful Resources
 
-- **SFDMU GUI App Detailed Documentation**: [SFDMU GUI App Reference Guide](https://help.sfdmu.com/sfdmu-gui-app).
-- **SFDMU Plugin GitHub Repository**: [SFDMU Plugin Repo](https://github.com/forcedotcom/SFDX-Data-Move-Utility).
-- **SFDMU Knowledgebase and Help Portal**: [SFDMU Help Center](https://help.sfdmu.com/).
-- **SFDMU Support Policy**: [SFDMU User Support Policy](https://help.sfdmu.com/full-documentation/additional-information/support_policy).
-- **How to contribute to SFDMU ?**: [SFDMU Contribution Policy](https://help.sfdmu.com/full-documentation/additional-information/code_contribution_policy)
+- **SFDMU GUI Desktop App Detailed Documentation**: [SFDMU GUI App Reference Guide](https://help.sfdmu.com/sfdmu-gui-app).
+- **Knowledgebase and Help Portal**: [SFDMU Help Center](https://help.sfdmu.com/).
+- **User Support Policy**: [SFDMU User Support Policy](https://help.sfdmu.com/full-documentation/additional-information/support_policy).
+- **How to contribute to SFDMU:**: [SFDMU Contribution Policy](https://help.sfdmu.com/full-documentation/additional-information/code_contribution_policy)
 
 ## Benefits of the SFDMU GUI Desktop Application
 
-The SFDMU GUI App provides numerous advantages that streamline user workflows and ensure the secure handling of data:
+The SFDMU GUI Desktop Application is an open-source and cost-free application that provides numerous advantages, streamlining user workflows and ensuring the secure handling of data:
 
 - **All-In-One Functionality:** Users can configure and execute migration tasks seamlessly within the application itself.
   
 - **User-Friendly Interface:** The intuitive graphical interface simplifies the creation and management of the `export.json` file for the SFDMU Plugin. Even users with limited technical expertise can easily set up complex migration tasks.
   
-- **Visual Management:** Users can conveniently add, edit, or remove migration components like sObjects and field mappings. This visual representation facilitates better organization and control over data migration processes.
+- **Visual Management:** Users can conveniently add, edit, or remove migration components such as sObjects and field mappings. This visual representation facilitates better organization and control over data migration processes.
   
 - **Error Prevention:** The application identifies common configuration and metadata errors that may occur during manual editing of the `export.json` file. This feature minimizes the risk of errors, thereby enhancing the reliability of data migrations.
   
