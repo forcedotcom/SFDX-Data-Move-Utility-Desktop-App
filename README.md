@@ -1,8 +1,7 @@
 # ![SFDMU](https://github.com/forcedotcom/SFDX-Data-Move-Utility/blob/master/src/images/logo-black.png)&nbsp;SFDMU GUI Desktop Application
 
-The **SFDMU GUI App** not only enhances the efficiency of creating and managing data migrations within Salesforce environments but also offers additional functionalities. This tool serves as a graphical interface for creating and maintaining the **`export.json`** configuration file used by the [**SFDX Data Move Utility (SFDMU) Plugin**](https://github.com/forcedotcom/SFDX-Data-Move-Utility). 
+The **SFDMU GUI Desktop App** not only enhances the efficiency of creating and managing data migrations within Salesforce environments but also offers additional functionalities. This tool serves as a graphical interface for creating and maintaining the **`export.json`** configuration file used by the [**SFDX Data Move Utility (SFDMU) Plugin**](https://github.com/forcedotcom/SFDX-Data-Move-Utility). 
 
-In addition to facilitating the management of sObjects, fields, and organization connections to enhance accuracy and efficiency in data migration tasks, this application allows users to configure settings and transfer data seamlessly between Salesforce instances.
 
 - **SFDMU GUI App Detailed Documentation**: [SFDMU GUI App Reference Guide](https://help.sfdmu.com/sfdmu-gui-app).
 - **SFDMU Plugin GitHub Repository**: [SFDMU Plugin Repo](https://github.com/forcedotcom/SFDX-Data-Move-Utility).
