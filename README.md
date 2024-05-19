@@ -29,7 +29,7 @@ The application is developed using the [ElectronJS](https://www.electronjs.org/)
 - Requires Windows 10 or newer for Windows users.
 - Only x64 CPU architecture is supported.
 
-## Installation and Running
+## Installation
 Installing and running the **release version** of the SFDMU GUI App is straightforward, even for users with minimal technical expertise. 
 - All releases were made using the [Electron Forge Framework](https://www.electronforge.io/).
 - All releases are available on the "release" branch of the SFDMU GUI App GitHub repository.
@@ -43,18 +43,14 @@ Installing and running the **release version** of the SFDMU GUI App is straightf
 
 ### Installation of Latest Release
 
-Download and install the latest release of the SFDMU GUI App for your operating system:
+1. Download the latest release of the SFDMU GUI App for your operating system using the following links:
 
-- **macOS**: Access the `zip` installation file here: [macOS x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/darwin/x64/).
-- **Linux (Debian-based systems)**: Access the `deb` installation file here: [Debian x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/deb/x64/).
-- **Linux (RPM-based systems)**: Access the `rpm` installation file here: [RPM x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/rpm/x64/).
-- **Windows**: Access the `zip` file containing the setup executable here: [Windows x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/windows/x64/).
+   - **macOS**: Access the `zip` installation file here: [macOS x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/darwin/x64/).
+   - **Linux (Debian-based systems)**: Access the `deb` installation file here: [Debian x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/deb/x64/).
+   - **Linux (RPM-based systems)**: Access the `rpm` installation file here: [RPM x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/rpm/x64/).
+   - **Windows**: Access the `zip` file containing the setup executable here: [Windows x64 setup](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App/tree/release/dist/windows/x64/).
 
-To install:
-
-1. Click on the file link provided for your operating system to navigate to the download page.
-2. Once on the page, use the download link located at the top right to download the file.
-3. Follow the steps specific to your operating system for installation and running the application as detailed in **Steps 3 and 4** below.
+2. Follow the steps specific to your operating system for installing the application as detailed in [**Step 3**](https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App?tab=readme-ov-file#step-3-install-the-application) below.
 
 ### Installation of Specific Release
 
@@ -121,7 +117,7 @@ Follow the installation instructions provided for each operating system:
 1. Go to the download location, extract the `.zip` file, and run `sfdmu-gui-app-X.X.X Setup.exe`.
 2. The app will auto-launch after installation, creating shortcuts on your desktop and in the Start menu.
 
-#### Step 4. Run the Application
+## Running the Application
 
 ##### macOS:
 
