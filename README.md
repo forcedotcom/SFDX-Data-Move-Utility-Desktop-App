@@ -29,7 +29,7 @@ The application is developed using the [ElectronJS](https://www.electronjs.org/)
 - Requires Windows 10 or newer for Windows users.
 - Only x64 CPU architecture is supported.
 
-## Installation
+## Installation of the Application
 Installing and running the **release version** of the SFDMU GUI App is straightforward, even for users with minimal technical expertise. 
 - All releases were made using the [Electron Forge Framework](https://www.electronforge.io/).
 - All releases are available on the "release" branch of the SFDMU GUI App GitHub repository.
@@ -117,7 +117,7 @@ Follow the installation instructions provided for each operating system:
 1. Go to the download location, extract the `.zip` file, and run `sfdmu-gui-app-X.X.X Setup.exe`.
 2. The app will auto-launch after installation, creating shortcuts on your desktop and in the Start menu.
 
-## Running the Application
+## Running the Installed Application
 
 ##### macOS:
 
