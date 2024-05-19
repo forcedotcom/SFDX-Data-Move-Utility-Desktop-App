@@ -66,9 +66,8 @@ Download the appropriate setup file for your OS from the subdirectories under `d
 
 - **macOS**: Navigate to `dist/darwin/x64/` and download the file, e.g., `sfdmu-gui-app-darwin-x64-X.X.X.zip`.
 - **Linux (Debian-based)**: Go to `dist/deb/x64/` and download `sfdmu-gui-app_X.X.X_amd64.deb`.
-- **Linux (RPM-based)**: Visit `dist/rpm/x64/` and download `SFDMU-GUI-App-X.X
+- **Linux (RPM-based)**: Visit `dist/rpm/x64/` and download `SFDMU-GUI-App-X.X.X-1.x86_64.rpm`.
 
-.X-1.x86_64.rpm`.
 - **Windows**: Find `dist/windows/x64/` and download the zip package, e.g., `sfdmu-gui-app-X.X.X Setup.zip`.
 
 #### Step 3. Install the Application
