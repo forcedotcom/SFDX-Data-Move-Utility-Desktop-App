@@ -11,14 +11,14 @@ class WizardStepController {
         this.$broadcast = $broadcast;
         this.$scope = $scope;
         this.$broadcast.onAction('setCurrentStep', 'uiWizardStep', (args) => {
-            if (args.componentId != this.$scope.id)
+            if (args.componentId != this.id)
                 return;
             utils_1.AngularUtils.$apply(this.$scope, () => {
                 this.currentStep = args.args[0];
             });
         }, this.$scope);
         this.$broadcast.onAction('setSteps', 'uiWizardStep', (args) => {
-            if (args.componentId != this.$scope.id)
+            if (args.componentId != this.id)
                 return;
             utils_1.AngularUtils.$apply(this.$scope, () => {
                 this.steps = args.args;
@@ -35,7 +35,7 @@ class WizardStepController {
 WizardStepController.$inject = ['$broadcast', '$scope'];
 exports.uiWizardDirectiveModule = angular_1.default.module('uiWizardDirectiveModule', [])
     .controller('WizardStepController', WizardStepController)
-    .directive('wizardStep', () => {
+    .directive('uiWizardStep', () => {
     return {
         restrict: 'E',
         template: `
@@ -52,14 +52,15 @@ exports.uiWizardDirectiveModule = angular_1.default.module('uiWizardDirectiveMod
                 </div>
             `,
         scope: {
+            id: '@',
             steps: '<',
             currentStep: '<'
         },
         controller: 'WizardStepController',
         controllerAs: '$ctrl',
         bindToController: true,
-        link: ($scope, $element, $attrs) => {
-            $scope.id = utils_1.AngularUtils.setElementId($scope, $attrs);
+        link: ($scope) => {
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
         }
     };
 });

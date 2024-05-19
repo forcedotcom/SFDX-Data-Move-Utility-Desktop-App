@@ -45,7 +45,7 @@ export class BackupService {
    * Schedules a backup of the file in a given interval in minutes.
    * @param intervalNMinutes - The interval in minutes.
    * @returns The schedule ID.
-   */  
+   */
   public scheduleBackupFile(intervalNMinutes: number): string {
     if (intervalNMinutes <= 0) {
       return null;
@@ -66,7 +66,7 @@ export class BackupService {
    * Deletes a scheduled backup of the file.
    * @param scheduleId - The schedule ID.
    * @returns True if the schedule was deleted, false otherwise.
-   */ 
+   */
   public deleteBackupFileSchedule(scheduleId: string): boolean {
     if (!scheduleId) {
       return false;

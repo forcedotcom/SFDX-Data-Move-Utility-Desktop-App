@@ -88,7 +88,7 @@ export class AppGlobalData {
     isDebug: boolean;
     /** Flag indicating whether the running app is packaged */
     isPackaged: boolean;
-    /** The base path of the application. */    
+    /** The base path of the application. */
     appBasePath: string;
     /** Main window of the application. */
     mainWindow: BrowserWindow;
@@ -127,10 +127,93 @@ export class AppGlobalData {
     /** The service for managing Electron windows. */
     windowService: WindowService;
     /** The Electron remote module. */
-    remoteMain: any; 
+    remoteMain: any;
     /** Whether the OS is Windows. */
     isWindows: boolean;
 
+
+}
+
+
+/**
+ * Declares the JSONEditor class.
+ */
+/**
+ * Represents a JSON editor that provides functionalities to edit JSON structures
+ * within a web interface.
+ */
+export declare class JSONEditor {
+    /**
+     * Creates an instance of JSONEditor.
+     * @param element The HTMLElement this editor is attached to.
+     * @param options Configuration options for the editor.
+     */
+    constructor(element: HTMLElement, options: any);
+
+    /**
+     * Default configuration for the JSONEditor instances.
+     */
+    static defaults: {
+        languages: Record<string, string>; // Holds language settings for the editor.
+        language: string; // The default language for the editor.
+    };
+
+    /**
+     * The theme of the editor.
+     */
+    theme: string;
+
+    /**
+     * Schema that the editor uses for validation and structuring the JSON input.
+     */
+    schema: any;
+
+    /**
+     * Destroys the editor instance, cleaning up DOM elements and event handlers.
+     */
+    destroy(): void;
+
+    /**
+     * Sets the value of the editor with the given JSON data.
+     * @param value JSON data to load into the editor.
+     */
+    setValue(value: any): void;
+
+    /**
+     * Validates the structure of the editor against its schema.
+     * Returns an array of validation errors, if any.
+     */
+    validateEditor(): {
+        path: string; // Path to the erroneous part in the JSON structure.
+        message: string; // Description of the validation error.
+    }[];
+
+    /**
+     * Retrieves the current value from the editor as JSON.
+     */
+    getValue(): any;
+
+    /**
+     * Retrieves a specific editor instance for the given JSON path.
+     * @param path The JSON path to the desired part of the schema.
+     */
+    getEditor(path: string): JSONEditor;
+
+    /**
+     * Validates the current JSON data against the schema, optionally with additional arguments.
+     * @param args Optional arguments to pass to the validation function.
+     */
+    validate(args?: any): {
+        path: string; // Path to the erroneous part in the JSON structure.
+        message: string; // Description of the validation error.
+    }[];
+
+    /**
+     * Registers an event handler for a specified event on this editor.
+     * @param event The name of the event to listen for.
+     * @param callback The callback function to execute when the event is triggered.
+     */
+    on(event: string, callback: () => void): void;
 
 }
 

@@ -394,4 +394,60 @@ export class CommonUtils {
         return items;
     }
 
+    /**
+     * Recursively replaces properties in an object or elements in an array based on a provided callback function.
+     * This function traverses an object or array and applies the callback to each element or property,
+     * allowing for dynamic updates to the values based on their current values and paths. This version of the function
+     * also provides the key of the current value being processed, which can be useful for more context-specific operations.
+     * @param object The object or array to traverse and modify.
+     * @param callback A function that takes the current path, the key of the current property or element, and its value, 
+     *                 then returns a new value. The function should accept three parameters: `currentPath` (a string representing 
+     *                 the path to the property or element), `key` (the current key or index as a string), and `currentValue` 
+     *                 (the current value of the property or element), and it should return the modified value.
+     * @param path An optional initial path to prefix to each property or element path, used during recursive calls to maintain 
+     *             the full path.
+     * @returns The modified object or array. This method returns the object with all its properties or elements processed, 
+     *          potentially modified by the callback.
+     */
+    static replacePropertyDeep<T>(object: T, callback: (currentPath: string, key: string, currentValue: any) => any, path?: string): T {
+        Object.keys(object).forEach(key => {
+            const currentPath = path ? `${path}.${key}` : key;
+            const currentValue = object[key];
+            if (typeof currentValue == 'object' && currentValue != null) {
+                CommonUtils.replacePropertyDeep(currentValue, callback, currentPath);
+            } else {
+                object[key] = callback(currentPath, key, object[key]);
+            }
+        });
+        return object;
+    }
+
+    /**
+     * Recursively searches for a value in an object based on a callback condition.
+     *
+     * @param {Object} object The object to search within.
+     * @param {Function} callback A callback function that is called for each value in the object. 
+     *                            The function should return `true` if the current value matches the condition.
+     *                            It receives parameters: currentPath (string), key (string), and currentValue (any).
+     * @param {string} [path] The current path of the object being searched, used internally for recursion.
+     * @returns {any} The value that matches the callback condition, or `undefined` if no matching value is found.
+     */
+    static findValueDeep<T>(object: T, callback: (currentPath: string, key: string, currentValue: any) => boolean, path?: string): any {
+        for (const key in object) {
+            let returnValue: any;
+            if (object.hasOwnProperty(key)) {
+                const currentPath = path ? `${path}.${key}` : key;
+                const currentValue = object[key];
+                if (currentValue != null && typeof currentValue == 'object') {
+                    returnValue = CommonUtils.findValueDeep(currentValue, callback, currentPath);
+                } else if (callback(currentPath, key, object[key])) {
+                    returnValue = currentValue;
+                }
+            }
+            if (typeof returnValue != 'undefined') {
+                return returnValue;
+            }
+        }
+    }
+
 }

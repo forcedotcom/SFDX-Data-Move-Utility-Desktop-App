@@ -10,13 +10,14 @@ export const AppDirectivesModules = angular.module('appDirectivesModule', [
     'uiAlertDirectiveModule',
     'uiLangSwitcherDirectiveModule',
     'uiTabsDirectiveModule',
-    'uiDividerModule',
+    'uiDividerDirectiveModule',
     'uiListDirectiveModule',
     'uiTransferPickerDirectiveModule',
     'uiAccordionDirectiveModule',
     'uiContentDialogDirectiveModule',
     'uiTableDirectiveModule',
-    'uiRegexEditorDirectiveModule'
+    'uiRegexEditorDirectiveModule',
+    'uiJsonEditorDirectiveModalModule'
 
 ]);
 

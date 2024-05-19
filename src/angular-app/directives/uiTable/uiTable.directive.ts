@@ -101,7 +101,7 @@ class TableDirectiveController {
 		if (!this.rows || !this.rows.length) {
 			return 'string';
 		}
-		
+
 		const value = this.rows[0][column];
 		return !isNaN(Date.parse(value)) ? 'date'
 			: typeof value == 'number' || typeof value == 'boolean' ? typeof value

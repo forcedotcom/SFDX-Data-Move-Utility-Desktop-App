@@ -5,19 +5,20 @@ const utils_1 = require("../../../utils");
 class UiSelect {
     constructor() {
         this.restrict = 'E';
-        this.template = `<select class="form-control" ng-model="ngModel" 
+        this.template = `<select class="form-select" ng-model="ngModel" 
                     ng-options="option.value as option.label for option in options" 
                     required="{{required}}"
                     ng-disabled="disabled">
                 </select>`;
         this.scope = {
+            id: '@',
             ngModel: '=',
             options: '=',
             required: '=',
             disabled: '='
         };
-        this.link = ($scope, $element, $attrs) => {
-            utils_1.AngularUtils.setElementId($scope, $attrs);
+        this.link = ($scope) => {
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
         };
     }
 }

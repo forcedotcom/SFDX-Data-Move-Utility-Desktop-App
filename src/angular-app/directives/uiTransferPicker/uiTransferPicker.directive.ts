@@ -4,7 +4,7 @@ import bootstrap, { Tooltip } from 'bootstrap';
 import { ActionEvent } from '../../../common';
 import { IOption } from '../../../models';
 import { TranslationService } from '../../../services';
-import { AngularUtils, CommonUtils } from '../../../utils';
+import { CommonUtils } from '../../../utils';
 
 export interface UIDataTransferOptions {
 	labelName?: string;
@@ -34,6 +34,7 @@ export class UiTransferPickerDirective implements IDirective {
 
 	restrict = 'E';
 	scope = {
+		id: '@',
 		selected: '=',
 		source: '=',
 		onSelect: '&',
@@ -45,11 +46,11 @@ export class UiTransferPickerDirective implements IDirective {
 
 	constructor(private $translate: TranslationService, private $timeout: ITimeoutService) { }
 
-	link($scope: IUITransferPickerScope, $element: IAugmentedJQuery, $attrs: angular.IAttributes) {
+	link($scope: IUITransferPickerScope, $element: IAugmentedJQuery) {
 
 		// Assign default values to the scope
 		Object.assign($scope, {
-			id: AngularUtils.setElementId($scope, $attrs),
+			id: $scope.id || CommonUtils.randomString(),
 			height: $scope.height || "390px",
 			// For the properties below, the default values are now set hard-coded,
 			// but we can also set them dynamically from outside the directive upon need.
@@ -124,9 +125,9 @@ export class UiTransferPickerDirective implements IDirective {
 		const onInit = () => {
 			// Set component height
 			$element.find('.transfer-double').css('height', $scope.height);
-			$element.find('.transfer-double-content-left,.transfer-double-content-right').attr('style', `height: calc(${$scope.height} - 70px);`);
-			$element.find('.transfer-double-list-main,.transfer-double-selected-list-main').attr('style', `height: calc(${$scope.height} - 180px);`);
-			$element.find('.transfer-double-content-middle').attr('style', `bottom: calc((${$scope.height} - 180px) / 2 + 5px); top: auto;`);
+			$element.find('.transfer-double-content-left,.transfer-double-content-right').attr('style', `height: calc(${$scope.height} - 78px);`);
+			$element.find('.transfer-double-list-main,.transfer-double-selected-list-main').attr('style', `height: calc(${$scope.height} - 160px);`);
+			$element.find('.transfer-double-content-middle').attr('style', `bottom: calc((${$scope.height} + 54px) / 2 + 5px); top: auto;`);
 
 			// Set component tooltips
 			setTooltips();

@@ -19,8 +19,8 @@ class DisplayLogService {
         this.logScope = this.$rootScope.$new(true);
         const template = `
             <div style="position: relative;" id="logContainer">
-                <button tooltip="{{ 'SCROLL_TOP' | translate }}" class="btn btn-outline-primary btn-circle" style="position: absolute; top: 0; left: 0;" ng-click="scrollToTop()">˄</button>
-                <button tooltip="{{ 'SCROLL_BOTTOM' | translate }}" class="btn btn-outline-primary btn-circle" style="position: absolute; top: 40px; left: 0;" ng-click="scrollToBottom()">˅</button>
+                <button tooltip="{{ 'SCROLL_TOP' | translate }}" class="btn btn-outline-primary btn-circle" style="position: absolute; top: 0; left: 0;" ng-click="scrollToTop()">▲</button>
+                <button tooltip="{{ 'SCROLL_BOTTOM' | translate }}" class="btn btn-outline-primary btn-circle" style="position: absolute; top: 40px; left: 0;" ng-click="scrollToBottom()">▼</button>
                 <div id="logRows" style="position: relative; top: 100px; max-height: ${maxViewHeight}; overflow-y: auto; overflow-x:hidden"></div>
             </div>
         `;

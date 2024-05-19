@@ -19,7 +19,8 @@ function uiTabs($broadcast) {
             onChange: '&',
             tabContentClass: '@',
             tabsHeight: '@',
-            selectedTabId: '='
+            selectedTabId: '=',
+            id: '@'
         },
         template: `
             <div ng-class="{'flex-row': orientation === 'horizontal', 'row': orientation === 'vertical'}">
@@ -45,10 +46,10 @@ function uiTabs($broadcast) {
 
             </div>
         `,
-        controller: function ($scope, $attrs) {
+        controller: function ($scope) {
             $scope.orientation = $scope.orientation || 'horizontal';
             $scope.tabs = [];
-            $scope.id = utils_1.AngularUtils.setElementId($scope, $attrs);
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
             let oldSelectedTabId = "";
             this.setTabs = function (tabs) {
                 $scope.tabs = tabs;
@@ -68,28 +69,34 @@ function uiTabs($broadcast) {
             this.addTab = function (tab) {
                 $scope.tabs.push(tab);
                 if ($scope.tabs.length === 1) {
-                    if ($scope.selectedTabId != undefined) {
-                        $scope.selectedTabId = tab.tabId;
-                    }
+                    $scope.selectedTabId = tab.tabId;
                     tab.active = true;
                 }
             };
             $scope.selectTab = function (tab) {
-                angular_1.default.forEach($scope.tabs, (t) => {
-                    t.active = false;
+                angular_1.default.forEach($scope.tabs, (tab) => {
+                    tab.active = false;
                 });
                 tab.active = true;
-                if ($scope.selectedTabId != undefined) {
-                    $scope.selectedTabId = tab.tabId;
-                }
+                $scope.selectedTabId = tab.tabId;
                 if (oldSelectedTabId != tab.tabId) {
                     if ($scope.onChange) {
-                        $scope.onChange({
+                        const abortChange = $scope.onChange({
                             args: {
                                 componentId: $scope.id,
                                 args: [tab]
                             }
                         });
+                        if (abortChange) {
+                            $scope.selectedTabId = oldSelectedTabId;
+                            tab.active = false;
+                            angular_1.default.forEach($scope.tabs, (tab) => {
+                                if (tab.tabId == oldSelectedTabId) {
+                                    tab.active = true;
+                                }
+                            });
+                            return;
+                        }
                     }
                     $broadcast.broadcastAction('tabSelected', 'uiTabs', {
                         componentId: $scope.id,

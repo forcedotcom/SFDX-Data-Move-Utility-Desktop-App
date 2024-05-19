@@ -7,7 +7,7 @@
     <div class="col-md-12">
         <label class="fw-bold">{{ 'CLI_COMMAND_TO_RUN' | translate}}</label>
     </div>
-    <div class="col-md-11">        
+    <div class="col-md-11">
         <textarea class="form-control w-100 dir-ltr" ng-model="$ctrl.cliCommand" disabled rows="3"></textarea>
     </div>
     <div class="col-md-1">
@@ -23,7 +23,7 @@
         active="true">
         <ui-label class="d-block text-size-2" label="{{ 'SCRIPT_PREVIEW' | translate }}">
         </ui-label>
-        <div class="row align-items-start mt-1" style="height: calc(100vh - 554px)">
+        <div class="row align-items-start mt-1 auto-height-h554">
             <div class="col-md-11 h-100">
                 <textarea class="form-control h-100 dir-ltr" ng-model="$ctrl.scriptPreview" readonly></textarea>
             </div>
@@ -39,13 +39,11 @@
         <ui-label class="d-block text-size-2" label="{{ 'COMMAND_LINE_DETAILED_SETTINGS' | translate }}"
             help-search-word="COMMAND_LINE_DETAILED_SETTINGS" add-help-links="true">
         </ui-label>
-        <div class="row mt-1">
-            <div class="col-md-8">
-                <ui-json-editor form-class="ms-2 mt-5 align-items-end" id="sfdmuCommandSetupForm"
-                    setup="$ctrl.sfdmuCommandSetup" row-titles="$ctrl.sfdmuCommandTitles" json="$ctrl.sfdmuCommandJson"
-                    on-change="$ctrl.handleSfdmuCommandFormChange(args)">
-                </ui-json-editor>
-            </div>
+        <div class="command-line-form p-2 card bg-light">
+            <ui-json-editor item-form-class="ps-0" row-title-class="mt-4" form-class="ms-0 align-items-end"
+                id="sfdmuCommandSetupForm" setup="$ctrl.sfdmuCommandSetup" row-titles="$ctrl.sfdmuCommandTitles"
+                json="$ctrl.sfdmuCommandJson" on-change="$ctrl.handleSfdmuCommandFormChange(args)">
+            </ui-json-editor>
         </div>
     </ui-tab>
 </ui-tabs>

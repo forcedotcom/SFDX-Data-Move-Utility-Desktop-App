@@ -1,0 +1,26 @@
+<div class="ps-2">
+    <ui-tabs id="{{ params.addOnType }}" orientation="vertical"
+        selected-tab-id="$ctrl.addOnSelectedTabs[params.addOnType]" on-change="$ctrl.handleTabChange(args)">
+        <ui-tab icon="{{ $ctrl.FaIcon.code }}" tab-id="addOnEditJson" title="{{ 'EDIT_JSON' | translate }}">
+            <ui-textarea class="dir-ltr auto-height-h500" on-change="$ctrl.handleAddOnsChange(args)"
+                ng-model="$ctrl.addOnFormData[params.addOnType]">
+            </ui-textarea>
+        </ui-tab>
+        <ui-tab icon="{{ $ctrl.FaIcon.edit }}" tab-id="addOnVisualEditor" title="{{ 'VISUAL_EDITOR' | translate }}">
+            <div class="auto-height-h557">
+                <ui-edit-form-array ng-if="!$ctrl.targetObjectNotDescribed" class="d-block"
+                    id="scriptAddOnsForm-{{ params.addOnType }}" allow-edit="true" allow-move-up="true"
+                    allow-move-down="true" setup="$ctrl.addOnFormSetup" hidden="$ctrl.addOnFormHidden"
+                    hidden-new="$ctrl.addOnFormHiddenNew"
+                    hidden-message="{{ 'ADD_ON_MODULE_EDITOR_CONFIG.hiddenMessage' | translate }}"
+                    hidden-new-message="{{ 'ADD_ON_MODULE_EDITOR_CONFIG.hiddenNewMessage' | translate }}"
+                    on-new-add="$ctrl.handleAddOnsEditorAdd(args)" on-change="$ctrl.handleAddOnsEditorChange(args)"
+                    on-delete="$ctrl.handleAddOnsEditorDelete(args)" on-edit="$ctrl.handleAddOnsEditorShow(args)"
+                    new-object="$ctrl.addOnFormNewObject"
+                    label="{{ 'ADD_ON_MODULE_EDITOR_CONFIG.edit' | translate }}" form-class="form-control-width-4"
+                    array-setup="$ctrl.addOnFormArraySetup" json-array="$ctrl.addOnFormJsonArray"
+                    on-change="$ctrl.addOnChange(args)" items-container-class="auto-height-h790"></ui-edit-form-array>
+            </div>
+        </ui-tab>
+    </ui-tabs>
+</div>

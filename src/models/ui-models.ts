@@ -134,8 +134,6 @@ export class SObjectOptionData {
     }
 }
 
-
-
 /** 
  * Interface for defining a form field.
  */
@@ -207,6 +205,19 @@ export interface IAlert {
     iconTooltip?: string;
 
 }
+
+
+/**
+ * Represents the outcome of an edit operation.
+ * @interface IEditResult
+ * @property {boolean} result - Indicates whether the edit was successful.
+ * @property {any} data - The data associated with the edit result, can be of any type.
+ */
+export interface IEditFormResult {
+    result: boolean;
+    data: any;
+}
+
 
 
 

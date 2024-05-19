@@ -1,6 +1,6 @@
 import angular from 'angular';
-import { AngularUtils } from '../../../utils';
 import { CONSTANTS } from '../../../common';
+import { CommonUtils } from '../../../utils';
 
 
 export class UiInput implements angular.IDirective {
@@ -11,15 +11,16 @@ export class UiInput implements angular.IDirective {
                     ng-model="ngModel" 
                     required="{{required}}" 
                     ng-model-options="{ debounce: ${CONSTANTS.INPUT_DEBOUNCE_DELAY} }" 
-                    ng-disabled="disabled">`;
+                    ng-readonly="disabled">`;
     require = 'ngModel';
     scope = {
+        id: '@',
         type: '@',
         ngModel: '=',
         required: '=',
         disabled: '='
     };
-    link = ($scope: angular.IScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes) => {
-		AngularUtils.setElementId($scope, $attrs);
-	}
+    link = ($scope: angular.IScope) => {
+        $scope.id ||= CommonUtils.randomString();
+    }
 }

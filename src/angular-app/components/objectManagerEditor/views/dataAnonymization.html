@@ -1,9 +1,8 @@
-<ui-label class="d-block ms-3 text-size-2" label="{{ 'TABS.DATA_ANONYMIZATION' | translate }}" help-search-word="DATA_ANONYMIZATION"
-	add-help-links="true">
+<ui-label class="d-block text-size-2" label="{{ 'TABS.DATA_ANONYMIZATION' | translate }}"
+    help-search-word="DATA_ANONYMIZATION" add-help-links="true">
 </ui-label>
 
-<ui-edit-form-array class="d-block mt-3 p-3" id="fieldDataAnonymizationEditor" setup="$ctrl.dataAnonymizationSetup"
+<ui-edit-form-array class="d-block" id="fieldDataAnonymizationEditor" setup="$ctrl.dataAnonymizationSetup"
     label="{{ 'ANONYMIZED_FIELDS' | translate }}" form-class="form-control-width-2"
     array-setup="$ctrl.dataAnonymizationArraySetup" json-array="$ctrl.dataAnonymizationJsonArray"
-    on-change="$ctrl.dataAnonymizationChange(args)"
-    items-container-style="height: calc(100vh - 750px)"></ui-edit-form-array>
+    on-change="$ctrl.handleDataAnonymizationChange(args)" items-container-class="auto-height-h720"></ui-edit-form-array>

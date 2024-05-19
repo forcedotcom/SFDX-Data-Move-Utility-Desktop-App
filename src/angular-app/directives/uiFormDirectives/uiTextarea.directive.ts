@@ -1,6 +1,6 @@
 import angular from 'angular';
-import { AngularUtils } from '../../../utils';
 import { ActionEvent, CONSTANTS } from '../../../common';
+import { CommonUtils } from '../../../utils';
 
 interface IUiTextAreaScope extends angular.IScope {
     id: string;
@@ -16,7 +16,7 @@ export class UiTextarea implements angular.IDirective {
                     ng-keyup="onUserInteraction()"
                     ng-paste="onUserInteraction()"
                     ng-model-options="{ debounce: ${CONSTANTS.INPUT_DEBOUNCE_DELAY} }"                     
-                    required="{{required}}" ng-disabled="disabled"></textarea>`;
+                    required="{{required}}" ng-readonly="disabled"></textarea>`;
     require = 'ngModel';
     scope = {
         ngModel: '=',
@@ -26,8 +26,8 @@ export class UiTextarea implements angular.IDirective {
         class: '@',
         style: '@'
     };
-    link = ($scope: IUiTextAreaScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes) => {
-        $scope.id = AngularUtils.setElementId($scope, $attrs);
+    link = ($scope: IUiTextAreaScope) => {
+        $scope.id ||= CommonUtils.randomString();
         $scope.isUserInteraction = false;
 
         $scope.onUserInteraction = () => {

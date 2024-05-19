@@ -14,12 +14,13 @@ exports.AppDirectivesModules = angular_1.default.module('appDirectivesModule', [
     'uiAlertDirectiveModule',
     'uiLangSwitcherDirectiveModule',
     'uiTabsDirectiveModule',
-    'uiDividerModule',
+    'uiDividerDirectiveModule',
     'uiListDirectiveModule',
     'uiTransferPickerDirectiveModule',
     'uiAccordionDirectiveModule',
     'uiContentDialogDirectiveModule',
     'uiTableDirectiveModule',
-    'uiRegexEditorDirectiveModule'
+    'uiRegexEditorDirectiveModule',
+    'uiJsonEditorDirectiveModalModule'
 ]);
 //# sourceMappingURL=app-directives.module.js.map

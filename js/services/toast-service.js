@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+exports.ToastService = void 0;
 const _1 = require(".");
 const common_1 = require("../common");
 class ToastService {
@@ -114,5 +115,5 @@ class ToastService {
         }, delay);
     }
 }
-exports.default = ToastService;
+exports.ToastService = ToastService;
 //# sourceMappingURL=toast-service.js.map

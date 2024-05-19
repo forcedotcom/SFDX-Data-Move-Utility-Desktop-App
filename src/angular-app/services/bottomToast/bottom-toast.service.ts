@@ -24,7 +24,7 @@ export interface IBottomToastService {
 export class BottomToastService implements IBottomToastService {
 
     static $inject = ['$timeout', '$compile', '$rootScope'];
-    
+
     private toastElement: angular.IAugmentedJQuery;
 
     constructor(

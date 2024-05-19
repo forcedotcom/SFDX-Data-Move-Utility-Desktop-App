@@ -25,6 +25,14 @@ class AppService {
         this.$spinner = $spinner;
         this.$bottomToast = $bottomToast;
         this.$displayLog = $displayLog;
+        // ----------------------------------------------------------------------
+        // Public Properties ---------------------------------------------------
+        // ----------------------------------------------------------------------
+        this.orgDescribe = new models_1.OrgDescribe();
+        this.isScriptRunning = false;
+        // --------------------------------------------------------------------------
+        // Private Properties ----------------------------------------------------------	
+        // --------------------------------------------------------------------------
         /**
          * The model of the main toolbar of the application.
          */
@@ -33,225 +41,15 @@ class AppService {
             previousDisabled: true,
             message: '',
         };
-        this.orgDescribe = new models_1.OrgDescribe();
         this.viewErrorsMap = new Map();
-        this.isScriptRunning = false;
         this.setup();
     }
-    // Service Setup Methods ----------------------------------------------------------	
-    /**
-     * Setup the application service.
-     */
-    setup() {
-        // Initialize root scope variables
-        this.setupRootScopeVars();
-        // Initialize navigation events
-        this.setupNavigationEvents();
-        // Iniaialize state change
-        this.setupNavigationStateChange();
-        // Initialize language change
-        this.setupLanguageChange();
-        // Initialize UI notification events
-        this.setupUiNotificationEvent();
-        // Initialize UI components
-        this.$timeout(() => {
-            // Build main application components
-            this.builAllApplicationMainComponents();
-            // Initialize side log display
-            this.setupSideLogDisplay();
-            // Initialize bottom toast display
-            this.setupBottomToast();
-            // Initialize spinner application exit event when long running process is running
-            this.setupSpinnerExitEvent();
-        }, 500);
-    }
-    setupSpinnerExitEvent() {
-        this.$broadcast.onAction('onExit', 'SpinnerService', () => {
-            global.appGlobal.mainWindow.close();
-        });
-    }
-    setupBottomToast() {
-        if (global.appGlobal.isOffline) {
-            this.$bottomToast.showToast(this.$translate.translate({ key: "INTERNET_CONNECTION_LOST" }));
-        }
-        global.appGlobal.networkStatusService.on('connectionLost', () => {
-            this.$bottomToast.showToast(this.$translate.translate({ key: "INTERNET_CONNECTION_LOST" }));
-        });
-        global.appGlobal.networkStatusService.on('connectionRestored', () => {
-            this.$bottomToast.hideToast();
-        });
-    }
-    setupSideLogDisplay() {
-        this.$displayLog.initialize('#browser-logs', common_1.CONSTANTS.DISPLAY_LOG_DIV_HEIGHT);
-        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.log, (message) => {
-            this.$displayLog.addRow(message, 'log');
-        });
-        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.warn, (message) => {
-            this.$displayLog.addRow(message, 'warn');
-        });
-        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.error, (message) => {
-            this.$displayLog.addRow(message, 'error');
-        });
-        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.clear, () => {
-            this.$displayLog.clear();
-        });
-    }
-    setupUiNotificationEvent() {
-        this.$broadcast.onAction(common_1.ProgressEventType.ui_notification, null, (args) => {
-            const info = args.args[0];
-            if (info.messageOrKey && this.$spinner.isSpinnerVisible()) {
-                info.messageOrKey = this.$translate.translate({ key: info.messageOrKey });
-                this.$spinner.showSpinner(info.messageOrKey);
-            }
-        });
-    }
-    setupLanguageChange() {
-        this.$broadcast.onAction('onChange', 'uiLangSwitcher', () => {
-            this.$state.go(common_1.View.home);
-            this.$timeout(() => {
-                window.location.reload();
-            }, 100);
-        });
-    }
-    setupNavigationStateChange() {
-        const self = this;
-        this.$rootScope.$on('$stateChangeStart', async (event, toState) => {
-            if (!toState.name) {
-                return;
-            }
-            if ([common_1.View.connection, common_1.View.configuration, common_1.View.preview].includes(common_1.View[toState.name])) {
-                if (global.appGlobal.isOffline) {
-                    services_1.ToastService.showError(this.$translate.translate({ key: "THIS_ACTION_REQUIRED_ACTIVE_INTERNET_CONNECTION" }));
-                    _preventStateTransition(event);
-                    return;
-                }
-            }
-            const ws = services_1.DatabaseService.getWorkspace();
-            const config = services_1.DatabaseService.getConfig();
-            // Navigation from  connection to configuration
-            if (toState.name == common_1.View.configuration && global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.connection]) {
-                this.$spinner.showSpinner();
-                this.orgDescribe = new models_1.OrgDescribe();
-                const sourceOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.sourceConnection);
-                if (sourceOrgDescribeResult.isError) {
-                    _handleConnectionFailed(sourceOrgDescribeResult);
-                    return;
-                }
-                if (ws.targetConnectionId != ws.sourceConnectionId) {
-                    const targetOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.targetConnection);
-                    if (targetOrgDescribeResult.isError) {
-                        _handleConnectionFailed(targetOrgDescribeResult);
-                        return;
-                    }
-                }
-                else {
-                    ws.targetConnection.orgDescribe = ws.sourceConnection.orgDescribe;
-                }
-                this.orgDescribe = services_1.SfdmuService.createOrgDescribeFromConnections(ws.sourceConnection, ws.targetConnection);
-            }
-            // Navigation from configuration to preview
-            if (toState.name == common_1.View.preview && global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.configuration]) {
-                const cliSourceConnection = ws.db.connections.find(connection => connection.userName == ws.cli.sourceusername);
-                const cliTargetConnection = ws.db.connections.find(connection => connection.userName == ws.cli.targetusername);
-                this.updateCliCommand(ws, {
-                    sourceusername: !cliSourceConnection ? ws.sourceConnection.userName : ws.cli.sourceusername,
-                    targetusername: !cliTargetConnection ? ws.targetConnection.userName : ws.cli.targetusername,
-                    path: services_1.DatabaseService.getConfigPath(config)
-                });
-                services_1.DatabaseService.exportConfig(ws.id, null, true);
-            }
-            const wizardStepIndex = common_1.WizardStepByView[common_1.View[toState.name]];
-            global.appGlobal.wizardStep = wizardStepIndex;
-            this.$broadcast.broadcastAction('setCurrentStep', 'uiWizardStep', {
-                args: [wizardStepIndex],
-                componentId: 'mainWizard'
-            });
-            this.buildAllApplicationViewComponents();
-            this.builAllApplicationMainComponents();
-            this.$spinner.hideSpinner();
-            services_1.LogService.info(`State change to: ${toState.name}`);
-            function _handleConnectionFailed(orgDescribeResult) {
-                self.$spinner.hideSpinner();
-                services_1.LogService.warn(`Connection attempt failed: ${orgDescribeResult.errorMessage}`);
-                services_1.ToastService.showError(orgDescribeResult.errorMessage);
-                _preventStateTransition(event);
-            }
-            function _preventStateTransition(event) {
-                event.preventDefault();
-                const thisView = common_1.ViewByWizardStep[global.appGlobal.wizardStep];
-                self.$state.go(thisView, null, { notify: false });
-            }
-        });
-    }
-    setupRootScopeVars() {
-        this.$rootScope["global"] = global.appGlobal;
-        this.$rootScope["github"] = global.appGlobal.githubRepoInfo;
-        this.$rootScope["package"] = global.appGlobal.packageJson;
-        this.$rootScope["config"] = global.appGlobal.packageJson.appConfig;
-        this.$rootScope["toolbar"] = this.toolbarModel;
-    }
-    setupNavigationEvents() {
-        this.$rootScope["goNextStep"] = () => {
-            const nextView = common_1.ViewByWizardStep[global.appGlobal.wizardStep + 1];
-            //this.$timeout(() => {
-            this.$state.go(nextView, null, {
-                reload: true
-            });
-            //});
-        };
-        this.$rootScope["goPreviousStep"] = () => {
-            const previousView = common_1.ViewByWizardStep[global.appGlobal.wizardStep - 1];
-            //this.$timeout(() => {
-            this.$state.go(previousView, {
-                reload: true
-            });
-            //});
-        };
-    }
-    /**
-     * Builds the main wizard of the application.
-     */
-    buildMainWizard() {
-        // Build main wizard source
-        const mainWizardSource = [
-            { value: 'workspace', label: this.$translate.translate({ key: "WORKSPACE" }) },
-            { value: 'connection', label: this.$translate.translate({ key: "CONNECTION" }) },
-            { value: 'configuration', label: this.$translate.translate({ key: "CONFIGURATION" }) },
-            { value: 'review', label: this.$translate.translate({ key: "REVIEW" }) },
-            { value: 'run', label: this.$translate.translate({ key: "RUN" }) },
-        ];
-        // Broadcast main wizard source
-        this.$broadcast.broadcastAction('setSteps', 'uiWizardStep', {
-            eventSource: 'uiWizardStep',
-            args: mainWizardSource,
-            componentId: 'mainWizard'
-        });
-    }
-    /**
-     * Sets the main state alert box.
-     * @param type The type of the alert box.
-     * @param message The message of the alert box.
-     * 					This message will be displayed as a body of the alert box.
-     * 					Accepted as a markdown string.
-     * @param description The description of the alert box. This description will be displayed as a tooltip.
-     */
-    setMainStateAlertBox(type, message, description) {
-        const alertData = {
-            message: message,
-            iconTooltip: description,
-            type: type == 'action-required' ? 'primary'
-                : type == 'warning' ? 'warning'
-                    : type == 'success' ? 'success' : 'info'
-        };
-        this.$broadcast.broadcastAction('setAlert', 'uiAlert', {
-            componentId: 'mainStateAlertBox',
-            args: [alertData]
-        });
-    }
-    // Service Methods ----------------------------------------------------------
+    // ----------------------------------------------------------------------
+    // Builders ------------------------------------------------------------
+    // ----------------------------------------------------------------------
     builAllApplicationMainComponents() {
         this.buildMainMenu();
-        this.buildMainWizard();
+        this._setupMainWizard();
         this.clearViewErrors();
         this.buildMainToolbar();
         this.buildFooter();
@@ -509,7 +307,7 @@ class AppService {
             });
         };
         const _setMainStateAlertBox = (type, messageKey, tooltipKey) => {
-            this.setMainStateAlertBox(type, this.$translate.translate({ key: messageKey }), this.$translate.translate({ key: tooltipKey }));
+            this._setMainStateAlertBox(type, this.$translate.translate({ key: messageKey }), this.$translate.translate({ key: tooltipKey }));
         };
         const _handleHome = () => {
             _setToolbarModel(!ws.isInitialized, true, "SELECTED_WORKSPACE", { WORKSPACE_NAME: ws.name || notSetMessage });
@@ -626,6 +424,9 @@ class AppService {
         _setWorkspacePath();
         _setConnectedOrgs();
     }
+    // ----------------------------------------------------------------------
+    // Set UI --------------------------------------------------------------
+    // ----------------------------------------------------------------------
     setViewErrors(errorSource, errors = []) {
         const errorMessages = {
             [common_1.ErrorSource.objectSets]: 'CONFIGURATION_NO_OBJECT_SET_WITH_ACTIVE_SOBJECTS',
@@ -656,7 +457,9 @@ class AppService {
             }
         });
     }
-    // SFDMU Service Methods ----------------------------------------------------	
+    // ----------------------------------------------------------------------
+    // Utility Methods -----------------------------------------------------
+    // ----------------------------------------------------------------------
     async describeWorkspaceSObjectAsync(objectName) {
         const ws = services_1.DatabaseService.getWorkspace();
         const describeSObject = async (connection) => {
@@ -697,18 +500,217 @@ class AppService {
             return false;
         }
     }
-    /**
-     *  Set CLI JSON from CLI command string.
-     * @param ws  The workspace to update the CLI JSON in.
-     * @param cliString  The CLI command string to generate the JSON from.
-     * @returns  The CLI JSON object.
-     */
     updateCliCommand(ws, cli) {
         ws.cli = Object.assign({}, ws.cli, cli);
         ws.cli.command = services_1.SfdmuService.generateCLIString(ws.cli);
         services_1.DatabaseService.updateWorkspace(ws);
         services_1.LogService.info(`CLI string updated: ${ws.cli.command}`);
         return ws.cli;
+    }
+    // --------------------------------------------------------------------------
+    // Private Methods ----------------------------------------------------------	
+    // --------------------------------------------------------------------------
+    /**
+     * Setup the application service.
+     */
+    setup() {
+        // Initialize root scope variables
+        this._setupRootScopeVars();
+        // Initialize navigation events
+        this._setupNavigationEvents();
+        // Iniaialize state change
+        this._setupNavigationStateChange();
+        // Initialize language change
+        this._setupLanguageChange();
+        // Initialize UI notification events
+        this._setupUiNotificationEvent();
+        // Initialize UI components
+        this.$timeout(() => {
+            // Build main application components
+            this.builAllApplicationMainComponents();
+            // Initialize side log display
+            this._setupSideLogDisplay();
+            // Initialize bottom toast display
+            this.setupBottomToast();
+            // Initialize spinner application exit event when long running process is running
+            this._setupSpinnerExitEvent();
+        }, 500);
+    }
+    _setupSpinnerExitEvent() {
+        this.$broadcast.onAction('onExit', 'SpinnerService', () => {
+            global.appGlobal.mainWindow.close();
+        });
+    }
+    setupBottomToast() {
+        if (global.appGlobal.isOffline) {
+            this.$bottomToast.showToast(this.$translate.translate({ key: "INTERNET_CONNECTION_LOST" }));
+        }
+        global.appGlobal.networkStatusService.on('connectionLost', () => {
+            this.$bottomToast.showToast(this.$translate.translate({ key: "INTERNET_CONNECTION_LOST" }));
+        });
+        global.appGlobal.networkStatusService.on('connectionRestored', () => {
+            this.$bottomToast.hideToast();
+        });
+    }
+    _setupSideLogDisplay() {
+        this.$displayLog.initialize('#browser-logs', common_1.CONSTANTS.DISPLAY_LOG_DIV_HEIGHT);
+        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.log, (message) => {
+            this.$displayLog.addRow(message, 'log');
+        });
+        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.warn, (message) => {
+            this.$displayLog.addRow(message, 'warn');
+        });
+        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.error, (message) => {
+            this.$displayLog.addRow(message, 'error');
+        });
+        global.appGlobal.browserConsoleLogService.on(models_1.ConsoleEventType.clear, () => {
+            this.$displayLog.clear();
+        });
+    }
+    _setupUiNotificationEvent() {
+        this.$broadcast.onAction(common_1.ProgressEventType.ui_notification, null, (args) => {
+            const info = args.args[0];
+            if (info.messageOrKey && this.$spinner.isSpinnerVisible()) {
+                info.messageOrKey = this.$translate.translate({ key: info.messageOrKey });
+                this.$spinner.showSpinner(info.messageOrKey);
+            }
+        });
+    }
+    _setupLanguageChange() {
+        this.$broadcast.onAction('onChange', 'uiLangSwitcher', () => {
+            this.$state.go(common_1.View.home);
+            this.$timeout(() => {
+                window.location.reload();
+            }, 100);
+        });
+    }
+    _setupNavigationStateChange() {
+        const self = this;
+        this.$rootScope.$on('$stateChangeStart', async (event, toState) => {
+            if (!toState.name) {
+                return;
+            }
+            if ([common_1.View.connection, common_1.View.configuration, common_1.View.preview].includes(common_1.View[toState.name])) {
+                if (global.appGlobal.isOffline) {
+                    services_1.ToastService.showError(this.$translate.translate({ key: "THIS_ACTION_REQUIRED_ACTIVE_INTERNET_CONNECTION" }));
+                    _preventStateTransition(event);
+                    return;
+                }
+            }
+            const ws = services_1.DatabaseService.getWorkspace();
+            const config = services_1.DatabaseService.getConfig();
+            // Navigation from  connection to configuration
+            if (toState.name == common_1.View.configuration && global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.connection]) {
+                this.$spinner.showSpinner();
+                this.orgDescribe = new models_1.OrgDescribe();
+                const sourceOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.sourceConnection);
+                if (sourceOrgDescribeResult.isError) {
+                    _handleConnectionFailed(sourceOrgDescribeResult);
+                    return;
+                }
+                if (ws.targetConnectionId != ws.sourceConnectionId) {
+                    const targetOrgDescribeResult = await services_1.SfdmuService.connectToOrgAsync(ws.targetConnection);
+                    if (targetOrgDescribeResult.isError) {
+                        _handleConnectionFailed(targetOrgDescribeResult);
+                        return;
+                    }
+                }
+                else {
+                    ws.targetConnection.orgDescribe = ws.sourceConnection.orgDescribe;
+                }
+                this.orgDescribe = services_1.SfdmuService.createOrgDescribeFromConnections(ws.sourceConnection, ws.targetConnection);
+            }
+            // Navigation from configuration to preview
+            if (toState.name == common_1.View.preview && global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.configuration]) {
+                const cliSourceConnection = ws.db.connections.find(connection => connection.userName == ws.cli.sourceusername);
+                const cliTargetConnection = ws.db.connections.find(connection => connection.userName == ws.cli.targetusername);
+                this.updateCliCommand(ws, {
+                    sourceusername: !cliSourceConnection ? ws.sourceConnection.userName : ws.cli.sourceusername,
+                    targetusername: !cliTargetConnection ? ws.targetConnection.userName : ws.cli.targetusername,
+                    path: services_1.DatabaseService.getConfigPath(config)
+                });
+                services_1.DatabaseService.exportConfig(ws.id, null, true);
+            }
+            const wizardStepIndex = common_1.WizardStepByView[common_1.View[toState.name]];
+            global.appGlobal.wizardStep = wizardStepIndex;
+            this.$broadcast.broadcastAction('setCurrentStep', 'uiWizardStep', {
+                args: [wizardStepIndex],
+                componentId: 'mainWizard'
+            });
+            this.buildAllApplicationViewComponents();
+            this.builAllApplicationMainComponents();
+            this.$spinner.hideSpinner();
+            services_1.LogService.info(`State change to: ${toState.name}`);
+            function _handleConnectionFailed(orgDescribeResult) {
+                self.$spinner.hideSpinner();
+                services_1.LogService.warn(`Connection attempt failed: ${orgDescribeResult.errorMessage}`);
+                services_1.ToastService.showError(orgDescribeResult.errorMessage);
+                _preventStateTransition(event);
+            }
+            function _preventStateTransition(event) {
+                event.preventDefault();
+                const thisView = common_1.ViewByWizardStep[global.appGlobal.wizardStep];
+                self.$state.go(thisView, null, { notify: false });
+            }
+        });
+    }
+    _setupRootScopeVars() {
+        this.$rootScope["global"] = global.appGlobal;
+        this.$rootScope["github"] = global.appGlobal.githubRepoInfo;
+        this.$rootScope["package"] = global.appGlobal.packageJson;
+        this.$rootScope["config"] = global.appGlobal.packageJson.appConfig;
+        this.$rootScope["toolbar"] = this.toolbarModel;
+    }
+    _setupNavigationEvents() {
+        this.$rootScope["goNextStep"] = () => {
+            const nextView = common_1.ViewByWizardStep[global.appGlobal.wizardStep + 1];
+            this.$state.go(nextView, null, {
+                reload: true
+            });
+        };
+        this.$rootScope["goPreviousStep"] = () => {
+            const previousView = common_1.ViewByWizardStep[global.appGlobal.wizardStep - 1];
+            this.$state.go(previousView, {
+                reload: true
+            });
+        };
+    }
+    _setupMainWizard() {
+        // Build main wizard source
+        const mainWizardSource = [
+            { value: 'workspace', label: this.$translate.translate({ key: "WORKSPACE" }) },
+            { value: 'connection', label: this.$translate.translate({ key: "CONNECTION" }) },
+            { value: 'configuration', label: this.$translate.translate({ key: "CONFIGURATION" }) },
+            { value: 'review', label: this.$translate.translate({ key: "REVIEW" }) },
+            { value: 'run', label: this.$translate.translate({ key: "RUN" }) },
+        ];
+        // Broadcast main wizard source
+        this.$broadcast.broadcastAction('setSteps', 'uiWizardStep', {
+            eventSource: 'uiWizardStep',
+            args: mainWizardSource,
+            componentId: 'mainWizard'
+        });
+    }
+    /**
+         * Sets the main state alert box.
+         * @param type The type of the alert box.
+         * @param message The message of the alert box.
+         * 					This message will be displayed as a body of the alert box.
+         * 					Accepted as a markdown string.
+         * @param description The description of the alert box. This description will be displayed as a tooltip.
+         */
+    _setMainStateAlertBox(type, message, description) {
+        const alertData = {
+            message: message,
+            iconTooltip: description,
+            type: type == 'action-required' ? 'primary'
+                : type == 'warning' ? 'warning'
+                    : type == 'success' ? 'success' : 'info'
+        };
+        this.$broadcast.broadcastAction('setAlert', 'uiAlert', {
+            componentId: 'mainStateAlertBox',
+            args: [alertData]
+        });
     }
 }
 exports.AppService = AppService;

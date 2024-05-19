@@ -9,24 +9,30 @@ class UiButton {
         this.template = `
     <button 
         type="button" 
-        class="btn" 
         ng-disabled="disabled"
         ng-class="getButtonClass()" 
         ng-click="handleClick()">
+        <i ng-if="icon" ng-class="getIconClass()"></i>
         <ng-transclude></ng-transclude>
     </button>
     `;
         this.transclude = true;
         this.scope = {
+            id: '@',
             buttonStyle: '@?',
             onClick: '&',
             disabled: '=',
-            size: '@',
+            size: '@?',
+            icon: '@?',
+            tooltip: '@?',
         };
-        this.link = ($scope, $element, $attrs) => {
-            utils_1.AngularUtils.setElementId($scope, $attrs);
+        this.link = ($scope) => {
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
             $scope.getButtonClass = () => {
                 return `${$scope.buttonStyle || common_1.BsButtonStyle.outlinePrimary} btn-${$scope.size || common_1.BsSize.md}`;
+            };
+            $scope.getIconClass = () => {
+                return `${$scope.icon} fa-${$scope.size || common_1.BsSize.sm}`;
             };
             $scope.handleClick = () => {
                 if ($scope.onClick) {

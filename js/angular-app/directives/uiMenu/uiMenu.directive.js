@@ -7,6 +7,7 @@ const uiMenuDirective = ($compile, $app) => {
     return {
         restrict: 'E',
         scope: {
+            id: '@',
             navbarClass: '@',
             navbarNavClass: '@',
             addToggler: '=',
@@ -41,7 +42,7 @@ const uiMenuDirective = ($compile, $app) => {
 			</div>
 		`,
         link: ($scope, $element, $attrs) => {
-            utils_1.AngularUtils.setElementId($scope, $attrs);
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
             $scope.source || ($scope.source = []);
             $scope.itemClickHandler = (menuId, hasChildren) => {
                 if (hasChildren)

@@ -8,10 +8,10 @@ class TooltipDirective implements angular.IDirective {
     link = ($scope: angular.IScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes) => {
         let tooltipInstance: bootstrap.Tooltip;
 
-        
+
         const refresh = () => {
             const newVal = $attrs.tooltip;
-            
+
             if (tooltipInstance) {
                 tooltipInstance.dispose();
                 tooltipInstance = null;
@@ -28,13 +28,13 @@ class TooltipDirective implements angular.IDirective {
         };
 
         refresh();
-        $attrs.$observe('tooltip', refresh);        
+        $attrs.$observe('tooltip', refresh);
 
         $scope.$on('$destroy', () => {
             if (tooltipInstance) {
                 setTimeout(() => {
                     tooltipInstance.dispose();
-                    tooltipInstance = null;    
+                    tooltipInstance = null;
                 }, 200);
             }
         });

@@ -279,6 +279,8 @@ var FaIcon;
     FaIcon["polymorphicField"] = "fas fa-code-branch";
     /** Query icon. */
     FaIcon["query"] = "fas fa-code";
+    /** Code icon */
+    FaIcon["code"] = "fas fa-code";
     /** Cleanup icon. */
     FaIcon["cleanup"] = "fas fa-broom";
     /** Export icon */

@@ -1,7 +1,7 @@
 import angular from 'angular';
 
 export const AppServicesModule = angular.module('appServicesModule', [
-	
+
 	'appServiceModule',
 	'broadcastServiceModule',
 	'markdownServiceModule',
@@ -9,6 +9,8 @@ export const AppServicesModule = angular.module('appServicesModule', [
 	'dialogEditServiceModule',
 	'spinnerServiceModule',
 	'bottomToastServiceModule',
-	'displayLogServiceModule'
+	'displayLogServiceModule',
+	'jsonEditModalServiceModule',
+	'angularServiceModule'
 
 ]);

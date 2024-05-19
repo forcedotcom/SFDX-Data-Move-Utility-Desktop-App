@@ -31,7 +31,7 @@ function uiListDirective($timeout) {
 					</div>
 
 					<!-- Select box for groups -->					
-					<select class="form-control form-control-width" ng-model="$ctrl.selectedGroup">
+					<select class="form-select form-control-width" ng-model="$ctrl.selectedGroup">
 						<option value="">{{ 'ALL_PLACEHOLDER' | translate }}</option>
 						<option ng-repeat="item in $ctrl.source | unique: 'group'" ng-value="item.group">
 							{{ item.group }}
@@ -88,6 +88,7 @@ function uiListDirective($timeout) {
 			</div>
 		`,
         scope: {
+            id: '@',
             source: '=',
             selected: '=',
             maxHeight: '@',
@@ -100,7 +101,7 @@ function uiListDirective($timeout) {
         controllerAs: '$ctrl',
         bindToController: true,
         link: ($scope, $element, $attrs, $ctrl) => {
-            $ctrl.id = utils_1.AngularUtils.setElementId($scope, $attrs);
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
             $ctrl.maxHeight || ($ctrl.maxHeight = '400px');
             $ctrl.minHeight || ($ctrl.minHeight = '400px');
             const setupSource = () => {

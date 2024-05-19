@@ -15,6 +15,6 @@ class UiDividerDirective {
         return () => new UiDividerDirective();
     }
 }
-exports.UiDividerModule = angular_1.default.module('uiDividerModule', [])
+exports.UiDividerModule = angular_1.default.module('uiDividerDirectiveModule', [])
     .directive('uiDivider', UiDividerDirective.factory());
 //# sourceMappingURL=uiDivider.directive.js.map

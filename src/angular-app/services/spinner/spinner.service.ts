@@ -30,7 +30,7 @@ export interface ISpinnerService {
  * Service for handling spinner-related operations.
  */
 class SpinnerService implements ISpinnerService {
-    
+
     static $inject = ['$compile', '$document', '$rootScope', '$timeout', '$translate', '$broadcast'];
 
     private startTime: number;

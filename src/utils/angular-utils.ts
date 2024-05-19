@@ -1,20 +1,19 @@
-import { IAttributes, IScope } from "angular";
-import { CommonUtils } from ".";
+import { IScope } from "angular";
 
 export class AngularUtils {
 
-    /**
-     * Sets the id attribute of the element if it is not set.
-     * @param $attrs The attributes of the element.
-     * @param $scope The scope of the element.
-     * @returns The id of the element.
-     */
-    static setElementId($scope: IScope, $attrs: IAttributes): string {
-        // if id is not set, generate a random string
-        const id = AngularUtils.$eval($scope, $attrs.id) || CommonUtils.randomString();
-        $attrs.$set('id', id);
-        return id;
-    }
+    // /**
+    //  * Sets the id attribute of the element if it is not set.
+    //  * @param $attrs The attributes of the element.
+    //  * @param $scope The scope of the element.
+    //  * @returns The id of the element.
+    //  */
+    // static setElementId($scope: IScope, $attrs: IAttributes): string {
+    //     // if id is not set, generate a random string
+    //     const id = AngularUtils.$eval($scope, $attrs.id) || CommonUtils.randomString();
+    //     $attrs.$set('id', id);
+    //     return id;
+    // }
 
     /** 
      * Evalues an expression in the scope and returns the value. 
@@ -120,13 +119,13 @@ export class AngularUtils {
         }
     }
 
-     /**
-     *  Copies the text content of the specified element to the clipboard.
-     * @param elementSelector  - The selector of the element to copy.
-     * @param copyValue  - Indicates whether to copy the value of the element instead of the text content.
-     * @returns  - A promise that resolves to true if the operation was successful, otherwise false.
-     */
-     static async copyElementToClipboardAsync(elementSelector: string, copyValue = false): Promise<boolean> {
+    /**
+    *  Copies the text content of the specified element to the clipboard.
+    * @param elementSelector  - The selector of the element to copy.
+    * @param copyValue  - Indicates whether to copy the value of the element instead of the text content.
+    * @returns  - A promise that resolves to true if the operation was successful, otherwise false.
+    */
+    static async copyElementToClipboardAsync(elementSelector: string, copyValue = false): Promise<boolean> {
         const element = angular.element(document.querySelector(elementSelector));
         if (element && navigator.clipboard) {
             try {
@@ -150,7 +149,7 @@ export class AngularUtils {
      * Copies the specified text to the clipboard.
      * @param text - The text to copy.
      * @returns A promise that resolves to true if the operation was successful, otherwise false.
-     */ 
+     */
     static async copyTextToClipboardAsync(text: string): Promise<boolean> {
         if (navigator.clipboard) {
             try {
@@ -164,5 +163,5 @@ export class AngularUtils {
         }
     }
 
-    
+
 }

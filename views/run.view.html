@@ -2,18 +2,18 @@
     message="{{ 'TIPS.RUN_STEP_INTRODUCTION' | translate : { APP_NAME : package.description } | md }}"
     dismissable="true">
 </ui-alert>
- 
+
 <div class="fw-bold pt-1">{{ 'CLI_COMMAND_TO_RUN' | translate}}</div>
 <textarea class="form-control w-100 mt-2 mb-2" ng-model="$ctrl.cliCommand" disabled rows="4"></textarea>
 <ui-alert shown="$ctrl.isScriptRunning" hide-icon="true">
     <div class="d-flex align-items-center">
-        <div class="spinner-border text-primary"></div>    
+        <div class="spinner-border text-primary"></div>
         <div class="ms-3" ng-bind-html="'EXECUTING_SCRIPT' | translate"></div>
     </div>
 </ui-alert>
 <ui-alert shown="$ctrl.hasScriptError" type="warning">
     {{ 'UNABLE_TO_RUN_SCRIPT' | translate }}
-</ui-alert>    
+</ui-alert>
 <div class="row flex-column mt-2">
     <div class="col d-flex align-items-center justify-content-center p-2">
         <button ng-disabled="$ctrl.isScriptRunning" class="btn btn-primary btn-lg" ng-click="$ctrl.handleRunScript()">
@@ -21,6 +21,6 @@
         </button>
     </div>
     <div class="col d-flex align-items-center justify-content-center p-2">
-       <!-- TODO-->      
+        <!-- TODO-->
     </div>
 </div>

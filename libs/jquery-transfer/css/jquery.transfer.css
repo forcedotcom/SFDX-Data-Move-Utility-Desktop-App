@@ -190,15 +190,9 @@ body {
 .transfer-double {
     width: 100%;
     height: 390px;
-    background-color: #fff;
-    border: 1px solid #ddd;
+    background-color: var(--bs-card-bg);
+    border: var(--bs-card-border-width) solid var(--bs-card-border-color);
     z-index: 1000;
-    border-radius: 2px;
-    box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
-    /* for firefox */
-    -moz-box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
-    /* for safari or chrome */
-    -webkit-box-shadow: 0 2px 5px rgba(0, 0, 0, .2);
 }
 
 .transfer-double-header {

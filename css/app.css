@@ -50,15 +50,24 @@
     overflow-y: auto;
 }
 
-:disabled,
-[disabled="disabled"],
-[disabled="true"] {
-    opacity: 0.7 !important;
+input:not([type=checkbox]):disabled,
+input:not([type=checkbox])[disabled="disabled"],
+input:not([type=checkbox])[disabled="true"],
+textarea:disabled,
+textarea[disabled="disabled"],
+textarea[disabled="true"],
+textarea:read-only {
+    background-color: var(--bs-gray-200) !important;
+    opacity: 0.87 !important;
+}
+
+input:read-only {
+    background-color: var(--bs-gray-200) !important;
 }
 
 input[type=checkbox]:disabled,
-[disabled="true"] {
-    opacity: 0.4 !important;
+input[type=checkbox][disabled="true"] {
+    opacity: 0.5 !important;
 }
 
 .text-primary-dashed,
@@ -66,7 +75,7 @@ input[type=checkbox]:disabled,
     color: var(--bs-primary) !important;
     text-decoration: underline dotted var(--bs-primary) !important;
     text-underline-offset: 20%;
-    cursor:  pointer !important;
+    cursor: pointer !important;
 }
 
 .text-size-2 {
@@ -159,18 +168,13 @@ textarea[readonly] {
     padding: 12px 12px 0px 12px;
 }
 
-.app-sidebar .toggle-btn {
+.app-sidebar .btn-toggle {
     top: 10px;
-    position: absolute;
-    width: 32px;
-    height: 32px;
     left: 16px;
     right: auto;
-    font-weight: bold;
-    z-index: 99;
 }
 
-.app-sidebar.right .toggle-btn {
+.app-sidebar.right .btn-toggle {
     right: 4px;
     left: auto;
 }
@@ -184,6 +188,168 @@ textarea[readonly] {
 }
 
 
+/* Forms Styling ------------- */
+.form-control-width {
+    width: 150px;
+}
+
+.form-control-width-2 {
+    width: 200px;
+}
+
+.form-control-width-3 {
+    width: 250px;
+}
+
+.form-control-width-4 {
+    width: 300px;
+}
+
+
+select.form-control,
+input.form-control {
+    height: 38px;
+}
+
+.form-control:disabled {
+    opacity: 1 !important;
+}
+
+.form-group {
+    position: relative;
+}
+
+.form-control-error {
+    position: absolute;
+}
+
+
+
+/* Buttons Styling ------------- */
+.btn-circle {
+    width: 32px;
+    height: 32px;
+    text-align: center;
+    padding: 6px 0;
+    font-size: 12px;
+    line-height: 1.428571429;
+    border-radius: 15px;
+    overflow: hidden;
+}
+
+.btn-toggle {
+    position: absolute;
+    font-weight: bold;
+    z-index: 99;
+    font-size: 24px;
+    line-height: 24px;
+}
+
+.btn:disabled {
+    opacity: 0.4 !important;
+}
+
+.btn-sm.rounded-circle {
+    width: 32px;
+    height: 32px;
+}
+
+
+/* Tooltips Styling ------------- */
+.tooltip-inner {
+    width: 100vw !important;
+    text-align: left;
+    padding: 12px;
+    max-width: min(300px, 90vw) !important;
+}
+
+.tooltip-object .tooltip-inner {
+    max-width: min(300px, 90vw) !important;
+}
+
+.tooltip-objectErrors .tooltip-inner {
+    max-width: min(800px, 90vw) !important;
+}
+
+.tooltip-mainStateAlertBox .tooltip-inner {
+    max-width: min(1024px, 90vw) !important;
+}
+
+/* Components Styling -----------*/
+.settings-form {
+    height: calc(max(100vh - 456px, 220px));
+    overflow-y: auto;
+    width: 100%;
+    overflow-x: hidden;
+    /* padding: 0px 1rem 0 0; */
+}
+
+.command-line-form {
+    height: calc(max(100vh - 556px, 220px));
+    overflow-y: auto;
+    width: 100%;
+    overflow-x: hidden;
+    padding: 0px 1rem 0 0;
+
+}
+
+.auto-height-h500 {
+    height: calc(max(100vh - 500px, 220px)) !important;
+}
+
+.auto-height-h554 {
+    height: calc(max(100vh - 554px, 220px)) !important;
+}
+
+.auto-height-h557 {
+    height: calc(max(100vh - 646px, 220px)) !important;
+}
+
+.auto-height-h720 {
+    height: calc(max(100vh - 670px, 220px)) !important;
+}
+
+.auto-height-h750 {
+    height: calc(max(100vh - 750px, 220px)) !important;
+}
+
+.auto-height-h790 {
+    height: calc(max(100vh - 790px, 220px)) !important;
+}
+
+
+.auto-height-h835 {
+    height: calc(max(100vh - 730px, 220px)) !important;
+}
+
+
+/** Object Selector Styling ------------- */
+.object-selector-container {
+    max-width: 500px;
+    position: relative;
+    transition: max-width 0.3s;
+}
+
+.object-selector-container.collapsed {
+    max-width: 0px;
+}
+
+.object-selector-container.collapsed .object-selector {
+    display: none;
+}
+
+.object-selector-container .btn-toggle {
+    position: absolute;
+    top: -2px;
+    right: -14px;
+    z-index: 99;
+}
+
+/** Object Editor Styling ------------- */
+.object-editor-container {
+    background: var(--bs-card-bg);
+    z-index: 2;
+}
 
 /* uiMenu Directive Styling ------------- */
 .nav-link.dropdown-toggle:hover+.dropdown-menu,
@@ -354,50 +520,7 @@ ui-menu nav {
     color: var(--bs-primary);
 }
 
-/* Forms Styling ------------- */
-.form-control-width {
-    width: 150px;
-}
 
-.form-control-width-2 {
-    width: 200px;
-}
-
-/* Buttons Styling ------------- */
-.btn-circle {
-    width: 30px;
-    height: 30px;
-    text-align: center;
-    padding: 6px 0;
-    font-size: 12px;
-    line-height: 1.428571429;
-    border-radius: 15px;
-    overflow: hidden;
-}
-
-.btn:disabled {
-    opacity: 0.4 !important;
-}
-
-/* Tooltips Styling ------------- */
-.tooltip-inner {
-    width: 100vw !important;
-    text-align: left;
-    padding: 12px;
-    max-width: min(300px, 90vw) !important;
-}
-
-.tooltip-object .tooltip-inner {
-    max-width: min(300px, 90vw) !important;
-}
-
-.tooltip-objectErrors .tooltip-inner {
-    max-width: min(800px, 90vw) !important;
-}
-
-.tooltip-mainStateAlertBox .tooltip-inner {
-    max-width: min(1024px, 90vw) !important;
-}
 
 /* uiTabs Directive Styling ------------- */
 ui-tabs .nav-pills {
@@ -444,7 +567,8 @@ ui-tabs .nav-pills .nav-item {
 
 /* Object Editor Styling ------------- */
 .object-editor-tab-content {
-    overflow-y: auto;
+    /* overflow-y: auto;
+    overflow-x: hidden; */
     max-height: 640px;
     min-height: 300px;
     margin: 8px;
@@ -522,4 +646,42 @@ ui-tabs .nav-pills .nav-item {
 
 .table-active td {
     color: var(--bs-white) !important;
+}
+
+/* uiJsonEditorModal Directive Styling ------------- */
+.je-ready .card-title {
+    font-size: 20px;
+}
+
+.je-ready .table-responsive th {
+    font-size: 1rem;
+}
+
+#editor_holder>.je-object__container>*:not(.card) {
+    display: none !important;
+}
+
+#editor_holder [data-schematype="array"]>p,
+#editor_holder [data-schematype="object"]>p {
+    font-size: 86%;
+}
+
+#editor_holder .btn-group>.btn {
+    margin-left: 8px;
+    border-radius: var(--bs-btn-border-radius) !important;
+    flex: 0;
+}
+
+#editor_holder label.required:after {
+    content: "*";
+    margin-right: 4px;
+    color: var(--bs-danger);
+}
+
+
+/* uiContentDialog Directive Styling ------------- */
+.modal-content.full-width {
+    width: calc(100vw - 100px);
+    left: 50%;
+    transform: translate(-50%);
 }

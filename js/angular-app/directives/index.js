@@ -21,6 +21,7 @@ __exportStar(require("./uiAlert"), exports);
 __exportStar(require("./uiContentDialog"), exports);
 __exportStar(require("./uiDivider"), exports);
 __exportStar(require("./uiFormDirectives"), exports);
+__exportStar(require("./uiJsonEditorModal"), exports);
 __exportStar(require("./uiLangSwitcher"), exports);
 __exportStar(require("./uiList"), exports);
 __exportStar(require("./uiMenu"), exports);

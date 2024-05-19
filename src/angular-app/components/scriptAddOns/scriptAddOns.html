@@ -1,24 +1,20 @@
-<ui-tabs id="scriptAddOnsTabset" selected-tab-id="$ctrl.addOnsSelectedTabId">
-    <ui-tab title="{{ 'ON_BEFORE_ADD_ONS' | translate }}" tab-id="scriptOnBefore">
+<ui-tabs id="scriptAddOnsTabset" selected-tab-id="$ctrl.addOnsSelectedTabId" on-change="$ctrl.handleTabChange(args)">
+    <ui-tab title="{{ 'ON_BEFORE_ADD_ONS' | translate }}" tab-id="script-beforeAddons">
         <div ng-repeat="params in [{ label: 'ON_BEFORE_ADD_ONS', helpSearchWord: 'ON_BEFORE_EVENT' }]"
             ng-include="'./js/angular-app/components/scriptAddOns/views/addOnsToolbar.html'"></div>
-        <ui-textarea id="beforeAddons" class="dir-ltr" style="height: calc(max(100vh - 500px, 390px)) !important;"
-            on-change="$ctrl.handleAddOnsChange(args)" ng-model="$ctrl.scriptAddOnFormData.beforeAddons">
-        </ui-textarea>
+        <div ng-repeat="params in [{ addOnType: 'beforeAddons' }]"
+            ng-include="'./js/angular-app/components/scriptAddOns/views/addOnsEditor.html'"></div>
     </ui-tab>
-    <ui-tab title="{{ 'ON_DATA_RETRIEVED_ADD_ONS' | translate }}" tab-id="scriptDataRetrieved">
+    <ui-tab title="{{ 'ON_DATA_RETRIEVED_ADD_ONS' | translate }}" tab-id="script-dataRetrievedAddons">
         <div ng-repeat="params in [{ label: 'ON_DATA_RETRIEVED_ADD_ONS', helpSearchWord: 'ON_DATA_RETRIEVED_EVENT' }]"
             ng-include="'./js/angular-app/components/scriptAddOns/views/addOnsToolbar.html'"></div>
-        <ui-textarea id="dataRetrievedAddons" class="dir-ltr"
-            style="height: calc(max(100vh - 500px, 390px)) !important;" on-change="$ctrl.handleAddOnsChange(args)"
-            ng-model="$ctrl.scriptAddOnFormData.dataRetrievedAddons">
-        </ui-textarea>
+        <div ng-repeat="params in [{ addOnType: 'dataRetrievedAddons' }]"
+            ng-include="'./js/angular-app/components/scriptAddOns/views/addOnsEditor.html'"></div>
     </ui-tab>
-    <ui-tab title="{{ 'ON_AFTER_ADD_ONS' | translate }}" tab-id="scriptOnAfter">
+    <ui-tab title="{{ 'ON_AFTER_ADD_ONS' | translate }}" tab-id="script-afterAddons">
         <div ng-repeat="params in [{ label: 'ON_AFTER_ADD_ONS', helpSearchWord: 'ON_AFTER_EVENT' }]"
             ng-include="'./js/angular-app/components/scriptAddOns/views/addOnsToolbar.html'"></div>
-        <ui-textarea id="afterAddons" class="dir-ltr" style="height: calc(max(100vh - 500px, 390px)) !important;"
-            on-change="$ctrl.handleAddOnsChange(args)" ng-model="$ctrl.scriptAddOnFormData.afterAddons">
-        </ui-textarea>
+        <div ng-repeat="params in [{ addOnType: 'afterAddons' }]"
+            ng-include="'./js/angular-app/components/scriptAddOns/views/addOnsEditor.html'"></div>
     </ui-tab>
 </ui-tabs>

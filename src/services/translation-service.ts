@@ -3,6 +3,7 @@ import { AppPathType, CONSTANTS } from '../common';
 import { TranslateFnArgs } from '../models';
 import { BroadcastService, LocalStateService, LogService, MarkdownService } from '../services';
 import { AppUtils, CommonUtils } from '../utils';
+import { addOnsJsonSchemaConfig } from '../configurations';
 
 
 
@@ -109,6 +110,17 @@ export class TranslationService {
         BroadcastService.broadcastAction('setLanguage', '$translate', {
             args: [lang]
         });
+
+        // Translate Json Editor
+        TranslationService._translateJsonEditor(lang);
+        // Translate Json Schema Descriptions
+        Object.keys(addOnsJsonSchemaConfig).forEach(schema => {
+            TranslationService._translateJsonSchemaDescriptions(
+                'ADD_ON_MODULE_EDITOR_CONFIG',
+                schema,
+                addOnsJsonSchemaConfig[schema],
+                lang)
+        });
         LogService.info(`Active language set to ${lang}`);
     }
 
@@ -200,6 +212,58 @@ export class TranslationService {
         document.querySelector('link[data-app]').setAttribute('href', TranslationService.activeLanguageRtl ? './css/app.rtl.css' : './css/app.css');
     }
     /* #endregion */
+
+
+    /* #region Private Methods */
+    /**
+     * Translates JSON schema titles and descriptions based on the specified language.
+     * @param rootTranslationKey The root key for the translation entries.
+     * @param jsonSchemaKey The specific key for the JSON schema being translated.
+     * @param jsonSchema The JSON schema object to be translated.
+     * @param lang The language code to use for translations.
+     */
+    private static _translateJsonSchemaDescriptions(rootTranslationPrefix: string, jsonSchemaKey: string, jsonSchema: any, lang: string): void {
+        jsonSchema.title = TranslationService.translate({ key: `${rootTranslationPrefix}.title` });
+        jsonSchema.description = TranslationService.translate({ key: `${rootTranslationPrefix}.description` });
+        TranslationService._translateJsonSchemaRecursive(rootTranslationPrefix, jsonSchemaKey, jsonSchema, lang);
+    }
+
+    /**
+     * Recursively translates descriptions of JSON schema properties.
+     * @param rootTranslationKey The base translation key for accessing translations.
+     * @param jsonSchemaKey The key corresponding to the current level of the JSON schema.
+     * @param jsonSchema The JSON schema object or property to be translated.
+     * @param lang The language to use for translation.
+     */
+    private static _translateJsonSchemaRecursive(rootTranslationKey: string, jsonSchemaKey: string, jsonSchema: any, lang: string): void {
+        Object.keys(jsonSchema.properties || {}).forEach((key: string) => {
+            const property = jsonSchema.properties[key];
+            const finalKey = `${rootTranslationKey}.${jsonSchemaKey}.${key}`
+            const translation = TranslationService.translate({ key: finalKey, lang });
+            property.description = finalKey == translation ? "" : translation;
+            if (property.properties) {
+                this._translateJsonSchemaRecursive(rootTranslationKey, jsonSchemaKey, property, lang);
+            } else if (property.items) {
+                this._translateJsonSchemaRecursive(rootTranslationKey, jsonSchemaKey, property.items, lang);
+            }
+        });
+    }
+
+    /**
+     * Configures the JSON Editor's language settings based on the specified language.
+     * @param lang The language code to apply to the JSON Editor.
+     */
+    private static _translateJsonEditor(lang: string) {
+        if (window) {
+            window.JSONEditor.defaults.languages[lang] = window.JSONEditor.defaults.languages[lang]
+                || TranslationService.translate({ key: 'JSON_EDITOR_TRANSLATION', lang });
+            window.JSONEditor.defaults.language = lang;
+        }
+    }
+
+    /* #endregion */
+
+
 
 
 

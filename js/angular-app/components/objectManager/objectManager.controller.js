@@ -14,6 +14,7 @@ class ObjectManagerController {
         this.selectedObjects = [];
         this.selectedObjectOption = null;
         this.selectedObjectSetId = null;
+        this.toggleObjectSelectorButtonSymbol = '❮';
     }
     get view() {
         const config = services_1.DatabaseService.getConfig();
@@ -281,6 +282,25 @@ class ObjectManagerController {
             // Display errors in main toolbar ----------------------------------------------------
             this.$app.buildMainToolbar();
         }, 50);
+    }
+    /**
+     *  Whether current object set has objects
+     */
+    get hasObjectSelected() {
+        const object = services_1.DatabaseService.getSObject();
+        return object.isInitialized;
+    }
+    // Event Handlers ------------------------------------------------------------------------
+    handleObjectSelectorToggle() {
+        const objectSelector = document.querySelector('.object-selector-container');
+        if (objectSelector.classList.contains('collapsed')) {
+            objectSelector.classList.remove('collapsed');
+            this.toggleObjectSelectorButtonSymbol = '❮';
+        }
+        else {
+            objectSelector.classList.add('collapsed');
+            this.toggleObjectSelectorButtonSymbol = '❯';
+        }
     }
 }
 exports.ObjectManagerController = ObjectManagerController;

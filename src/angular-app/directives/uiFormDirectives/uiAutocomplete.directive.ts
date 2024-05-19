@@ -1,7 +1,7 @@
 import angular from 'angular';
-import { IOption } from '../../../models';
-import { AngularUtils } from '../../../utils';
 import { CONSTANTS } from '../../../common';
+import { IOption } from '../../../models';
+import { CommonUtils } from '../../../utils';
 
 interface IUiAutocompleteScope extends angular.IScope {
     ngModel: string;
@@ -22,12 +22,13 @@ export class UiAutocomplete implements angular.IDirective {
                         ng-model-options="{ debounce: ${CONSTANTS.INPUT_DEBOUNCE_DELAY} }" 
                         required="{{required}}"
                         placeholder="{{placeholder}}"
-                        ng-disabled="disabled">
+                        ng-readonly="disabled">
                     <datalist id="{{ id }}-autocomplete-options">
                         <option ng-repeat="option in options" value="{{option.label}}">
                     </datalist>`;
 
     scope = {
+        id: '@',
         ngModel: '=',
         options: '=',
         required: '=',
@@ -36,9 +37,8 @@ export class UiAutocomplete implements angular.IDirective {
         allowUnlistedInput: '='
     };
 
-    link = ($scope: IUiAutocompleteScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes) => {
-
-        $scope.id = AngularUtils.setElementId($scope, $attrs);
+    link = ($scope: IUiAutocompleteScope) => {
+        $scope.id ||= CommonUtils.randomString();
 
         $scope.updateModel = function () {
             const selectedOption = $scope.options.find((o: IOption) => o.label === $scope.inputValue);

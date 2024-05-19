@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiAutocomplete = void 0;
-const utils_1 = require("../../../utils");
 const common_1 = require("../../../common");
+const utils_1 = require("../../../utils");
 class UiAutocomplete {
     constructor() {
         this.restrict = 'E';
@@ -13,11 +13,12 @@ class UiAutocomplete {
                         ng-model-options="{ debounce: ${common_1.CONSTANTS.INPUT_DEBOUNCE_DELAY} }" 
                         required="{{required}}"
                         placeholder="{{placeholder}}"
-                        ng-disabled="disabled">
+                        ng-readonly="disabled">
                     <datalist id="{{ id }}-autocomplete-options">
                         <option ng-repeat="option in options" value="{{option.label}}">
                     </datalist>`;
         this.scope = {
+            id: '@',
             ngModel: '=',
             options: '=',
             required: '=',
@@ -25,8 +26,8 @@ class UiAutocomplete {
             placeholder: '@',
             allowUnlistedInput: '='
         };
-        this.link = ($scope, $element, $attrs) => {
-            $scope.id = utils_1.AngularUtils.setElementId($scope, $attrs);
+        this.link = ($scope) => {
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
             $scope.updateModel = function () {
                 const selectedOption = $scope.options.find((o) => o.label === $scope.inputValue);
                 if (selectedOption) {

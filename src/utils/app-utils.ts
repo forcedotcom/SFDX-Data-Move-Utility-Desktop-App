@@ -46,7 +46,7 @@ export class AppUtils {
                 return AppUtils.getAppPath(AppPathType.appPath, path.join(CONSTANTS.APP_IMAGES_PATH, relativePath));
 
             case AppPathType.themesPath:
-                return AppUtils.getAppPath(AppPathType.appPath, path.join(CONSTANTS.APP_THEMES_PATH, relativePath));                
+                return AppUtils.getAppPath(AppPathType.appPath, path.join(CONSTANTS.APP_THEMES_PATH, relativePath));
 
             // Path to i18n within the root app path
             case AppPathType.i18nPath:

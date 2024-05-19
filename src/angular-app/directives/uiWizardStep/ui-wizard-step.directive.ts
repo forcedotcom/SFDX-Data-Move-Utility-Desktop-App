@@ -1,6 +1,6 @@
 import angular from "angular";
 import { IActionEventArgParam, IOption } from "../../../models";
-import { AngularUtils } from "../../../utils";
+import { AngularUtils, CommonUtils } from "../../../utils";
 import { IBroadcastService } from "../../services";
 
 interface IWizardStepScope extends angular.IScope {
@@ -14,20 +14,21 @@ class WizardStepController {
     static $inject = ['$broadcast', '$scope'];
 
     steps: IOption[];
+    id: string;
 
     currentStep: number;
 
     constructor(private $broadcast: IBroadcastService, private $scope: angular.IScope) {
 
         this.$broadcast.onAction('setCurrentStep', 'uiWizardStep', (args: IActionEventArgParam<number>) => {
-            if (args.componentId != this.$scope.id) return;
+            if (args.componentId != this.id) return;
             AngularUtils.$apply(this.$scope, () => {
                 this.currentStep = args.args[0];
-            });            
-        }, this.$scope);            
+            });
+        }, this.$scope);
 
         this.$broadcast.onAction('setSteps', 'uiWizardStep', (args: IActionEventArgParam<IOption>) => {
-            if (args.componentId != this.$scope.id) return;
+            if (args.componentId != this.id) return;
             AngularUtils.$apply(this.$scope, () => {
                 this.steps = args.args;
             });
@@ -38,14 +39,14 @@ class WizardStepController {
             this.$broadcast.broadcastAction('onStepChanged', 'uiWizardStep', {
                 args: [this.currentStep]
             });
-        });           
-        
+        });
+
     }
 }
 
 export const uiWizardDirectiveModule = angular.module('uiWizardDirectiveModule', [])
     .controller('WizardStepController', WizardStepController)
-    .directive('wizardStep', () => {
+    .directive('uiWizardStep', () => {
         return {
             restrict: 'E',
             template: `
@@ -62,14 +63,15 @@ export const uiWizardDirectiveModule = angular.module('uiWizardDirectiveModule',
                 </div>
             `,
             scope: {
+                id: '@',
                 steps: '<',
                 currentStep: '<'
             },
             controller: 'WizardStepController',
             controllerAs: '$ctrl',
             bindToController: true,
-            link: ($scope: IWizardStepScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes) => {
-                $scope.id = AngularUtils.setElementId($scope, $attrs);               
+            link: ($scope: IWizardStepScope) => {
+                $scope.id ||= CommonUtils.randomString();
             }
         };
     });

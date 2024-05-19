@@ -1,8 +1,8 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.UiTextarea = void 0;
-const utils_1 = require("../../../utils");
 const common_1 = require("../../../common");
+const utils_1 = require("../../../utils");
 class UiTextarea {
     constructor() {
         this.restrict = 'E';
@@ -12,7 +12,7 @@ class UiTextarea {
                     ng-keyup="onUserInteraction()"
                     ng-paste="onUserInteraction()"
                     ng-model-options="{ debounce: ${common_1.CONSTANTS.INPUT_DEBOUNCE_DELAY} }"                     
-                    required="{{required}}" ng-disabled="disabled"></textarea>`;
+                    required="{{required}}" ng-readonly="disabled"></textarea>`;
         this.require = 'ngModel';
         this.scope = {
             ngModel: '=',
@@ -22,8 +22,8 @@ class UiTextarea {
             class: '@',
             style: '@'
         };
-        this.link = ($scope, $element, $attrs) => {
-            $scope.id = utils_1.AngularUtils.setElementId($scope, $attrs);
+        this.link = ($scope) => {
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
             $scope.isUserInteraction = false;
             $scope.onUserInteraction = () => {
                 $scope.isUserInteraction = true;

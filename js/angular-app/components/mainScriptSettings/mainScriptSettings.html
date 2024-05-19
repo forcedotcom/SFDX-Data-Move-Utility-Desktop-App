@@ -4,15 +4,13 @@
 
 <small class="d-block mb-1 text-muted">
 	<em>
-		({{ 'LABELS_REPRESENTING_PROPERTY_NAMES' | translate }})
+		{{ 'LABELS_REPRESENTING_PROPERTY_NAMES' | translate }}
 	</em>
 </small>
 
-<div class="row">
-	<div class="col-md-8">
-		<ui-json-editor form-class="ms-2 align-items-end mt-5" id="scriptSettingsForm" setup="$ctrl.scriptSettingsSetup"
-			row-titles="$ctrl.scriptSettingsTitles" json="$ctrl.scriptSettingsJson"
-			on-change="$ctrl.handleScriptManagerFormChange(args)">
-		</ui-json-editor>
-	</div>
+<div class="settings-form card p-2 bg-light">
+	<ui-json-editor item-form-class="ps-0" row-title-class="mt-4" form-class="ms-0 align-items-end"
+		id="scriptSettingsForm" setup="$ctrl.scriptSettingsSetup" row-titles="$ctrl.scriptSettingsTitles"
+		json="$ctrl.scriptSettingsJson" on-change="$ctrl.handleScriptManagerFormChange(args)">
+	</ui-json-editor>
 </div>

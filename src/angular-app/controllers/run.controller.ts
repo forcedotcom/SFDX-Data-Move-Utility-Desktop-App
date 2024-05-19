@@ -58,7 +58,7 @@ export class RunController {
                 throw new Error(`Command ${command} exited with code ${exitCode}`);
             }
             LogService.info(`Command ${command} is finished`);
-            
+
         } catch (ex) {
             LogService.warn(`Error executing command ${command}: ${ex.message}`);
             this.hasScriptError = true;
@@ -70,6 +70,6 @@ export class RunController {
         AngularUtils.$apply(this.$scope);
     }
 
-    
+
 
 }

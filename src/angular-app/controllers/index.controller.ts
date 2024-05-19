@@ -430,7 +430,7 @@ export class IndexController {
 
             }
         }, this.$scope);
-       
+
     }
 
 

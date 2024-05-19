@@ -1,10 +1,11 @@
 import { IScope } from 'angular';
-import { CONSTANTS, DataSource, FaIcon, SetupFormOptions, View, WizardStepByView } from '../../../common';
-import { IActionEventArgParam, ISObjectOption, IOption, ITabItem, PolymorphicField, SFieldDescribe, SObjectDescribe, ScriptMappingItem, ScriptObject } from '../../../models';
-import { DatabaseService, LogService, NetworkStatusService, SfdmuService, ToastService } from '../../../services';
+import { CONSTANTS, DataSource, DialogType, FaIcon, SetupFormOptions, View, WizardStepByView } from '../../../common';
+import { addOnsDefaultFormConfig, addOnsJsonSchemaConfig, availableCoreAddOnModules } from '../../../configurations';
+import { IActionEventArgParam, IEditFormResult, IOption, ISObjectOption, ITabItem, PolymorphicField, SFieldDescribe, SObjectDescribe, ScriptMappingItem, ScriptObject } from '../../../models';
+import { DatabaseService, DialogService, LogService, NetworkStatusService, SfdmuService, ToastService } from '../../../services';
 import { AngularUtils, CommonUtils, SfdmuUtils } from '../../../utils';
 import { UiEditFormArrayController, UiJsonEditorController, UiTabsController } from '../../directives';
-import { IAppService } from '../../services';
+import { IAppService, IJsonEditModalService } from '../../services';
 
 
 
@@ -16,15 +17,19 @@ interface IScriptObjectAddonFormData {
 	filterRecordsAddons?: string;
 }
 
+const UI_CONSTANTS = {
+	UI_TRANSFER_PRICKER_HEIGHT: 'calc(max(100vh - 564px, 220px))',
+}
 
 export class ObjectManagerEditorController {
 
-	static $inject = ['$app', '$scope'];
+	static $inject = ['$app', '$scope', `$jsonEditModal`];
 
 	static wizardStep = WizardStepByView[View.configuration];
 
 	// Common
 	FaIcon = FaIcon;
+	UI_CONSTANTS = UI_CONSTANTS;
 	selectedTabId = "";
 	_supressSelectEvent = false;
 
@@ -80,12 +85,22 @@ export class ObjectManagerEditorController {
 	objectSettingsTitles: string[] = [];
 
 	// Object Add-Ons tab
-	scriptObjectAddOnFormData: IScriptObjectAddonFormData = {};
-	objectAddOnsSelectedTabId = "";
 	isAddOnsChanged = false;
+	addOnFormData: IScriptObjectAddonFormData = {};
+	addOnsSelectedTabId = "";
 
+	// Add-Ons Visual Editor
+	addOnSelectedTabs: string[] = [];
 
-	constructor(private $app: IAppService, private $scope: IScope) { }
+	addOnFormArraySetup: SetupFormOptions = {};
+	addOnFormSetup: SetupFormOptions = {};
+	addOnFormJsonArray: any[];
+	addOnFormNewObject: any = {};
+
+	addOnFormHidden: boolean;
+	addOnFormHiddenNew: boolean;
+
+	constructor(private $app: IAppService, private $scope: IScope, private $jsonEditModal: IJsonEditModalService) { }
 
 	get view(): 'select-sobject' | 'editor' | 'cant-edit' {
 		if (global.appGlobal.isOffline) {
@@ -570,7 +585,9 @@ export class ObjectManagerEditorController {
 		}, 600);
 	}
 
-
+	/**
+	 *  Set titles for the add-ons tabset.
+	 */
 	private setAddOnsTabsetTitles() {
 		this.$app.$timeout(() => {
 			const $ctrl = AngularUtils.$getController<UiTabsController>('#objectAddOnsTabset');
@@ -585,7 +602,65 @@ export class ObjectManagerEditorController {
 		}, 600);
 	}
 
+	private setupQueryEditor() {
+
+		const sObject = DatabaseService.getSObject();
+
+		this.queryTabsFormSetup = {
+			externalId: {
+				type: 'autocomplete',
+				label: 'External Id Field',
+				options: this.getAllSObjectFieldDescriptions().filter(x => x.canBeExternalId).map(x => { return { value: x.name, label: x.name } }).sortBy('label'),
+				allowUnlistedInput: true,
+				widthOf12: 7,
+				helpSearchWord: "EXTERNAL_ID",
+				addHelpLinks: true
+			},
+			operation: {
+				type: 'select',
+				label: 'Operation',
+				options: [{ value: 'Insert', label: 'Insert' },
+				{ value: 'Update', label: 'Update' },
+				{ value: 'Upsert', label: 'Upsert' },
+				{ value: 'Delete', label: 'Delete' },
+				{ value: 'DeleteSource', label: 'DeleteSource' },
+				{ value: 'DeleteHierarchy', label: 'DeleteHierarchy' },
+				{ value: 'HardDelete', label: 'HardDelete' },
+				{ value: 'Readonly', label: 'Readonly' }],
+				widthOf12: 3,
+				helpSearchWord: "OPERATION",
+				addHelpLinks: true
+			},
+			master: { type: 'toggle', label: 'Master', widthOf12: 2, helpSearchWord: "MASTER", addHelpLinks: true },
+			where: { type: 'textarea', label: 'Query WHERE clause', widthOf12: 12, helpSearchWord: "WHERE", addHelpLinks: true },
+			orderBy: { type: 'input', label: 'Query ORDER BY clause', widthOf12: 4, helpSearchWord: "ORDER_BY", addHelpLinks: true },
+			limit: { type: 'number', label: 'Query LIMIT clause', widthOf12: 4, min: 0, helpSearchWord: "LIMIT", addHelpLinks: true },
+			offset: { type: 'number', label: 'Query OFFSET clause', widthOf12: 4, min: 0, helpSearchWord: "OFFSET", addHelpLinks: true },
+			deleteQueryWhere: { type: 'textarea', label: 'Delete query WHERE clause', widthOf12: 6, helpSearchWord: "DELETE_QUERY", addHelpLinks: true },
+			targetRecordsFilter: { type: 'textarea', label: 'Target records filter', widthOf12: 6, helpSearchWord: "TARGET_RECORDS_FILTER", addHelpLinks: true }
+		};
+
+		const json = {
+			externalId: sObject.externalId,
+			master: sObject.master || false,
+			operation: sObject.operation || 'Insert',
+			where: sObject.where || '',
+			orderBy: sObject.orderBy || '',
+			limit: sObject.limit || 0,
+			offset: sObject.offset || 0,
+			deleteQueryWhere: sObject.deleteQueryWhere || '',
+			targetRecordsFilter: sObject.targetRecordsFilter || ''
+		};
+		const $ctrl = AngularUtils.$getController<UiJsonEditorController>('#objectQueryTabForm');
+		if ($ctrl) {
+			$ctrl.setJson(json);
+		}
+	}
+
+
+
 	private _oldSelectedPolymorphicField: string | undefined = undefined;
+
 	/**
 	 * Set the polymorphic fields setup.
 	 * Used by the polymorphic fields tab.
@@ -678,6 +753,12 @@ export class ObjectManagerEditorController {
 		this.setFieldsTabsetTitles();
 	}
 
+
+	/**
+	 *  Set the field mapping setup.
+	 * @param setSObjectsList  Indicates whether to set the sobjects list or not.
+	 * @returns 
+	 */
 	private async setupFieldsMappingEditorAsync(setSObjectsList: boolean) {
 
 		const sobject = DatabaseService.getSObject();
@@ -781,8 +862,10 @@ export class ObjectManagerEditorController {
 			availableTargetFields = availableTargetFields.exclude(sobject.fieldMapping, (targetField, mapping) => targetField.name == mapping.targetField);
 			if (sobject.targetObject == sobject.name) {
 				availableTargetFields = availableTargetFields.exclude(this.getAllSoqlFieldDescriptions(), (targetField, soqlField) => targetField.name == soqlField.name);
+
 			}
 
+			// New item 
 			this.fieldMappingSetup = {
 				sourceField: {
 					type: 'select',
@@ -810,6 +893,7 @@ export class ObjectManagerEditorController {
 				},
 			};
 
+			// The array of selected items
 			this.fieldMappingArraySetup = {
 				sourceField: {
 					type: 'select',
@@ -842,6 +926,9 @@ export class ObjectManagerEditorController {
 
 	}
 
+	/**
+	 * Setups editor for data anonymization.
+	 */
 	private setupDataAnonymizationEditor() {
 
 		const sobject = DatabaseService.getSObject();
@@ -913,49 +1000,247 @@ export class ObjectManagerEditorController {
 		this.dataAnonymizationJsonArray = sobject.mockFields;
 	}
 
-	private setupAddOnEditors() {
+	/**
+	 *  Setups editor for field mapping.
+	 */
+	private setupAddOnJsonEditors() {
 		const sObject = DatabaseService.getSObject();
-		this.scriptObjectAddOnFormData = {
-			afterAddons: JSON.stringify(sObject.afterAddons || [], null, 2),
-			beforeAddons: JSON.stringify(sObject.beforeAddons || [], null, 2),
-			afterUpdateAddons: JSON.stringify(sObject.afterUpdateAddons || [], null, 2),
-			beforeUpdateAddons: JSON.stringify(sObject.beforeUpdateAddons || [], null, 2),
-			filterRecordsAddons: JSON.stringify(sObject.filterRecordsAddons || [], null, 2)
-		};
+		this.addOnFormData = Object.keys(sObject)
+			.filter(property => property.endsWith('Addons'))
+			.reduce((acc: any, property: string) => {
+				acc[property] = JSON.stringify(sObject[property] || [], null, 2);
+				return acc;
+			}, {})
+		this.resetAddOnTab();
 		this.isAddOnsChanged = false;
 	}
 
+
+	private setupAddOnVisualEditor(componentId: string) {
+
+		const addOnEvent = componentId
+		const availableModules: IOption[] = [];
+		const scriptObject = DatabaseService.getSObject();
+
+		// Available modules
+		availableModules.push(...availableCoreAddOnModules.object[addOnEvent]);
+		const moduleDeclarations = scriptObject[addOnEvent] || [];
+
+
+		// Hidden messages
+		if (!availableModules.length) {
+			if (moduleDeclarations.length) {
+				this.addOnFormHiddenNew = true;
+				this.addOnFormHidden = false;
+			} else {
+				this.addOnFormHidden = true;
+			}
+		} else {
+			this.addOnFormHiddenNew = false;
+			this.addOnFormHidden = false;
+		}
+
+		// Form setups
+		const availableAddOnOptions = availableModules.map(option => {
+			return {
+				value: option.value,
+				label: option.label
+			}
+		});
+
+		this.addOnFormArraySetup = {
+			module: {
+				type: 'input'
+			},
+			description: {
+				type: 'input'
+			},
+		};
+
+		this.addOnFormSetup = {
+			module: {
+				type: 'select',
+				required: true,
+				label: this.$app.$translate.translate({ key: 'MODULE' }),
+				options: availableAddOnOptions
+			},
+			description: {
+				type: 'input',
+				required: false,
+				label: this.$app.$translate.translate({ key: 'DESCRIPTION' })
+			},
+		}
+
+		// Array assignment
+		this.addOnFormJsonArray = moduleDeclarations;
+
+		// Setup new object
+		this.addOnFormNewObject = addOnsDefaultFormConfig[addOnEvent];
+
+
+	}
+
+	/**
+	 * Setups editor for field mapping.
+	 */
 	private setupObjectSettingsEditor() {
 
 		const sobject = DatabaseService.getSObject();
 
 		this.objectSettingsSetup = {
-
 			// Row 1
-			bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, max: 100000, widthOf12: 3, helpSearchWord: "BULK_API_V1_BATCH_SIZE", addHelpLinks: true },
-			restApiBatchSize: { type: 'number', label: 'restApiBatchSize', required: false, min: 1, max: 100000, widthOf12: 3, helpSearchWord: "REST_API_BATCH_SIZE", addHelpLinks: true },
-			parallelBulkJobs: { type: 'number', label: 'parallelBulkJobs', required: false, min: 1, max: 100, widthOf12: 3, helpSearchWord: "PARALLEL_BULK_JOBS", addHelpLinks: true },
-			parallelRestJobs: { type: 'number', label: 'parallelRestJobs', required: false, min: 1, max: 100, widthOf12: 3, helpSearchWord: "PARALLEL_REST_JOBS", addHelpLinks: true },
+			bulkApiV1BatchSize: {
+				type: 'number',
+				label: 'bulkApiV1BatchSize',
+				required: false,
+				min: 1,
+				max: 100000,
+				widthOf12: 3,
+				helpSearchWord: "BULK_API_V1_BATCH_SIZE",
+				addHelpLinks: true
+			},
+			restApiBatchSize: {
+				type: 'number',
+				label: 'restApiBatchSize',
+				required: false,
+				min: 1,
+				max: 100000,
+				widthOf12: 3,
+				helpSearchWord: "REST_API_BATCH_SIZE",
+				addHelpLinks: true
+			},
+			parallelBulkJobs: {
+				type: 'number',
+				label: 'parallelBulkJobs',
+				required: false,
+				min: 1,
+				max: 100,
+				widthOf12: 3,
+				helpSearchWord: "PARALLEL_BULK_JOBS",
+				addHelpLinks: true
+			},
+			parallelRestJobs: {
+				type: 'number',
+				label: 'parallelRestJobs',
+				required: false,
+				min: 1,
+				max: 100,
+				widthOf12: 3,
+				helpSearchWord: "PARALLEL_REST_JOBS",
+				addHelpLinks: true
+			},
 
 			// Row 2
-			useQueryAll: { type: 'toggle', label: 'useQueryAll', required: false, widthOf12: 3, helpSearchWord: "USE_QUERY_ALL", addHelpLinks: true },
-			queryAllTarget: { type: 'toggle', label: 'queryAllTarget', required: false, widthOf12: 3, helpSearchWord: "QUERY_ALL_TARGET", addHelpLinks: true },
-			skipExistingRecords: { type: 'toggle', label: 'skipExistingRecords', required: false, widthOf12: 3, helpSearchWord: "SKIP_EXISTING_RECORDS", addHelpLinks: true },
-			useSourceCSVFile: { type: 'toggle', label: 'useSourceCSVFile', required: false, widthOf12: 3, helpSearchWord: "USE_SOURCE_CSV_FILE", addHelpLinks: true },
+			useQueryAll: {
+				type: 'toggle',
+				label: 'useQueryAll',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "USE_QUERY_ALL",
+				addHelpLinks: true
+			},
+			queryAllTarget: {
+				type: 'toggle',
+				label: 'queryAllTarget',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "QUERY_ALL_TARGET",
+				addHelpLinks: true
+			},
+			skipExistingRecords: {
+				type: 'toggle',
+				label: 'skipExistingRecords',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "SKIP_EXISTING_RECORDS",
+				addHelpLinks: true
+			},
+			useSourceCSVFile: {
+				type: 'toggle',
+				label: 'useSourceCSVFile',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "USE_SOURCE_CSV_FILE",
+				addHelpLinks: true
+			},
+
 			// Row 3
-			skipRecordsComparison: { type: 'toggle', label: 'skipRecordsComparison', required: false, widthOf12: 12, helpSearchWord: "SKIP_RECORDS_COMPARISON", addHelpLinks: true },
+			skipRecordsComparison: {
+				type: 'toggle',
+				label: 'skipRecordsComparison',
+				required: false,
+				widthOf12: 12,
+				helpSearchWord: "SKIP_RECORDS_COMPARISON",
+				addHelpLinks: true
+			},
 
 			// Row 4
-			deleteOldData: { type: 'toggle', label: 'deleteOldData', required: false, widthOf12: 3, helpSearchWord: "DELETE_OLD_DATA", addHelpLinks: true },
-			deleteFromSource: { type: 'toggle', label: 'deleteFromSource', required: false, widthOf12: 3, helpSearchWord: "DELETE_FROM_SOURCE", addHelpLinks: true },
-			deleteByHierarchy: { type: 'toggle', label: 'deleteByHierarchy', required: false, widthOf12: 3, helpSearchWord: "DELETE_BY_HIERARCHY", addHelpLinks: true },
-			hardDelete: { type: 'toggle', label: 'hardDelete', required: false, widthOf12: 3, helpSearchWord: "HARD_DELETE", addHelpLinks: true },
+			deleteOldData: {
+				type: 'toggle',
+				label: 'deleteOldData',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "DELETE_OLD_DATA",
+				addHelpLinks: true
+			},
+			deleteFromSource: {
+				type: 'toggle',
+				label: 'deleteFromSource',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "DELETE_FROM_SOURCE",
+				addHelpLinks: true
+			},
+			deleteByHierarchy: {
+				type: 'toggle',
+				label: 'deleteByHierarchy',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "DELETE_BY_HIERARCHY",
+				addHelpLinks: true
+			},
+			hardDelete: {
+				type: 'toggle',
+				label: 'hardDelete',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "HARD_DELETE",
+				addHelpLinks: true
+			},
 
 			// Row 5
-			useCSVValuesMapping: { type: 'toggle', label: 'useCSVValuesMapping', required: false, widthOf12: 3, helpSearchWord: "USE_CSV_VALUES_MAPPING", addHelpLinks: true },
-			useValuesMapping: { type: 'toggle', label: 'useValuesMapping', required: false, widthOf12: 3, helpSearchWord: "USE_VALUES_MAPPING", addHelpLinks: true },
-			useFieldMapping: { type: 'toggle', label: 'useFieldMapping', required: false, widthOf12: 3, helpSearchWord: "USE_FIELD_MAPPING", addHelpLinks: true },
-			updateWithMockData: { type: 'toggle', label: 'updateWithMockData', required: false, widthOf12: 3, helpSearchWord: "UPDATE_WITH_MOCK_DATA", addHelpLinks: true },
+			useCSVValuesMapping: {
+				type: 'toggle',
+				label: 'useCSVValuesMapping',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "USE_CSV_VALUES_MAPPING",
+				addHelpLinks: true
+			},
+			useValuesMapping: {
+				type: 'toggle',
+				label: 'useValuesMapping',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "USE_VALUES_MAPPING",
+				addHelpLinks: true
+			},
+			useFieldMapping: {
+				type: 'toggle',
+				label: 'useFieldMapping',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "USE_FIELD_MAPPING",
+				addHelpLinks: true
+			},
+			updateWithMockData: {
+				type: 'toggle',
+				label: 'updateWithMockData',
+				required: false,
+				widthOf12: 3,
+				helpSearchWord: "UPDATE_WITH_MOCK_DATA",
+				addHelpLinks: true
+			}
 		};
 
 		this.objectSettingsJson = {
@@ -1007,6 +1292,16 @@ export class ObjectManagerEditorController {
 
 	}
 
+	private resetAddOnTab(addOnEvent?: string) {
+		if (addOnEvent) {
+			this.addOnSelectedTabs[addOnEvent] = 'addOnEditJson';
+			return;
+		}
+		Object.keys(this.addOnSelectedTabs).forEach(addOnEvent => {
+			this.addOnSelectedTabs[addOnEvent] = 'addOnEditJson';
+		});
+	}
+
 
 	// Event handlers --------------------------------------------------------
 	/**
@@ -1050,7 +1345,7 @@ export class ObjectManagerEditorController {
 	 *  Handle the change of target object in the field mapping tab.
 	 * @param args  The event arguments.
 	 */
-	async fieldMappingTargetObjectChange(args: IActionEventArgParam<any>) {
+	async handleFieldMappingTargetObjectChange(args: IActionEventArgParam<any>) {
 		const sobject = DatabaseService.getSObject();
 		sobject.fieldMapping = args.args[0].targetObject ? [
 			{
@@ -1077,7 +1372,7 @@ export class ObjectManagerEditorController {
 	 *  Handle the adding or removing the item from field mapping array.
 	 * @param args  The event arguments.
 	 */
-	async fieldMappingChange(args: IActionEventArgParam<any>) {
+	async handleFieldMappingChange(args: IActionEventArgParam<any>) {
 		const sobject = DatabaseService.getSObject();
 		sobject.fieldMapping = args.args[0].length ? [
 			{
@@ -1102,7 +1397,7 @@ export class ObjectManagerEditorController {
 	 *  Handle the adding or removing the item from mock fields array.
 	 * @param args  The event arguments.
 	 */
-	dataAnonymizationChange(args: IActionEventArgParam<any>) {
+	handleDataAnonymizationChange(args: IActionEventArgParam<any>) {
 		const sobject = DatabaseService.getSObject();
 		sobject.mockFields = args.args[0];
 
@@ -1115,6 +1410,88 @@ export class ObjectManagerEditorController {
 		this.setupDataAnonymizationEditor();
 
 		this.refreshObjectList();
+	}
+
+
+	/**
+	 *  Switches the tab. 
+	 * 	Each tabs holds a set of controls to setup some aspect of the object.
+	 * @param args The event arguments.
+	 */
+	handleTabChange(args: IActionEventArgParam<ITabItem>) {
+
+		const tab = args.args[0];
+		const componentId = args.componentId;
+		const addOnEvent = componentId;
+
+		if (componentId == 'objectAddOnsTabset') {
+			this.resetAddOnTab();
+			AngularUtils.$apply(this.$scope);
+			return;
+		}
+
+		if (tab.tabId == 'addOnVisualEditor') {
+			if (this.isAddOnsChanged) {
+				const result = DialogService.showPromptDialog({
+					titleKey: "DIALOG.ADD_ON_VISUAL_EDITOR.TITLE",
+					messageKey: "DIALOG.ADD_ON_VISUAL_EDITOR.MESSAGE_WHEN_SWITCH_TO_VISUAL_TAB_WITH_UNSAVED_CHANGES",
+					dialogType: DialogType.warning
+				});
+				if (!result) {
+					return true; // Cancel tab switch
+				} else {
+					this.handleAddOnsSave();
+				}
+			}
+			this.setupAddOnVisualEditor(addOnEvent);
+			AngularUtils.$apply(this.$scope);
+			return;
+		}
+
+		AngularUtils.$apply(this.$scope, async () => {
+
+			switch (tab.tabId) {
+
+				case 'addOns': {
+					this.addOnsSelectedTabId = "objectOnBefore";
+					this.setupAddOnJsonEditors();
+					this.setAddOnsTabsetTitles();
+				} break;
+				
+				case 'fields':
+					// NOOP: This tab is default and proceed in the setup method
+					break;
+
+				case 'query': {
+					this.setupQueryEditor();
+				} break;
+
+				case 'testQuery': {
+					this.selectedQueryTestTabIndex = 0;
+					await this.makeFullQueryAsync(false);
+					this.refreshObjectList();
+				} break;
+
+				case 'polymorphicFields': {
+					this.setupPolymorphicFieldsEditor();
+				} break;
+
+				case 'fieldsMapping': {
+					await this.setupFieldsMappingEditorAsync(true);
+					await this.setupFieldsMappingEditorAsync(false);
+				} break;
+
+				case 'dataAnonymization': {
+					this.setupDataAnonymizationEditor();
+				} break;
+
+				case 'objectSettings': {
+					this.setupObjectSettingsEditor();
+				} break;
+
+
+			}
+		});
 	}
 
 	/**
@@ -1144,159 +1521,120 @@ export class ObjectManagerEditorController {
 		LogService.info(`Object ${sobject.name} properties updated: ${propsToUpdate.take(3).join(', ')}, ...`);
 	}
 
+
+	// Add-On Visual Editor ----------------------------
 	/**
-	 *  Switches the tab. 
-	 * 	Each tabs holds a set of controls to setup some aspect of the object.
-	 * @param args The event arguments.
+	 *  Handle the add-ons visual editor delete event.
 	 */
-	handleTabChange(args: IActionEventArgParam<ITabItem>) {
+	handleAddOnsEditorDelete() {
+		const allowDelete = DialogService.showPromptDialog({
+			titleKey: "DIALOG.ADD_ON_VISUAL_EDITOR.TITLE",
+			messageKey: "DIALOG.ADD_ON_VISUAL_EDITOR.MESSAGE_WHEN_DELETE",
+			dialogType: DialogType.warning
+		});
 
-		if (['objectEditorTabs', 'objectFieldsTabset'].includes(args.componentId)) {
-
-			const sObject = DatabaseService.getSObject();
-
-			AngularUtils.$apply(this.$scope, async () => {
-
-				const tab = args.args[0];
-
-				switch (tab.tabId) {
-
-					case 'fields':
-						// NOOP: This tab is default and proceed in the setup method
-						break;
-
-					case 'query': {
-						this.queryTabsFormSetup = {
-							externalId: {
-								type: 'autocomplete',
-								label: 'External Id Field',
-								options: this.getAllSObjectFieldDescriptions().filter(x => x.canBeExternalId).map(x => { return { value: x.name, label: x.name } }).sortBy('label'),
-								allowUnlistedInput: true,
-								widthOf12: 7,
-								helpSearchWord: "EXTERNAL_ID",
-								addHelpLinks: true
-							},
-							operation: {
-								type: 'select',
-								label: 'Operation',
-								options: [{ value: 'Insert', label: 'Insert' },
-								{ value: 'Update', label: 'Update' },
-								{ value: 'Upsert', label: 'Upsert' },
-								{ value: 'Delete', label: 'Delete' },
-								{ value: 'DeleteSource', label: 'DeleteSource' },
-								{ value: 'DeleteHierarchy', label: 'DeleteHierarchy' },
-								{ value: 'HardDelete', label: 'HardDelete' },
-								{ value: 'Readonly', label: 'Readonly' }],
-								widthOf12: 3,
-								helpSearchWord: "OPERATION",
-								addHelpLinks: true
-							},
-							master: { type: 'toggle', label: 'Master', widthOf12: 2, helpSearchWord: "MASTER", addHelpLinks: true },
-							where: { type: 'textarea', label: 'Query WHERE clause', widthOf12: 12, helpSearchWord: "WHERE", addHelpLinks: true },
-							orderBy: { type: 'input', label: 'Query ORDER BY clause', widthOf12: 4, helpSearchWord: "ORDER_BY", addHelpLinks: true},
-							limit: { type: 'number', label: 'Query LIMIT clause', widthOf12: 4, min: 0, helpSearchWord: "LIMIT", addHelpLinks: true},
-							offset: { type: 'number', label: 'Query OFFSET clause', widthOf12: 4, min: 0, helpSearchWord: "OFFSET", addHelpLinks: true},
-							deleteQueryWhere: { type: 'textarea', label: 'Delete query WHERE clause', widthOf12: 6, helpSearchWord: "DELETE_QUERY", addHelpLinks: true },
-							targetRecordsFilter: { type: 'textarea', label: 'Target records filter', widthOf12: 6, helpSearchWord: "TARGET_RECORDS_FILTER", addHelpLinks: true }
-						};
-
-						const json = {
-							externalId: sObject.externalId,
-							master: sObject.master || false,
-							operation: sObject.operation || 'Insert',
-							where: sObject.where || '',
-							orderBy: sObject.orderBy || '',
-							limit: sObject.limit || 0,
-							offset: sObject.offset || 0,
-							deleteQueryWhere: sObject.deleteQueryWhere || '',
-							targetRecordsFilter: sObject.targetRecordsFilter || ''
-						};
-						const $ctrl = AngularUtils.$getController<UiJsonEditorController>('#objectQueryTabForm');
-						if ($ctrl) {
-							$ctrl.setJson(json);
-						}
-					} break;
-
-					case 'testQuery': {
-						this.selectedQueryTestTabIndex = 0;
-						await this.makeFullQueryAsync(false);
-						this.refreshObjectList();
-					} break;
-
-					case 'polymorphicFields': {
-						this.setupPolymorphicFieldsEditor();
-					} break;
-
-					case 'fieldsMapping': {
-						AngularUtils.$apply(this.$scope, async () => {
-							await this.setupFieldsMappingEditorAsync(true);
-							await this.setupFieldsMappingEditorAsync(false);
-						});
-					} break;
-
-					case 'dataAnonymization': {
-						AngularUtils.$apply(this.$scope, async () => {
-							this.setupDataAnonymizationEditor();
-						});
-					} break;
-
-					case 'objectSettings': {
-						AngularUtils.$apply(this.$scope, async () => {
-							this.setupObjectSettingsEditor();
-						});
-
-					} break;
-
-					case 'addOns': {
-						AngularUtils.$apply(this.$scope, async () => {
-							this.objectAddOnsSelectedTabId = "objectOnBefore";
-							this.setupAddOnEditors();
-						});
-						this.setAddOnsTabsetTitles();
-					} break;
-				}
-			});
-		}
+		return !allowDelete;
 	}
 
+	/**
+	 *  Handle the add-ons visual editor change event.
+	 * @param args  The event arguments.
+	 */
+	handleAddOnsEditorChange(args: IActionEventArgParam<any>) {
+		const addOnEvent = args.componentId.replace('objectAddOnsForm-', '');
+		this.addOnFormData[addOnEvent] = JSON.stringify(args.args[0], null, 2);
+		const sObject = DatabaseService.getSObject();
+		LogService.info(`Action '${args.action}' performed for Add-On configuration of the '${addOnEvent}' event for sObject '${sObject.name}'.`);
+		this.handleAddOnsSave(undefined, false);
+	}
 
+	/**
+	 * Handle the add-ons visual editor new object change event.
+	 * @param args  The event arguments.
+	 */
+	handleAddOnsEditorAdd(args: IActionEventArgParam<any>) {
+		const module = args.args[0].module;
+		Object.assign(args.args[0], addOnsDefaultFormConfig[module]);
+	}
+
+	/**
+	 *  Handle the add-ons visual editor edit event.
+	 * @param args  The event arguments.
+	 */
+	async handleAddOnsEditorShow(args: IActionEventArgParam<any>): Promise<IEditFormResult> {
+		const addOnEvent = args.componentId.replace('objectAddOnsForm-', '');
+		const module = args.args[0].module;
+		let moduleConfig = module;
+		// Exceptional modules
+		switch (module) {
+			case "core:RecordsFilter":
+				moduleConfig = args.args[0]?.args?.filterType || module;
+				break;
+		}
+		const json = args.args[0];
+		const jsonSchema = CommonUtils.deepClone(addOnsJsonSchemaConfig[moduleConfig]);
+		jsonSchema.title = `${module}${moduleConfig == module ? '' : ` (${moduleConfig})`} ${jsonSchema.title}`.trim();
+		const sObject = DatabaseService.getSObject();
+		LogService.info(`The Visual Add-On Editor was activated for sObject '${sObject.name}', event '${addOnEvent}', and module '${module}'.`);
+		const result = await this.$jsonEditModal.editJsonAsync(json, jsonSchema, null, this.$app.$translate.translate({
+			key: 'FIX_ERRORS_BEFORE_SAVING_CONFIGURATION'
+		}));
+		return {
+			data: result.data,
+			result: result.result
+		};
+	}
+
+	// --- ----------------------------
+
+
+	/**
+	 *  Handle the add-ons form change event.
+	 */
 	handleAddOnsChange() {
 		AngularUtils.$apply(this.$scope, () => {
 			this.isAddOnsChanged = true;
 		});
 	}
 
-	handleSaveAddOns() {
+	/**
+	 *  Handle the save add-ons button click.
+	 * @param args  The event arguments.
+	 */
+	handleAddOnsSave(args?: IActionEventArgParam<void>, showToastSuccess = true) {
 		const sObject = DatabaseService.getSObject();
 		const config = DatabaseService.getConfig();
 		const ws = DatabaseService.getWorkspace();
 		let isIncorrectJson = false;
 		AngularUtils.$apply(this.$scope, () => {
-			Object.keys(this.scriptObjectAddOnFormData).forEach(key => {
+			Object.keys(this.addOnFormData).forEach(key => {
 				try {
-					sObject[key] = this.scriptObjectAddOnFormData[key] ? JSON.parse(this.scriptObjectAddOnFormData[key]) : [];
+					sObject[key] = this.addOnFormData[key] ? JSON.parse(this.addOnFormData[key]) : [];
 				} catch {
 					isIncorrectJson = true;
 				}
-				this.scriptObjectAddOnFormData[key] = JSON.stringify(sObject[key] || [], null, 2);
+				this.addOnFormData[key] = JSON.stringify(sObject[key] || [], null, 2);
 			});
 			this.isAddOnsChanged = false;
 		});
 		this.setAddOnsTabsetTitles();
 		DatabaseService.updateConfig(ws.id, config);
-		if (!isIncorrectJson) {
+		if (!isIncorrectJson && showToastSuccess) {
 			ToastService.showSuccess();
 			LogService.info(`Add-ons for sobject ${sObject.name} updated.`);
-		} else {
-			ToastService.showWarn(this.$app.$translate.translate({ key: 'SAVED_INCORRECT_JSON' }));
+		} else if (isIncorrectJson) {
+			ToastService.showWarn(this.$app.$translate.translate({ key: 'SAVED_INCORRECT_ADDON_JSON' }));
 			LogService.warn(`Some Add-ons for sobject ${sObject.name} were not saved due to incorrect JSON.`);
 		}
 	}
 
-	handleRestoreAddOns() {
+	/**
+	 *  Handle the restore add-ons button click.
+	 */
+	handleAddOnsRestore() {
 		const sObject = DatabaseService.getSObject();
 		AngularUtils.$apply(this.$scope, () => {
-			this.setupAddOnEditors();
+			this.setupAddOnJsonEditors();
 			ToastService.showSuccess();
 			LogService.info(`Add-ons for sobject ${sObject.name} restored.`);
 		});
@@ -1355,8 +1693,15 @@ export class ObjectManagerEditorController {
 	}
 
 
-
+	// ------------------------------------------------------------------------
 	// Private methods --------------------------------------------------------
+	// ------------------------------------------------------------------------
+	/**
+	 *  Makes a full query string.
+	 * @param sObject  The sobject.
+	 * @param query  The query.
+	 * @returns 
+	 */
 	private buildTargetQueryString(sObject: ScriptObject, query: string): string {
 		if (!this.queryTestUseSourceConnection && sObject.hasFieldMapping) {
 			for (const item of sObject.fieldMapping) {

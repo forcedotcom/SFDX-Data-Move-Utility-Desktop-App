@@ -34,7 +34,7 @@ export class BrowserConsoleLogService {
     }
 
     /* #region Private */
-    /**  Original console.log function. */ 
+    /**  Original console.log function. */
     private _originalConsoleLog = console.log;
     /**  Original console.warn function. */
     private _originalConsoleWarn = console.warn;
@@ -45,7 +45,7 @@ export class BrowserConsoleLogService {
 
     /**
      * Hooks into the console to be able to notify subscribers.
-     */ 
+     */
     private hookIntoConsole() {
 
         console.log = function consoleLog(message: any, ...optionalParams: any[]) {

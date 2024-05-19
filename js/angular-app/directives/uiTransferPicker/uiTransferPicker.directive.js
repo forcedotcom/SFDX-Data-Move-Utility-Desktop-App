@@ -12,6 +12,7 @@ class UiTransferPickerDirective {
         this.$timeout = $timeout;
         this.restrict = 'E';
         this.scope = {
+            id: '@',
             selected: '=',
             source: '=',
             onSelect: '&',
@@ -21,10 +22,10 @@ class UiTransferPickerDirective {
         };
         this.template = '<div class="transfer" style="direction:ltr"></div>';
     }
-    link($scope, $element, $attrs) {
+    link($scope, $element) {
         // Assign default values to the scope
         Object.assign($scope, {
-            id: utils_1.AngularUtils.setElementId($scope, $attrs),
+            id: $scope.id || utils_1.CommonUtils.randomString(),
             height: $scope.height || "390px",
             // For the properties below, the default values are now set hard-coded,
             // but we can also set them dynamically from outside the directive upon need.
@@ -86,9 +87,9 @@ class UiTransferPickerDirective {
         const onInit = () => {
             // Set component height
             $element.find('.transfer-double').css('height', $scope.height);
-            $element.find('.transfer-double-content-left,.transfer-double-content-right').attr('style', `height: calc(${$scope.height} - 70px);`);
-            $element.find('.transfer-double-list-main,.transfer-double-selected-list-main').attr('style', `height: calc(${$scope.height} - 180px);`);
-            $element.find('.transfer-double-content-middle').attr('style', `bottom: calc((${$scope.height} - 180px) / 2 + 5px); top: auto;`);
+            $element.find('.transfer-double-content-left,.transfer-double-content-right').attr('style', `height: calc(${$scope.height} - 78px);`);
+            $element.find('.transfer-double-list-main,.transfer-double-selected-list-main').attr('style', `height: calc(${$scope.height} - 160px);`);
+            $element.find('.transfer-double-content-middle').attr('style', `bottom: calc((${$scope.height} + 54px) / 2 + 5px); top: auto;`);
             // Set component tooltips
             setTooltips();
         };

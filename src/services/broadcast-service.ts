@@ -169,7 +169,7 @@ export class BroadcastService {
                         BroadcastService.off(null, scopeCallback);
                     });
                     BroadcastService.scopeListeners.delete($scope);
-                });    
+                });
             }
             if (!BroadcastService.scopeListeners.get($scope).includes(callback)) {
                 BroadcastService.scopeListeners.get($scope).push(callback);
@@ -255,7 +255,7 @@ export class BroadcastService {
      * @param objectName The object name.
      * @returns An array of results from the listeners.
      */
-    static broascastProgressUserMessage(type: ProgressEventType, source: string, key: string, userName?: string, objectName?:string): any[] {
+    static broascastProgressUserMessage(type: ProgressEventType, source: string, key: string, userName?: string, objectName?: string): any[] {
         return BroadcastService.broadcastProgressMessage(type, source, key, {
             USER_NAME: userName || '',
             OBJECT_NAME: objectName || ''

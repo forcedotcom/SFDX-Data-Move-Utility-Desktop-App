@@ -4,11 +4,11 @@ import { AngularUtils, CommonUtils } from "../../../utils";
 import { IAppService } from "../../services";
 
 interface IUiMenuScope extends angular.IScope {
-    navbarClass: string;
-    navbarNavClass: string;
-    addToggler: boolean;
-    source: IMenuItem[]; 
-    itemClickHandler: (menuId: string, hasChildren: boolean) => void;
+	navbarClass: string;
+	navbarNavClass: string;
+	addToggler: boolean;
+	source: IMenuItem[];
+	itemClickHandler: (menuId: string, hasChildren: boolean) => void;
 }
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -16,6 +16,7 @@ export const uiMenuDirective = ($compile: angular.ICompileService, $app: IAppSer
 	return {
 		restrict: 'E',
 		scope: {
+			id: '@',
 			navbarClass: '@',
 			navbarNavClass: '@',
 			addToggler: '=',
@@ -54,7 +55,7 @@ export const uiMenuDirective = ($compile: angular.ICompileService, $app: IAppSer
 
 		link: ($scope: IUiMenuScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes) => {
 
-			AngularUtils.setElementId($scope, $attrs);
+			$scope.id ||= CommonUtils.randomString();
 			$scope.source ||= [];
 
 			$scope.itemClickHandler = (menuId: string, hasChildren: boolean) => {

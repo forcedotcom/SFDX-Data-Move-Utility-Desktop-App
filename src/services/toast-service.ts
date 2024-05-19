@@ -2,7 +2,7 @@ import { BrowserWindow } from 'electron';
 import { TranslationService } from '.';
 import { CONSTANTS } from '../common';
 
-class ToastService {
+export class ToastService {
 
     /**
      * Display an informational toast message.
@@ -126,4 +126,4 @@ class ToastService {
     }
 }
 
-export default ToastService;
+

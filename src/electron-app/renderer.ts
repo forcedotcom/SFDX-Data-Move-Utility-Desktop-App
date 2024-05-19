@@ -16,6 +16,7 @@ window.bootstrap = require("../../libs/bootstrap/js/bootstrap.bundle.js");
 
 // JQuery modules
 require('../../libs/jquery-transfer/js/jquery.transfer.js');
+window.JSONEditor = require('../../libs/json-editor/json-editor.js').JSONEditor;
 
 // Standard angular modules
 import 'angular';

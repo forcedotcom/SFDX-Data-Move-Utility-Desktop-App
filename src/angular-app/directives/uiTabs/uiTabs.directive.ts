@@ -2,7 +2,7 @@ import angular from 'angular';
 import { ActionEvent, FaIcon } from '../../../common';
 import { ITabItem } from '../../../models';
 import { IBroadcastService } from '../../services';
-import { AngularUtils } from '../../../utils';
+import { CommonUtils } from '../../../utils';
 
 /** Interface for the uiTabs controller. */
 export type UiTabsController = angular.IController & {
@@ -38,7 +38,8 @@ export function uiTabs($broadcast: IBroadcastService): angular.IDirective {
             onChange: '&',
             tabContentClass: '@',
             tabsHeight: '@',
-            selectedTabId: '='
+            selectedTabId: '=',
+            id: '@'
         },
         template: `
             <div ng-class="{'flex-row': orientation === 'horizontal', 'row': orientation === 'vertical'}">
@@ -64,11 +65,11 @@ export function uiTabs($broadcast: IBroadcastService): angular.IDirective {
 
             </div>
         `,
-        controller: function ($scope: ItabsScope, $attrs: angular.IAttributes) {
+        controller: function ($scope: ItabsScope) {
 
             $scope.orientation = $scope.orientation || 'horizontal';
             $scope.tabs = [];
-            $scope.id = AngularUtils.setElementId($scope, $attrs);
+            $scope.id ||= CommonUtils.randomString();
             let oldSelectedTabId = "";
 
             this.setTabs = function (tabs: ITabItem[]) {
@@ -91,29 +92,35 @@ export function uiTabs($broadcast: IBroadcastService): angular.IDirective {
             this.addTab = function (tab: ITabItem) {
                 $scope.tabs.push(tab);
                 if ($scope.tabs.length === 1) {
-                    if ($scope.selectedTabId != undefined) {
-                        $scope.selectedTabId = tab.tabId;
-                    }
+                    $scope.selectedTabId = tab.tabId;
                     tab.active = true;
                 }
             };
 
             $scope.selectTab = function (tab: ITabItem) {
-                angular.forEach($scope.tabs, (t) => {
-                    t.active = false;
+                angular.forEach($scope.tabs, (tab) => {
+                    tab.active = false;
                 });
                 tab.active = true;
-                if ($scope.selectedTabId != undefined) {
-                    $scope.selectedTabId = tab.tabId;
-                }
+                $scope.selectedTabId = tab.tabId;
                 if (oldSelectedTabId != tab.tabId) {
                     if ($scope.onChange) {
-                        $scope.onChange({
+                        const abortChange = $scope.onChange({
                             args: {
                                 componentId: $scope.id,
                                 args: [tab]
                             }
                         });
+                        if (abortChange) {
+                            $scope.selectedTabId = oldSelectedTabId;
+                            tab.active = false;
+                            angular.forEach($scope.tabs, (tab) => {
+                                if (tab.tabId == oldSelectedTabId) {
+                                    tab.active = true;
+                                }
+                            });
+                            return;
+                        }
                     }
                     $broadcast.broadcastAction<ITabItem>('tabSelected', 'uiTabs', {
                         componentId: $scope.id,

@@ -1,6 +1,6 @@
 import { IScope } from 'angular';
 import { DataSource, ErrorSource, FaIcon, View, WizardStepByView } from '../../../common';
-import { SObjectOptionData, IActionEventArgParam, ISObjectOption, IOption } from '../../../models';
+import { IActionEventArgParam, IOption, ISObjectOption, SObjectOptionData } from '../../../models';
 import { DatabaseService, LogService } from '../../../services';
 import { AngularUtils, SfdmuUtils } from '../../../utils';
 import { IAppService } from '../../services';
@@ -20,6 +20,10 @@ export class ObjectManagerController {
     selectedObjects: string[] = [];
     selectedObjectOption: IOption | null = null;
     selectedObjectSetId: string | null = null;
+
+    toggleObjectSelectorButtonSymbol = '❮';
+
+
 
     get view(): 'editor' | 'select-object-set-warning' | 'add-objects-warning' {
         const config = DatabaseService.getConfig();
@@ -90,7 +94,7 @@ export class ObjectManagerController {
             AngularUtils.$apply(this.$scope, () => {
 
                 // Setup the objects list
-                const sobject = DatabaseService.getSObject();               
+                const sobject = DatabaseService.getSObject();
                 const popoverHtml = (object, describe) => {
                     return `<b>${translate.field}:</b>${object.name} (${describe?.label || object.name})
                             <br /><b>${translate.operation}:</b> ${object.operation}
@@ -207,7 +211,6 @@ export class ObjectManagerController {
             });
         }
     }
-
 
     /**
      *  Set the object errors
@@ -339,5 +342,28 @@ export class ObjectManagerController {
         }, 50);
 
     }
+
+
+    /**
+     *  Whether current object set has objects
+     */
+    get hasObjectSelected() {
+        const object = DatabaseService.getSObject();
+        return object.isInitialized;
+    }
+
+
+    // Event Handlers ------------------------------------------------------------------------
+    handleObjectSelectorToggle() {
+        const objectSelector: HTMLElement = document.querySelector('.object-selector-container');
+        if (objectSelector.classList.contains('collapsed')) {
+            objectSelector.classList.remove('collapsed');
+            this.toggleObjectSelectorButtonSymbol = '❮';
+        } else {
+            objectSelector.classList.add('collapsed');
+            this.toggleObjectSelectorButtonSymbol = '❯';
+        }
+    }
+
 
 }

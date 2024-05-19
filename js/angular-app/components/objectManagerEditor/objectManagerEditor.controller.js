@@ -2,15 +2,21 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ObjectManagerEditorController = void 0;
 const common_1 = require("../../../common");
+const configurations_1 = require("../../../configurations");
 const models_1 = require("../../../models");
 const services_1 = require("../../../services");
 const utils_1 = require("../../../utils");
+const UI_CONSTANTS = {
+    UI_TRANSFER_PRICKER_HEIGHT: 'calc(max(100vh - 564px, 220px))',
+};
 class ObjectManagerEditorController {
-    constructor($app, $scope) {
+    constructor($app, $scope, $jsonEditModal) {
         this.$app = $app;
         this.$scope = $scope;
+        this.$jsonEditModal = $jsonEditModal;
         // Common
         this.FaIcon = common_1.FaIcon;
+        this.UI_CONSTANTS = UI_CONSTANTS;
         this.selectedTabId = "";
         this._supressSelectEvent = false;
         // Fields tab
@@ -52,9 +58,14 @@ class ObjectManagerEditorController {
         this.objectSettingsSetup = {};
         this.objectSettingsTitles = [];
         // Object Add-Ons tab
-        this.scriptObjectAddOnFormData = {};
-        this.objectAddOnsSelectedTabId = "";
         this.isAddOnsChanged = false;
+        this.addOnFormData = {};
+        this.addOnsSelectedTabId = "";
+        // Add-Ons Visual Editor
+        this.addOnSelectedTabs = [];
+        this.addOnFormArraySetup = {};
+        this.addOnFormSetup = {};
+        this.addOnFormNewObject = {};
         this._oldSelectedPolymorphicField = undefined;
     }
     get view() {
@@ -439,6 +450,9 @@ class ObjectManagerEditorController {
             }
         }, 600);
     }
+    /**
+     *  Set titles for the add-ons tabset.
+     */
     setAddOnsTabsetTitles() {
         this.$app.$timeout(() => {
             var _a, _b, _c, _d, _e;
@@ -452,6 +466,57 @@ class ObjectManagerEditorController {
                 $ctrl.setTabTitle('objectOnFlterRecords', `${this.$app.$translate.translate({ key: 'FILTER_RECORDS_ADD_ONS' })} (${((_e = sobject.filterRecordsAddons) === null || _e === void 0 ? void 0 : _e.length) || 0})`);
             }
         }, 600);
+    }
+    setupQueryEditor() {
+        const sObject = services_1.DatabaseService.getSObject();
+        this.queryTabsFormSetup = {
+            externalId: {
+                type: 'autocomplete',
+                label: 'External Id Field',
+                options: this.getAllSObjectFieldDescriptions().filter(x => x.canBeExternalId).map(x => { return { value: x.name, label: x.name }; }).sortBy('label'),
+                allowUnlistedInput: true,
+                widthOf12: 7,
+                helpSearchWord: "EXTERNAL_ID",
+                addHelpLinks: true
+            },
+            operation: {
+                type: 'select',
+                label: 'Operation',
+                options: [{ value: 'Insert', label: 'Insert' },
+                    { value: 'Update', label: 'Update' },
+                    { value: 'Upsert', label: 'Upsert' },
+                    { value: 'Delete', label: 'Delete' },
+                    { value: 'DeleteSource', label: 'DeleteSource' },
+                    { value: 'DeleteHierarchy', label: 'DeleteHierarchy' },
+                    { value: 'HardDelete', label: 'HardDelete' },
+                    { value: 'Readonly', label: 'Readonly' }],
+                widthOf12: 3,
+                helpSearchWord: "OPERATION",
+                addHelpLinks: true
+            },
+            master: { type: 'toggle', label: 'Master', widthOf12: 2, helpSearchWord: "MASTER", addHelpLinks: true },
+            where: { type: 'textarea', label: 'Query WHERE clause', widthOf12: 12, helpSearchWord: "WHERE", addHelpLinks: true },
+            orderBy: { type: 'input', label: 'Query ORDER BY clause', widthOf12: 4, helpSearchWord: "ORDER_BY", addHelpLinks: true },
+            limit: { type: 'number', label: 'Query LIMIT clause', widthOf12: 4, min: 0, helpSearchWord: "LIMIT", addHelpLinks: true },
+            offset: { type: 'number', label: 'Query OFFSET clause', widthOf12: 4, min: 0, helpSearchWord: "OFFSET", addHelpLinks: true },
+            deleteQueryWhere: { type: 'textarea', label: 'Delete query WHERE clause', widthOf12: 6, helpSearchWord: "DELETE_QUERY", addHelpLinks: true },
+            targetRecordsFilter: { type: 'textarea', label: 'Target records filter', widthOf12: 6, helpSearchWord: "TARGET_RECORDS_FILTER", addHelpLinks: true }
+        };
+        const json = {
+            externalId: sObject.externalId,
+            master: sObject.master || false,
+            operation: sObject.operation || 'Insert',
+            where: sObject.where || '',
+            orderBy: sObject.orderBy || '',
+            limit: sObject.limit || 0,
+            offset: sObject.offset || 0,
+            deleteQueryWhere: sObject.deleteQueryWhere || '',
+            targetRecordsFilter: sObject.targetRecordsFilter || ''
+        };
+        const $ctrl = utils_1.AngularUtils.$getController('#objectQueryTabForm');
+        if ($ctrl) {
+            $ctrl.setJson(json);
+        }
     }
     /**
      * Set the polymorphic fields setup.
@@ -537,6 +602,11 @@ class ObjectManagerEditorController {
         this.polymorphicFieldsJsonArray = sobject.polymorphicFields;
         this.setFieldsTabsetTitles();
     }
+    /**
+     *  Set the field mapping setup.
+     * @param setSObjectsList  Indicates whether to set the sobjects list or not.
+     * @returns
+     */
     async setupFieldsMappingEditorAsync(setSObjectsList) {
         const sobject = services_1.DatabaseService.getSObject();
         this.targetObjectNotDescribed = false;
@@ -624,6 +694,7 @@ class ObjectManagerEditorController {
             if (sobject.targetObject == sobject.name) {
                 availableTargetFields = availableTargetFields.exclude(this.getAllSoqlFieldDescriptions(), (targetField, soqlField) => targetField.name == soqlField.name);
             }
+            // New item 
             this.fieldMappingSetup = {
                 sourceField: {
                     type: 'select',
@@ -650,6 +721,7 @@ class ObjectManagerEditorController {
                     }).sortBy('label')
                 },
             };
+            // The array of selected items
             this.fieldMappingArraySetup = {
                 sourceField: {
                     type: 'select',
@@ -677,6 +749,9 @@ class ObjectManagerEditorController {
             }, 100);
         }
     }
+    /**
+     * Setups editor for data anonymization.
+     */
     setupDataAnonymizationEditor() {
         const sobject = services_1.DatabaseService.getSObject();
         const mockedFieldOptions = sobject.mockFields.map(x => {
@@ -743,42 +818,229 @@ class ObjectManagerEditorController {
         };
         this.dataAnonymizationJsonArray = sobject.mockFields;
     }
-    setupAddOnEditors() {
+    /**
+     *  Setups editor for field mapping.
+     */
+    setupAddOnJsonEditors() {
         const sObject = services_1.DatabaseService.getSObject();
-        this.scriptObjectAddOnFormData = {
-            afterAddons: JSON.stringify(sObject.afterAddons || [], null, 2),
-            beforeAddons: JSON.stringify(sObject.beforeAddons || [], null, 2),
-            afterUpdateAddons: JSON.stringify(sObject.afterUpdateAddons || [], null, 2),
-            beforeUpdateAddons: JSON.stringify(sObject.beforeUpdateAddons || [], null, 2),
-            filterRecordsAddons: JSON.stringify(sObject.filterRecordsAddons || [], null, 2)
-        };
+        this.addOnFormData = Object.keys(sObject)
+            .filter(property => property.endsWith('Addons'))
+            .reduce((acc, property) => {
+            acc[property] = JSON.stringify(sObject[property] || [], null, 2);
+            return acc;
+        }, {});
+        this.resetAddOnTab();
         this.isAddOnsChanged = false;
     }
+    setupAddOnVisualEditor(componentId) {
+        const addOnEvent = componentId;
+        const availableModules = [];
+        const scriptObject = services_1.DatabaseService.getSObject();
+        // Available modules
+        availableModules.push(...configurations_1.availableCoreAddOnModules.object[addOnEvent]);
+        const moduleDeclarations = scriptObject[addOnEvent] || [];
+        // Hidden messages
+        if (!availableModules.length) {
+            if (moduleDeclarations.length) {
+                this.addOnFormHiddenNew = true;
+                this.addOnFormHidden = false;
+            }
+            else {
+                this.addOnFormHidden = true;
+            }
+        }
+        else {
+            this.addOnFormHiddenNew = false;
+            this.addOnFormHidden = false;
+        }
+        // Form setups
+        const availableAddOnOptions = availableModules.map(option => {
+            return {
+                value: option.value,
+                label: option.label
+            };
+        });
+        this.addOnFormArraySetup = {
+            module: {
+                type: 'input'
+            },
+            description: {
+                type: 'input'
+            },
+        };
+        this.addOnFormSetup = {
+            module: {
+                type: 'select',
+                required: true,
+                label: this.$app.$translate.translate({ key: 'MODULE' }),
+                options: availableAddOnOptions
+            },
+            description: {
+                type: 'input',
+                required: false,
+                label: this.$app.$translate.translate({ key: 'DESCRIPTION' })
+            },
+        };
+        // Array assignment
+        this.addOnFormJsonArray = moduleDeclarations;
+        // Setup new object
+        this.addOnFormNewObject = configurations_1.addOnsDefaultFormConfig[addOnEvent];
+    }
+    /**
+     * Setups editor for field mapping.
+     */
     setupObjectSettingsEditor() {
         const sobject = services_1.DatabaseService.getSObject();
         this.objectSettingsSetup = {
             // Row 1
-            bulkApiV1BatchSize: { type: 'number', label: 'bulkApiV1BatchSize', required: false, min: 1, max: 100000, widthOf12: 3, helpSearchWord: "BULK_API_V1_BATCH_SIZE", addHelpLinks: true },
-            restApiBatchSize: { type: 'number', label: 'restApiBatchSize', required: false, min: 1, max: 100000, widthOf12: 3, helpSearchWord: "REST_API_BATCH_SIZE", addHelpLinks: true },
-            parallelBulkJobs: { type: 'number', label: 'parallelBulkJobs', required: false, min: 1, max: 100, widthOf12: 3, helpSearchWord: "PARALLEL_BULK_JOBS", addHelpLinks: true },
-            parallelRestJobs: { type: 'number', label: 'parallelRestJobs', required: false, min: 1, max: 100, widthOf12: 3, helpSearchWord: "PARALLEL_REST_JOBS", addHelpLinks: true },
+            bulkApiV1BatchSize: {
+                type: 'number',
+                label: 'bulkApiV1BatchSize',
+                required: false,
+                min: 1,
+                max: 100000,
+                widthOf12: 3,
+                helpSearchWord: "BULK_API_V1_BATCH_SIZE",
+                addHelpLinks: true
+            },
+            restApiBatchSize: {
+                type: 'number',
+                label: 'restApiBatchSize',
+                required: false,
+                min: 1,
+                max: 100000,
+                widthOf12: 3,
+                helpSearchWord: "REST_API_BATCH_SIZE",
+                addHelpLinks: true
+            },
+            parallelBulkJobs: {
+                type: 'number',
+                label: 'parallelBulkJobs',
+                required: false,
+                min: 1,
+                max: 100,
+                widthOf12: 3,
+                helpSearchWord: "PARALLEL_BULK_JOBS",
+                addHelpLinks: true
+            },
+            parallelRestJobs: {
+                type: 'number',
+                label: 'parallelRestJobs',
+                required: false,
+                min: 1,
+                max: 100,
+                widthOf12: 3,
+                helpSearchWord: "PARALLEL_REST_JOBS",
+                addHelpLinks: true
+            },
             // Row 2
-            useQueryAll: { type: 'toggle', label: 'useQueryAll', required: false, widthOf12: 3, helpSearchWord: "USE_QUERY_ALL", addHelpLinks: true },
-            queryAllTarget: { type: 'toggle', label: 'queryAllTarget', required: false, widthOf12: 3, helpSearchWord: "QUERY_ALL_TARGET", addHelpLinks: true },
-            skipExistingRecords: { type: 'toggle', label: 'skipExistingRecords', required: false, widthOf12: 3, helpSearchWord: "SKIP_EXISTING_RECORDS", addHelpLinks: true },
-            useSourceCSVFile: { type: 'toggle', label: 'useSourceCSVFile', required: false, widthOf12: 3, helpSearchWord: "USE_SOURCE_CSV_FILE", addHelpLinks: true },
+            useQueryAll: {
+                type: 'toggle',
+                label: 'useQueryAll',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "USE_QUERY_ALL",
+                addHelpLinks: true
+            },
+            queryAllTarget: {
+                type: 'toggle',
+                label: 'queryAllTarget',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "QUERY_ALL_TARGET",
+                addHelpLinks: true
+            },
+            skipExistingRecords: {
+                type: 'toggle',
+                label: 'skipExistingRecords',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "SKIP_EXISTING_RECORDS",
+                addHelpLinks: true
+            },
+            useSourceCSVFile: {
+                type: 'toggle',
+                label: 'useSourceCSVFile',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "USE_SOURCE_CSV_FILE",
+                addHelpLinks: true
+            },
             // Row 3
-            skipRecordsComparison: { type: 'toggle', label: 'skipRecordsComparison', required: false, widthOf12: 12, helpSearchWord: "SKIP_RECORDS_COMPARISON", addHelpLinks: true },
+            skipRecordsComparison: {
+                type: 'toggle',
+                label: 'skipRecordsComparison',
+                required: false,
+                widthOf12: 12,
+                helpSearchWord: "SKIP_RECORDS_COMPARISON",
+                addHelpLinks: true
+            },
             // Row 4
-            deleteOldData: { type: 'toggle', label: 'deleteOldData', required: false, widthOf12: 3, helpSearchWord: "DELETE_OLD_DATA", addHelpLinks: true },
-            deleteFromSource: { type: 'toggle', label: 'deleteFromSource', required: false, widthOf12: 3, helpSearchWord: "DELETE_FROM_SOURCE", addHelpLinks: true },
-            deleteByHierarchy: { type: 'toggle', label: 'deleteByHierarchy', required: false, widthOf12: 3, helpSearchWord: "DELETE_BY_HIERARCHY", addHelpLinks: true },
-            hardDelete: { type: 'toggle', label: 'hardDelete', required: false, widthOf12: 3, helpSearchWord: "HARD_DELETE", addHelpLinks: true },
+            deleteOldData: {
+                type: 'toggle',
+                label: 'deleteOldData',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "DELETE_OLD_DATA",
+                addHelpLinks: true
+            },
+            deleteFromSource: {
+                type: 'toggle',
+                label: 'deleteFromSource',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "DELETE_FROM_SOURCE",
+                addHelpLinks: true
+            },
+            deleteByHierarchy: {
+                type: 'toggle',
+                label: 'deleteByHierarchy',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "DELETE_BY_HIERARCHY",
+                addHelpLinks: true
+            },
+            hardDelete: {
+                type: 'toggle',
+                label: 'hardDelete',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "HARD_DELETE",
+                addHelpLinks: true
+            },
             // Row 5
-            useCSVValuesMapping: { type: 'toggle', label: 'useCSVValuesMapping', required: false, widthOf12: 3, helpSearchWord: "USE_CSV_VALUES_MAPPING", addHelpLinks: true },
-            useValuesMapping: { type: 'toggle', label: 'useValuesMapping', required: false, widthOf12: 3, helpSearchWord: "USE_VALUES_MAPPING", addHelpLinks: true },
-            useFieldMapping: { type: 'toggle', label: 'useFieldMapping', required: false, widthOf12: 3, helpSearchWord: "USE_FIELD_MAPPING", addHelpLinks: true },
-            updateWithMockData: { type: 'toggle', label: 'updateWithMockData', required: false, widthOf12: 3, helpSearchWord: "UPDATE_WITH_MOCK_DATA", addHelpLinks: true },
+            useCSVValuesMapping: {
+                type: 'toggle',
+                label: 'useCSVValuesMapping',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "USE_CSV_VALUES_MAPPING",
+                addHelpLinks: true
+            },
+            useValuesMapping: {
+                type: 'toggle',
+                label: 'useValuesMapping',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "USE_VALUES_MAPPING",
+                addHelpLinks: true
+            },
+            useFieldMapping: {
+                type: 'toggle',
+                label: 'useFieldMapping',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "USE_FIELD_MAPPING",
+                addHelpLinks: true
+            },
+            updateWithMockData: {
+                type: 'toggle',
+                label: 'updateWithMockData',
+                required: false,
+                widthOf12: 3,
+                helpSearchWord: "UPDATE_WITH_MOCK_DATA",
+                addHelpLinks: true
+            }
         };
         this.objectSettingsJson = {
             // API_CONFIGURATION
@@ -820,6 +1082,15 @@ class ObjectManagerEditorController {
             // row 5
             this.$app.$translate.translate({ key: 'DATA_TRANSFORMATION' }),
         ];
+    }
+    resetAddOnTab(addOnEvent) {
+        if (addOnEvent) {
+            this.addOnSelectedTabs[addOnEvent] = 'addOnEditJson';
+            return;
+        }
+        Object.keys(this.addOnSelectedTabs).forEach(addOnEvent => {
+            this.addOnSelectedTabs[addOnEvent] = 'addOnEditJson';
+        });
     }
     // Event handlers --------------------------------------------------------
     /**
@@ -865,7 +1136,7 @@ class ObjectManagerEditorController {
      *  Handle the change of target object in the field mapping tab.
      * @param args  The event arguments.
      */
-    async fieldMappingTargetObjectChange(args) {
+    async handleFieldMappingTargetObjectChange(args) {
         const sobject = services_1.DatabaseService.getSObject();
         sobject.fieldMapping = args.args[0].targetObject ? [
             {
@@ -884,7 +1155,7 @@ class ObjectManagerEditorController {
      *  Handle the adding or removing the item from field mapping array.
      * @param args  The event arguments.
      */
-    async fieldMappingChange(args) {
+    async handleFieldMappingChange(args) {
         const sobject = services_1.DatabaseService.getSObject();
         sobject.fieldMapping = args.args[0].length ? [
             {
@@ -903,7 +1174,7 @@ class ObjectManagerEditorController {
      *  Handle the adding or removing the item from mock fields array.
      * @param args  The event arguments.
      */
-    dataAnonymizationChange(args) {
+    handleDataAnonymizationChange(args) {
         const sobject = services_1.DatabaseService.getSObject();
         sobject.mockFields = args.args[0];
         const ws = services_1.DatabaseService.getWorkspace();
@@ -912,6 +1183,86 @@ class ObjectManagerEditorController {
         services_1.LogService.info(`Data anonymization was changed for sobject ${sobject.name}`);
         this.setupDataAnonymizationEditor();
         this.refreshObjectList();
+    }
+    /**
+     *  Switches the tab.
+     * 	Each tabs holds a set of controls to setup some aspect of the object.
+     * @param args The event arguments.
+     */
+    handleTabChange(args) {
+        const tab = args.args[0];
+        const componentId = args.componentId;
+        const addOnEvent = componentId;
+        if (componentId == 'objectAddOnsTabset') {
+            this.resetAddOnTab();
+            utils_1.AngularUtils.$apply(this.$scope);
+            return;
+        }
+        if (tab.tabId == 'addOnVisualEditor') {
+            if (this.isAddOnsChanged) {
+                const result = services_1.DialogService.showPromptDialog({
+                    titleKey: "DIALOG.ADD_ON_VISUAL_EDITOR.TITLE",
+                    messageKey: "DIALOG.ADD_ON_VISUAL_EDITOR.MESSAGE_WHEN_SWITCH_TO_VISUAL_TAB_WITH_UNSAVED_CHANGES",
+                    dialogType: common_1.DialogType.warning
+                });
+                if (!result) {
+                    return true; // Cancel tab switch
+                }
+                else {
+                    this.handleAddOnsSave();
+                }
+            }
+            this.setupAddOnVisualEditor(addOnEvent);
+            utils_1.AngularUtils.$apply(this.$scope);
+            return;
+        }
+        utils_1.AngularUtils.$apply(this.$scope, async () => {
+            switch (tab.tabId) {
+                case 'addOns':
+                    {
+                        this.addOnsSelectedTabId = "objectOnBefore";
+                        this.setupAddOnJsonEditors();
+                        this.setAddOnsTabsetTitles();
+                    }
+                    break;
+                case 'fields':
+                    // NOOP: This tab is default and proceed in the setup method
+                    break;
+                case 'query':
+                    {
+                        this.setupQueryEditor();
+                    }
+                    break;
+                case 'testQuery':
+                    {
+                        this.selectedQueryTestTabIndex = 0;
+                        await this.makeFullQueryAsync(false);
+                        this.refreshObjectList();
+                    }
+                    break;
+                case 'polymorphicFields':
+                    {
+                        this.setupPolymorphicFieldsEditor();
+                    }
+                    break;
+                case 'fieldsMapping':
+                    {
+                        await this.setupFieldsMappingEditorAsync(true);
+                        await this.setupFieldsMappingEditorAsync(false);
+                    }
+                    break;
+                case 'dataAnonymization':
+                    {
+                        this.setupDataAnonymizationEditor();
+                    }
+                    break;
+                case 'objectSettings':
+                    {
+                        this.setupObjectSettingsEditor();
+                    }
+                    break;
+            }
+        });
     }
     /**
      *  Handle the object manager form change event.
@@ -934,156 +1285,113 @@ class ObjectManagerEditorController {
         const propsToUpdate = Object.keys(json);
         services_1.LogService.info(`Object ${sobject.name} properties updated: ${propsToUpdate.take(3).join(', ')}, ...`);
     }
+    // Add-On Visual Editor ----------------------------
     /**
-     *  Switches the tab.
-     * 	Each tabs holds a set of controls to setup some aspect of the object.
-     * @param args The event arguments.
+     *  Handle the add-ons visual editor delete event.
      */
-    handleTabChange(args) {
-        if (['objectEditorTabs', 'objectFieldsTabset'].includes(args.componentId)) {
-            const sObject = services_1.DatabaseService.getSObject();
-            utils_1.AngularUtils.$apply(this.$scope, async () => {
-                const tab = args.args[0];
-                switch (tab.tabId) {
-                    case 'fields':
-                        // NOOP: This tab is default and proceed in the setup method
-                        break;
-                    case 'query':
-                        {
-                            this.queryTabsFormSetup = {
-                                externalId: {
-                                    type: 'autocomplete',
-                                    label: 'External Id Field',
-                                    options: this.getAllSObjectFieldDescriptions().filter(x => x.canBeExternalId).map(x => { return { value: x.name, label: x.name }; }).sortBy('label'),
-                                    allowUnlistedInput: true,
-                                    widthOf12: 7,
-                                    helpSearchWord: "EXTERNAL_ID",
-                                    addHelpLinks: true
-                                },
-                                operation: {
-                                    type: 'select',
-                                    label: 'Operation',
-                                    options: [{ value: 'Insert', label: 'Insert' },
-                                        { value: 'Update', label: 'Update' },
-                                        { value: 'Upsert', label: 'Upsert' },
-                                        { value: 'Delete', label: 'Delete' },
-                                        { value: 'DeleteSource', label: 'DeleteSource' },
-                                        { value: 'DeleteHierarchy', label: 'DeleteHierarchy' },
-                                        { value: 'HardDelete', label: 'HardDelete' },
-                                        { value: 'Readonly', label: 'Readonly' }],
-                                    widthOf12: 3,
-                                    helpSearchWord: "OPERATION",
-                                    addHelpLinks: true
-                                },
-                                master: { type: 'toggle', label: 'Master', widthOf12: 2, helpSearchWord: "MASTER", addHelpLinks: true },
-                                where: { type: 'textarea', label: 'Query WHERE clause', widthOf12: 12, helpSearchWord: "WHERE", addHelpLinks: true },
-                                orderBy: { type: 'input', label: 'Query ORDER BY clause', widthOf12: 4, helpSearchWord: "ORDER_BY", addHelpLinks: true },
-                                limit: { type: 'number', label: 'Query LIMIT clause', widthOf12: 4, min: 0, helpSearchWord: "LIMIT", addHelpLinks: true },
-                                offset: { type: 'number', label: 'Query OFFSET clause', widthOf12: 4, min: 0, helpSearchWord: "OFFSET", addHelpLinks: true },
-                                deleteQueryWhere: { type: 'textarea', label: 'Delete query WHERE clause', widthOf12: 6, helpSearchWord: "DELETE_QUERY", addHelpLinks: true },
-                                targetRecordsFilter: { type: 'textarea', label: 'Target records filter', widthOf12: 6, helpSearchWord: "TARGET_RECORDS_FILTER", addHelpLinks: true }
-                            };
-                            const json = {
-                                externalId: sObject.externalId,
-                                master: sObject.master || false,
-                                operation: sObject.operation || 'Insert',
-                                where: sObject.where || '',
-                                orderBy: sObject.orderBy || '',
-                                limit: sObject.limit || 0,
-                                offset: sObject.offset || 0,
-                                deleteQueryWhere: sObject.deleteQueryWhere || '',
-                                targetRecordsFilter: sObject.targetRecordsFilter || ''
-                            };
-                            const $ctrl = utils_1.AngularUtils.$getController('#objectQueryTabForm');
-                            if ($ctrl) {
-                                $ctrl.setJson(json);
-                            }
-                        }
-                        break;
-                    case 'testQuery':
-                        {
-                            this.selectedQueryTestTabIndex = 0;
-                            await this.makeFullQueryAsync(false);
-                            this.refreshObjectList();
-                        }
-                        break;
-                    case 'polymorphicFields':
-                        {
-                            this.setupPolymorphicFieldsEditor();
-                        }
-                        break;
-                    case 'fieldsMapping':
-                        {
-                            utils_1.AngularUtils.$apply(this.$scope, async () => {
-                                await this.setupFieldsMappingEditorAsync(true);
-                                await this.setupFieldsMappingEditorAsync(false);
-                            });
-                        }
-                        break;
-                    case 'dataAnonymization':
-                        {
-                            utils_1.AngularUtils.$apply(this.$scope, async () => {
-                                this.setupDataAnonymizationEditor();
-                            });
-                        }
-                        break;
-                    case 'objectSettings':
-                        {
-                            utils_1.AngularUtils.$apply(this.$scope, async () => {
-                                this.setupObjectSettingsEditor();
-                            });
-                        }
-                        break;
-                    case 'addOns':
-                        {
-                            utils_1.AngularUtils.$apply(this.$scope, async () => {
-                                this.objectAddOnsSelectedTabId = "objectOnBefore";
-                                this.setupAddOnEditors();
-                            });
-                            this.setAddOnsTabsetTitles();
-                        }
-                        break;
-                }
-            });
-        }
+    handleAddOnsEditorDelete() {
+        const allowDelete = services_1.DialogService.showPromptDialog({
+            titleKey: "DIALOG.ADD_ON_VISUAL_EDITOR.TITLE",
+            messageKey: "DIALOG.ADD_ON_VISUAL_EDITOR.MESSAGE_WHEN_DELETE",
+            dialogType: common_1.DialogType.warning
+        });
+        return !allowDelete;
     }
+    /**
+     *  Handle the add-ons visual editor change event.
+     * @param args  The event arguments.
+     */
+    handleAddOnsEditorChange(args) {
+        const addOnEvent = args.componentId.replace('objectAddOnsForm-', '');
+        this.addOnFormData[addOnEvent] = JSON.stringify(args.args[0], null, 2);
+        const sObject = services_1.DatabaseService.getSObject();
+        services_1.LogService.info(`Action '${args.action}' performed for Add-On configuration of the '${addOnEvent}' event for sObject '${sObject.name}'.`);
+        this.handleAddOnsSave(undefined, false);
+    }
+    /**
+     * Handle the add-ons visual editor new object change event.
+     * @param args  The event arguments.
+     */
+    handleAddOnsEditorAdd(args) {
+        const module = args.args[0].module;
+        Object.assign(args.args[0], configurations_1.addOnsDefaultFormConfig[module]);
+    }
+    /**
+     *  Handle the add-ons visual editor edit event.
+     * @param args  The event arguments.
+     */
+    async handleAddOnsEditorShow(args) {
+        var _a, _b;
+        const addOnEvent = args.componentId.replace('objectAddOnsForm-', '');
+        const module = args.args[0].module;
+        let moduleConfig = module;
+        // Exceptional modules
+        switch (module) {
+            case "core:RecordsFilter":
+                moduleConfig = ((_b = (_a = args.args[0]) === null || _a === void 0 ? void 0 : _a.args) === null || _b === void 0 ? void 0 : _b.filterType) || module;
+                break;
+        }
+        const json = args.args[0];
+        const jsonSchema = utils_1.CommonUtils.deepClone(configurations_1.addOnsJsonSchemaConfig[moduleConfig]);
+        jsonSchema.title = `${module}${moduleConfig == module ? '' : ` (${moduleConfig})`} ${jsonSchema.title}`.trim();
+        const sObject = services_1.DatabaseService.getSObject();
+        services_1.LogService.info(`The Visual Add-On Editor was activated for sObject '${sObject.name}', event '${addOnEvent}', and module '${module}'.`);
+        const result = await this.$jsonEditModal.editJsonAsync(json, jsonSchema, null, this.$app.$translate.translate({
+            key: 'FIX_ERRORS_BEFORE_SAVING_CONFIGURATION'
+        }));
+        return {
+            data: result.data,
+            result: result.result
+        };
+    }
+    // --- ----------------------------
+    /**
+     *  Handle the add-ons form change event.
+     */
     handleAddOnsChange() {
         utils_1.AngularUtils.$apply(this.$scope, () => {
             this.isAddOnsChanged = true;
         });
     }
-    handleSaveAddOns() {
+    /**
+     *  Handle the save add-ons button click.
+     * @param args  The event arguments.
+     */
+    handleAddOnsSave(args, showToastSuccess = true) {
         const sObject = services_1.DatabaseService.getSObject();
         const config = services_1.DatabaseService.getConfig();
         const ws = services_1.DatabaseService.getWorkspace();
         let isIncorrectJson = false;
         utils_1.AngularUtils.$apply(this.$scope, () => {
-            Object.keys(this.scriptObjectAddOnFormData).forEach(key => {
+            Object.keys(this.addOnFormData).forEach(key => {
                 try {
-                    sObject[key] = this.scriptObjectAddOnFormData[key] ? JSON.parse(this.scriptObjectAddOnFormData[key]) : [];
+                    sObject[key] = this.addOnFormData[key] ? JSON.parse(this.addOnFormData[key]) : [];
                 }
                 catch (_a) {
                     isIncorrectJson = true;
                 }
-                this.scriptObjectAddOnFormData[key] = JSON.stringify(sObject[key] || [], null, 2);
+                this.addOnFormData[key] = JSON.stringify(sObject[key] || [], null, 2);
             });
             this.isAddOnsChanged = false;
         });
         this.setAddOnsTabsetTitles();
         services_1.DatabaseService.updateConfig(ws.id, config);
-        if (!isIncorrectJson) {
+        if (!isIncorrectJson && showToastSuccess) {
             services_1.ToastService.showSuccess();
             services_1.LogService.info(`Add-ons for sobject ${sObject.name} updated.`);
         }
-        else {
-            services_1.ToastService.showWarn(this.$app.$translate.translate({ key: 'SAVED_INCORRECT_JSON' }));
+        else if (isIncorrectJson) {
+            services_1.ToastService.showWarn(this.$app.$translate.translate({ key: 'SAVED_INCORRECT_ADDON_JSON' }));
             services_1.LogService.warn(`Some Add-ons for sobject ${sObject.name} were not saved due to incorrect JSON.`);
         }
     }
-    handleRestoreAddOns() {
+    /**
+     *  Handle the restore add-ons button click.
+     */
+    handleAddOnsRestore() {
         const sObject = services_1.DatabaseService.getSObject();
         utils_1.AngularUtils.$apply(this.$scope, () => {
-            this.setupAddOnEditors();
+            this.setupAddOnJsonEditors();
             services_1.ToastService.showSuccess();
             services_1.LogService.info(`Add-ons for sobject ${sObject.name} restored.`);
         });
@@ -1134,7 +1442,15 @@ class ObjectManagerEditorController {
     handlePolymorphicFieldsNewObjectChange(args) {
         this.setupPolymorphicFieldsEditor(args.args[0]);
     }
+    // ------------------------------------------------------------------------
     // Private methods --------------------------------------------------------
+    // ------------------------------------------------------------------------
+    /**
+     *  Makes a full query string.
+     * @param sObject  The sobject.
+     * @param query  The query.
+     * @returns
+     */
     buildTargetQueryString(sObject, query) {
         if (!this.queryTestUseSourceConnection && sObject.hasFieldMapping) {
             for (const item of sObject.fieldMapping) {
@@ -1150,6 +1466,6 @@ class ObjectManagerEditorController {
     }
 }
 exports.ObjectManagerEditorController = ObjectManagerEditorController;
-ObjectManagerEditorController.$inject = ['$app', '$scope'];
+ObjectManagerEditorController.$inject = ['$app', '$scope', `$jsonEditModal`];
 ObjectManagerEditorController.wizardStep = common_1.WizardStepByView[common_1.View.configuration];
 //# sourceMappingURL=objectManagerEditor.controller.js.map

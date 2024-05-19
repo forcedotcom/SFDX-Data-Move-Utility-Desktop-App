@@ -154,7 +154,7 @@ function createMainWindow() {
 
       // Open the DevTools in debug mode
       if (global.appGlobal.isDebug) {
-        mainWindow.webContents.openDevTools();
+        //mainWindow.webContents.openDevTools();
       } else {
         // Remove the menu in production mode
         mainWindow.removeMenu();

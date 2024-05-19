@@ -24,7 +24,6 @@
   <div ng-app="appRoot" ng-controller="IndexController as $ctrl" ng-cloak>
 
     <app-component>
-
       <!-- Header -->
       <header-pane>
         <ui-menu id="mainMenu" add-toggler="true" navbar-class="navbar-dark bg-primary h-100"
@@ -59,11 +58,13 @@
 
       <!-- Left Sidebar -->
       <left-sidebar-pane>
-        <wizard-step id="mainWizard" current-step="1"></wizard-step>
+        <ui-wizard-step id="mainWizard" current-step="1"></ui-wizard-step>
       </left-sidebar-pane>
 
       <!-- Body -->
       <body-pane>
+        <!--JSONEditModal directive -->
+        <ui-json-editor-modal></ui-json-editor-modal>
         <ui-view></ui-view>
       </body-pane>
 

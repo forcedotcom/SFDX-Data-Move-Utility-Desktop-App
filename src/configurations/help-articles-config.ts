@@ -1,22 +1,28 @@
 export const HelpArticlesConfig = {
-	"COMMAND_LINE_DETAILED_SETTINGS": "/running#available-cli-command-flags",
-	"DATA_ANONYMIZATION": "/full-documentation/advanced-features/data-anonymization",
+
+	"OBJECT_SET": "/full-documentation/export-json-file-objects-specification/script-object-set-object",
+	"COMMAND_LINE_DETAILED_SETTINGS": "/running#available-cli-command-flags",	
+
 	"DELETE_QUERY": "/full-documentation/export-json-file-objects-specification/script-object-object#deletequery-string",
 	"WHERE": "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_conditionexpression.htm",
 	"ORDER_BY": "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_orderby.htm",
 	"LIMIT": "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_limit.htm",
 	"OFFSET": "https://developer.salesforce.com/docs/atlas.en-us.soql_sosl.meta/soql_sosl/sforce_api_calls_soql_select_offset.htm",
+
+	"MASTER": "/full-documentation/export-json-file-objects-specification/script-object-object#master-boolean",
+	"OPERATION": "/full-documentation/export-json-file-objects-specification/script-object-object#operation-string",
+	"EXTERNAL_ID": "/full-documentation/export-json-file-objects-specification/script-object-object#externalid-string",		
+	
+	"OBJECT_FIELDS": "/full-documentation/export-json-file-objects-specification/script-object-object#query-string",
 	"EXCLUDED_FIELDS": "/full-documentation/export-json-file-objects-specification/script-object-object#excludedfields-array-of-string",
 	"EXCLUDED_FROM_UPDATE_FIELDS": "/full-documentation/export-json-file-objects-specification/script-object-object#excludedfromupdatefields-array-of-string",
-	"FIELDS_MAPPING": "/full-documentation/advanced-features/fields-mapping",
-	"MASTER": "/full-documentation/export-json-file-objects-specification/script-object-object#master-boolean",
-	"EXTERNAL_ID": "/full-documentation/export-json-file-objects-specification/script-object-object#externalid-string",
-	"OBJECT_FIELDS": "/full-documentation/export-json-file-objects-specification/script-object-object#query-string",
-	"OBJECT_SET": "/full-documentation/export-json-file-objects-specification/script-object-set-object",
-	"OBJECT_SETTINGS": "/full-documentation/export-json-file-objects-specification/script-object-object",
-	"OPERATION": "/full-documentation/export-json-file-objects-specification/script-object-object#operation-string",
 	"POLYMORPHIC_FIELDS": "/full-documentation/advanced-features/polymorphic-lookup-fields",
+	
 	"QUERIES_AND_FILTERS": "/full-documentation/export-json-file-objects-specification/script-object-object#query-string",
+	"DATA_ANONYMIZATION": "/full-documentation/advanced-features/data-anonymization",	
+	"OBJECT_SETTINGS": "/full-documentation/export-json-file-objects-specification/script-object-object",	
+	"FIELDS_MAPPING": "/full-documentation/advanced-features/fields-mapping",
+	
 	"SCRIPT_SETTINGS": "/full-documentation/export-json-file-objects-specification/script-org-object",
 	"TARGET_RECORDS_FILTER": "/full-documentation/export-json-file-objects-specification/script-object-object#targetrecordsfilter-string",
 	"INTRODUCTION_TO_SFDMU_API_ENGINE": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine",
@@ -100,45 +106,63 @@ export const HelpArticlesConfig = {
 	"ON_BEFORE_EVENT": "/full-documentation/add-on-api/supported-events#onbefore",
 	"ON_AFTER_EVENT": "/full-documentation/add-on-api/supported-events#onafter",
 	"ON_DATA_RETRIEVED_EVENT": "/full-documentation/add-on-api/supported-events#ondataretrieved",
-	
+
 	"OBJECT_ON_BEFORE_EVENT": "/full-documentation/add-on-api/supported-events#objectonbefore",
 	"OBJECT_ON_AFTER_EVENT": "/full-documentation/add-on-api/supported-events#objectonafter",
 	"OBJECT_ON_FILTER_RECORDS_EVENT": "/full-documentation/add-on-api/supported-events#objectonfilterrecords",
 	"OBJECT_ON_BEFORE_UPDATE_EVENT": "/full-documentation/add-on-api/supported-events#objectonbeforeupdate",
 	"OBJECT_ON_AFTER_UPDATE_EVENT": "/full-documentation/add-on-api/supported-events#objectonafterupdate",
 
+	"ADD_ONS_HELP_ARTICLES": {
+
+		"core:ExportFiles": {
+			"MAIN_ARTICLE": "/full-documentation/add-on-api/export-file-core-add-on-module",
+			"args": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#args-object",
+			"deleteOldData": "/full-documentation/add-on-api/export-file-core-add-on-module#deleteolddata-boolean",
+			"description": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#description-string",
+			"externalId": "/full-documentation/add-on-api/export-file-core-add-on-module#externalid-string",
+			"maxChunkSize": "/full-documentation/add-on-api/export-file-core-add-on-module#maxchunksize-number",
+			"maxFileSize": "/full-documentation/add-on-api/export-file-core-add-on-module#maxfilesize-number",
+			"module": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#module-string",
+			"operation": "/full-documentation/add-on-api/export-file-core-add-on-module#operation-string",
+			"sourceWhere": "/full-documentation/add-on-api/export-file-core-add-on-module#sourcewhere-string",
+			"targetWhere": "/full-documentation/add-on-api/export-file-core-add-on-module#targetwhere-string"
+		},
+
+		"core:RecordsTransform": {
+			"MAIN_ARTICLE": "/full-documentation/add-on-api/records-transform-core-add-on-module",
+			"alias": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldalias-string",
+			"args": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#args-object",
+			"description": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#description-string",
+			"expressions": "/full-documentation/add-on-api/records-transform-core-add-on-module#transformationexpressions-array-of-strings",
+			"fields": "/full-documentation/add-on-api/records-transform-core-add-on-module#fields-array-of-field-objects",
+			"formula": "/full-documentation/add-on-api/records-transform-core-add-on-module#transformationformula-string",
+			"includeFields": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldincludefields-array-of-strings",
+			"isConstant": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldisconstant-boolean",
+			"lookupExpression": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldlookupexpression-string",
+			"lookupSource": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldlookupsource-string",
+			"module": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#module-string",
+			"sourceField": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldsourcefield-string",
+			"sourceObject": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldsourceobject-string",
+			"targetField": "/full-documentation/add-on-api/records-transform-core-add-on-module#transformationtargetfield-string",
+			"targetObject": "/full-documentation/add-on-api/records-transform-core-add-on-module#transformationtargetobject-string",
+			"transformations": "/full-documentation/add-on-api/records-transform-core-add-on-module#transformations-array-of-transformation-objects"
+		},
+
+		"BadWords": {
+			"MAIN_ARTICLE": "/full-documentation/add-on-api/records-filter-bad-words-filter",
+			"args": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#args-object",
+			"badwordsFile": "/full-documentation/add-on-api/records-filter-bad-words-filter#badwordsfile-string",
+			"description": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#description-string",
+			"detectFields": "/full-documentation/add-on-api/records-filter-bad-words-filter#detectfields-string",
+			"filterType": "/full-documentation/add-on-api/records-filter-core-add-on-module#filtertype-string",
+			"highlightWords": "/full-documentation/add-on-api/records-filter-bad-words-filter#highlightwords-boolean",
+			"module": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#module-string",
+			"outputMatches": "/full-documentation/add-on-api/records-filter-bad-words-filter#outputmatches-boolean"
+		},
 
 
 
-
-
-
-
-
-	
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
+	}
 
 }

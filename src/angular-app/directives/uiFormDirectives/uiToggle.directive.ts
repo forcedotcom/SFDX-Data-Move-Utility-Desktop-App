@@ -1,5 +1,5 @@
 import angular from 'angular';
-import { AngularUtils } from '../../../utils';
+import { CommonUtils } from '../../../utils';
 
 interface IUiToggleScope extends angular.IScope {
     ngModel: boolean;
@@ -23,8 +23,9 @@ export class UiToggle implements angular.IDirective {
         label: '@'
     };
 
-    link = ($scope: IUiToggleScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes) => {
-        $scope.inputId = 'input_' + AngularUtils.setElementId($scope, $attrs);
+    link = ($scope: IUiToggleScope) => {
+        $scope.id ||= CommonUtils.randomString();
+        $scope.inputId = 'input_' + $scope.id;
         $scope.checkValue = function () {
             if ($scope.ngModel === undefined) {
                 $scope.ngModel = false;

@@ -13,6 +13,6 @@ export * from './network-status-service';
 export * from './poll-service';
 export * from './sfdmu-service';
 export * from './theme-service';
-export {default as ToastService} from './toast-service';
+export * from './toast-service';
 export * from './translation-service';
 export * from './window-service';

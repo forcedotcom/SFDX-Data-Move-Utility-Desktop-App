@@ -64,5 +64,5 @@ export interface IBroadcastService {
  * Service for broadcasting events to subscribed listeners.
  */
 export class AngularBroadcastService extends BroadcastService implements IBroadcastService {
-    
+
 }

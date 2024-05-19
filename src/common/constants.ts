@@ -123,7 +123,7 @@ export const CONSTANTS = {
 
         /**
          * The default concurrency mode for bulk API.
-         */ 
+         */
         DEFAULT_BULK_API_CONCURRENCY_MODE: 'Parallel',
 
         /**
@@ -194,11 +194,11 @@ export const CONSTANTS = {
         /** 
          *  Option displayed in the data source selection for CSV file connections.         
         */
-        CSV_FILE_OPTION_NAME: 'CSV_FILE',        
+        CSV_FILE_OPTION_NAME: 'CSV_FILE',
 
         /**
          * Default CSV file delimiter.
-         */ 
+         */
         DEFAULT_CSV_FILE_DELIMITER: ',',
 
         /*
@@ -206,7 +206,7 @@ export const CONSTANTS = {
             Used to poll for Bulk Query API results.
          */
         DEFAULT_POLLING_QUERY_TIMEOUT_MS: 4 * 60 * 1000,
-        
+
 
         /**
          * Fields to ignore for polymorphic relationships.

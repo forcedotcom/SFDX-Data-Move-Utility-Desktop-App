@@ -18,8 +18,9 @@ class UiToggle {
             disabled: '=',
             label: '@'
         };
-        this.link = ($scope, $element, $attrs) => {
-            $scope.inputId = 'input_' + utils_1.AngularUtils.setElementId($scope, $attrs);
+        this.link = ($scope) => {
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
+            $scope.inputId = 'input_' + $scope.id;
             $scope.checkValue = function () {
                 if ($scope.ngModel === undefined) {
                     $scope.ngModel = false;

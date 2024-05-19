@@ -28,6 +28,7 @@ const fs = __importStar(require("fs"));
 const common_1 = require("../common");
 const services_1 = require("../services");
 const utils_1 = require("../utils");
+const configurations_1 = require("../configurations");
 /**  Translation service for translating text. */
 class TranslationService {
     /**
@@ -70,6 +71,12 @@ class TranslationService {
         services_1.LocalStateService.setLocalState(common_1.CONSTANTS.LOCAL_STATE_KEYS.ActiveLanguage, lang);
         services_1.BroadcastService.broadcastAction('setLanguage', '$translate', {
             args: [lang]
+        });
+        // Translate Json Editor
+        TranslationService._translateJsonEditor(lang);
+        // Translate Json Schema Descriptions
+        Object.keys(configurations_1.addOnsJsonSchemaConfig).forEach(schema => {
+            TranslationService._translateJsonSchemaDescriptions('ADD_ON_MODULE_EDITOR_CONFIG', schema, configurations_1.addOnsJsonSchemaConfig[schema], lang);
         });
         services_1.LogService.info(`Active language set to ${lang}`);
     }
@@ -144,6 +151,52 @@ class TranslationService {
         document.querySelector('html').setAttribute('lang', language);
         document.querySelector('html').setAttribute('dir', TranslationService.activeLanguageRtl ? 'rtl' : 'ltr');
         document.querySelector('link[data-app]').setAttribute('href', TranslationService.activeLanguageRtl ? './css/app.rtl.css' : './css/app.css');
+    }
+    /* #endregion */
+    /* #region Private Methods */
+    /**
+     * Translates JSON schema titles and descriptions based on the specified language.
+     * @param rootTranslationKey The root key for the translation entries.
+     * @param jsonSchemaKey The specific key for the JSON schema being translated.
+     * @param jsonSchema The JSON schema object to be translated.
+     * @param lang The language code to use for translations.
+     */
+    static _translateJsonSchemaDescriptions(rootTranslationPrefix, jsonSchemaKey, jsonSchema, lang) {
+        jsonSchema.title = TranslationService.translate({ key: `${rootTranslationPrefix}.title` });
+        jsonSchema.description = TranslationService.translate({ key: `${rootTranslationPrefix}.description` });
+        TranslationService._translateJsonSchemaRecursive(rootTranslationPrefix, jsonSchemaKey, jsonSchema, lang);
+    }
+    /**
+     * Recursively translates descriptions of JSON schema properties.
+     * @param rootTranslationKey The base translation key for accessing translations.
+     * @param jsonSchemaKey The key corresponding to the current level of the JSON schema.
+     * @param jsonSchema The JSON schema object or property to be translated.
+     * @param lang The language to use for translation.
+     */
+    static _translateJsonSchemaRecursive(rootTranslationKey, jsonSchemaKey, jsonSchema, lang) {
+        Object.keys(jsonSchema.properties || {}).forEach((key) => {
+            const property = jsonSchema.properties[key];
+            const finalKey = `${rootTranslationKey}.${jsonSchemaKey}.${key}`;
+            const translation = TranslationService.translate({ key: finalKey, lang });
+            property.description = finalKey == translation ? "" : translation;
+            if (property.properties) {
+                this._translateJsonSchemaRecursive(rootTranslationKey, jsonSchemaKey, property, lang);
+            }
+            else if (property.items) {
+                this._translateJsonSchemaRecursive(rootTranslationKey, jsonSchemaKey, property.items, lang);
+            }
+        });
+    }
+    /**
+     * Configures the JSON Editor's language settings based on the specified language.
+     * @param lang The language code to apply to the JSON Editor.
+     */
+    static _translateJsonEditor(lang) {
+        if (window) {
+            window.JSONEditor.defaults.languages[lang] = window.JSONEditor.defaults.languages[lang]
+                || TranslationService.translate({ key: 'JSON_EDITOR_TRANSLATION', lang });
+            window.JSONEditor.defaults.language = lang;
+        }
     }
 }
 exports.TranslationService = TranslationService;

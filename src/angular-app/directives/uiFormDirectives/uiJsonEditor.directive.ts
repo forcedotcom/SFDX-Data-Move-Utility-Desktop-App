@@ -3,8 +3,7 @@ import bootstrap from 'bootstrap';
 
 import { ActionEvent, FaIcon, SetupFormOptions } from '../../../common';
 import { IFormController, ISetupFormOption } from '../../../models';
-import { SfdmuService } from '../../../services';
-import { AngularUtils, CommonUtils } from '../../../utils';
+import { CommonUtils } from '../../../utils';
 import { IBroadcastService, ITranslationService } from '../../services';
 
 
@@ -185,11 +184,6 @@ export class UiJsonEditorController implements angular.IController, IFormControl
             callback(this, tooltip);
         });
     }
-
-    navigateToHelpArticle(searchTerm: string) {
-       SfdmuService.navigateToHelpArticle(searchTerm);
-    }
-
 }
 
 export class UiJsonEditor implements angular.IDirective {
@@ -198,10 +192,14 @@ export class UiJsonEditor implements angular.IDirective {
     controllerAs = '$ctrl';
     bindToController = true;
     scope = {
+        id: '@',
         setup: '<',
         json: '<',
         onChange: '&',
         formClass: '@',
+        firstFormClass: '@',
+        itemFormClass: '@',
+        rowTitleClass: '@',
         disabled: '=',
         hideLabels: '=',
         inputsInRow: '<',
@@ -210,9 +208,10 @@ export class UiJsonEditor implements angular.IDirective {
     };
 
     template = `
-    <div ng-repeat="row in $ctrl.groupedSetupCopy" class="row {{ $ctrl.formClass }}">
-        <div class="col-md-12" ng-if="$ctrl.rowTitles && $ctrl.rowTitles[$index]">
-            <label class="text-info fw-bold mb-0 mt-2">
+    <div ng-repeat="row in $ctrl.groupedSetupCopy" class="row {{ $ctrl.formClass }}"
+                    ng-class="{ [$ctrl.firstFormClass] : $index == 0 }">
+        <div class="col-md-12 ps-0" ng-if="$ctrl.rowTitles && $ctrl.rowTitles[$index]">
+            <label ng-if="!!$ctrl.rowTitles[$index]" class="text-info ms-0 fw-bold mb-0 {{ $ctrl.rowTitleClass  }}">
                 {{ $ctrl.rowTitles[$index] }}
             </label>
             <hr class="m-0 p-0 mb-1"/>
@@ -222,8 +221,10 @@ export class UiJsonEditor implements angular.IDirective {
             ng-class="{ 
                 'col-md-12': $ctrl.setupCopy[key].singleElementInRow, 
                 ['col-md-' + $ctrl.setupCopy[key].widthOf12]: $ctrl.setupCopy[key].widthOf12,
-                ['_ col-md-' + (12 / $ctrl.inputsInRow)]: !$ctrl.setupCopy[key].singleElementInRow && !$ctrl.setupCopy[key].widthOf12,               
-                [ $ctrl.setupCopy[key].formClass]: true
+                ['col-md-' + (12 / $ctrl.inputsInRow)]: !$ctrl.setupCopy[key].singleElementInRow && !$ctrl.setupCopy[key].widthOf12,               
+                [ $ctrl.setupCopy[key].formClass]: true,
+                [ $ctrl.itemFormClass]: true,
+                'form-group': true
             }">
                 <!-- Label -->
                 <ui-label ng-if="!$ctrl.hideLabels && $ctrl.setupCopy[key].type !== 'button' && $ctrl.setupCopy[key].type !== 'divider'"
@@ -292,7 +293,7 @@ export class UiJsonEditor implements angular.IDirective {
                 <ui-divider ng-if="$ctrl.setupCopy[key].type === 'divider'"></ui-divider>
 
                 <!-- Validation -->
-                <div ng-if="$ctrl.setupCopy[key].validationStatus === false" class="text-danger">
+                <div ng-if="$ctrl.setupCopy[key].validationStatus === false" class="text-danger form-control-error">
                     {{ 'THIS_FIELD_IS_REQUIRED' | translate }}
                 </div>
 
@@ -301,14 +302,7 @@ export class UiJsonEditor implements angular.IDirective {
     `;
 
     link = ($scope: IUiJsonEditorScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes, $ctrl: UiJsonEditorController) => {
-
-        $ctrl.id = AngularUtils.setElementId($scope, $attrs);
-        $attrs.$observe('id', (value: string) => {
-            if (value != $attrs.id) {
-                $ctrl.id = AngularUtils.setElementId($scope, $attrs);
-            }
-        });
-
+        $scope.id ||= CommonUtils.randomString();
         $scope.$watch(() => $ctrl.jsonCopy, () => $ctrl.handleJsonChange(), true);
         $scope.$watch(() => $ctrl.json, () => $ctrl.updateJsonCopy(), true);
         $scope.$watch(() => $ctrl.setup, () => $ctrl.updateSetupCopy(), true);

@@ -1,7 +1,7 @@
 /* eslint-disable no-var */
 
 import { ClassType, Replacement } from ".";
-import { AppGlobalData, IGroupedObject } from "../models";
+import { AppGlobalData, IGroupedObject, JSONEditor } from "../models";
 
 
 /**
@@ -22,6 +22,8 @@ declare global {
     jQuery: JQuery;
     /** bootstrap object. */
     bootstrap: any;
+    /** JSON Editor class */
+    JSONEditor: typeof JSONEditor;
   }
 
 

@@ -1,8 +1,9 @@
-
-<ui-label class="d-block ms-3 text-size-2" label="{{ 'TABS.QUERIES_AND_FILTERS' | translate }}" help-search-word="QUERIES_AND_FILTERS"
-	add-help-links="true">
+<ui-label class="d-block text-size-2" label="{{ 'TABS.QUERIES_AND_FILTERS' | translate }}"
+    help-search-word="QUERIES_AND_FILTERS" add-help-links="true">
 </ui-label>
 
-<ui-json-editor  form-class="ms-2 align-items-end mt-5" id="objectQueryTabForm" setup="$ctrl.queryTabsFormSetup"
-    on-change="$ctrl.handleObjectManagerFormChange(args)">
-</ui-json-editor>
+<div class="p-2 card">
+    <ui-json-editor form-class="align-items-end mt-2" id="objectQueryTabForm" setup="$ctrl.queryTabsFormSetup"
+        on-change="$ctrl.handleObjectManagerFormChange(args)">
+    </ui-json-editor>
+</div>

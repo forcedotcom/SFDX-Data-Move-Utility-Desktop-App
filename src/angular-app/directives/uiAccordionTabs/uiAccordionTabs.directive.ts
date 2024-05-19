@@ -1,6 +1,6 @@
 import angular from 'angular';
 import { ITabItem } from '../../../models';
-import { AngularUtils, CommonUtils } from '../../../utils';
+import { CommonUtils } from '../../../utils';
 
 type UiAccordionTabsController = angular.IController & {
     addItem: (item: ITabItem) => void;
@@ -17,6 +17,7 @@ export function uiAccordionTabs(): angular.IDirective {
         restrict: 'E',
         transclude: true,
         scope: {
+            id: '@',
             selectedItem: '=',
             allowMultipleOpenTabs: '='
         },
@@ -25,10 +26,10 @@ export function uiAccordionTabs(): angular.IDirective {
                 <!-- Accordion tabs placeholder -->
             </div>
         `,
-        controller: function ($scope: IAccordionTabsScope, $attrs: angular.IAttributes) {
+        controller: function ($scope: IAccordionTabsScope) {
 
             $scope.items = [];
-            AngularUtils.setElementId($scope, $attrs);
+            $scope.id ||= CommonUtils.randomString();
 
             this.addItem = function (item: ITabItem) {
                 $scope.items.push(item);
@@ -49,7 +50,7 @@ export function uiAccordionTabs(): angular.IDirective {
                 item.active = $scope.allowMultipleOpenTabs ? !item.active : true;
                 if ($scope.selectedItem != undefined) {
                     $scope.selectedItem = $scope.items.indexOf(item);
-                }  
+                }
                 _supressSelectEvent = supressNextEvent;
             };
 

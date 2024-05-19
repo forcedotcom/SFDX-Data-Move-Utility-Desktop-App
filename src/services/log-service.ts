@@ -11,7 +11,7 @@ import { DialogService } from './dialog-service';
 /** LogService class for logging messages to the console and log file. */
 export class LogService {
 
-  
+
     /**
      * Creates a Winston logger instance with daily rotation file transport.
      * @returns The created Winston logger instance.
@@ -101,7 +101,7 @@ export class LogService {
         return caller;
     }
 
-    
+
 
     /* #region Private */
 
@@ -122,13 +122,13 @@ export class LogService {
      * @returns The formatted log message.
      */
     private static _formatMessage(caller: CallerInfo, message: string, messageType = MessageType.info): string {
-        
+
         if (message && !message.endsWith('.') && !message.startsWith('#')) {
             message += '.';
         }
-        
+
         let formattedFileMessage = '';
-        
+
         if (message && message.startsWith('#')) {
             formattedFileMessage = CONSTANTS.LOGGER.UnformattedFileLogMessagePattern(caller.functionName, caller.lineNumber, message);
         } else {
@@ -136,7 +136,7 @@ export class LogService {
         }
 
         const formattedConsoleMessage = CONSTANTS.LOGGER.ConsoleLogMessagePattern(formattedFileMessage, messageType);
-                
+
         switch (messageType) {
             default:
                 console.log(formattedConsoleMessage);
@@ -149,7 +149,7 @@ export class LogService {
                 break;
 
         }
-        
+
         return formattedFileMessage;
     }
 

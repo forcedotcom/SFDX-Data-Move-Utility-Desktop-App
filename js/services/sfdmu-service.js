@@ -680,24 +680,26 @@ class SfdmuService {
         return command;
     }
     /**
-     * Navigates to the specified help article.
-     * @param searchTerm The search term.
+     * Navigates to a specific help article based on a search term.
+     * The function looks up the search term in a predefined configuration object and directs the user accordingly.
+     *
+     * @param {string} searchTerm The search term used to find the corresponding help article URL.
      */
     static navigateToHelpArticle(searchTerm) {
         const encodeUri = (uri) => {
             return encodeURIComponent(uri).replace(/%23/g, '#').replace(/%2F/g, '/');
         };
-        const configArticle = Object.keys(configurations_1.HelpArticlesConfig).find(x => x.split(',').includes(searchTerm));
-        searchTerm = configArticle && configurations_1.HelpArticlesConfig[configArticle] || searchTerm;
-        if (searchTerm.startsWith('http')) {
-            utils_1.FsUtils.navigateToPathOrUrl(searchTerm);
+        const url = utils_1.CommonUtils.findValueDeep(configurations_1.HelpArticlesConfig, (_path, key) => key.split(',').includes(searchTerm)
+            || _path == searchTerm) || searchTerm;
+        if (url.startsWith('http')) {
+            utils_1.FsUtils.navigateToPathOrUrl(url);
             return;
         }
-        if (searchTerm.startsWith('/')) {
-            utils_1.FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseUrl}/${encodeUri(searchTerm.substring(1))}`);
+        if (url.startsWith('/')) {
+            utils_1.FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseUrl}/${encodeUri(url.substring(1))}`);
             return;
         }
-        utils_1.FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseSearchUrl}${encodeUri(searchTerm)}`);
+        utils_1.FsUtils.navigateToPathOrUrl(`${global.appGlobal.packageJson.appConfig.knowledgebaseSearchUrl}${encodeUri(url)}`);
     }
 }
 exports.SfdmuService = SfdmuService;

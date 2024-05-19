@@ -40,8 +40,8 @@ class UIAlertDirective {
         };
         this.transclude = true;
     }
-    link($scope, $element, $attrs) {
-        $scope.id = utils_1.AngularUtils.setElementId($scope, $attrs);
+    link($scope) {
+        $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
         $scope.dismiss = () => {
             localStorage.setItem($scope.id, 'dismissed');
         };

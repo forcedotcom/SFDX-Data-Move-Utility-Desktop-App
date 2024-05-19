@@ -4,7 +4,7 @@ import { ICommitDetails, IGithubRepoInfo, IGithubResponse, IReleaseDetails, IRep
 
 
 export class GithubService {
-    
+
     constructor() { }
 
     /**

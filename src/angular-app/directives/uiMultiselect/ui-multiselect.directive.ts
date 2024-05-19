@@ -1,7 +1,7 @@
 import angular, { IAugmentedJQuery } from 'angular';
 import { CONSTANTS } from '../../../common';
 import { IOption } from '../../../models';
-import { AngularUtils } from '../../../utils';
+import { AngularUtils, CommonUtils } from '../../../utils';
 import { IAppService } from '../../services';
 
 interface IUIMultiselectScope extends angular.IScope {
@@ -29,6 +29,7 @@ interface IUIMultiselectScope extends angular.IScope {
 class UiMultiselectDirective implements angular.IDirective {
     restrict = 'E';
     scope = {
+        id: '@',
         action: '@',
         options: '=',
         selected: '=',
@@ -80,7 +81,7 @@ class UiMultiselectDirective implements angular.IDirective {
 
     link($scope: IUIMultiselectScope, $element: IAugmentedJQuery, $attrs: angular.IAttributes) {
 
-        $scope.id = AngularUtils.setElementId($scope, $attrs);
+        $scope.id ||= CommonUtils.randomString();
 
         const self = this;
         $scope.filterType = 'All'; // default filter type

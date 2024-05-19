@@ -20,7 +20,7 @@ __exportStar(require("./uiEditFormArray.directive"), exports);
 __exportStar(require("./uiFormDirectives.module"), exports);
 __exportStar(require("./uiInput.directive"), exports);
 __exportStar(require("./uiJsonEditor.directive"), exports);
-__exportStar(require("./uiLabel"), exports);
+__exportStar(require("./uiLabel.directive"), exports);
 __exportStar(require("./uiSelect.directive"), exports);
 __exportStar(require("./uiTextarea.directive"), exports);
 __exportStar(require("./uiToggle.directive"), exports);

@@ -80,7 +80,7 @@ export class DialogService {
      * @param title - The dialog title.
      * @returns The selected file path or null if no file was selected.
      */
-    static showSaveFileDialog(title?: string, defaultPath?:string): string {
+    static showSaveFileDialog(title?: string, defaultPath?: string): string {
         const fileSelection = global.appGlobal.dialog.showSaveDialogSync(global.appGlobal.mainWindow, {
             properties: ['showOverwriteConfirmation'],
             title: title || TranslationService.translate({ key: "SAVE_FILE" }),

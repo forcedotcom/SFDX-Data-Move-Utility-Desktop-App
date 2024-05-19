@@ -1,4 +1,4 @@
-<ui-label class="d-block ms-3 text-size-2" label="{{ 'TABS.QUERY_TEST' | translate }}">
+<ui-label class="d-block text-size-2" label="{{ 'TABS.QUERY_TEST' | translate }}">
 </ui-label>
 
 <ui-accordion-tabs selected-item="$ctrl.selectedQueryTestTabIndex">
@@ -24,8 +24,8 @@
         <div class="row mb-3">
             <small class="col-md-12 text-muted">
                 <em>
-                    ({{ 'QUERY_RESULTS_LIMITED_TO_RECORDS' | translate : { RECORDS_LIMIT : $ctrl.queryTestRecordsLimit }
-                    }})
+                    {{ 'QUERY_RESULTS_LIMITED_TO_RECORDS' | translate : { RECORDS_LIMIT : $ctrl.queryTestRecordsLimit }
+                    }}
                 </em>
             </small>
         </div>

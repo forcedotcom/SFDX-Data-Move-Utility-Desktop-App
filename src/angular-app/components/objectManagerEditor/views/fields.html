@@ -3,7 +3,7 @@
         <ui-label class="d-block mb-1 text-size-2" label="{{ 'OBJECT_FIELDS' | translate }}"
             help-search-word="OBJECT_FIELDS" add-help-links="true">
         </ui-label>
-        <ui-transfer-picker id="objectFieldsSelector" height="calc(max(100vh - 500px, 390px))"
+        <ui-transfer-picker id="objectFieldsSelector" height="{{ $ctrl.UI_CONSTANTS.UI_TRANSFER_PRICKER_HEIGHT }}"
             source="$ctrl.availableFields" selected="$ctrl.selectedFields" on-select="$ctrl.handleFieldsSelected(args)"
             source-items-title="{{ 'AVAILABLE_FIELDS' | translate }}"
             selected-items-title="{{ 'SELECTED_FIELDS' | translate }}">
@@ -13,7 +13,7 @@
         <ui-label class="d-block mb-1 text-size-2" label="{{ 'EXCLUDED_FIELDS' | translate }}"
             help-search-word="EXCLUDED_FIELDS" add-help-links="true">
         </ui-label>
-        <ui-transfer-picker id="excludedFieldsSelector" height="calc(max(100vh - 500px, 390px))"
+        <ui-transfer-picker id="excludedFieldsSelector" height="{{ $ctrl.UI_CONSTANTS.UI_TRANSFER_PRICKER_HEIGHT }}"
             source="$ctrl.excludedAvailableFields" selected="$ctrl.excludedFields"
             on-select="$ctrl.handleFieldsSelected(args)" source-items-title="{{ 'AVAILABLE_FIELDS' | translate }}"
             selected-items-title="{{ 'EXCLUDED_FIELDS' | translate }}">
@@ -23,9 +23,10 @@
         <ui-label class="d-block mb-1 text-size-2" label="{{ 'EXCLUDED_FROM_UPDATE_FIELDS' | translate }}"
             help-search-word="EXCLUDED_FROM_UPDATE_FIELDS" add-help-links="true">
         </ui-label>
-        <ui-transfer-picker id="excludedFromUpdateFieldsSelector" height="calc(max(100vh - 500px, 390px))"
-            source="$ctrl.excludedAvailableFields" selected="$ctrl.excludedFromUpdateFields"
-            on-select="$ctrl.handleFieldsSelected(args)" source-items-title="{{ 'AVAILABLE_FIELDS' | translate }}"
+        <ui-transfer-picker id="excludedFromUpdateFieldsSelector"
+            height="{{ $ctrl.UI_CONSTANTS.UI_TRANSFER_PRICKER_HEIGHT }}" source="$ctrl.excludedAvailableFields"
+            selected="$ctrl.excludedFromUpdateFields" on-select="$ctrl.handleFieldsSelected(args)"
+            source-items-title="{{ 'AVAILABLE_FIELDS' | translate }}"
             selected-items-title="{{ 'EXCLUDED_FROM_UPDATE_FIELDS' | translate }}">
         </ui-transfer-picker>
     </ui-tab>
@@ -37,6 +38,6 @@
             form-class="form-control-width-2" array-setup="$ctrl.polymorphicFieldsArraySetup"
             json-array="$ctrl.polymorphicFieldsJsonArray" on-change="$ctrl.handlePolymorphicFieldsChange(args)"
             on-new-object-change="$ctrl.handlePolymorphicFieldsNewObjectChange(args)"
-            items-container-style="height: calc(100vh - 720px)"></ui-edit-form-array>
+            items-container-class="auto-height-h720"></ui-edit-form-array>
     </ui-tab>
 </ui-tabs>

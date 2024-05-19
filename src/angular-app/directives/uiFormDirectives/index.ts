@@ -4,7 +4,7 @@ export * from './uiEditFormArray.directive';
 export * from './uiFormDirectives.module';
 export * from './uiInput.directive';
 export * from './uiJsonEditor.directive';
-export * from './uiLabel';
+export * from './uiLabel.directive';
 export * from './uiSelect.directive';
 export * from './uiTextarea.directive';
 export * from './uiToggle.directive';

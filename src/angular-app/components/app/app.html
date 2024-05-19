@@ -7,8 +7,8 @@
 
     <div class="app-body">
         <div class="app-sidebar left border">
-            <button tooltip="{{ 'EXPAND_COLLAPSE' | translate }}" ng-click="$ctrl.toggleLeft()"
-                class="btn btn-sm btn-primary rounded-circle toggle-btn">
+            <button tooltip="{{ 'EXPAND_COLLAPSE' | translate }}" ng-click="$ctrl.handleToggleLeftSidebar()"
+                class="btn btn-sm btn-info rounded-circle btn-toggle">
                 {{$ctrl.leftButtonSymbol}}
             </button>
             <div ng-transclude="leftSidebar">
@@ -26,8 +26,8 @@
         </div>
 
         <div class="app-sidebar right border">
-            <button tooltip="{{ 'EXPAND_COLLAPSE_APP_LOG' | translate }}" ng-click="$ctrl.toggleRight()"
-                class="btn btn-sm btn-primary rounded-circle toggle-btn">
+            <button tooltip="{{ 'EXPAND_COLLAPSE_APP_LOG' | translate }}" ng-click="$ctrl.handleToggleRightSidebar()"
+                class="btn btn-sm btn-info rounded-circle btn-toggle">
                 {{$ctrl.rightButtonSymbol}}
             </button>
             <div ng-transclude="rightSidebar">

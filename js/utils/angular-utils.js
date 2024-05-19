@@ -1,20 +1,19 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.AngularUtils = void 0;
-const _1 = require(".");
 class AngularUtils {
-    /**
-     * Sets the id attribute of the element if it is not set.
-     * @param $attrs The attributes of the element.
-     * @param $scope The scope of the element.
-     * @returns The id of the element.
-     */
-    static setElementId($scope, $attrs) {
-        // if id is not set, generate a random string
-        const id = AngularUtils.$eval($scope, $attrs.id) || _1.CommonUtils.randomString();
-        $attrs.$set('id', id);
-        return id;
-    }
+    // /**
+    //  * Sets the id attribute of the element if it is not set.
+    //  * @param $attrs The attributes of the element.
+    //  * @param $scope The scope of the element.
+    //  * @returns The id of the element.
+    //  */
+    // static setElementId($scope: IScope, $attrs: IAttributes): string {
+    //     // if id is not set, generate a random string
+    //     const id = AngularUtils.$eval($scope, $attrs.id) || CommonUtils.randomString();
+    //     $attrs.$set('id', id);
+    //     return id;
+    // }
     /**
      * Evalues an expression in the scope and returns the value.
      *  If the expression evaluates to undefined, the expression is returned.

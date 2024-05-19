@@ -970,7 +970,7 @@ export class ScriptObject extends ScriptEntityBase {
      */
     @ExcludeIfDefault([])
     beforeAddons: any[] = [];
-    
+
     /**
      * Addon definitions which are executed after this object is fully processed.
      *
@@ -978,7 +978,7 @@ export class ScriptObject extends ScriptEntityBase {
      * @memberof ScriptObject
      */
     @ExcludeIfDefault([])
-    afterAddons: any[] = [];    
+    afterAddons: any[] = [];
 
     /**
      *  Addon definitions which are executed just before the target org is updated on this object.
@@ -988,7 +988,7 @@ export class ScriptObject extends ScriptEntityBase {
      */
     @ExcludeIfDefault([])
     beforeUpdateAddons: any[] = [];
-    
+
 
     /**
      * Addon definitions which are executed after the target org is updated on this object.
@@ -998,7 +998,7 @@ export class ScriptObject extends ScriptEntityBase {
      */
     @ExcludeIfDefault([])
     afterUpdateAddons: any[] = [];
-    
+
     /**
      *  Addon definitions which are executed when the update records are prepared to update the target org, i.e. filter records.
      *

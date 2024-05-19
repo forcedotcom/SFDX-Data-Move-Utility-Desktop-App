@@ -7,7 +7,7 @@
 			<i tooltip="{{ icon.popover }}" ng-repeat="icon in $ctrl.selectedSObjectOption.icons"
 				class="me-2 {{ icon.iconClass }} {{ icon.icon }}"
 				tooltip-custom-class="{{ icon.iconTooltipCustomClass }}"></i>
-			<strong>{{ $ctrl.selectedSObject.label }}</strong>
+			<strong class="text-size-2">{{ $ctrl.selectedSObject.label }}</strong>
 		</div>
 		<hr />
 	</tabs-header>
@@ -35,8 +35,7 @@
 		<div ng-include="'./js/angular-app/components/objectManagerEditor/views/dataAnonymization.html'"></div>
 	</ui-tab>
 
-	<ui-tab title="{{ 'TABS.ADD_ONS' | translate }}" tab-id="addOns"
-		icon="{{ $ctrl.FaIcon.addOn  }}">
+	<ui-tab title="{{ 'TABS.ADD_ONS' | translate }}" tab-id="addOns" icon="{{ $ctrl.FaIcon.addOn  }}">
 		<div ng-include="'./js/angular-app/components/objectManagerEditor/views/addOns.html'"></div>
 	</ui-tab>
 

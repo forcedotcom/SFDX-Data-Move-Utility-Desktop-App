@@ -2,7 +2,7 @@ import { ProgressEventType } from "../common";
 
 /**
  * An interface representing an action event arguments.
- */ 
+ */
 export interface IActionEventArgs<T> {
     /** The event arguments. */
     args: IActionEventArgParam<T>;
@@ -10,7 +10,7 @@ export interface IActionEventArgs<T> {
 
 /**
  * An interface representing an action event parameter.
- */ 
+ */
 export interface IActionEventArgParam<T> {
     /** The event id. To uniquely identify the event. */
     id?: string;
@@ -46,22 +46,22 @@ export interface IProgressInfo {
 
 /**
  * An interface representing ui-router navigation event.
- */ 
+ */
 export interface IStateChangeEvent {
     /** The name of the event. */
-    name: string; 
+    name: string;
     /** The target amgular scope. */
     targetScope: angular.IScope;
     /** Whether the navigation is prevented. */
     defaultPrevented: boolean;
     /** Prevents the navigation from happening. */
     preventDefault(): void;
-  }
+}
 
-  /**
-   * An interface representing ui-router state.
-   */ 
-  export interface IState {
+/**
+ * An interface representing ui-router state.
+ */
+export interface IState {
     /** The name of the state. */
     name: string;
     /** The url of the state. */
@@ -70,4 +70,4 @@ export interface IStateChangeEvent {
     templateUrl?: string;
     /** The controller of the state. */
     controller?: string;
-  }
+}

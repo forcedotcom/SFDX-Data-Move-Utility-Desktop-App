@@ -11,6 +11,7 @@ function uiAccordionTabs() {
         restrict: 'E',
         transclude: true,
         scope: {
+            id: '@',
             selectedItem: '=',
             allowMultipleOpenTabs: '='
         },
@@ -19,9 +20,9 @@ function uiAccordionTabs() {
                 <!-- Accordion tabs placeholder -->
             </div>
         `,
-        controller: function ($scope, $attrs) {
+        controller: function ($scope) {
             $scope.items = [];
-            utils_1.AngularUtils.setElementId($scope, $attrs);
+            $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
             this.addItem = function (item) {
                 $scope.items.push(item);
                 if ($scope.items.length === 1 && !$scope.selectedItem) {

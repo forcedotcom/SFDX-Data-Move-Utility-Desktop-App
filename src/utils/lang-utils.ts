@@ -5,7 +5,7 @@ export class LangUtils {
      * @param langCode - The language code.
      * @returns The native name of the language.
      * @example LangService.getNativeName('en') // English
-     */ 
+     */
     static getNativeName(langCode: string): string {
         const nativeNames: Record<string, string> = {
             en: 'English',
@@ -70,7 +70,7 @@ export class LangUtils {
      * @param langCode - The language code.
      * @returns The country code of the language.
      * @example LangService.getCountryCode('en') // US
-     */ 
+     */
     static getCountryCode(langCode: string): string {
         const countryCodes: Record<string, string> = {
             en: 'US',
@@ -134,7 +134,7 @@ export class LangUtils {
      * @param langCode - The language code.
      * @returns The locale of the language.
      * @example LangService.getLocale('en') // en-US
-     */ 
+     */
     static getLocale(langCode: string): string {
         const countryCode = this.getCountryCode(langCode);
         return `${langCode}-${countryCode}`;

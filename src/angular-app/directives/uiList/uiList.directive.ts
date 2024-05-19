@@ -1,7 +1,7 @@
 import angular, { IScope, ITimeoutService } from "angular";
 import { ActionEvent, CONSTANTS, FaIcon } from "../../../common";
 import { IActionEventArgParam, IIcon, IOption } from "../../../models";
-import { AngularUtils } from "../../../utils";
+import { CommonUtils } from "../../../utils";
 import { IBroadcastService } from "../../services";
 
 
@@ -29,7 +29,7 @@ function uiListDirective($timeout: ITimeoutService): angular.IDirective {
 					</div>
 
 					<!-- Select box for groups -->					
-					<select class="form-control form-control-width" ng-model="$ctrl.selectedGroup">
+					<select class="form-select form-control-width" ng-model="$ctrl.selectedGroup">
 						<option value="">{{ 'ALL_PLACEHOLDER' | translate }}</option>
 						<option ng-repeat="item in $ctrl.source | unique: 'group'" ng-value="item.group">
 							{{ item.group }}
@@ -87,6 +87,7 @@ function uiListDirective($timeout: ITimeoutService): angular.IDirective {
 		`,
 
 		scope: {
+			id: '@',
 			source: '=',
 			selected: '=',
 			maxHeight: '@',
@@ -102,7 +103,7 @@ function uiListDirective($timeout: ITimeoutService): angular.IDirective {
 
 		link: ($scope: angular.IScope, $element: angular.IAugmentedJQuery, $attrs: angular.IAttributes, $ctrl: UiListController) => {
 
-			$ctrl.id = AngularUtils.setElementId($scope, $attrs);
+			$scope.id ||= CommonUtils.randomString();
 
 			$ctrl.maxHeight ||= '400px';
 			$ctrl.minHeight ||= '400px';

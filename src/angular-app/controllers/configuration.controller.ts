@@ -31,7 +31,7 @@ export class ConfigurationController {
      */
     private setup() {
         if (global.appGlobal.wizardStep == ConfigurationController.wizardStep) {
-            
+
             const config = DatabaseService.getConfig();
 
             AngularUtils.$apply(this.$scope, () => {

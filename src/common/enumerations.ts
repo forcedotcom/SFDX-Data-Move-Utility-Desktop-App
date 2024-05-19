@@ -287,6 +287,8 @@ export enum FaIcon {
     polymorphicField = 'fas fa-code-branch',
     /** Query icon. */
     query = 'fas fa-code',
+    /** Code icon */
+    code = 'fas fa-code',
     /** Cleanup icon. */
     cleanup = 'fas fa-broom',
     /** Export icon */
@@ -342,11 +344,11 @@ export enum FaIcon {
     /** Representing a eye icon. */
     eye = 'fa fa-eye',
     /** Representing a level down icon. */
-    child =  'fa fa-level-down-alt',
+    child = 'fa fa-level-down-alt',
     /** Representing add-on icon. */
     addOn = 'fas fa-plus-square',
     /** Representing an undo icon. */
-    undo= 'fas fa-undo',
+    undo = 'fas fa-undo',
 }
 
 /** Enumeration of button styles. */

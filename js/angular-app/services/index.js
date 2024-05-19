@@ -14,12 +14,14 @@ var __exportStar = (this && this.__exportStar) || function(m, exports) {
     for (var p in m) if (p !== "default" && !Object.prototype.hasOwnProperty.call(exports, p)) __createBinding(exports, m, p);
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+__exportStar(require("./angular"), exports);
 __exportStar(require("./app"), exports);
 __exportStar(require("./app-services.module"), exports);
 __exportStar(require("./bottomToast"), exports);
 __exportStar(require("./broadcast"), exports);
 __exportStar(require("./dialog-edit"), exports);
 __exportStar(require("./displayLog"), exports);
+__exportStar(require("./jsonEditModalService"), exports);
 __exportStar(require("./markdown"), exports);
 __exportStar(require("./spinner"), exports);
 __exportStar(require("./translation"), exports);

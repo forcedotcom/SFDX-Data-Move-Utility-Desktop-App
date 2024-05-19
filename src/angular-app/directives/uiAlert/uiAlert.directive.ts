@@ -1,6 +1,5 @@
-import { IAugmentedJQuery } from "angular";
 import { IActionEventArgParam, IAlert } from "../../../models";
-import { AngularUtils } from "../../../utils";
+import { AngularUtils, CommonUtils } from "../../../utils";
 import { IBroadcastService } from "../../services";
 
 interface IAlertScope extends IAlert, angular.IScope {
@@ -57,9 +56,9 @@ class UIAlertDirective implements angular.IDirective {
 
 	constructor(private $broadcast: IBroadcastService) { }
 
-	link($scope: IAlertScope, $element: IAugmentedJQuery, $attrs: angular.IAttributes) {
+	link($scope: IAlertScope) {
 
-		$scope.id = AngularUtils.setElementId($scope, $attrs);
+		$scope.id ||= CommonUtils.randomString();
 
 		$scope.dismiss = () => {
 			localStorage.setItem($scope.id, 'dismissed');

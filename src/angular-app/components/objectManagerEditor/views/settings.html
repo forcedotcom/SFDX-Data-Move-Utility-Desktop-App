@@ -1,14 +1,16 @@
-<ui-label class="d-block ms-3 text-size-2" label="{{ 'TABS.OBJECT_SETTINGS' | translate }}" help-search-word="OBJECT_SETTINGS"
-	add-help-links="true">
+<ui-label class="d-block mb-1 text-size-2" label="{{ 'TABS.OBJECT_SETTINGS' | translate }}"
+	help-search-word="OBJECT_SETTINGS" add-help-links="true">
 </ui-label>
 
 <small class="d-block mb-1 text-muted">
 	<em>
-		({{ 'LABELS_REPRESENTING_PROPERTY_NAMES' | translate }})
+		{{ 'LABELS_REPRESENTING_PROPERTY_NAMES' | translate }}
 	</em>
 </small>
 
-<ui-json-editor form-class="ms-2 align-items-end mt-5" id="objectSettingsTabForm" setup="$ctrl.objectSettingsSetup"
-    row-titles="$ctrl.objectSettingsTitles"
-    json="$ctrl.objectSettingsJson" on-change="$ctrl.handleObjectManagerFormChange(args)">
-</ui-json-editor>
+<div class="p-2 card">
+	<ui-json-editor row-title-class="mt-4" form-class="ms-0 align-items-end" item-form-class="ps-0"
+		id="objectSettingsTabForm" setup="$ctrl.objectSettingsSetup" row-titles="$ctrl.objectSettingsTitles"
+		json="$ctrl.objectSettingsJson" on-change="$ctrl.handleObjectManagerFormChange(args)">
+	</ui-json-editor>
+</div>

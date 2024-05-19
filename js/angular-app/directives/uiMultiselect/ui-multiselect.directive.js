@@ -12,6 +12,7 @@ class UiMultiselectDirective {
         this.$app = $app;
         this.restrict = 'E';
         this.scope = {
+            id: '@',
             action: '@',
             options: '=',
             selected: '=',
@@ -60,7 +61,7 @@ class UiMultiselectDirective {
     `;
     }
     link($scope, $element, $attrs) {
-        $scope.id = utils_1.AngularUtils.setElementId($scope, $attrs);
+        $scope.id || ($scope.id = utils_1.CommonUtils.randomString());
         const self = this;
         $scope.filterType = 'All'; // default filter type
         $scope.isOpen = false;

@@ -11,5 +11,5 @@ class UiDividerDirective implements angular.IDirective {
     }
 }
 
-export const UiDividerModule = angular.module('uiDividerModule', [])
+export const UiDividerModule = angular.module('uiDividerDirectiveModule', [])
     .directive('uiDivider', UiDividerDirective.factory());

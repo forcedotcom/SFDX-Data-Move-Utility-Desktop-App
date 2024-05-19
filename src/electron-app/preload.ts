@@ -3,7 +3,7 @@ import { LogService } from "../services";
 
 function preload() {
 
-   
+
 
     // Expose electron protected APIs to the window object --------------------------
     // Expose appGlobal 

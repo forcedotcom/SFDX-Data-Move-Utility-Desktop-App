@@ -13,6 +13,8 @@ exports.AppServicesModule = angular_1.default.module('appServicesModule', [
     'dialogEditServiceModule',
     'spinnerServiceModule',
     'bottomToastServiceModule',
-    'displayLogServiceModule'
+    'displayLogServiceModule',
+    'jsonEditModalServiceModule',
+    'angularServiceModule'
 ]);
 //# sourceMappingURL=app-services.module.js.map

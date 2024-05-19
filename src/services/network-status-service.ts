@@ -2,7 +2,7 @@
  * Service for monitoring network status and handling related events.
  */
 export class NetworkStatusService {
-    
+
     private connectionLostListeners: (() => void)[] = [];
     private connectionRestoredListeners: (() => void)[] = [];
 

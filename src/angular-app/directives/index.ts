@@ -5,6 +5,7 @@ export * from './uiAlert';
 export * from './uiContentDialog';
 export * from './uiDivider';
 export * from './uiFormDirectives';
+export * from './uiJsonEditorModal';
 export * from './uiLangSwitcher';
 export * from './uiList';
 export * from './uiMenu';
