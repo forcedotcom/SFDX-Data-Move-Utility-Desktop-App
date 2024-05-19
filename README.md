@@ -38,7 +38,8 @@ Installing and running the **release version** of the SFDMU GUI App is straightf
 
 ### Prerequisites
 
-Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) is installed before using the SFDMU GUI App.
+- Ensure the [SF CLI](https://developer.salesforce.com/docs/atlas.en-us.sfdx_setup.meta/sfdx_setup/sfdx_setup_install_cli.htm) is installed before using the SFDMU GUI App.
+- Install the [SFDX Data Move Utility Plugin (SFDMU)](https://github.com/forcedotcom/SFDX-Data-Move-Utility?tab=readme-ov-file#installation-instructions).
 
 ### Installation of Latest Release
 
