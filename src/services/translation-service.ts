@@ -3,7 +3,7 @@ import { AppPathType, CONSTANTS } from '../common';
 import { TranslateFnArgs } from '../models';
 import { BroadcastService, LocalStateService, LogService, MarkdownService } from '../services';
 import { AppUtils, CommonUtils } from '../utils';
-import { addOnsJsonSchemaConfig } from '../configurations';
+import { addOnsJsonSchemaConfig, jsonSchemas } from '../configurations';
 
 
 
@@ -113,14 +113,25 @@ export class TranslationService {
 
         // Translate Json Editor
         TranslationService._translateJsonEditor(lang);
+
         // Translate Json Schema Descriptions
-        Object.keys(addOnsJsonSchemaConfig).forEach(schema => {
+        // Add-Ons
+        Object.keys(addOnsJsonSchemaConfig).forEach(schemaKey => {
             TranslationService._translateJsonSchemaDescriptions(
                 'ADD_ON_MODULE_EDITOR_CONFIG',
-                schema,
-                addOnsJsonSchemaConfig[schema],
+                schemaKey,
+                addOnsJsonSchemaConfig[schemaKey],
                 lang)
         });
+        // Other JSON Schemas
+        Object.keys(jsonSchemas).forEach(schemaKey => {
+            TranslationService._translateJsonSchemaDescriptions(
+                'JSON_SCHEMA_TRANSLATION',
+                schemaKey,
+                jsonSchemas[schemaKey],
+                lang)
+        });
+
         LogService.info(`Active language set to ${lang}`);
     }
 

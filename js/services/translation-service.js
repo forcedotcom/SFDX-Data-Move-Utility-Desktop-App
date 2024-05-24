@@ -75,8 +75,13 @@ class TranslationService {
         // Translate Json Editor
         TranslationService._translateJsonEditor(lang);
         // Translate Json Schema Descriptions
-        Object.keys(configurations_1.addOnsJsonSchemaConfig).forEach(schema => {
-            TranslationService._translateJsonSchemaDescriptions('ADD_ON_MODULE_EDITOR_CONFIG', schema, configurations_1.addOnsJsonSchemaConfig[schema], lang);
+        // Add-Ons
+        Object.keys(configurations_1.addOnsJsonSchemaConfig).forEach(schemaKey => {
+            TranslationService._translateJsonSchemaDescriptions('ADD_ON_MODULE_EDITOR_CONFIG', schemaKey, configurations_1.addOnsJsonSchemaConfig[schemaKey], lang);
+        });
+        // Other JSON Schemas
+        Object.keys(configurations_1.jsonSchemas).forEach(schemaKey => {
+            TranslationService._translateJsonSchemaDescriptions('JSON_SCHEMA_TRANSLATION', schemaKey, configurations_1.jsonSchemas[schemaKey], lang);
         });
         services_1.LogService.info(`Active language set to ${lang}`);
     }

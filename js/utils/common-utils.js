@@ -64,6 +64,9 @@ class CommonUtils {
         }
         return "An unknown error occurred.";
     }
+    static shallowClone(object) {
+        return JSON.parse(JSON.stringify(object || {}));
+    }
     /**
      * Performs a deep equality comparison between two objects.
      *

@@ -295,6 +295,21 @@
     "upload_wrong_file_format": "Falsches Dateiformat. Erlaubtes Format(s):"
   },
   "JSON_EDITOR_VALIDATION_ERROR": "<strong>Beim Validieren der Konfiguration ist folgender Fehler (s) aufgetreten:</strong>",
+  "JSON_SCHEMA_TRANSLATION": {
+    "appConfigUserJsonSchemaConfig": {
+      "appRoot": "Gibt den vollständigen Pfad zum Ordner „dataRoot“ an. Wenn dieser Eintrag leer gelassen wird, verwendet die Anwendung standardmäßig das Standardverzeichnis „Dokumente“ des Benutzers.",
+      "backupEveryNMinutes": "Wenn dieser Wert größer als 0 ist, wird die automatische Sicherung der Datenbankdatei in festgelegten Intervallen (in Minuten) aktiviert. Die Einstellung „0“ deaktiviert diese Funktion.",
+      "backupOnApplicationStart": "Aktiviert die automatische Sicherung der Datenbankdatei bei jedem Start der Anwendung.",
+      "dataRoot": "Gibt den Namen des Ordners an, in dem alle Anwendungsdaten wie beispielsweise die Datenbankdatei, Konfigurationsdateien, Migrationsdaten usw. gespeichert werden sollen.",
+      "databaseFilename": "Definiert den Dateinamen der Datenbankdatei. Dies ermöglicht die Verwaltung mehrerer Datenbanken mit unterschiedlichen Namen im selben Verzeichnis.",
+      "fallbackLocale": "Gibt eine Ersatzsprache an, die verwendet werden soll, wenn bestimmte Texte nicht in die aktuelle Sprache übersetzt sind.",
+      "language": "Für die Anwendung zu verwendende Sprache.",
+      "theme": "Gibt den Namen des aktiven UI-Designs an.",
+      "useSfCliCommands": "Ermöglicht der Anwendung, die neuesten „@salesforce/cli“-Befehle anstelle der veralteten „sfdx-cli“-Befehle zu verwenden, um Salesforce DX über die Befehlszeile auszuführen."
+    },
+    "description": "Hier können Sie die Anwendungseinstellungen konfigurieren. Ihre Einstellungen werden in der Datei „app-config.json“ gespeichert, die sich im Standardkonfigurationsordner befindet und von Ihrem Betriebssystem abhängt. Nach dem Speichern wird die Anwendung neu geladen.",
+    "title": "Anwendungseinstellungen"
+  },
   "LABELS_REPRESENTING_PROPERTY_NAMES": "Jedes HTML-Steuerelement repräsentiert und bearbeitet ein bestimmtes Objektfeld, wobei seine Beschriftung den Feldnamen angibt. Weitere Informationen finden Sie in der Wissensdatenbank.",
   "LOADING": "Wird geladen...",
   "LOGGING_SETTINGS": "Protokollierungseinstellungen",
@@ -321,6 +336,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "Öffnen Sie den Konfigurationsordner im Explorer",
     "OPEN_LOG_FILE": "Öffnen Sie die Protokolldatei",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "Öffnen Sie den Arbeitsbereichsordner im Explorer",
+    "PREFERENCES": "Einstellungen",
     "REFRESH_SFDX_CONNECTIONS": "Verfügbare SFDX-Verbindungen erkennen",
     "RENAME_CONFIGURATION": "Konfiguration umbenennen",
     "RENAME_WORKSPACE": "Arbeitsbereich umbenennen",

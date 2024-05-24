@@ -1,5 +1,9 @@
-import { IOption } from "../models"
+// -------------------------------------------------
+// --- Schema for the Add-Ons JSON -----------------
 
+
+
+// -------------------------------------------------
 export const addOnsJsonSchemaConfig = {
 
     // -------------------------------------------------
@@ -396,7 +400,9 @@ export const addOnsJsonSchemaConfig = {
 }
 
 
-
+// -------------------------------------------------
+// --- Default Form Configuration for Add-Ons ------
+// -------------------------------------------------
 export const addOnsDefaultFormConfig = {
 
 
@@ -455,12 +461,8 @@ export const addOnsDefaultFormConfig = {
 // -------------------------------------------------
 // --- Available Core Add-On Modules ----------------
 // -------------------------------------------------
-export interface IAvailableCoreAddOnModules {
-    object: Record<string, IOption[]>;
-    script: Record<string, IOption[]>;
-}
 
-export const availableCoreAddOnModules: IAvailableCoreAddOnModules = {
+export const availableCoreAddOnModules = {
     object: {
         "beforeAddons": [],
         "afterAddons": [{
@@ -491,5 +493,101 @@ export const availableCoreAddOnModules: IAvailableCoreAddOnModules = {
             value: 'core:ExportFiles',
             label: 'core:ExportFiles Add-On',
         }],
+    }
+};
+
+
+// -------------------------------------------------
+// --- Schema for the App Configuration JSON -------
+// -------------------------------------------------
+export const jsonSchemas = {
+
+    appConfigUserJsonSchemaConfig: {
+
+        "title": "Application Configuration",
+        "type": "object",
+        "format": "grid",
+        "options": {
+            "helpSearchWord": "GUI_APP_CONFIG_ARTICLES.MAIN_ARTICLE",
+            "helpSearchConfigKey": "GUI_APP_CONFIG_ARTICLES",
+            "disable_collapse": true
+        },
+        "properties": {
+            "dataRoot": {
+                "type": "string",
+                "format": "textarea",
+                "minLength": 1,
+                "options": {
+                    "grid_columns": 4
+                },
+            },
+            "appRoot": {
+                "type": "string",
+                "format": "textarea",
+                "options": {
+                    "grid_columns": 4
+                },
+            },
+            "databaseFilename": {
+                "type": "string",
+                "minLength": 1,
+                "options": {
+                    "grid_columns": 4
+                },
+            },
+            "fallbackLocale": {
+                "type": "string",
+                "enum": ["en", "he", "ru", "de"],
+                "minLength": 2,
+                "options": {
+                    "grid_columns": 4
+                },
+            },
+            "backupOnApplicationStart": {
+                "type": "boolean",
+                "options": {
+                    "grid_columns": 4,
+                    "has_placeholder_option": true,
+                    "no_empty_option": true
+                },
+            },
+            "backupEveryNMinutes": {
+                "type": "integer",
+                "minimum": 0,
+                "options": {
+                    "grid_columns": 4
+                },
+            },
+            "useSfCliCommands": {
+                "type": "boolean",
+                "options": {
+                    "grid_columns": 4,
+                    "has_placeholder_option": true,
+                    "no_empty_option": true
+                },
+            },
+            "theme": {
+                "type": "string",
+                "enum": [],
+                "minLength": 1,
+                "options": {
+                    "grid_columns": 6,
+                    "no_empty_option": true,
+                    "has_placeholder_option": true,
+                },
+            },
+            "language": {
+                "type": "string",
+                "enum": [],
+                "minLength": 2,
+                "options": {
+                    "grid_columns": 6,
+                    "no_empty_option": true,
+                    "has_placeholder_option": true,
+                },
+            }
+        },
+        "required": ["dataRoot", "databaseFilename", "fallbackLocale", "theme", "language"]
+
     }
 };

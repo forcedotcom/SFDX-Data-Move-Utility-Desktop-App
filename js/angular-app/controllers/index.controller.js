@@ -1,13 +1,15 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.IndexController = void 0;
+const configurations_1 = require("../../configurations");
 const common_1 = require("../../common");
 const services_1 = require("../../services");
 const utils_1 = require("../../utils");
 class IndexController {
-    constructor($app, $scope) {
+    constructor($app, $scope, $jsonEditModal) {
         this.$app = $app;
         this.$scope = $scope;
+        this.$jsonEditModal = $jsonEditModal;
     }
     // Lifecycle hooks ---------------------------------------------------------
     async $onInit() {
@@ -50,6 +52,20 @@ class IndexController {
                         console.clear();
                         services_1.LogService.info("Console log was cleared");
                         services_1.ToastService.showSuccess();
+                    }
+                    break;
+                case "File:Preferences":
+                    {
+                        let config = global.appGlobal.readAppConfigUserFile(configurations_1.jsonSchemas.appConfigUserJsonSchemaConfig);
+                        config["language"] = services_1.TranslationService.getActiveLanguage();
+                        config = utils_1.CommonUtils.shallowClone(config);
+                        const updatedConfig = await this.$jsonEditModal.editJsonAsync(config.configJson, config.jsonSchema);
+                        if (updatedConfig.result) {
+                            global.appGlobal.writeAppConfigUserFile(updatedConfig.data);
+                            services_1.TranslationService.setActiveLanguage(updatedConfig.data.language);
+                            services_1.LogService.info("Application preferences updated");
+                            global.appGlobal.reloadApp();
+                        }
                     }
                     break;
                 case 'File:QuiteApp':
@@ -442,5 +458,5 @@ class IndexController {
     }
 }
 exports.IndexController = IndexController;
-IndexController.$inject = ['$app', '$scope'];
+IndexController.$inject = ['$app', '$scope', '$jsonEditModal'];
 //# sourceMappingURL=index.controller.js.map

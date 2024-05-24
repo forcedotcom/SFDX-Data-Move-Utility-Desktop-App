@@ -1,13 +1,13 @@
+import * as childProcess from 'child_process';
 import { app, BrowserWindow, dialog, screen, webContents } from "electron";
-import { AppPathType, CONSTANTS, DialogType } from "../common";
-import { AppGlobalData, IAppConfig } from "../models";
-import { DialogService, LogService, WindowService } from "../services";
-import { AppUtils, OsUtils } from "../utils";
-import { AppConfig } from "../configurations";
 import * as fs from 'fs-extra';
 import * as os from 'os';
 import * as path from 'path';
-import * as childProcess from 'child_process';
+import { AppPathType, CONSTANTS, DialogType } from "../common";
+import { AppConfig, jsonSchemas } from "../configurations";
+import { AppGlobalData, IAppConfig, IAppConfigUser, IReadAppConfigUserFile } from "../models";
+import { DialogService, LogService, TranslationService, WindowService } from "../services";
+import { AppUtils, OsUtils } from "../utils";
 
 
 const remoteMain = require('@electron/remote/main')
@@ -22,9 +22,6 @@ function setupApplication() {
 
   app.commandLine.appendSwitch('enable-experimental-web-platform-features');
 
-  // Setup variables
-  //VARIABLES.APP_BASE_PATH = app.isPackaged ? app.getAppPath() : '.';
-
   // Load the app data from the config file
   global.appGlobal = new AppGlobalData({
     isDebug: /--inspect/.test(process.argv.join(' ')),
@@ -37,6 +34,9 @@ function setupApplication() {
     windowService: WindowService.instance,
     remoteMain: remoteMain,
     isWindows: process.platform === 'win32',
+    reloadApp,
+    readAppConfigUserFile,
+    writeAppConfigUserFile
   });
   global.appGlobal.packageJson = require(AppUtils.getAppPath(AppPathType.appPath, 'package.json'));
 
@@ -46,7 +46,7 @@ function setupApplication() {
   Object.assign(global.appGlobal.packageJson.appConfig, AppConfig);
 
   // Create app-config.json in documents folder if not exists
-  createAppConfigJsonFile(appConfigJson);
+  loadOrCreateAppConfigJsonFile(appConfigJson);
 
   // Populate the global data  
   // eslint-disable-next-line @typescript-eslint/no-unused-vars
@@ -64,23 +64,6 @@ function setupApplication() {
 
 }
 
-/**
- * Creates the app-config.json file in the documents folder if it does not exist.
- */
-function createAppConfigJsonFile(appConfigJson: IAppConfig) {
-  const appConfigJsonPath = path.join(
-    platformFolders.getDocumentsFolder(),
-    global.appGlobal.packageJson.name,
-    CONSTANTS.APP_CONFIG_JSON_FULL_PATH
-  );
-
-  fs.ensureDirSync(path.dirname(appConfigJsonPath));
-  if (!fs.existsSync(appConfigJsonPath)) {
-    fs.writeJsonSync(appConfigJsonPath, appConfigJson, { spaces: 2 });
-  }
-  Object.assign(global.appGlobal.packageJson.appConfig, fs.readJsonSync(appConfigJsonPath));
-}
-
 /** Creates the main window. */
 function createMainWindow() {
 
@@ -90,10 +73,9 @@ function createMainWindow() {
   const mainWindow = new BrowserWindow({
     height: 600,
     webPreferences: {
-      contextIsolation: false,  // It's considered secured in this app because external pages are not loaded
-      nodeIntegration: true,    // We turn on node integration because we want to use node modules in the renderer process. 
-      //                           We don't care about security because we don't load external pages in the renderer process.
-      sandbox: false,           // We turn off sandbox because we want to use node modules in the renderer process.
+      contextIsolation: false,
+      nodeIntegration: true,
+      sandbox: false,
       preload: AppUtils.getAppPath(AppPathType.scriptPath, 'electron-app/preload.js'),
 
     },
@@ -223,7 +205,7 @@ function runApplication() {
 /**
 * Handle Squirrel events for Windows immediately on start
 */
-const handleSquirrelEvent = (app: Electron.App) => {
+function handleSquirrelEvent(app: Electron.App) {
 
   if (os.platform() != 'win32') {
     return false;
@@ -272,7 +254,7 @@ const handleSquirrelEvent = (app: Electron.App) => {
   }
 
   return false;
-};
+}
 
 if (!handleSquirrelEvent(app)) {
 
@@ -282,6 +264,93 @@ if (!handleSquirrelEvent(app)) {
   // Run the application -------------------------------------------------
   runApplication();
 }
+
+
+
+// ----------------------------------------------- //
+// ----------- Helper Methods --------------------- //
+// ----------------------------------------------- //
+function reloadApp() {
+  app.relaunch();
+  app.exit();
+}
+
+function readAppConfigUserFile(jsonSchema: typeof jsonSchemas.appConfigUserJsonSchemaConfig): IReadAppConfigUserFile {
+  const appConfigJsonPath = getAppConfigJsonPath();
+
+  // Get all the locales from the i18n folder 
+  const allI18nFiles = fs.readdirSync(AppUtils.getAppPath(AppPathType.i18nPath), { withFileTypes: true });
+  const configJson: IAppConfigUser = fs.readJsonSync(appConfigJsonPath);
+
+  const locales = allI18nFiles.map((file) => file.name.replace('.json', ''));
+
+  jsonSchema.properties.fallbackLocale.enum = locales;
+  jsonSchema.properties.language.enum = locales;
+
+  // Get all themes from the themes folder
+  const allThemesDirs = fs.readdirSync(AppUtils.getAppPath(AppPathType.themesPath), { withFileTypes: true });
+  const themes = allThemesDirs.filter((file) => file.isDirectory()).map((file) => file.name);
+
+  jsonSchema.properties.theme.enum = themes;
+
+  return { jsonSchema, configJson };
+}
+
+function writeAppConfigUserFile(config: IAppConfigUser) {
+  const appConfigJsonPath = getAppConfigJsonPath();
+  fs.writeJSONSync(appConfigJsonPath, config);
+}
+
+function getOldAppConfigJsonPath() {
+  return path.join(
+    platformFolders.getDocumentsFolder(),
+    global.appGlobal.packageJson.name,
+    CONSTANTS.APP_CONFIG_JSON_FULL_PATH
+  );
+}
+
+function getAppConfigJsonPath() {
+  return path.join(
+    platformFolders.getConfigHome(),
+    global.appGlobal.packageJson.name,
+    CONSTANTS.APP_CONFIG_JSON_FULL_PATH
+  );
+}
+
+/**
+ * Loads or creates the app-config.json file in the documents folder if it does not exist.
+ */
+function loadOrCreateAppConfigJsonFile(appConfigJson: IAppConfig) {
+
+  // We copy the old configuraiton file if exist 
+  // for the backward compability.
+  // Then we delete it.
+  const oldAppConfigPath = getOldAppConfigJsonPath();
+
+  if (fs.existsSync(oldAppConfigPath)) {
+    appConfigJson = fs.readJsonSync(oldAppConfigPath);
+    fs.removeSync(oldAppConfigPath);
+  }
+
+  const appConfigJsonPath = getAppConfigJsonPath();
+
+  // Creates a new config file if it does not exist.
+  fs.ensureDirSync(path.dirname(appConfigJsonPath));
+
+  if (!fs.existsSync(appConfigJsonPath)) {
+    delete appConfigJson.locales;
+    delete appConfigJson.defaultLocale;
+    fs.writeJsonSync(appConfigJsonPath, appConfigJson, { spaces: 2 });
+  }
+
+  appConfigJson = fs.readJsonSync(appConfigJsonPath);
+  delete appConfigJson.locales;
+  delete appConfigJson.defaultLocale;
+
+  // Loads the configuration file
+  Object.assign(global.appGlobal.packageJson.appConfig, appConfigJson);
+}
+
 
 export { };
 

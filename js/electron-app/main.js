@@ -23,16 +23,16 @@ var __importStar = (this && this.__importStar) || function (mod) {
     return result;
 };
 Object.defineProperty(exports, "__esModule", { value: true });
+const childProcess = __importStar(require("child_process"));
 const electron_1 = require("electron");
-const common_1 = require("../common");
-const models_1 = require("../models");
-const services_1 = require("../services");
-const utils_1 = require("../utils");
-const configurations_1 = require("../configurations");
 const fs = __importStar(require("fs-extra"));
 const os = __importStar(require("os"));
 const path = __importStar(require("path"));
-const childProcess = __importStar(require("child_process"));
+const common_1 = require("../common");
+const configurations_1 = require("../configurations");
+const models_1 = require("../models");
+const services_1 = require("../services");
+const utils_1 = require("../utils");
 const remoteMain = require('@electron/remote/main');
 const platformFolders = require('platform-folders');
 // Application methods -------------------------------------------------
@@ -41,8 +41,6 @@ function setupApplication() {
     // Initialize the remote module
     remoteMain.initialize();
     electron_1.app.commandLine.appendSwitch('enable-experimental-web-platform-features');
-    // Setup variables
-    //VARIABLES.APP_BASE_PATH = app.isPackaged ? app.getAppPath() : '.';
     // Load the app data from the config file
     global.appGlobal = new models_1.AppGlobalData({
         isDebug: /--inspect/.test(process.argv.join(' ')),
@@ -55,13 +53,16 @@ function setupApplication() {
         windowService: services_1.WindowService.instance,
         remoteMain: remoteMain,
         isWindows: process.platform === 'win32',
+        reloadApp,
+        readAppConfigUserFile,
+        writeAppConfigUserFile
     });
     global.appGlobal.packageJson = require(utils_1.AppUtils.getAppPath(common_1.AppPathType.appPath, 'package.json'));
     // Add information from the runtime configuration file
     const appConfigJson = { ...global.appGlobal.packageJson.appConfig };
     Object.assign(global.appGlobal.packageJson.appConfig, configurations_1.AppConfig);
     // Create app-config.json in documents folder if not exists
-    createAppConfigJsonFile(appConfigJson);
+    loadOrCreateAppConfigJsonFile(appConfigJson);
     // Populate the global data  
     // eslint-disable-next-line @typescript-eslint/no-unused-vars
     global.appGlobal.packageJson.appConfig.copyrightsDisplayText = (lang) => {
@@ -74,17 +75,6 @@ function setupApplication() {
         services_1.LogService.unhandledExeption(error);
     });
 }
-/**
- * Creates the app-config.json file in the documents folder if it does not exist.
- */
-function createAppConfigJsonFile(appConfigJson) {
-    const appConfigJsonPath = path.join(platformFolders.getDocumentsFolder(), global.appGlobal.packageJson.name, common_1.CONSTANTS.APP_CONFIG_JSON_FULL_PATH);
-    fs.ensureDirSync(path.dirname(appConfigJsonPath));
-    if (!fs.existsSync(appConfigJsonPath)) {
-        fs.writeJsonSync(appConfigJsonPath, appConfigJson, { spaces: 2 });
-    }
-    Object.assign(global.appGlobal.packageJson.appConfig, fs.readJsonSync(appConfigJsonPath));
-}
 /** Creates the main window. */
 function createMainWindow() {
     // Create the browser window.
@@ -94,7 +84,6 @@ function createMainWindow() {
         webPreferences: {
             contextIsolation: false,
             nodeIntegration: true,
-            //                           We don't care about security because we don't load external pages in the renderer process.
             sandbox: false,
             preload: utils_1.AppUtils.getAppPath(common_1.AppPathType.scriptPath, 'electron-app/preload.js'),
         },
@@ -195,7 +184,7 @@ function runApplication() {
 /**
 * Handle Squirrel events for Windows immediately on start
 */
-const handleSquirrelEvent = (app) => {
+function handleSquirrelEvent(app) {
     if (os.platform() != 'win32') {
         return false;
     }
@@ -233,11 +222,68 @@ const handleSquirrelEvent = (app) => {
             return true;
     }
     return false;
-};
+}
 if (!handleSquirrelEvent(electron_1.app)) {
     // Set up the application -----------------------------------------------
     setupApplication();
     // Run the application -------------------------------------------------
     runApplication();
+}
+// ----------------------------------------------- //
+// ----------- Helper Methods --------------------- //
+// ----------------------------------------------- //
+function reloadApp() {
+    electron_1.app.relaunch();
+    electron_1.app.exit();
+}
+function readAppConfigUserFile(jsonSchema) {
+    const appConfigJsonPath = getAppConfigJsonPath();
+    // Get all the locales from the i18n folder 
+    const allI18nFiles = fs.readdirSync(utils_1.AppUtils.getAppPath(common_1.AppPathType.i18nPath), { withFileTypes: true });
+    const configJson = fs.readJsonSync(appConfigJsonPath);
+    const locales = allI18nFiles.map((file) => file.name.replace('.json', ''));
+    jsonSchema.properties.fallbackLocale.enum = locales;
+    jsonSchema.properties.language.enum = locales;
+    // Get all themes from the themes folder
+    const allThemesDirs = fs.readdirSync(utils_1.AppUtils.getAppPath(common_1.AppPathType.themesPath), { withFileTypes: true });
+    const themes = allThemesDirs.filter((file) => file.isDirectory()).map((file) => file.name);
+    jsonSchema.properties.theme.enum = themes;
+    return { jsonSchema, configJson };
+}
+function writeAppConfigUserFile(config) {
+    const appConfigJsonPath = getAppConfigJsonPath();
+    fs.writeJSONSync(appConfigJsonPath, config);
+}
+function getOldAppConfigJsonPath() {
+    return path.join(platformFolders.getDocumentsFolder(), global.appGlobal.packageJson.name, common_1.CONSTANTS.APP_CONFIG_JSON_FULL_PATH);
+}
+function getAppConfigJsonPath() {
+    return path.join(platformFolders.getConfigHome(), global.appGlobal.packageJson.name, common_1.CONSTANTS.APP_CONFIG_JSON_FULL_PATH);
+}
+/**
+ * Loads or creates the app-config.json file in the documents folder if it does not exist.
+ */
+function loadOrCreateAppConfigJsonFile(appConfigJson) {
+    // We copy the old configuraiton file if exist 
+    // for the backward compability.
+    // Then we delete it.
+    const oldAppConfigPath = getOldAppConfigJsonPath();
+    if (fs.existsSync(oldAppConfigPath)) {
+        appConfigJson = fs.readJsonSync(oldAppConfigPath);
+        fs.removeSync(oldAppConfigPath);
+    }
+    const appConfigJsonPath = getAppConfigJsonPath();
+    // Creates a new config file if it does not exist.
+    fs.ensureDirSync(path.dirname(appConfigJsonPath));
+    if (!fs.existsSync(appConfigJsonPath)) {
+        delete appConfigJson.locales;
+        delete appConfigJson.defaultLocale;
+        fs.writeJsonSync(appConfigJsonPath, appConfigJson, { spaces: 2 });
+    }
+    appConfigJson = fs.readJsonSync(appConfigJsonPath);
+    delete appConfigJson.locales;
+    delete appConfigJson.defaultLocale;
+    // Loads the configuration file
+    Object.assign(global.appGlobal.packageJson.appConfig, appConfigJson);
 }
 //# sourceMappingURL=main.js.map

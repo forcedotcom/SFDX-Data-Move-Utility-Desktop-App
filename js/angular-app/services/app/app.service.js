@@ -102,6 +102,14 @@ class AppService {
                         itemType: 'divider'
                     },
                     {
+                        action: "File:Preferences",
+                        title: this.$translate.translate({ key: "MENU.PREFERENCES" }),
+                        icons: [{ icon: common_1.FaIcon.cog }]
+                    },
+                    {
+                        itemType: 'divider'
+                    },
+                    {
                         id: 'quiteApp',
                         icons: [{ icon: common_1.FaIcon.faSignOutAlt, }],
                         title: this.$translate.translate({ key: "QUIT_APP" }),
@@ -577,12 +585,7 @@ class AppService {
         });
     }
     _setupLanguageChange() {
-        this.$broadcast.onAction('onChange', 'uiLangSwitcher', () => {
-            this.$state.go(common_1.View.home);
-            this.$timeout(() => {
-                window.location.reload();
-            }, 100);
-        });
+        this.$broadcast.onAction('onChange', 'uiLangSwitcher', this._reloadApp.bind(this));
     }
     _setupNavigationStateChange() {
         const self = this;
@@ -711,6 +714,12 @@ class AppService {
             componentId: 'mainStateAlertBox',
             args: [alertData]
         });
+    }
+    _reloadApp() {
+        this.$state.go(common_1.View.home);
+        this.$timeout(() => {
+            window.location.reload();
+        }, 100);
     }
 }
 exports.AppService = AppService;

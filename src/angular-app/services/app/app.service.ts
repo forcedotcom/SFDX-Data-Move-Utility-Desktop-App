@@ -202,6 +202,14 @@ export class AppService implements IAppService {
 						itemType: 'divider'
 					},
 					{
+						action: "File:Preferences",
+						title: this.$translate.translate({ key: "MENU.PREFERENCES" }),
+						icons: [{ icon: FaIcon.cog }]
+					},
+					{
+						itemType: 'divider'
+					},
+					{
 						id: 'quiteApp',
 						icons: [{ icon: FaIcon.faSignOutAlt, }],
 						title: this.$translate.translate({ key: "QUIT_APP" }),
@@ -741,13 +749,7 @@ export class AppService implements IAppService {
 	}
 
 	private _setupLanguageChange() {
-		this.$broadcast.onAction('onChange', 'uiLangSwitcher', () => {
-			this.$state.go(View.home);
-			this.$timeout(() => {
-				window.location.reload();
-			}, 100);
-
-		});
+		this.$broadcast.onAction('onChange', 'uiLangSwitcher', this._reloadApp.bind(this));
 	}
 
 	private _setupNavigationStateChange() {
@@ -904,7 +906,11 @@ export class AppService implements IAppService {
 
 	}
 
-
-
+	private _reloadApp() {
+		this.$state.go(View.home);
+		this.$timeout(() => {
+			window.location.reload();
+		}, 100);
+	}
 
 }

@@ -1,24 +1,38 @@
 import { BrowserWindow, Display, Screen } from "electron";
+import { jsonSchemas } from "../configurations";
 import { BrowserConsoleLogService, NetworkStatusService, ThemeService, WindowService } from "../services";
 import { IGithubRepoInfo } from "./github-models";
 
 
-/**
- * Interface representing the application configuration.
- */
-export interface IAppConfig {
+
+export interface IAppConfigUser {
     /** Root directory for application data. */
     dataRoot: string;
     /** Root directory for the application itself. */
     appRoot: string;
     /** Filename of the database used by the application. */
     databaseFilename: string;
+    /** Fallback locale to use if the default locale is not available. */
+    fallbackLocale: string;
+    /** Flag indicating whether to create a backup on application start. */
+    backupOnApplicationStart: boolean;
+    /** Flag indicating whether to create a backup in a given interval in minutes. */
+    backupEveryNMinutes: number;
+    /** Flag indicating whether to use Salesforce CLI commands. */
+    useSfCliCommands: boolean;
+    /** Theme to use for the application. */
+    theme: string;
+}
+
+
+/**
+ * Interface representing the application configuration.
+ */
+export interface IAppConfig extends IAppConfigUser {
     /** Array of supported locale strings. */
     locales: string[];
     /** Default locale to use. */
     defaultLocale: string;
-    /** Fallback locale to use if the default locale is not available. */
-    fallbackLocale: string;
     /** Copyright information for the application. */
     copyrights: string;
     /** URL to the copyright information. */
@@ -41,14 +55,6 @@ export interface IAppConfig {
     knowledgebaseTitle: string;
     /** URL to opening a new issue on GitHub. */
     getHelpUrl: string;
-    /** Flag indicating whether to create a backup on application start. */
-    backupOnApplicationStart: boolean;
-    /** Flag indicating whether to create a backup in a given interval in minutes. */
-    backupEveryNMinutes: number;
-    /** Flag indicating whether to use Salesforce CLI commands. */
-    useSfCliCommands: boolean;
-    /** Theme to use for the application. */
-    theme: string;
 
     //-------------------------------------------------------------------------
     // The following properties are not loaded from the config file but are populated by the application.
@@ -73,6 +79,15 @@ export interface IAppPackageJson {
     developedBy: string;
     /** The license of the package. */
     license: string;
+}
+
+
+/**
+ *  Type returned by readAppConfigUserFile method
+ */
+export interface IReadAppConfigUserFile {
+    jsonSchema: typeof jsonSchemas.appConfigUserJsonSchemaConfig;
+    configJson: IAppConfigUser;
 }
 
 /** Shared data of the application. */
@@ -130,7 +145,12 @@ export class AppGlobalData {
     remoteMain: any;
     /** Whether the OS is Windows. */
     isWindows: boolean;
-
+    /** Reloads the application */
+    reloadApp: () => void;
+    /** Reads configuraiton file from the disk */
+    readAppConfigUserFile: (jsonSchema: typeof jsonSchemas.appConfigUserJsonSchemaConfig) => IReadAppConfigUserFile;
+    /** Writes configuraiton file to the disk */
+    writeAppConfigUserFile: (config: IAppConfigUser) => void;
 
 }
 

@@ -93,6 +93,17 @@ exports.HelpArticlesConfig = {
     "OBJECT_ON_FILTER_RECORDS_EVENT": "/full-documentation/add-on-api/supported-events#objectonfilterrecords",
     "OBJECT_ON_BEFORE_UPDATE_EVENT": "/full-documentation/add-on-api/supported-events#objectonbeforeupdate",
     "OBJECT_ON_AFTER_UPDATE_EVENT": "/full-documentation/add-on-api/supported-events#objectonafterupdate",
+    "GUI_APP_CONFIG_ARTICLES": {
+        "MAIN_ARTICLE": "/sfdmu-gui-app#application-configuration",
+        "dataRoot": "/sfdmu-gui-app#dataroot",
+        "appRoot": "/sfdmu-gui-app#approot",
+        "databaseFilename": "/sfdmu-gui-app#databasefilename",
+        "fallbackLocale": "/sfdmu-gui-app#fallbacklocale",
+        "backupOnApplicationStart": "/sfdmu-gui-app#backuponapplicationstart",
+        "backupEveryNMinutes": "/sfdmu-gui-app#backupeverynminutes",
+        "useSfCliCommands": "/sfdmu-gui-app#usesflicommands",
+        "theme": "/sfdmu-gui-app#theme",
+    },
     "ADD_ONS_HELP_ARTICLES": {
         "core:ExportFiles": {
             "MAIN_ARTICLE": "/full-documentation/add-on-api/export-file-core-add-on-module",

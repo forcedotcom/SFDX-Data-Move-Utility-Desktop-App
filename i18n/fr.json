@@ -295,6 +295,21 @@
     "upload_wrong_file_format": "Mauvais format de fichier. Format autorisé(s) :"
   },
   "JSON_EDITOR_VALIDATION_ERROR": "<strong>L&#39;erreur suivante(s) s&#39;est produite lors de la validation de la configuration :</strong>",
+  "JSON_SCHEMA_TRANSLATION": {
+    "appConfigUserJsonSchemaConfig": {
+      "appRoot": "Indique le chemin complet du dossier `dataRoot`. Si ce champ est vide, l'application utilise par défaut le répertoire Documents utilisateur standard.",
+      "backupEveryNMinutes": "S'il est supérieur à 0, ce paramètre active la sauvegarde automatique du fichier de base de données à intervalles spécifiés, en minutes. Un paramètre de « 0 » désactive cette fonctionnalité.",
+      "backupOnApplicationStart": "Permet la sauvegarde automatique du fichier de base de données à chaque démarrage de l'application.",
+      "dataRoot": "Spécifie le nom du dossier destiné à contenir toutes les données de l'application telles que le fichier de base de données, les fichiers de configuration, les données de migration, etc.",
+      "databaseFilename": "Définit le nom du fichier de base de données. Cela permet la maintenance de plusieurs bases de données avec des noms différents dans le même répertoire.",
+      "fallbackLocale": "Spécifie une langue de secours à utiliser lorsque certains textes ne sont pas traduits dans la langue actuelle.",
+      "language": "Langue à utiliser pour l'application.",
+      "theme": "Spécifie le nom du thème d'interface utilisateur actif.",
+      "useSfCliCommands": "Permet à l'application d'utiliser les dernières commandes « @salesforce/cli » au lieu des commandes obsolètes « sfdx-cli » pour exécuter Salesforce DX à partir de la ligne de commande."
+    },
+    "description": "Ici, vous pouvez configurer les paramètres de l'application. Vos préférences sont enregistrées dans le fichier `app-config.json` situé dans le dossier de configuration standard en fonction de votre système d'exploitation. Après la sauvegarde, l'application sera rechargée.",
+    "title": "Préférences d'application"
+  },
   "LABELS_REPRESENTING_PROPERTY_NAMES": "Chaque contrôle HTML représente et édite un champ d'objet spécifique, avec son étiquette indiquant le nom du champ. Consultez la base de connaissances pour plus de détails.",
   "LOADING": "Chargement...",
   "LOGGING_SETTINGS": "Paramètres de journalisation",
@@ -321,6 +336,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "Ouvrir le dossier de configuration dans l'Explorateur",
     "OPEN_LOG_FILE": "Ouvrir le fichier journal",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "Ouvrir le dossier Espace de travail dans l'Explorateur",
+    "PREFERENCES": "Préférences",
     "REFRESH_SFDX_CONNECTIONS": "Détecter les connexions SFDX disponibles",
     "RENAME_CONFIGURATION": "Renommer la configuration",
     "RENAME_WORKSPACE": "Renommer l'espace de travail",

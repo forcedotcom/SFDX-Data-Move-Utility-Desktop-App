@@ -295,6 +295,21 @@
     "upload_wrong_file_format": "Wrong file format. Allowed format(s): "
   },
   "JSON_EDITOR_VALIDATION_ERROR": "<strong>The following error(s) occurred while validating the configuration:</strong>",
+  "JSON_SCHEMA_TRANSLATION": {
+    "appConfigUserJsonSchemaConfig": {
+      "appRoot": "Indicates the full path to the `dataRoot` folder. If left blank, the application defaults to using the standard user Documents directory.",
+      "backupEveryNMinutes": "If greater than 0, this setting enables automatic backup of the database file at specified intervals, in minutes. A setting of `0` disables this feature.",
+      "backupOnApplicationStart": "Enables automatic backup of the database file each time the Application starts.",
+      "dataRoot": "Specifies the name of the folder intended to hold all application data such as the database file, configuration files, migration data, etc.",
+      "databaseFilename": "Defines the filename of the database file. This allows for the maintenance of multiple databases with different names within the same directory.",
+      "fallbackLocale": "Specifies a fallback language to be used when certain texts are not translated in the current language.",
+      "language": "Language to use for the application.",
+      "theme": "Specifies the name of the active UI theme.",
+      "useSfCliCommands": "Allows the application to use the latest `@salesforce/cli` commands instead of the deprecated `sfdx-cli` commands for running Salesforce DX from the command line."
+    },
+    "description": "Here you can configure the application settings. Your preferences are saved in the `app-config.json` file located in the standard configuration folder depend on your operating system. After saving the application will be reloaded.",
+    "title": "Application Perferences"
+  },
   "LABELS_REPRESENTING_PROPERTY_NAMES": "Each HTML control represents and edits a specific object field, with its label indicating the field name. See the knowledgebase for more details.",
   "LOADING": "Loading...",
   "LOGGING_SETTINGS": "Logging Settings",
@@ -321,6 +336,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "Open Configuration Folder in Explorer",
     "OPEN_LOG_FILE": "Open Log File",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "Open Workspace Folder in Explorer",
+    "PREFERENCES": "Preferences",
     "REFRESH_SFDX_CONNECTIONS": "Detect available SFDX connections",
     "RENAME_CONFIGURATION": "Rename Configuration",
     "RENAME_WORKSPACE": "Rename Workspace",

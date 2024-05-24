@@ -295,6 +295,21 @@
     "upload_wrong_file_format": "Formato de archivo incorrecto. Formato permitido(s):"
   },
   "JSON_EDITOR_VALIDATION_ERROR": "<strong>Se produjo el siguiente error(s) al validar la configuración:</strong>",
+  "JSON_SCHEMA_TRANSLATION": {
+    "appConfigUserJsonSchemaConfig": {
+      "appRoot": "Indica la ruta completa a la carpeta `dataRoot`. Si se deja en blanco, la aplicación utiliza de forma predeterminada el directorio de Documentos del usuario estándar.",
+      "backupEveryNMinutes": "Si es mayor que 0, esta configuración habilita la copia de seguridad automática del archivo de base de datos a intervalos específicos, en minutos. Una configuración de `0` desactiva esta función.",
+      "backupOnApplicationStart": "Permite realizar una copia de seguridad automática del archivo de la base de datos cada vez que se inicia la aplicación.",
+      "dataRoot": "Especifica el nombre de la carpeta destinada a contener todos los datos de la aplicación, como el archivo de base de datos, archivos de configuración, datos de migración, etc.",
+      "databaseFilename": "Define el nombre del archivo de la base de datos. Esto permite el mantenimiento de múltiples bases de datos con diferentes nombres dentro del mismo directorio.",
+      "fallbackLocale": "Especifica un idioma alternativo que se utilizará cuando ciertos textos no se traduzcan al idioma actual.",
+      "language": "Idioma a utilizar para la aplicación.",
+      "theme": "Especifica el nombre del tema de la interfaz de usuario activo.",
+      "useSfCliCommands": "Permite que la aplicación utilice los comandos `@salesforce/cli` más recientes en lugar de los comandos obsoletos `sfdx-cli` para ejecutar Salesforce DX desde la línea de comandos."
+    },
+    "description": "Aquí puede configurar los ajustes de la aplicación. Sus preferencias se guardan en el archivo `app-config.json` ubicado en la carpeta de configuración estándar dependiendo de su sistema operativo. Después de guardar, la aplicación se recargará.",
+    "title": "Perferencias de aplicación"
+  },
   "LABELS_REPRESENTING_PROPERTY_NAMES": "Cada control HTML representa y edita un campo de objeto específico, con su etiqueta indicando el nombre del campo. Consulte la base de conocimientos para obtener más detalles.",
   "LOADING": "Cargando...",
   "LOGGING_SETTINGS": "Configuración de registro",
@@ -321,6 +336,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "Abra la carpeta de configuración en el Explorador",
     "OPEN_LOG_FILE": "Abrir archivo de registro",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "Abrir la carpeta del espacio de trabajo en el Explorador",
+    "PREFERENCES": "Preferencias",
     "REFRESH_SFDX_CONNECTIONS": "Detectar conexiones SFDX disponibles",
     "RENAME_CONFIGURATION": "Cambiar nombre de configuración",
     "RENAME_WORKSPACE": "Cambiar nombre del espacio de trabajo",

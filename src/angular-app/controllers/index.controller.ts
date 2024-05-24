@@ -1,14 +1,15 @@
+import { jsonSchemas } from "../../configurations";
 import { AppPathType, CONSTANTS, DialogType } from "../../common";
-import { IActionEventArgParam, IMenuItem, IOption } from "../../models";
-import { DatabaseService, DialogService, LogService, ToastService } from "../../services";
-import { AngularUtils, AppUtils, FsUtils } from "../../utils";
-import { IAppService } from "../services";
+import { IActionEventArgParam, IMenuItem, IOption, IReadAppConfigUserFile } from "../../models";
+import { DatabaseService, DialogService, LogService, ToastService, TranslationService } from "../../services";
+import { AngularUtils, AppUtils, CommonUtils, FsUtils } from "../../utils";
+import { IAppService, IJsonEditModalService } from "../services";
 
 export class IndexController {
 
-    public static $inject = ['$app', '$scope'];
+    public static $inject = ['$app', '$scope', '$jsonEditModal'];
 
-    constructor(private $app: IAppService, private $scope: angular.IScope) { }
+    constructor(private $app: IAppService, private $scope: angular.IScope, private $jsonEditModal: IJsonEditModalService) { }
 
     // Lifecycle hooks ---------------------------------------------------------
     async $onInit(): Promise<void> {
@@ -50,6 +51,19 @@ export class IndexController {
                     console.clear();
                     LogService.info("Console log was cleared");
                     ToastService.showSuccess();
+                } break;
+
+                case "File:Preferences": {
+                    let config: IReadAppConfigUserFile = global.appGlobal.readAppConfigUserFile(jsonSchemas.appConfigUserJsonSchemaConfig);
+                    config["language"] = TranslationService.getActiveLanguage();
+                    config = CommonUtils.shallowClone(config);
+                    const updatedConfig = await this.$jsonEditModal.editJsonAsync(config.configJson, config.jsonSchema);
+                    if (updatedConfig.result) {
+                        global.appGlobal.writeAppConfigUserFile(updatedConfig.data);
+                        TranslationService.setActiveLanguage(updatedConfig.data.language);
+                        LogService.info("Application preferences updated");
+                        global.appGlobal.reloadApp();
+                    }
                 } break;
 
                 case 'File:QuiteApp':

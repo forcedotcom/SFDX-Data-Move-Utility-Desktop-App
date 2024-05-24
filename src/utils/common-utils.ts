@@ -79,6 +79,12 @@ export class CommonUtils {
         return "An unknown error occurred.";
     }
 
+
+    static shallowClone<T>(object: T) : T {
+        return JSON.parse(JSON.stringify(object || {}));
+    }
+    
+
     /**
      * Performs a deep equality comparison between two objects.
      *

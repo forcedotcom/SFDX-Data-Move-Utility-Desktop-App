@@ -295,6 +295,21 @@
     "upload_wrong_file_format": "ファイル形式が間違っています。許可される形式は(s)です:"
   },
   "JSON_EDITOR_VALIDATION_ERROR": "<strong>構成の検証中に次のエラー(s)が発生しました:</strong>",
+  "JSON_SCHEMA_TRANSLATION": {
+    "appConfigUserJsonSchemaConfig": {
+      "appRoot": "`dataRoot` フォルダへの完全なパスを示します。空白のままにすると、アプリケーションはデフォルトで標準のユーザー ドキュメント ディレクトリを使用します。",
+      "backupEveryNMinutes": "0 より大きい場合、この設定により、指定された間隔 (分単位) でデータベース ファイルの自動バックアップが有効になります。 `0` に設定すると、この機能は無効になります。",
+      "backupOnApplicationStart": "アプリケーションの起動ごとにデータベース ファイルの自動バックアップを有効にします。",
+      "dataRoot": "データベース ファイル、構成ファイル、移行データなどのすべてのアプリケーション データを格納するフォルダーの名前を指定します。",
+      "databaseFilename": "データベース ファイルのファイル名を定義します。これにより、同じディレクトリ内で異なる名前を持つ複数のデータベースを管理できるようになります。",
+      "fallbackLocale": "特定のテキストが現在の言語で翻訳されていない場合に使用するフォールバック言語を指定します。",
+      "language": "アプリケーションで使用する言語。",
+      "theme": "アクティブな UI テーマの名前を指定します。",
+      "useSfCliCommands": "アプリケーションが、コマンドラインから Salesforce DX を実行するために、廃止された `sfdx-cli` コマンドの代わりに最新の `@salesforce/cli` コマンドを使用できるようにします。"
+    },
+    "description": "ここでアプリケーション設定を構成できます。設定は、オペレーティング システムに応じて標準構成フォルダーにある `app-config.json` ファイルに保存されます。保存後、アプリケーションは再読み込みされます。",
+    "title": "アプリケーションの設定"
+  },
   "LABELS_REPRESENTING_PROPERTY_NAMES": "各 HTML コントロールは、フィールド名を示すラベルを持つ特定のオブジェクト フィールドを表し、編集します。詳細については、ナレッジベースを参照してください。",
   "LOADING": "読み込み中...",
   "LOGGING_SETTINGS": "ロギング設定",
@@ -321,6 +336,7 @@
     "OPEN_CONFIGURATION_FOLDER_IN_EXPLORER": "エクスプローラーで構成フォルダーを開く",
     "OPEN_LOG_FILE": "ログファイルを開く",
     "OPEN_WORKSPACE_FOLDER_IN_EXPLORER": "エクスプローラーでワークスペースフォルダーを開く",
+    "PREFERENCES": "環境設定",
     "REFRESH_SFDX_CONNECTIONS": "利用可能な SFDX 接続を検出する",
     "RENAME_CONFIGURATION": "構成名の変更",
     "RENAME_WORKSPACE": "ワークスペースの名前を変更",
