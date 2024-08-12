@@ -11,7 +11,7 @@ class UiLabel {
         this.restrict = 'E';
         this.template = `
 		<label class="form-label fw-bold">
-			{{ $ctrl.label }}
+			<span ng-bind-html="$ctrl.label"></span>
 			<i ng-if="$ctrl.iconTooltip" class="{{ $ctrl.icon }}" data-bs-toggle="tooltip" title="{{ $ctrl.iconTooltip }}"></i>
 			<a data-bs-toggle="tooltip"	title="{{ 'CLICK_TO_NAVIGATE_TO_HELP_ARTICLE' | translate }}"
 				ng-if="$ctrl.addHelpLinks" href="javascript:void(0)"

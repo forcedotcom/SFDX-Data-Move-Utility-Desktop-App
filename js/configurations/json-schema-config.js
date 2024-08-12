@@ -194,7 +194,8 @@ exports.addOnsJsonSchemaConfig = {
                                     "type": "string",
                                     "enum": ["source", "target"],
                                     "options": {
-                                        "grid_columns": 4
+                                        "grid_columns": 4,
+                                        "has_placeholder_option": true
                                     },
                                     "default": "source"
                                 },
@@ -514,7 +515,8 @@ exports.jsonSchemas = {
                 "enum": ["en", "he", "ru", "de"],
                 "minLength": 2,
                 "options": {
-                    "grid_columns": 4
+                    "grid_columns": 4,
+                    "has_placeholder_option": true
                 },
             },
             "backupOnApplicationStart": {

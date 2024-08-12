@@ -456,4 +456,35 @@ export class CommonUtils {
         }
     }
 
+    /**
+     *  Detect if the passed value is a valid date.
+     * @param value  The value to check
+     * @returns  A boolean indicating whether the value is a valid date
+     */
+    static isValidDate(value : any) : boolean {
+        const date = new Date(value);
+        return date instanceof Date && !isNaN(date as any) && (
+            value === date.toISOString().slice(0, 10) || value === date.toISOString()
+        );
+    }
+
+    /**
+     *  Converts a value to a date object.
+     * @param value  The value to convert
+     * @returns  The date object
+     */
+    static toDateObject(value: any): Date {
+
+        if (value instanceof Date && !isNaN(value as any)) {
+            return value;
+        }
+    
+        if (CommonUtils.isValidDate(value)) {
+            return new Date(value);
+        }
+    
+        return null;
+    
+    }
+
 }

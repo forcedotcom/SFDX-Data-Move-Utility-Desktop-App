@@ -1,5 +1,6 @@
 import angular from 'angular';
 import { DateFormat } from '../../../common';
+import { CommonUtils } from '../../../utils';
 
 interface ITableScope extends angular.IScope {
 	source: any[];
@@ -32,11 +33,11 @@ class TableDirectiveController {
 				this.rows.forEach((row: any) => {
 					this.columns.forEach((column: string) => {
 						if (this.columnTypes[column] === 'date') {
-							row[column] = new Date(row[column]);
+							row[column] = CommonUtils.toDateObject(row[column]);
 						} else if (this.columnTypes[column] === 'number') {
 							row[column] = parseFloat(row[column]);
 						} else if (this.columnTypes[column] === 'boolean') {
-							row[column] = row[column] == 'true';
+							row[column] = !!row[column];
 						} else {
 							row[column] = row[column]?.toString();
 						}
@@ -103,8 +104,8 @@ class TableDirectiveController {
 		}
 
 		const value = this.rows[0][column];
-		return !isNaN(Date.parse(value)) ? 'date'
-			: typeof value == 'number' || typeof value == 'boolean' ? typeof value
+		return typeof value == 'number' || typeof value == 'boolean' ? typeof value
+			: CommonUtils.isValidDate(value) ? 'date'
 				: 'string';
 	}
 

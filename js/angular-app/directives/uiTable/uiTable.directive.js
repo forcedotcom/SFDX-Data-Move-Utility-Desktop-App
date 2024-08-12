@@ -1,6 +1,7 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.uiTable = void 0;
+const utils_1 = require("../../../utils");
 class TableDirectiveController {
     constructor($scope, $filter) {
         this.$scope = $scope;
@@ -22,13 +23,13 @@ class TableDirectiveController {
                     this.columns.forEach((column) => {
                         var _a;
                         if (this.columnTypes[column] === 'date') {
-                            row[column] = new Date(row[column]);
+                            row[column] = utils_1.CommonUtils.toDateObject(row[column]);
                         }
                         else if (this.columnTypes[column] === 'number') {
                             row[column] = parseFloat(row[column]);
                         }
                         else if (this.columnTypes[column] === 'boolean') {
-                            row[column] = row[column] == 'true';
+                            row[column] = !!row[column];
                         }
                         else {
                             row[column] = (_a = row[column]) === null || _a === void 0 ? void 0 : _a.toString();
@@ -88,8 +89,8 @@ class TableDirectiveController {
             return 'string';
         }
         const value = this.rows[0][column];
-        return !isNaN(Date.parse(value)) ? 'date'
-            : typeof value == 'number' || typeof value == 'boolean' ? typeof value
+        return typeof value == 'number' || typeof value == 'boolean' ? typeof value
+            : utils_1.CommonUtils.isValidDate(value) ? 'date'
                 : 'string';
     }
     selectRow(row) {

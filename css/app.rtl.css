@@ -100,6 +100,11 @@ textarea[readonly] {
     direction: ltr;
 }
 
+.form-check-input:checked {
+    background-color: var(--bs-primary) !important;
+    border-color: var(--bs-primary) !important;
+}
+
 
 /* Specific Styling ----------------- */
 #scriptSettingsForm>.row:first-child {
@@ -572,6 +577,7 @@ ui-tabs .nav-pills .nav-item {
     max-height: 640px;
     min-height: 300px;
     margin: 8px;
+    width: 0px;
 }
 
 /* Scrollbars Styling ------------- */
