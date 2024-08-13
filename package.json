@@ -1,6 +1,6 @@
 {
     "name": "sfdmu-gui-app",
-    "version": "4.6.0",
+    "version": "4.8.1",
     "description": "Release version of SFDMU GUI App",  
     "repository": "forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
     "license": "BSD-3-Clause",
