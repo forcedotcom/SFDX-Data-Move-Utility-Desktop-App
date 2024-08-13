@@ -1421,6 +1421,8 @@ class ScriptMockField extends ScriptEntityBase {
          * An array of names to exclude for the mock field.
          */
         this.excludeNames = new Array();
+        this.patternName = "";
+        this.customPatternParameters = "";
         if (init) {
             Object.assign(this, init);
         }
@@ -1458,6 +1460,14 @@ __decorate([
     (0, class_transformer_1.Exclude)(),
     __metadata("design:type", String)
 ], ScriptMockField.prototype, "id", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    __metadata("design:type", Object)
+], ScriptMockField.prototype, "patternName", void 0);
+__decorate([
+    (0, class_transformer_1.Exclude)(),
+    __metadata("design:type", Object)
+], ScriptMockField.prototype, "customPatternParameters", void 0);
 exports.ScriptMockField = ScriptMockField;
 /* #endregion */
 /* #region JSForce Connection */

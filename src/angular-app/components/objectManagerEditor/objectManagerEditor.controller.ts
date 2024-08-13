@@ -1,7 +1,7 @@
 import { IScope } from 'angular';
 import { CONSTANTS, DataSource, DialogType, FaIcon, SetupFormOptions, View, WizardStepByView } from '../../../common';
 import { addOnsDefaultFormConfig, addOnsJsonSchemaConfig, availableCoreAddOnModules } from '../../../configurations';
-import { IActionEventArgParam, IEditFormResult, IOption, ISObjectOption, ITabItem, PolymorphicField, SFieldDescribe, SObjectDescribe, ScriptMappingItem, ScriptObject } from '../../../models';
+import { IActionEventArgParam, IEditFormResult, IOption, ISObjectOption, ITabItem, PolymorphicField, SFieldDescribe, SObjectDescribe, ScriptMappingItem, ScriptMockField, ScriptObject } from '../../../models';
 import { DatabaseService, DialogService, LogService, NetworkStatusService, SfdmuService, ToastService } from '../../../services';
 import { AngularUtils, CommonUtils, SfdmuUtils } from '../../../utils';
 import { UiEditFormArrayController, UiJsonEditorController, UiTabsController } from '../../directives';
@@ -78,6 +78,7 @@ export class ObjectManagerEditorController {
 	dataAnonymizationJsonArray: any[] = [];
 	dataAnonymizationSetup: SetupFormOptions = {};
 	dataAnonymizationArraySetup: SetupFormOptions = {};
+	_oldAnonymizationPatternName = undefined;
 
 	// Object settings tab
 	objectSettingsJson: any = {};
@@ -953,12 +954,21 @@ export class ObjectManagerEditorController {
 							label: x.label
 						}
 					}).sortBy('label')
+
+
 			},
-			pattern: {
+			patternName: {
 				type: 'select',
 				label: this.$app.$translate.translate({ key: 'ANONYMIZATION_PATTERN' }),
 				required: true,
 				options: SfdmuUtils.getFieldMockPatternOptions(sobject)
+			},
+			customPatternParameters: {
+				type: 'input',
+				label: this.$app.$translate.translate({ key: 'CUSTOM_PATTERN_PARAMETERS' }),
+				required: true,
+				disabled: true,
+				formClass: 'form-control-width-3'
 			},
 			excludedRegex: {
 				type: 'input',
@@ -985,9 +995,8 @@ export class ObjectManagerEditorController {
 					}).sortBy('label')
 			},
 			pattern: {
-				type: 'select',
-				options: SfdmuUtils.getFieldMockPatternOptions(sobject)
-					.concat(mockedFieldOptions).distinct("value").sortBy('label')
+				type: 'input',
+				formClass: 'form-control-width-4'
 			},
 			excludedRegex: {
 				type: 'input'
@@ -1399,7 +1408,17 @@ export class ObjectManagerEditorController {
 	 */
 	handleDataAnonymizationChange(args: IActionEventArgParam<any>) {
 		const sobject = DatabaseService.getSObject();
-		sobject.mockFields = args.args[0];
+		sobject.mockFields = args.args[0] || [];
+		sobject.mockFields.forEach(mockField => {
+			if (mockField.patternName) {
+				if (mockField.patternName.startsWith('c_')) {
+					mockField.pattern = `${mockField.patternName}(${mockField.customPatternParameters})`;
+				} else {
+					mockField.pattern = mockField.patternName;
+				}
+				mockField.patternName = undefined;
+			}
+		});
 
 		const ws = DatabaseService.getWorkspace();
 		const config = DatabaseService.getConfig();
@@ -1410,6 +1429,40 @@ export class ObjectManagerEditorController {
 		this.setupDataAnonymizationEditor();
 
 		this.refreshObjectList();
+	}
+
+	/**
+	 *  Handles adding a new item to the data anonymization array. 
+	 * @param args  The event arguments.
+	 */
+	handleDataAnonymizationNewAdd(args: IActionEventArgParam<any>) {
+		const mockField = args.args[0] as ScriptMockField;
+		if (mockField.patternName.startsWith('c_')) {
+			mockField.pattern = `${mockField.patternName}(${mockField.customPatternParameters})`;
+		} else {
+			mockField.pattern = mockField.patternName;
+		}
+		this._oldAnonymizationPatternName = undefined;
+	}
+
+	/**
+	 *  Handle the change of the new item in the anonymization array. 
+	 * @param args  The event arguments.
+	 */
+	handleDataAnonymizationNewChange(args: IActionEventArgParam<any>) {
+		const sobject = DatabaseService.getSObject();
+		const $ctrl = AngularUtils.$getController<UiEditFormArrayController>('#fieldDataAnonymizationEditor');
+		const mockField = args.args[0] as ScriptMockField;
+		const customPatternParameters = SfdmuUtils.getFieldMockPatternOptionExampleParemeters(sobject, args.args[0].patternName);
+		if (this._oldAnonymizationPatternName != mockField.patternName) {
+			this._oldAnonymizationPatternName = mockField.patternName;
+			$ctrl.setNewObject(Object.assign({}, mockField, {
+				customPatternParameters
+			}));
+		}
+		$ctrl.setup["customPatternParameters"] = Object.assign({}, $ctrl.setup["customPatternParameters"], {
+			disabled: !customPatternParameters
+		});
 	}
 
 
@@ -1457,7 +1510,7 @@ export class ObjectManagerEditorController {
 					this.setupAddOnJsonEditors();
 					this.setAddOnsTabsetTitles();
 				} break;
-				
+
 				case 'fields':
 					// NOOP: This tab is default and proceed in the setup method
 					break;

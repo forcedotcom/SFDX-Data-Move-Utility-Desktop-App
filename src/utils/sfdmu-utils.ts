@@ -320,8 +320,11 @@ export class SfdmuUtils {
      * @param sobject  The sObject to get the field mock patterns for.
      * @returns  The field mock pattern options.
      */
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
     static getFieldMockPatternOptions(sobject: ScriptObject): IOption[] {
         return ([
+
+            // Standard patterns
             { label: "Country", value: "country" },
             { label: "City", value: "city" },
             { label: "Zip", value: "zip()" },
@@ -386,14 +389,36 @@ export class SfdmuUtils {
             { label: "Boolean", value: "boolean" },
             { label: "UUID", value: "uuid" },
             { label: "Color name", value: "color_name" },
-            { label: "RGB HEX Color name", value: "rgb_hex" },
-            { label: "Incremented days", value: `c_seq_date('2018-01-01','d')` },
-            { label: "Autonumber", value: `c_seq_number('${sobject.name.replace("__c", "")}_',1,1)` },
-            { label: "Record Id", value: `ids` }
+            { label: "RGB HEX Color name", value: "rgb_hex" },           
+            { label: "Record Id", value: `ids` },
+
+            // Custom patterns
+            { label: "* c_seq_number", value: `c_seq_number` },
+            { label: "* c_seq_date", value: `c_seq_date` },
+            { label: "* c_set_value", value: `c_set_value` }
+
         ] as IOption[]).sort((item1, item2) => item1.label.localeCompare(item2.label));
     }
 
 
+    /**
+     *  Gets the example parameters for the field mock pattern option.
+     * @param sobject  The sObject to get the field mock pattern option parameters for.
+     * @param patternName  The name of the custom field mock pattern, for example, 'c_seq_number'.
+     * @returns 
+     */
+    static getFieldMockPatternOptionExampleParemeters(sobject: ScriptObject, patternName: string): string {
+        switch (patternName) {
+            case 'c_seq_number':
+                return `'${sobject.name}-', 1, 1`;
+            case 'c_seq_date':
+                return `'${new Date().getFullYear()}-01-01', 'd'`;
+            case 'c_set_value':
+                return `'RAW_VALUE-suffix'`;
+            default:
+                return "";
+        }
+    } 
 
 
     /* #region Helper / Private methods */

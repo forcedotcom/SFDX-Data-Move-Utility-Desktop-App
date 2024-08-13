@@ -180,6 +180,8 @@ export interface ISetupFormOption {
     helpSearchWord?: string;
     /** Whether to add help links to the field. */
     addHelpLinks?: boolean;
+    /** html style for the element */
+    style?: string
 }
 
 /**

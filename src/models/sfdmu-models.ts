@@ -1375,6 +1375,13 @@ export class ScriptMockField extends ScriptEntityBase {
     @Exclude()
     id: string;
 
+    @Exclude()
+    patternName = "";
+
+    @Exclude()
+    customPatternParameters = "";
+
+
     init(): void {
         CommonUtils.initializeObject(this, ScriptMockField, {
             id: this.id || CommonUtils.randomString()
@@ -1460,7 +1467,7 @@ export class JSforceConnection extends jsforce.Connection {
      */
     userName: string;
 
-    constructor(connection?: Partial<JSforceConnection | jsforce.ConnectionOptions | Connection>) {
+    constructor(connection?: Partial<JSforceConnection | Connection>) {
         if (connection) {
             if (connection instanceof Connection) {
                 super({

@@ -53,6 +53,7 @@ class ObjectManagerEditorController {
         this.dataAnonymizationJsonArray = [];
         this.dataAnonymizationSetup = {};
         this.dataAnonymizationArraySetup = {};
+        this._oldAnonymizationPatternName = undefined;
         // Object settings tab
         this.objectSettingsJson = {};
         this.objectSettingsSetup = {};
@@ -775,11 +776,18 @@ class ObjectManagerEditorController {
                     };
                 }).sortBy('label')
             },
-            pattern: {
+            patternName: {
                 type: 'select',
                 label: this.$app.$translate.translate({ key: 'ANONYMIZATION_PATTERN' }),
                 required: true,
                 options: utils_1.SfdmuUtils.getFieldMockPatternOptions(sobject)
+            },
+            customPatternParameters: {
+                type: 'input',
+                label: this.$app.$translate.translate({ key: 'CUSTOM_PATTERN_PARAMETERS' }),
+                required: true,
+                disabled: true,
+                formClass: 'form-control-width-3'
             },
             excludedRegex: {
                 type: 'input',
@@ -805,9 +813,8 @@ class ObjectManagerEditorController {
                 }).sortBy('label')
             },
             pattern: {
-                type: 'select',
-                options: utils_1.SfdmuUtils.getFieldMockPatternOptions(sobject)
-                    .concat(mockedFieldOptions).distinct("value").sortBy('label')
+                type: 'input',
+                formClass: 'form-control-width-4'
             },
             excludedRegex: {
                 type: 'input'
@@ -1176,13 +1183,57 @@ class ObjectManagerEditorController {
      */
     handleDataAnonymizationChange(args) {
         const sobject = services_1.DatabaseService.getSObject();
-        sobject.mockFields = args.args[0];
+        sobject.mockFields = args.args[0] || [];
+        sobject.mockFields.forEach(mockField => {
+            if (mockField.patternName) {
+                if (mockField.patternName.startsWith('c_')) {
+                    mockField.pattern = `${mockField.patternName}(${mockField.customPatternParameters})`;
+                }
+                else {
+                    mockField.pattern = mockField.patternName;
+                }
+                mockField.patternName = undefined;
+            }
+        });
         const ws = services_1.DatabaseService.getWorkspace();
         const config = services_1.DatabaseService.getConfig();
         services_1.DatabaseService.updateConfig(ws.id, config);
         services_1.LogService.info(`Data anonymization was changed for sobject ${sobject.name}`);
         this.setupDataAnonymizationEditor();
         this.refreshObjectList();
+    }
+    /**
+     *  Handles adding a new item to the data anonymization array.
+     * @param args  The event arguments.
+     */
+    handleDataAnonymizationNewAdd(args) {
+        const mockField = args.args[0];
+        if (mockField.patternName.startsWith('c_')) {
+            mockField.pattern = `${mockField.patternName}(${mockField.customPatternParameters})`;
+        }
+        else {
+            mockField.pattern = mockField.patternName;
+        }
+        this._oldAnonymizationPatternName = undefined;
+    }
+    /**
+     *  Handle the change of the new item in the anonymization array.
+     * @param args  The event arguments.
+     */
+    handleDataAnonymizationNewChange(args) {
+        const sobject = services_1.DatabaseService.getSObject();
+        const $ctrl = utils_1.AngularUtils.$getController('#fieldDataAnonymizationEditor');
+        const mockField = args.args[0];
+        const customPatternParameters = utils_1.SfdmuUtils.getFieldMockPatternOptionExampleParemeters(sobject, args.args[0].patternName);
+        if (this._oldAnonymizationPatternName != mockField.patternName) {
+            this._oldAnonymizationPatternName = mockField.patternName;
+            $ctrl.setNewObject(Object.assign({}, mockField, {
+                customPatternParameters
+            }));
+        }
+        $ctrl.setup["customPatternParameters"] = Object.assign({}, $ctrl.setup["customPatternParameters"], {
+            disabled: !customPatternParameters
+        });
     }
     /**
      *  Switches the tab.

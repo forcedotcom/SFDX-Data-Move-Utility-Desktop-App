@@ -85,6 +85,7 @@
   "CLICK_TO_NAVIGATE_TO_HELP_ARTICLE": "Click to navigate to the knowledgebase search results page",
   "CLICK_TO_SORT_TABLE_BY_THIS_COLUMN": "Click to sort the table by this column",
   "CLI_COMMAND_TO_RUN": "CLI command to run",
+  "CLONE_SELECTED": "Clone Selected",
   "CLOSE": "Close",
   "COMMAND_LINE_DETAILED_SETTINGS": "Command Line Setup",
   "CONFIGURATION": "Configuration",
@@ -106,6 +107,7 @@
   "CSV_HANDLING": "CSV Handling",
   "CUSTOM_OBJECT": "Custom Object",
   "CUSTOM_OBJECTS": "Custom Objects",
+  "CUSTOM_PATTERN_PARAMETERS": "Custom Pattern Parameters",
   "DATA_DELETION_FLAGS": "Data Deletion Flags",
   "DATA_TRANSFORMATION": "Data Transformation",
   "DEFINED": "Defined",
@@ -149,6 +151,7 @@
     "OBJECT_SET": {
       "ADD_OBJECTS": "Add Objects to Object Set",
       "ADD_OBJECTS_TITLE": "Add Objects to Object Set",
+      "CLONE_TITLE": "Clone Object Set",
       "DELETE": "Are you sure you want to delete the Object Set '{{ OBJECT_SET_NAME }}'? This action will permanently delete the Object Set and all its sObjects.",
       "DELETE_TITLE": "Delete Object Set",
       "NEW": "Enter the name of the new Object Set:",

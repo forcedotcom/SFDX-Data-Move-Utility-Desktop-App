@@ -464,12 +464,9 @@ class SfdmuService {
         }
         const conn = new models_1.JSforceConnection(connection);
         const describeAsync = (name) => new Promise((resolve, reject) => {
-            conn.sobject(name).describe((err, meta) => {
-                if (err)
-                    reject(err);
-                else
-                    resolve(meta);
-            });
+            conn.sobject(name).describe().then((meta) => {
+                resolve(meta);
+            }).catch(reject);
         });
         const objectDescription = connection.orgDescribe.objectsMap.get(objectName);
         try {

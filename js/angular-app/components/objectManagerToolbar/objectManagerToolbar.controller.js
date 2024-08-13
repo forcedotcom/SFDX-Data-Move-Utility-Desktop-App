@@ -76,6 +76,14 @@ class ObjectManagerToolbarController {
                         icon: common_1.FaIcon.plus,
                         buttonSize: common_1.BsSize.sm
                     },
+                    cloneObjectSet: {
+                        type: 'button',
+                        action: 'clone-object-set',
+                        popover: this.$app.$translate.translate({ key: 'CLONE_SELECTED' }),
+                        buttonStyle: common_1.BsButtonStyle.outlinePrimary,
+                        icon: common_1.FaIcon.copy,
+                        buttonSize: common_1.BsSize.sm
+                    },
                     renameObjectSet: {
                         type: 'button',
                         action: 'rename-object-set',
@@ -204,6 +212,23 @@ class ObjectManagerToolbarController {
                             config.objectSetId = objectSet.id;
                             services_1.DatabaseService.updateConfig(ws.id, config);
                             services_1.LogService.info(`Object set '${config.objectSet.name}' added.`);
+                            this.actionFinish();
+                        }
+                    }
+                    break;
+                case 'clone-object-set':
+                    {
+                        const name = await this.$app.$edit.showDialogAsync({
+                            dialogType: 'inputbox',
+                            promptMessage: this.$app.$translate.translate({ key: 'DIALOG.OBJECT_SET.NEW' }),
+                            title: this.$app.$translate.translate({ key: "DIALOG.OBJECT_SET.CLONE_TITLE" }),
+                            defaultValue: config.objectSet.name + '-copy',
+                            isRequired: true,
+                        });
+                        if (name) {
+                            services_1.DatabaseService.cloneObjectSet(config.objectSet.id, name);
+                            services_1.DatabaseService.updateConfig(ws.id, config);
+                            services_1.LogService.info(`Object set cloned: '${config.objectSet.name}' -> '${name}'`);
                             this.actionFinish();
                         }
                     }

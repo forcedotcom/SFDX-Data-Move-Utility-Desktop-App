@@ -3,6 +3,9 @@
 </ui-label>
 
 <ui-edit-form-array class="d-block" id="fieldDataAnonymizationEditor" setup="$ctrl.dataAnonymizationSetup"
-    label="{{ 'ANONYMIZED_FIELDS' | translate }}" form-class="form-control-width-2"
+    label="{{ 'ANONYMIZED_FIELDS' | translate }}" 
     array-setup="$ctrl.dataAnonymizationArraySetup" json-array="$ctrl.dataAnonymizationJsonArray"
-    on-change="$ctrl.handleDataAnonymizationChange(args)" items-container-class="auto-height-h720"></ui-edit-form-array>
+    on-change="$ctrl.handleDataAnonymizationChange(args)" 
+    on-new-change="$ctrl.handleDataAnonymizationNewChange(args)"
+    on-new-add="$ctrl.handleDataAnonymizationNewAdd(args)"
+    items-container-class="auto-height-h720"></ui-edit-form-array>

@@ -85,6 +85,7 @@
   "CLICK_TO_NAVIGATE_TO_HELP_ARTICLE": "انقر للانتقال إلى صفحة نتائج البحث في قاعدة المعرفة",
   "CLICK_TO_SORT_TABLE_BY_THIS_COLUMN": "انقر لفرز الجدول حسب هذا العمود",
   "CLI_COMMAND_TO_RUN": "أمر CLI للتشغيل",
+  "CLONE_SELECTED": "استنساخ المحدد",
   "CLOSE": "يغلق",
   "COMMAND_LINE_DETAILED_SETTINGS": "إعداد سطر الأوامر",
   "CONFIGURATION": "إعدادات",
@@ -106,6 +107,7 @@
   "CSV_HANDLING": "التعامل مع CSV",
   "CUSTOM_OBJECT": "كائن مخصص",
   "CUSTOM_OBJECTS": "كائنات مخصصة",
+  "CUSTOM_PATTERN_PARAMETERS": "معلمات النمط المخصص",
   "DATA_DELETION_FLAGS": "أعلام حذف البيانات",
   "DATA_TRANSFORMATION": "تحويل البيانات",
   "DEFINED": "مُعرف",
@@ -149,6 +151,7 @@
     "OBJECT_SET": {
       "ADD_OBJECTS": "إضافة كائنات إلى مجموعة الكائنات",
       "ADD_OBJECTS_TITLE": "إضافة كائنات إلى مجموعة الكائنات",
+      "CLONE_TITLE": "مجموعة كائنات الاستنساخ",
       "DELETE": "هل أنت متأكد من أنك تريد حذف مجموعة الكائنات '{{ OBJECT_SET_NAME }}'؟ سيؤدي هذا الإجراء إلى حذف مجموعة الكائنات وكافة كائناتها نهائيًا.",
       "DELETE_TITLE": "حذف مجموعة الكائنات",
       "NEW": "أدخل اسم مجموعة الكائنات الجديدة:",

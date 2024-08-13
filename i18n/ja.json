@@ -85,6 +85,7 @@
   "CLICK_TO_NAVIGATE_TO_HELP_ARTICLE": "クリックしてナレッジベースの検索結果ページに移動します",
   "CLICK_TO_SORT_TABLE_BY_THIS_COLUMN": "クリックすると、この列でテーブルが並べ替えられます",
   "CLI_COMMAND_TO_RUN": "実行するCLIコマンド",
+  "CLONE_SELECTED": "選択した項目を複製",
   "CLOSE": "近い",
   "COMMAND_LINE_DETAILED_SETTINGS": "コマンドラインのセットアップ",
   "CONFIGURATION": "構成",
@@ -106,6 +107,7 @@
   "CSV_HANDLING": "CSVの取り扱い",
   "CUSTOM_OBJECT": "カスタムオブジェクト",
   "CUSTOM_OBJECTS": "カスタムオブジェクト",
+  "CUSTOM_PATTERN_PARAMETERS": "カスタムパターンパラメータ",
   "DATA_DELETION_FLAGS": "データ削除フラグ",
   "DATA_TRANSFORMATION": "データ変換",
   "DEFINED": "定義",
@@ -149,6 +151,7 @@
     "OBJECT_SET": {
       "ADD_OBJECTS": "オブジェクトをオブジェクト セットに追加する",
       "ADD_OBJECTS_TITLE": "オブジェクトをオブジェクト セットに追加する",
+      "CLONE_TITLE": "オブジェクトセットの複製",
       "DELETE": "オブジェクト セット「{{ OBJECT_SET_NAME }}」を削除してもよろしいですか?このアクションにより、オブジェクト セットとそのすべての sObject が完全に削除されます。",
       "DELETE_TITLE": "オブジェクトセットの削除",
       "NEW": "新しいオブジェクト セットの名前を入力します。",

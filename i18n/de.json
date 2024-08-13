@@ -85,6 +85,7 @@
   "CLICK_TO_NAVIGATE_TO_HELP_ARTICLE": "Klicken Sie hier, um zur Suchergebnisseite der Wissensdatenbank zu navigieren",
   "CLICK_TO_SORT_TABLE_BY_THIS_COLUMN": "Klicken Sie, um die Tabelle nach dieser Spalte zu sortieren",
   "CLI_COMMAND_TO_RUN": "CLI-Befehl zum Ausführen",
+  "CLONE_SELECTED": "Auswahl klonen",
   "CLOSE": "Schließen",
   "COMMAND_LINE_DETAILED_SETTINGS": "Befehlszeilen-Setup",
   "CONFIGURATION": "Aufbau",
@@ -106,6 +107,7 @@
   "CSV_HANDLING": "CSV-Verarbeitung",
   "CUSTOM_OBJECT": "Benutzerdefiniertes Objekt",
   "CUSTOM_OBJECTS": "Benutzerdefinierte Objekte",
+  "CUSTOM_PATTERN_PARAMETERS": "Benutzerdefinierte Musterparameter",
   "DATA_DELETION_FLAGS": "Flags zum Löschen von Daten",
   "DATA_TRANSFORMATION": "Datentransformation",
   "DEFINED": "Definiert",
@@ -149,6 +151,7 @@
     "OBJECT_SET": {
       "ADD_OBJECTS": "Objekte zum Objektsatz hinzufügen",
       "ADD_OBJECTS_TITLE": "Objekte zum Objektsatz hinzufügen",
+      "CLONE_TITLE": "Objektsatz klonen",
       "DELETE": "Sind Sie sicher, dass Sie den Objektsatz „{{ OBJECT_SET_NAME }}“ löschen möchten? Durch diese Aktion werden der Objektsatz und alle seine sObjects dauerhaft gelöscht.",
       "DELETE_TITLE": "Objektsatz löschen",
       "NEW": "Geben Sie den Namen des neuen Objektsatzes ein:",

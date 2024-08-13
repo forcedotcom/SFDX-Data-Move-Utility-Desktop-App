@@ -565,10 +565,9 @@ export class SfdmuService {
         const conn: JSforceConnection = new JSforceConnection(connection);
 
         const describeAsync = (name: string) => new Promise((resolve: (meta: DescribeSObjectResult) => void, reject) => {
-            conn.sobject(name).describe((err: any, meta: DescribeSObjectResult) => {
-                if (err) reject(err);
-                else resolve(meta);
-            });
+            conn.sobject(name).describe().then((meta: DescribeSObjectResult) => {
+                resolve(meta);
+            }).catch(reject);
         });
 
         const objectDescription = connection.orgDescribe.objectsMap.get(objectName);

@@ -85,6 +85,7 @@
   "CLICK_TO_NAVIGATE_TO_HELP_ARTICLE": "Haga clic para navegar a la página de resultados de búsqueda de la base de conocimientos.",
   "CLICK_TO_SORT_TABLE_BY_THIS_COLUMN": "Haga clic para ordenar la tabla por esta columna",
   "CLI_COMMAND_TO_RUN": "Comando CLI para ejecutar",
+  "CLONE_SELECTED": "Clon seleccionado",
   "CLOSE": "Cerca",
   "COMMAND_LINE_DETAILED_SETTINGS": "Configuración de línea de comando",
   "CONFIGURATION": "Configuración",
@@ -106,6 +107,7 @@
   "CSV_HANDLING": "Manejo de archivos CSV",
   "CUSTOM_OBJECT": "Objeto personalizado",
   "CUSTOM_OBJECTS": "Objetos personalizados",
+  "CUSTOM_PATTERN_PARAMETERS": "Parámetros de patrones personalizados",
   "DATA_DELETION_FLAGS": "Indicadores de eliminación de datos",
   "DATA_TRANSFORMATION": "Transformación de datos",
   "DEFINED": "Definido",
@@ -149,6 +151,7 @@
     "OBJECT_SET": {
       "ADD_OBJECTS": "Agregar objetos al conjunto de objetos",
       "ADD_OBJECTS_TITLE": "Agregar objetos al conjunto de objetos",
+      "CLONE_TITLE": "Conjunto de objetos clonados",
       "DELETE": "¿Está seguro de que desea eliminar el conjunto de objetos '{{ OBJECT_SET_NAME }}'? Esta acción eliminará permanentemente el conjunto de objetos y todos sus sObjects.",
       "DELETE_TITLE": "Eliminar conjunto de objetos",
       "NEW": "Ingrese el nombre del nuevo conjunto de objetos:",

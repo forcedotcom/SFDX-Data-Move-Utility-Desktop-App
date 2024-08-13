@@ -85,6 +85,7 @@
   "CLICK_TO_NAVIGATE_TO_HELP_ARTICLE": "Cliquez pour accéder à la page des résultats de recherche de la base de connaissances",
   "CLICK_TO_SORT_TABLE_BY_THIS_COLUMN": "Cliquez pour trier le tableau selon cette colonne",
   "CLI_COMMAND_TO_RUN": "Commande CLI à exécuter",
+  "CLONE_SELECTED": "Cloner sélectionné",
   "CLOSE": "Fermer",
   "COMMAND_LINE_DETAILED_SETTINGS": "Configuration de la ligne de commande",
   "CONFIGURATION": "Configuration",
@@ -106,6 +107,7 @@
   "CSV_HANDLING": "Gestion des fichiers CSV",
   "CUSTOM_OBJECT": "Objet personnalisé",
   "CUSTOM_OBJECTS": "Objets personnalisés",
+  "CUSTOM_PATTERN_PARAMETERS": "Paramètres de modèle personnalisés",
   "DATA_DELETION_FLAGS": "Indicateurs de suppression de données",
   "DATA_TRANSFORMATION": "Transformation des données",
   "DEFINED": "Défini",
@@ -149,6 +151,7 @@
     "OBJECT_SET": {
       "ADD_OBJECTS": "Ajouter des objets à l'ensemble d'objets",
       "ADD_OBJECTS_TITLE": "Ajouter des objets à l'ensemble d'objets",
+      "CLONE_TITLE": "Cloner un ensemble d'objets",
       "DELETE": "Êtes-vous sûr de vouloir supprimer l'ensemble d'objets « {{ OBJECT_SET_NAME }} » ? Cette action supprimera définitivement l'ensemble d'objets et tous ses sObjects.",
       "DELETE_TITLE": "Supprimer un ensemble d'objets",
       "NEW": "Entrez le nom du nouvel ensemble d'objets :",

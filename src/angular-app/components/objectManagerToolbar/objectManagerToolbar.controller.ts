@@ -93,6 +93,14 @@ export class ObjectManagerToolbarController {
 						icon: FaIcon.plus,
 						buttonSize: BsSize.sm
 					},
+					cloneObjectSet: {
+						type: 'button',
+						action: 'clone-object-set',
+						popover: this.$app.$translate.translate({ key: 'CLONE_SELECTED' }),
+						buttonStyle: BsButtonStyle.outlinePrimary,
+						icon: FaIcon.copy,
+						buttonSize: BsSize.sm
+					},
 					renameObjectSet: {
 						type: 'button',
 						action: 'rename-object-set',
@@ -228,6 +236,23 @@ export class ObjectManagerToolbarController {
 						config.objectSetId = objectSet.id;
 						DatabaseService.updateConfig(ws.id, config);
 						LogService.info(`Object set '${config.objectSet.name}' added.`);
+						this.actionFinish();
+					}
+
+				} break;
+
+				case 'clone-object-set': {
+					const name = await this.$app.$edit.showDialogAsync({
+						dialogType: 'inputbox',
+						promptMessage: this.$app.$translate.translate({ key: 'DIALOG.OBJECT_SET.NEW' }),
+						title: this.$app.$translate.translate({ key: "DIALOG.OBJECT_SET.CLONE_TITLE" }),
+						defaultValue: config.objectSet.name + '-copy',
+						isRequired: true,
+					});
+					if (name) {
+						DatabaseService.cloneObjectSet(config.objectSet.id, name as string);						
+						DatabaseService.updateConfig(ws.id, config);
+						LogService.info(`Object set cloned: '${config.objectSet.name}' -> '${name}'`);
 						this.actionFinish();
 					}
 

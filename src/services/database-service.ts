@@ -589,6 +589,24 @@ export class DatabaseService {
 
 
     /* #region Object Set Methods */
+
+    /**
+     *  Clones the current Object Set and adds it to the current configuration.
+     * @param id  The ID of the object set to clone.
+     * @param name  The name of the new object set.
+     */
+    static cloneObjectSet(id: string, name: string) {
+        const config = DatabaseService.getConfig();
+        const sourceObjectSet = config.script.objectSets.find(objSet => objSet.id == id);
+        const objectSet = CommonUtils.cloneClassInstance(sourceObjectSet, ScriptObjectSet, CONSTANTS.DATABASE.APP_DB_TRANSFORMATION_OPTION);
+        objectSet.id = CommonUtils.randomString();
+        objectSet.init();
+        objectSet.resetId();
+        config.objectSetId = objectSet.id;
+        config.script.objectSets.push(objectSet);
+        objectSet.name = name as string;
+    }
+
     /**
      *  Retrieves the currently selected object set within the current workspace.
      * @returns  The object set object.

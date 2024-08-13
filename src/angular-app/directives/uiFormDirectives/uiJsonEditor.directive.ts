@@ -42,7 +42,7 @@ export class UiJsonEditorController implements angular.IController, IFormControl
     validate = () => {
         let valid = true;
         for (const key in this.setupCopy) {
-            if (this.setupCopy[key].required && !this.jsonCopy[key]) {
+            if (this.setupCopy[key].required && !this.setupCopy[key].disabled && !this.jsonCopy[key]) {
                 this.setupCopy[key].validationStatus = false;
                 valid = false;
             } else {
@@ -217,6 +217,7 @@ export class UiJsonEditor implements angular.IDirective {
             <hr class="m-0 p-0 mb-1"/>
         </div>
         <div ng-repeat="(key, _) in row" 
+            style="{{ $ctrl.setupCopy[key].style }}"
             data-key="{{ key }}"
             ng-class="{ 
                 'col-md-12': $ctrl.setupCopy[key].singleElementInRow, 
