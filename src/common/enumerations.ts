@@ -349,6 +349,8 @@ export enum FaIcon {
     addOn = 'fas fa-plus-square',
     /** Representing an undo icon. */
     undo = 'fas fa-undo',
+    /** Represents navigation icon */
+    navigateToPage = "fas fa-external-link-alt"
 }
 
 /** Enumeration of button styles. */

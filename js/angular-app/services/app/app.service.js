@@ -171,12 +171,27 @@ class AppService {
                 id: 'connection',
                 title: this.$translate.translate({ key: "CONNECTION" }),
                 action: 'Menu:Connection',
-                disabled: global.appGlobal.wizardStep != common_1.WizardStepByView[common_1.View.connection],
                 children: [
                     {
                         action: 'Connection:Refresh',
                         title: this.$translate.translate({ key: "MENU.REFRESH_SFDX_CONNECTIONS" }),
-                        icons: [{ icon: common_1.FaIcon.sync }]
+                        icons: [{ icon: common_1.FaIcon.sync }],
+                        disabled: global.appGlobal.wizardStep != common_1.WizardStepByView[common_1.View.connection],
+                    },
+                    {
+                        itemType: 'divider'
+                    },
+                    {
+                        action: 'Connection:NavigateToSourceOrg',
+                        title: this.$translate.translate({ key: "MENU.NAVIGATE_TO_SOURCE_ORG" }),
+                        icons: [{ icon: common_1.FaIcon.navigateToPage }],
+                        disabled: global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.home] || global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.connection]
+                    },
+                    {
+                        action: 'Connection:NavigateToTargetOrg',
+                        title: this.$translate.translate({ key: "MENU.NAVIGATE_TO_TARGET_ORG" }),
+                        icons: [{ icon: common_1.FaIcon.navigateToPage }],
+                        disabled: global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.home] || global.appGlobal.wizardStep == common_1.WizardStepByView[common_1.View.connection]
                     },
                 ]
             },

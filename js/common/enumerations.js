@@ -341,6 +341,8 @@ var FaIcon;
     FaIcon["addOn"] = "fas fa-plus-square";
     /** Representing an undo icon. */
     FaIcon["undo"] = "fas fa-undo";
+    /** Represents navigation icon */
+    FaIcon["navigateToPage"] = "fas fa-external-link-alt";
 })(FaIcon = exports.FaIcon || (exports.FaIcon = {}));
 /** Enumeration of button styles. */
 var BsButtonStyle;

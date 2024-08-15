@@ -19,6 +19,7 @@
     },
     "core:ExportFiles": {
       "args": "Los parámetros para pasar al módulo.",
+      "contentDocumentLinkOrderBy": "La cláusula ORDER BY para la consulta ContentDocumentLink. Esto resulta útil para especificar el orden de los archivos, de modo que los archivos más recientes en la organización de origen sean también los archivos más recientes en la organización de destino.",
       "deleteOldData": "Configúrelo en verdadero para eliminar archivos de destino antiguos antes de cargar otros nuevos.",
       "description": "Texto opcional que describe el propósito de esta instancia de módulo.",
       "externalId": "Identifica el campo del objeto ContentVersion utilizado para comparar versiones.",
@@ -175,7 +176,7 @@
     }
   },
   "EDIT": "Editar",
-  "EDIT_JSON": "Editar JSON",
+  "EDIT_JSON": "Editar cadena JSON",
   "ENTER_VALUE": "Introducir valor",
   "ERROR": "Error",
   "ERRORS_IN_CLI_STRING_SETTINGS": "Hay errores en la configuración de la cadena CLI",
@@ -333,6 +334,8 @@
     "GET_HELP": "Consigue ayuda",
     "IMPORT_FROM_EXPORT_JSON_FILE": "Importar desde el archivo export.json",
     "KNOWLEDGEBASE": "{{ KNOWLEDGE_BASE_TITLE }}",
+    "NAVIGATE_TO_SOURCE_ORG": "Organización de código abierto en el navegador",
+    "NAVIGATE_TO_TARGET_ORG": "Abrir la organización de destino en el navegador",
     "NEW_CONFIGURATION": "Nueva configuración",
     "NEW_WORKSPACE": "Nuevo espacio de trabajo",
     "OPEN_APP_FOLDER_IN_EXPLORER": "Abrir la carpeta de la aplicación en el Explorador",
@@ -354,6 +357,7 @@
   "MOVE_ITEM_DOWN": "Mover elemento hacia abajo",
   "MOVE_ITEM_UP": "Mover elemento hacia arriba",
   "MOVE_UP": "Ascender",
+  "NAVIGATINJG_TO_ORG": "Abriendo Org {{ USER_NAME }} en el navegador...",
   "NOT_DEFINED": "No definida",
   "NOT_SET": "- No establecido -",
   "NO_AVAILABLE_CONNECTIONS": "No hay conexiones disponibles. Verifique la instalación y configuración de su SFDX CLI y ejecute la detección de conexión usando el elemento del menú principal 'Conexión'.",

@@ -19,6 +19,7 @@
     },
     "core:ExportFiles": {
       "args": "The parameters to pass to the module.",
+      "contentDocumentLinkOrderBy": "The ORDER BY clause for the ContentDocumentLink query. This is useful to specify the order of files, so the most recent files in the source org are also the most recent files in the target org.",
       "deleteOldData": "Set to true to delete old target files before uploading new ones.",
       "description": "Optional text, describes the purpose of this module instance.",
       "externalId": "Identifies the field of the ContentVersion object used to compare versions.",
@@ -175,7 +176,7 @@
     }
   },
   "EDIT": "Edit",
-  "EDIT_JSON": "Edit JSON",
+  "EDIT_JSON": "Edit JSON string",
   "ENTER_VALUE": "Enter value",
   "ERROR": "Error",
   "ERRORS_IN_CLI_STRING_SETTINGS": "There are errors in the CLI string settings",
@@ -333,6 +334,8 @@
     "GET_HELP": "Get Help",
     "IMPORT_FROM_EXPORT_JSON_FILE": "Import from export.json File",
     "KNOWLEDGEBASE": "{{ KNOWLEDGE_BASE_TITLE }}",
+    "NAVIGATE_TO_SOURCE_ORG": "Open Source Org in Browser",
+    "NAVIGATE_TO_TARGET_ORG": "Open Target Org in Browser",
     "NEW_CONFIGURATION": "New Configuration",
     "NEW_WORKSPACE": "New Workspace",
     "OPEN_APP_FOLDER_IN_EXPLORER": "Open Application Folder in Explorer",
@@ -354,6 +357,7 @@
   "MOVE_ITEM_DOWN": "Move Item Down",
   "MOVE_ITEM_UP": "Move Item Up",
   "MOVE_UP": "Move Up",
+  "NAVIGATINJG_TO_ORG": "Opening Org {{ USER_NAME }} in browser...",
   "NOT_DEFINED": "Not defined",
   "NOT_SET": "- Not set -",
   "NO_AVAILABLE_CONNECTIONS": "No available connections. Please check your SFDX CLI installation and configuration and run the connection detection using the main menu item 'Connection'.",

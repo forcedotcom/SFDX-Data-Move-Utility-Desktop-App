@@ -116,7 +116,8 @@ exports.HelpArticlesConfig = {
             "module": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#module-string",
             "operation": "/full-documentation/add-on-api/export-file-core-add-on-module#operation-string",
             "sourceWhere": "/full-documentation/add-on-api/export-file-core-add-on-module#sourcewhere-string",
-            "targetWhere": "/full-documentation/add-on-api/export-file-core-add-on-module#targetwhere-string"
+            "targetWhere": "/full-documentation/add-on-api/export-file-core-add-on-module#targetwhere-string",
+            "contentDocumentLinkOrderBy": "/full-documentation/add-on-api/export-file-core-add-on-module#contentdocumentlinkorderby-string"
         },
         "core:RecordsTransform": {
             "MAIN_ARTICLE": "/full-documentation/add-on-api/records-transform-core-add-on-module",

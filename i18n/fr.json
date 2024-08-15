@@ -19,6 +19,7 @@
     },
     "core:ExportFiles": {
       "args": "Les paramètres à transmettre au module.",
+      "contentDocumentLinkOrderBy": "La clause ORDER BY pour la requête ContentDocumentLink. Elle est utile pour spécifier l'ordre des fichiers, de sorte que les fichiers les plus récents de l'organisation source soient également les fichiers les plus récents de l'organisation cible.",
       "deleteOldData": "Définissez sur true pour supprimer les anciens fichiers cibles avant d’en télécharger de nouveaux.",
       "description": "Texte facultatif décrivant l’objectif de cette instance de module.",
       "externalId": "Identifie le champ de l'objet ContentVersion utilisé pour comparer les versions.",
@@ -175,7 +176,7 @@
     }
   },
   "EDIT": "Modifier",
-  "EDIT_JSON": "Modifier JSON",
+  "EDIT_JSON": "Modifier la chaîne JSON",
   "ENTER_VALUE": "Entrez la valeur",
   "ERROR": "Erreur",
   "ERRORS_IN_CLI_STRING_SETTINGS": "Il y a des erreurs dans les paramètres de la chaîne CLI",
@@ -333,6 +334,8 @@
     "GET_HELP": "Obtenir de l'aide",
     "IMPORT_FROM_EXPORT_JSON_FILE": "Importer depuis le fichier export.json",
     "KNOWLEDGEBASE": "{{ KNOWLEDGE_BASE_TITLE }}",
+    "NAVIGATE_TO_SOURCE_ORG": "Organisation open source dans le navigateur",
+    "NAVIGATE_TO_TARGET_ORG": "Ouvrir l'organisation cible dans le navigateur",
     "NEW_CONFIGURATION": "Nouvelle configuration",
     "NEW_WORKSPACE": "Nouvel espace de travail",
     "OPEN_APP_FOLDER_IN_EXPLORER": "Ouvrir le dossier d'application dans l'Explorateur",
@@ -354,6 +357,7 @@
   "MOVE_ITEM_DOWN": "Déplacer l'élément vers le bas",
   "MOVE_ITEM_UP": "Déplacer l'élément vers le haut",
   "MOVE_UP": "Déplacer vers le haut",
+  "NAVIGATINJG_TO_ORG": "Ouverture de Org {{ USER_NAME }} dans le navigateur...",
   "NOT_DEFINED": "Non défini",
   "NOT_SET": "- Pas encore défini -",
   "NO_AVAILABLE_CONNECTIONS": "Aucune connexion disponible. Veuillez vérifier l'installation et la configuration de votre SFDX CLI et exécuter la détection de connexion à l'aide de l'élément du menu principal « Connexion ».",

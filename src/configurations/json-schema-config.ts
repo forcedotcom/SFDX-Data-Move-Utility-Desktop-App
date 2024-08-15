@@ -84,10 +84,17 @@ export const addOnsJsonSchemaConfig = {
                         "type": "string",
                         "format": "textarea",
                         "minLength": 1
-                    },
+                    },                    
+                    "contentDocumentLinkOrderBy": {
+                        "options": {
+                            "grid_columns": 4
+                        },
+                        "type": "string",
+                        "minLength": 1
+                    },                    
                     "maxFileSize": {
                         "options": {
-                            "grid_columns": 6
+                            "grid_columns": 4
                         },
                         "type": "number",
                         "maximum": 37000000,
@@ -95,7 +102,7 @@ export const addOnsJsonSchemaConfig = {
                     },
                     "maxChunkSize": {
                         "options": {
-                            "grid_columns": 6
+                            "grid_columns": 4
                         },
                         "type": "number",
                         "maximum": 37000000,

@@ -163,7 +163,7 @@ export class PreviewController {
                 logfullquery: {
                     type: 'toggle',
                     label: '--logfullquery',
-                    widthOf12: 3,
+                    widthOf12: 6,
                     helpSearchWord: 'LOG_FULL_QUERY',
                     addHelpLinks: true
                 },
@@ -191,8 +191,6 @@ export class PreviewController {
                     helpSearchWord: 'NO_WARNINGS',
                     addHelpLinks: true
                 },
-
-                // row 6
                 canmodify: {
                     type: 'toggle',
                     label: '--canmodify, -c',
@@ -202,6 +200,9 @@ export class PreviewController {
                     helpSearchWord: 'CAN_MODIFY',
                     addHelpLinks: true
                 },
+
+
+                 // row 6
                 apiversion: {
                     type: 'input',
                     label: '--apiversion',
@@ -210,12 +211,17 @@ export class PreviewController {
                     helpSearchWord: 'CLI_API_VERSION',
                     addHelpLinks: true
                 },
+
                 usesf: {
-                    type: 'toggle',
+                    type: 'select',
                     label: '--usesf',
-                    widthOf12: 6,
+                    widthOf12: 3,
                     helpSearchWord: 'USE_SF',
-                    addHelpLinks: true
+                    addHelpLinks: true,
+                    options: [
+                        { value: 'true', label: 'true' },
+                        { value: 'false', label: 'false' }
+                    ],
                 }
             };
 

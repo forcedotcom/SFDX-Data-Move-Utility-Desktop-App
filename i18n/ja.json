@@ -19,6 +19,7 @@
     },
     "core:ExportFiles": {
       "args": "モジュールに渡すパラメータ。",
+      "contentDocumentLinkOrderBy": "ContentDocumentLink クエリの ORDER BY 句。これはファイルの順序を指定するのに役立ち、ソース組織内の最新のファイルがターゲット組織内の最新のファイルにもなります。",
       "deleteOldData": "新しいファイルをアップロードする前に古いターゲット ファイルを削除するには、true に設定します。",
       "description": "オプションのテキスト。このモジュール インスタンスの目的を説明します。",
       "externalId": "バージョンを比較するために使用される ContentVersion オブジェクトのフィールドを識別します。",
@@ -175,7 +176,7 @@
     }
   },
   "EDIT": "編集",
-  "EDIT_JSON": "JSONを編集",
+  "EDIT_JSON": "JSON文字列を編集する",
   "ENTER_VALUE": "値を入力してください",
   "ERROR": "エラー",
   "ERRORS_IN_CLI_STRING_SETTINGS": "CLI文字列設定に誤りがあります",
@@ -333,6 +334,8 @@
     "GET_HELP": "助けを得ます",
     "IMPORT_FROM_EXPORT_JSON_FILE": "import.json ファイルからインポートする",
     "KNOWLEDGEBASE": "{{ KNOWLEDGE_BASE_TITLE }}",
+    "NAVIGATE_TO_SOURCE_ORG": "ブラウザ内のオープンソース組織",
+    "NAVIGATE_TO_TARGET_ORG": "ブラウザでターゲット組織を開く",
     "NEW_CONFIGURATION": "新しい構成",
     "NEW_WORKSPACE": "新しいワークスペース",
     "OPEN_APP_FOLDER_IN_EXPLORER": "エクスプローラーでアプリケーションフォルダーを開く",
@@ -354,6 +357,7 @@
   "MOVE_ITEM_DOWN": "項目を下に移動",
   "MOVE_ITEM_UP": "項目を上に移動",
   "MOVE_UP": "上へ移動",
+  "NAVIGATINJG_TO_ORG": "ブラウザで Org {{ USER_NAME }} を開いています...",
   "NOT_DEFINED": "定義されていません",
   "NOT_SET": "- 設定されていません -",
   "NO_AVAILABLE_CONNECTIONS": "利用可能な接続がありません。SFDX CLI のインストールと構成を確認し、メイン メニュー項目「接続」を使用して接続検出を実行してください。",

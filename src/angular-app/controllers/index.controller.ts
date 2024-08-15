@@ -1,7 +1,7 @@
 import { jsonSchemas } from "../../configurations";
 import { AppPathType, CONSTANTS, DialogType } from "../../common";
 import { IActionEventArgParam, IMenuItem, IOption, IReadAppConfigUserFile } from "../../models";
-import { DatabaseService, DialogService, LogService, ToastService, TranslationService } from "../../services";
+import { DatabaseService, DialogService, LogService, SfdmuService, ToastService, TranslationService } from "../../services";
 import { AngularUtils, AppUtils, CommonUtils, FsUtils } from "../../utils";
 import { IAppService, IJsonEditModalService } from "../services";
 
@@ -336,6 +336,42 @@ export class IndexController {
                     LogService.info(`Opening folder: ${path}`);
                 } break;
 
+
+                case 'Connection:NavigateToSourceOrg': {
+                    const ws = DatabaseService.getWorkspace();
+                    this.$app.$spinner.showSpinner(this.$app.$translate.translate({
+                        key: 'NAVIGATINJG_TO_ORG', params: {
+                            USER_NAME: ws.sourceConnection.userName
+                        }
+                    }));
+                    await CommonUtils.delayAsync(2000);
+                    const result = await SfdmuService.navigateToOrgAsync(ws.sourceConnection);
+                    this.$app.$spinner.hideSpinner();
+                    if (result.isError) {
+                        LogService.warn(`Error navigating to source org: ${result.errorMessage}`);
+                        ToastService.showError(result.errorMessage);
+                        return;
+                    }
+                    LogService.info(`Opening source Org: ${ws.sourceConnection.instanceUrl}`);
+                } break;
+
+                case 'Connection:NavigateToTargetOrg': {
+                    const ws = DatabaseService.getWorkspace();                    
+                    this.$app.$spinner.showSpinner(this.$app.$translate.translate({
+                        key: 'NAVIGATINJG_TO_ORG', params: {
+                            USER_NAME: ws.targetConnection.userName
+                        }
+                    }));
+                    await CommonUtils.delayAsync(2000);
+                    const result = await SfdmuService.navigateToOrgAsync(ws.targetConnection);
+                    this.$app.$spinner.hideSpinner();
+                    if (result.isError) {
+                        LogService.warn(`Error navigating to target org: ${result.errorMessage}`);
+                        ToastService.showError(result.errorMessage);
+                        return;
+                    }
+                    LogService.info(`Opening target Org: ${ws.targetConnection.instanceUrl}`);
+                } break;
 
                 case 'Configuration:Import': {
                     let ws = DatabaseService.getWorkspace();

@@ -346,6 +346,44 @@ class IndexController {
                         services_1.LogService.info(`Opening folder: ${path}`);
                     }
                     break;
+                case 'Connection:NavigateToSourceOrg':
+                    {
+                        const ws = services_1.DatabaseService.getWorkspace();
+                        this.$app.$spinner.showSpinner(this.$app.$translate.translate({
+                            key: 'NAVIGATINJG_TO_ORG', params: {
+                                USER_NAME: ws.sourceConnection.userName
+                            }
+                        }));
+                        await utils_1.CommonUtils.delayAsync(2000);
+                        const result = await services_1.SfdmuService.navigateToOrgAsync(ws.sourceConnection);
+                        this.$app.$spinner.hideSpinner();
+                        if (result.isError) {
+                            services_1.LogService.warn(`Error navigating to source org: ${result.errorMessage}`);
+                            services_1.ToastService.showError(result.errorMessage);
+                            return;
+                        }
+                        services_1.LogService.info(`Opening source Org: ${ws.sourceConnection.instanceUrl}`);
+                    }
+                    break;
+                case 'Connection:NavigateToTargetOrg':
+                    {
+                        const ws = services_1.DatabaseService.getWorkspace();
+                        this.$app.$spinner.showSpinner(this.$app.$translate.translate({
+                            key: 'NAVIGATINJG_TO_ORG', params: {
+                                USER_NAME: ws.targetConnection.userName
+                            }
+                        }));
+                        await utils_1.CommonUtils.delayAsync(2000);
+                        const result = await services_1.SfdmuService.navigateToOrgAsync(ws.targetConnection);
+                        this.$app.$spinner.hideSpinner();
+                        if (result.isError) {
+                            services_1.LogService.warn(`Error navigating to target org: ${result.errorMessage}`);
+                            services_1.ToastService.showError(result.errorMessage);
+                            return;
+                        }
+                        services_1.LogService.info(`Opening target Org: ${ws.targetConnection.instanceUrl}`);
+                    }
+                    break;
                 case 'Configuration:Import':
                     {
                         let ws = services_1.DatabaseService.getWorkspace();

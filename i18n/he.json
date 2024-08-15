@@ -19,6 +19,7 @@
     },
     "core:ExportFiles": {
       "args": "הפרמטרים שיש להעביר למודול.",
+      "contentDocumentLinkOrderBy": "משפט ה-ORDER BY עבור שאילתת ContentDocumentLink. זה שיכול להיות שחמוש כאשר אנו רוצים למיין קבצים כך שבקבצים העדכניים ביותר בסביבת המקור יהיו גם הקבצים העדכניים ביותר בסביבת היעד.",
       "deleteOldData": "הגדר כ-true כדי למחוק קבצים ישנים של יעד לפני העלאת קבצים חדשים.",
       "description": "טקסט אופציונלי, מתאר את המטרה של מופע מודול זה.",
       "externalId": "מזהה את השדה של ContentVersion אובייקט המשמש להשוואת גרסאות.",
@@ -175,7 +176,7 @@
     }
   },
   "EDIT": "ערוך",
-  "EDIT_JSON": "ערוך את JSON",
+  "EDIT_JSON": "עריכת מחרוזת JSON",
   "ENTER_VALUE": "הכנס ערך",
   "ERROR": "שגיאה",
   "ERRORS_IN_CLI_STRING_SETTINGS": "נמצאו מספר שגיאות בהגדרות שורת הפקודה",
@@ -333,6 +334,8 @@
     "GET_HELP": "פניה לעזרה",
     "IMPORT_FROM_EXPORT_JSON_FILE": "ייבוא מקובץ export.json",
     "KNOWLEDGEBASE": "{{ KNOWLEDGE_BASE_TITLE }}",
+    "NAVIGATE_TO_SOURCE_ORG": "פתח סביבת המקור בדפדפן",
+    "NAVIGATE_TO_TARGET_ORG": "פתח סביבת היעד בדפדפן",
     "NEW_CONFIGURATION": "תצורה חדשה",
     "NEW_WORKSPACE": "סביבת עבודה חדשה",
     "OPEN_APP_FOLDER_IN_EXPLORER": "פתח את תיקיית האפליקציה בסייר הקבצים",
@@ -354,6 +357,7 @@
   "MOVE_ITEM_DOWN": "העבר פריט למטה",
   "MOVE_ITEM_UP": "העבר פריט למעלה",
   "MOVE_UP": "הזז למעלה",
+  "NAVIGATINJG_TO_ORG": "פותח את סביבה {{ USER_NAME }} בדפדפן...",
   "NOT_DEFINED": "לא מוגדר",
   "NOT_SET": "- לא הוגדר -",
   "NO_AVAILABLE_CONNECTIONS": "אין חיבורים זמינים. נא להגדיר חיבורים עם Salesforce CLI ולרענן את החיבורים על ידי שימוש בתפריט 'התחברות'.",

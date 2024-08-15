@@ -286,7 +286,6 @@ export class SfdmuService {
         }
     }
 
-
     /**
      * Queries the specified org.
      * @param {string} soql - The SOQL query to execute.
@@ -476,7 +475,31 @@ export class SfdmuService {
         return result;
     }
 
+    /**
+     *  Opens salesforce org in browser
+     * @param connection Connection object to use
+     * @returns  A promise that resolves to the execution result
+     */
+    static async navigateToOrgAsync(connection: Connection) : Promise<IApiResultBase> {
 
+        const verificationResult = await SfdmuService.verfyConnectionAsync(connection);
+
+        if (verificationResult.isError) {
+            return {
+                isError: true,
+                statusCode: verificationResult.statusCode,
+                errorMessage: verificationResult.errorMessage
+            };
+        }
+        
+        FsUtils.navigateToPathOrUrl(`${connection.instanceUrl}/secur/frontdoor.jsp?sid=${connection.accessToken}&retURL=/lightning/page/home`);
+
+        return {
+            isError: false,
+            statusCode: StatusCode.OK
+        };
+        
+    }
     /**
      * Verifies the connection and reconnects if necessary.
      * This method updates the connection object if reconnect was successful.
@@ -794,8 +817,12 @@ export class SfdmuService {
 
                 // If it's a boolean flag and it's true, add just the flag
                 if (typeof value === 'boolean' && value) {
-                    if (key == 'canmodify' && selectedTargetConnection?.instanceUrl) {
-                        command += ` ${flag} ${selectedTargetConnection.instanceUrl.replace('https://', '')}`;
+                    if (key == 'canmodify') {
+                        if (selectedTargetConnection?.instanceUrl) {
+                            command += ` ${flag} ${selectedTargetConnection.instanceUrl.replace('https://', '')}`;
+                        }
+                    } else {
+                        command += ` ${flag}`;
                     }
                 }
                 // If the key is path, add it with quotes based on OS
@@ -803,7 +830,7 @@ export class SfdmuService {
                     command += ` ${flag} ${quote}${value}${quote}`;
                 }
                 // For other non-boolean flags, add the flag and its value
-                else if (typeof value != 'boolean') {
+                else if (typeof value != 'boolean' && value) {
                     command += ` ${flag} ${value}`;
                 }
             }

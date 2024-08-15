@@ -272,12 +272,27 @@ export class AppService implements IAppService {
 				id: 'connection',
 				title: this.$translate.translate({ key: "CONNECTION" }),
 				action: 'Menu:Connection',
-				disabled: global.appGlobal.wizardStep != WizardStepByView[View.connection],
 				children: [
 					{
 						action: 'Connection:Refresh',
 						title: this.$translate.translate({ key: "MENU.REFRESH_SFDX_CONNECTIONS" }),
-						icons: [{ icon: FaIcon.sync }]
+						icons: [{ icon: FaIcon.sync }],
+						disabled: global.appGlobal.wizardStep != WizardStepByView[View.connection],
+					},
+					{
+						itemType: 'divider'
+					},
+					{
+						action: 'Connection:NavigateToSourceOrg',
+						title: this.$translate.translate({ key: "MENU.NAVIGATE_TO_SOURCE_ORG" }),
+						icons: [{ icon: FaIcon.navigateToPage }],
+						disabled: global.appGlobal.wizardStep == WizardStepByView[View.home] || global.appGlobal.wizardStep == WizardStepByView[View.connection]
+					},
+					{
+						action: 'Connection:NavigateToTargetOrg',
+						title: this.$translate.translate({ key: "MENU.NAVIGATE_TO_TARGET_ORG" }),
+						icons: [{ icon: FaIcon.navigateToPage }],
+						disabled: global.appGlobal.wizardStep == WizardStepByView[View.home] || global.appGlobal.wizardStep == WizardStepByView[View.connection]
 					},
 				]
 			},
@@ -347,6 +362,9 @@ export class AppService implements IAppService {
 						icons: [{ icon: FaIcon.trash }],
 						disabled: !ws.config.isInitialized || global.appGlobal.wizardStep != WizardStepByView[View.configuration]
 					}
+					
+
+
 				]
 			},
 			{

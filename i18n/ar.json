@@ -19,6 +19,7 @@
     },
     "core:ExportFiles": {
       "args": "المعلمات لتمريرها إلى الوحدة النمطية.",
+      "contentDocumentLinkOrderBy": "عبارة ORDER BY لاستعلام ContentDocumentLink. وهي مفيدة لتحديد ترتيب الملفات، بحيث تكون أحدث الملفات في المنظمة المصدر هي أيضًا أحدث الملفات في المنظمة المستهدفة.",
       "deleteOldData": "اضبط على \"صحيح\" لحذف الملفات المستهدفة القديمة قبل تحميل ملفات جديدة.",
       "description": "نص اختياري، يصف الغرض من مثيل الوحدة هذا.",
       "externalId": "يحدد حقل كائن ContentVersion المستخدم لمقارنة الإصدارات.",
@@ -175,7 +176,7 @@
     }
   },
   "EDIT": "يحرر",
-  "EDIT_JSON": "تحرير JSON",
+  "EDIT_JSON": "تعديل سلسلة JSON",
   "ENTER_VALUE": "أدخل القيمة",
   "ERROR": "خطأ",
   "ERRORS_IN_CLI_STRING_SETTINGS": "توجد أخطاء في إعدادات سلسلة واجهة سطر الأوامر (CLI).",
@@ -333,6 +334,8 @@
     "GET_HELP": "احصل على مساعدة",
     "IMPORT_FROM_EXPORT_JSON_FILE": "الاستيراد من ملف Export.json",
     "KNOWLEDGEBASE": "{{ KNOWLEDGE_BASE_TITLE }}",
+    "NAVIGATE_TO_SOURCE_ORG": "منظمة مفتوحة المصدر في المتصفح",
+    "NAVIGATE_TO_TARGET_ORG": "افتح المنظمة المستهدفة في المتصفح",
     "NEW_CONFIGURATION": "التكوين الجديد",
     "NEW_WORKSPACE": "مساحة عمل جديدة",
     "OPEN_APP_FOLDER_IN_EXPLORER": "افتح مجلد التطبيق في Explorer",
@@ -354,6 +357,7 @@
   "MOVE_ITEM_DOWN": "نقل العنصر إلى الأسفل",
   "MOVE_ITEM_UP": "نقل العنصر لأعلى",
   "MOVE_UP": "تحرك",
+  "NAVIGATINJG_TO_ORG": "فتح Org {{ USER_NAME }} في المتصفح...",
   "NOT_DEFINED": "غير معرف",
   "NOT_SET": "- غير مضبوط -",
   "NO_AVAILABLE_CONNECTIONS": "لا توجد اتصالات متاحة. يرجى التحقق من تثبيت SFDX CLI وتكوينه وتشغيل اكتشاف الاتصال باستخدام عنصر القائمة الرئيسية \"الاتصال\".",
