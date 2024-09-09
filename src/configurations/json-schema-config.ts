@@ -175,7 +175,7 @@ export const addOnsJsonSchemaConfig = {
                                     "type": "string",
                                     "required": true,
                                     "options": {
-                                        "grid_columns": 4
+                                        "grid_columns": 3
                                     },
                                     "minLength": 1
                                 },
@@ -183,7 +183,7 @@ export const addOnsJsonSchemaConfig = {
                                     "type": "string",
                                     "required": true,
                                     "options": {
-                                        "grid_columns": 4
+                                        "grid_columns": 3
                                     },
                                     "minLength": 1
                                 },
@@ -191,10 +191,21 @@ export const addOnsJsonSchemaConfig = {
                                     "type": "string",
                                     "required": true,
                                     "options": {
-                                        "grid_columns": 4
+                                        "grid_columns": 3
                                     },
                                     "minLength": 1
                                 },
+                                "valueSource": {
+                                    "type": "string",
+                                    "enum": ["source", "target"],
+                                    "options": {
+                                        "grid_columns": 3,
+                                        "has_placeholder_option": true
+                                    },
+                                    "default": "source"
+                                },
+                                
+                                
                                 "lookupExpression": {
                                     "type": "string",
                                     "options": {
@@ -209,7 +220,7 @@ export const addOnsJsonSchemaConfig = {
                                         "has_placeholder_option": true
                                     },
                                     "default": "source"
-                                },
+                                },                                
                                 "isConstant": {
                                     "type": "boolean",
                                     "options": {
@@ -218,6 +229,7 @@ export const addOnsJsonSchemaConfig = {
                                         "no_empty_option": true
                                     },
                                 },
+                                
                                 "includeFields": {
                                     "type": "array",
                                     "title": "Included Field",

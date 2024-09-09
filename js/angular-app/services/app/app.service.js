@@ -8,7 +8,6 @@ const angular_1 = __importDefault(require("angular"));
 const common_1 = require("../../../common");
 const models_1 = require("../../../models");
 const services_1 = require("../../../services");
-const utils_1 = require("../../../utils");
 /**
  * Represents the application service interface containing multiple utility services
  * and methods to build main application components like menus and wizards.
@@ -473,7 +472,7 @@ class AppService {
         }
     }
     showHiddenQuickTips() {
-        utils_1.CommonUtils.getAllLocalStorageItems().forEach((keyValuePair) => {
+        services_1.LocalStateService.getAllLocalStorageItems().forEach((keyValuePair) => {
             const key = keyValuePair.key;
             if (key.startsWith('quickTip')) {
                 localStorage.removeItem(key);

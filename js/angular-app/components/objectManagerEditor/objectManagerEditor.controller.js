@@ -104,7 +104,9 @@ class ObjectManagerEditorController {
         });
         this.$scope.$watch('$ctrl.queryTestUseSourceConnection', async (newVal) => {
             if (newVal != undefined) {
-                await this.makeFullQueryAsync(false);
+                if (this.selectedTabId == 'testQuery') {
+                    await this.makeFullQueryAsync(false);
+                }
             }
         });
         this.$app.$broadcast.onAction('buildViewComponents', null, () => {
@@ -253,6 +255,24 @@ class ObjectManagerEditorController {
         }
     }
     /**
+        *  Creates the full query for the script object, including multiselect fields and external ID.
+        * @param sObject  The script object.
+        * @param description  The sObject description.
+        * @returns  The full query.
+        */
+    createFullQuery(sObject) {
+        const description = this.$app.orgDescribe.objectsMap.get(sObject.name) || new models_1.SObjectDescribe();
+        let fullQuery = utils_1.SfdmuUtils.createQueryString(sObject);
+        const allFields = !fullQuery.sObject.externalId ? fullQuery.sObject.fields : fullQuery.sObject.fields.concat(fullQuery.sObject.externalId.split(';'));
+        fullQuery.sObject.fields = utils_1.SfdmuUtils.getAllQueryStringFields(allFields, description);
+        fullQuery.fields = fullQuery.sObject.fields = fullQuery.sObject.fields.exclude(sObject.excludedFields, (field, excluded) => field == excluded);
+        if (!description.isInitialized || !description.isDescribed) {
+            return null;
+        }
+        fullQuery = utils_1.SfdmuUtils.rebuildFullQuery(fullQuery);
+        return fullQuery;
+    }
+    /**
      *  Make a full query for the sobject.
      * Validates the query and executes it if runQueries is true.
      * @param runQueries  Indicates whether to execute the query or not.
@@ -279,43 +299,53 @@ class ObjectManagerEditorController {
         this.queryTestOrgName = runOnConnection.userName;
         // Generate full query string
         services_1.LogService.info(`Creating and validating full query for sobject ${sObject.name}...`);
-        const fullQuery = utils_1.SfdmuUtils.createQueryString(sObject);
-        const allFields = !fullQuery.sObject.externalId ? fullQuery.sObject.fields : fullQuery.sObject.fields.concat(fullQuery.sObject.externalId.split(';'));
-        fullQuery.sObject.fields = utils_1.SfdmuUtils.getAllQueryStringFields(allFields, description);
-        fullQuery.sObject.fields = fullQuery.sObject.fields.exclude(sObject.excludedFields, (field, excluded) => field == excluded);
+        let fullQuery = this.createFullQuery(sObject);
         const fieldDescription = [...description.fieldsMap.values()];
         this.allFields = fullQuery.sObject.fields;
-        const queryFieldDescriptions = allFields
-            .leftJoin(fieldDescription, (field, description) => field == description.name, (field, description) => description || new models_1.SFieldDescribe({
-            dataSource: common_1.DataSource.unknown,
-            name: field,
-            label: field
-        }));
+        const queryFieldDescriptions = this.allFields
+            .leftJoin(fieldDescription, (field, description) => field == description.name, (field, description) => {
+            if (field.includes('.')) {
+                return new models_1.SFieldDescribe({
+                    dataSource: common_1.DataSource.composite,
+                    name: field,
+                    label: field
+                });
+            }
+            return description || new models_1.SFieldDescribe({
+                dataSource: common_1.DataSource.unknown,
+                name: field,
+                label: field
+            });
+        });
         const missingInSourceFields = queryFieldDescriptions.filter(x => x.dataSource == common_1.DataSource.target || x.dataSource == common_1.DataSource.unknown).map(x => x.name);
         const missingInTargetFields = queryFieldDescriptions.filter(x => x.dataSource == common_1.DataSource.source || x.dataSource == common_1.DataSource.unknown).map(x => x.name);
         if (this.selectedSObjectOption) {
             this.selectedSObjectOption.data.missingFieldsInSource = missingInSourceFields.length > 0 ? missingInSourceFields : null;
             this.selectedSObjectOption.data.missingFieldsInTarget = missingInTargetFields.length > 0 ? missingInTargetFields : null;
         }
+        // Update fullquery
+        fullQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == common_1.DataSource.both).map(x => x.name);
+        fullQuery = utils_1.SfdmuUtils.rebuildFullQuery(fullQuery);
         this.setFieldsTabsetTitles();
         if (runQueries) {
             services_1.LogService.info(`Executing full query for sobject ${sObject.name}...`);
             // Execute the full query
             await utils_1.CommonUtils.delayAsync(100);
             this.$app.$spinner.showSpinner();
-            // Count query
+            // Build count query
             const countSoql = utils_1.SfdmuUtils.createCountQueryString(sObject);
             const countRecords = await services_1.SfdmuService.queryAsync(countSoql, runOnConnection);
             if (countRecords.isError) {
                 this.$app.$spinner.hideSpinner();
                 return false;
             }
-            // Limited full query
+            // Build limited full query
             const limitedQuery = utils_1.SfdmuUtils.createLimitedQueryString(sObject, common_1.CONSTANTS.QUERY_TEST_MAX_RECORDS_COUNT);
-            const allFields = !fullQuery.sObject.externalId ? limitedQuery.sObject.fields : limitedQuery.sObject.fields.concat(limitedQuery.sObject.externalId.split(';'));
-            limitedQuery.sObject.fields = utils_1.SfdmuUtils.getAllQueryStringFields(allFields, description);
+            //Only fields that are in both source and target orgs are included in the limited query
+            limitedQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == common_1.DataSource.both).map(x => x.name);
             let limitedSoql = utils_1.SfdmuUtils.createQueryString(limitedQuery.sObject).query;
-            limitedSoql = this.buildTargetQueryString(limitedQuery.sObject, limitedSoql);
+            limitedSoql = this.buildFieldMappingAwareQueryString(limitedQuery.sObject, limitedSoql);
+            // Run limited query
             const allRecords = await services_1.SfdmuService.queryAsync(limitedSoql, runOnConnection);
             if (allRecords.isError) {
                 this.$app.$spinner.hideSpinner();
@@ -327,7 +357,7 @@ class ObjectManagerEditorController {
                 this.queryTestTotalRecordsCount = sObject.limit > 0 && sObject.limit < countRecords.records[0].cnt
                     ? sObject.limit : countRecords.records[0].cnt;
                 this.fullSoqlQuery = utils_1.SfdmuUtils.createQueryString(fullQuery.sObject).query;
-                this.fullSoqlQuery = this.buildTargetQueryString(fullQuery.sObject, this.fullSoqlQuery);
+                this.fullSoqlQuery = this.buildFieldMappingAwareQueryString(fullQuery.sObject, this.fullSoqlQuery);
             });
             this.$app.$timeout(() => {
                 this.selectedQueryTestTabIndex = 1;
@@ -339,7 +369,7 @@ class ObjectManagerEditorController {
             await utils_1.CommonUtils.delayAsync(200);
             utils_1.AngularUtils.$apply(this.$scope, () => {
                 this.fullSoqlQuery = utils_1.SfdmuUtils.createQueryString(fullQuery.sObject).query;
-                this.fullSoqlQuery = this.buildTargetQueryString(fullQuery.sObject, this.fullSoqlQuery);
+                this.fullSoqlQuery = this.buildFieldMappingAwareQueryString(fullQuery.sObject, this.fullSoqlQuery);
             });
         }
         this.$app.$spinner.hideSpinner();
@@ -1502,7 +1532,7 @@ class ObjectManagerEditorController {
      * @param query  The query.
      * @returns
      */
-    buildTargetQueryString(sObject, query) {
+    buildFieldMappingAwareQueryString(sObject, query) {
         if (!this.queryTestUseSourceConnection && sObject.hasFieldMapping) {
             for (const item of sObject.fieldMapping) {
                 if (item.targetObject) {

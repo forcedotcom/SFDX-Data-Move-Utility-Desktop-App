@@ -232,6 +232,7 @@ class IndexController {
                         if (name) {
                             utils_1.AngularUtils.$apply(this.$app.$rootScope, () => {
                                 services_1.DatabaseService.createConfig(ws.id, name);
+                                services_1.DatabaseService.createObjectSet('Default');
                                 this.$app.buildAllApplicationViewComponents();
                                 this.$app.builAllApplicationMainComponents();
                                 services_1.LogService.info(`New configuration created: ${name}`);
@@ -493,6 +494,42 @@ class IndexController {
                     break;
             }
         }, this.$scope);
+        // Check for new version
+        services_1.PollService.registerPollCallback(this._checkForNewVersion, null, common_1.CONSTANTS.GIT_HUB_REPO_POLLING.interval, common_1.CONSTANTS.GIT_HUB_REPO_POLLING.maxRetries, true);
+    }
+    _checkForNewVersion() {
+        return new Promise(resolve => {
+            var _a;
+            if (!((_a = global.appGlobal.appRemotePackageJson) === null || _a === void 0 ? void 0 : _a.isLoaded)) {
+                resolve(false);
+            }
+            const currentVersionNumber = utils_1.CommonUtils.versionToNumber(global.appGlobal.packageJson.version);
+            const latestVersionNumber = utils_1.CommonUtils.versionToNumber(global.appGlobal.appRemotePackageJson.version);
+            if (latestVersionNumber > currentVersionNumber) {
+                const versionUpdateLastPromptTime = services_1.LocalStateService.getLocalState('versionUpdateLastPromptTime');
+                const now = new Date();
+                // Check if the last prompt was shown today
+                if (!versionUpdateLastPromptTime || new Date(parseInt(versionUpdateLastPromptTime)).toDateString() !== now.toDateString()) {
+                    services_1.LogService.info(`A new version of the application is available. Current version: 
+                                    ${global.appGlobal.packageJson.version}, 
+                                    Latest version: ${global.appGlobal.appRemotePackageJson.version}`);
+                    if (services_1.DialogService.showPromptDialog({
+                        messageKey: 'DIALOG.NEW_VERSIION_AVAILABLE.MESSAGE',
+                        titleKey: 'DIALOG.NEW_VERSIION_AVAILABLE.TITLE',
+                        params: {
+                            CURRENT_VERSION: global.appGlobal.packageJson.version,
+                            LATEST_VERSION: global.appGlobal.appRemotePackageJson.version
+                        },
+                    })) {
+                        const changelogUrl = new services_1.GithubService().getBlobFileUrl(global.appGlobal.packageJson.appConfig.appGithubUrl, global.appGlobal.packageJson.appConfig.appMainBranch, 'CHANGELOG.md');
+                        utils_1.FsUtils.navigateToPathOrUrl(changelogUrl);
+                    }
+                    // Save the current time as the last prompt time
+                    services_1.LocalStateService.setLocalState('versionUpdateLastPromptTime', now.getTime().toString());
+                }
+            }
+            resolve(true);
+        });
     }
 }
 exports.IndexController = IndexController;

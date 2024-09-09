@@ -166,6 +166,7 @@ var DataSource;
     DataSource["source"] = "source";
     DataSource["target"] = "target";
     DataSource["both"] = "both";
+    DataSource["composite"] = "composite";
 })(DataSource = exports.DataSource || (exports.DataSource = {}));
 // UI enumerations ---------------------------------------------------
 /** Font awesome icons. */

@@ -10,8 +10,7 @@ import {
 } from "..";
 import { CONSTANTS, ErrorSource, FaIcon, ProgressEventType, View, ViewByWizardStep, WizardStepByView } from "../../../common";
 import { ConsoleEventType, IActionEventArgParam, IAlert, IDataResult, IMenuItem, IOption, IProgressInfo, IState, IStateChangeEvent, OrgDescribe, SObjectDescribe, Workspace } from "../../../models";
-import { DatabaseService, LogService, SfdmuService, ToastService } from "../../../services";
-import { CommonUtils } from "../../../utils";
+import { DatabaseService, LocalStateService, LogService, SfdmuService, ToastService } from "../../../services";
 
 
 /**
@@ -598,7 +597,7 @@ export class AppService implements IAppService {
 	}
 
 	showHiddenQuickTips(): void {
-		CommonUtils.getAllLocalStorageItems().forEach((keyValuePair) => {
+		LocalStateService.getAllLocalStorageItems().forEach((keyValuePair) => {
 			const key = keyValuePair.key;
 			if (key.startsWith('quickTip')) {
 				localStorage.removeItem(key);

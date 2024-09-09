@@ -5,7 +5,7 @@ import {
 } from 'angular-ui-router';
 import { ConfigurationController, ConnectionController, HomeController, IndexController, PreviewController, RunController } from "../angular-app";
 import { CONSTANTS, View } from "../common";
-import { IGithubRepoInfo } from "../models";
+import { IGithubRepoInfo, IRemotePackageJson } from "../models";
 import { BrowserConsoleLogService, DatabaseService, GithubService, LogService, NetworkStatusService, PollService, ThemeService, TranslationService } from "../services";
 import { CommonUtils } from "../utils";
 
@@ -75,31 +75,35 @@ function renderer() {
     const netStatus = global.appGlobal.networkStatusService = new NetworkStatusService();
 
     global.appGlobal.isOffline = !netStatus.checkConnection();
+
     let gitHubPollId: string;
+    let appGitHubPollId: string;
 
     netStatus.on('connectionLost', function connectionLost() {
         LogService.info("Connection lost");
         global.appGlobal.isOffline = true;
-        // Pause polling github repo info since we are offline
+        // Pause polling Github repo info since we are offline
         if (gitHubPollId) {
             PollService.pausePolling(gitHubPollId);
+            PollService.pausePolling(appGitHubPollId);
         }
     });
 
     netStatus.on('connectionRestored', function connectionRestored() {
         LogService.info("Connection restored");
         global.appGlobal.isOffline = false;
-        // Resume polling github repo info since we are back online
+        // Resume polling Github repo info since we are back online
         if (gitHubPollId) {
             PollService.resumePolling(gitHubPollId);
+            PollService.resumePolling(appGitHubPollId);
         }
     });
 
-    // Load github repo info -------------------------------------------------------
-    // Get repo info from github using the github service and save it in appGlobal
-    // We use the poll service to poll the github repo info every 10 seconds
+    // Load Github repo info -------------------------------------------------------
+    // Get repo info from Github using the Github service and save it in appGlobal
+    // We use the poll service to poll the Github repo info every 10 seconds
     // We poll 10 times and then stop polling
-    LogService.info("Loading github repo info...");
+    LogService.info("Loading plugin Github repo info...");
     gitHubPollId = PollService.registerPollCallback(async function pollGithubRepoInfo() {
 
         const gitHubService = new GithubService();
@@ -110,19 +114,50 @@ function renderer() {
 
         if (global.appGlobal.githubRepoInfo.statusCode == 200) {
 
-            LogService.info("Github repo info loaded");
+            LogService.info("Plugin Github repo info loaded");
             global.appGlobal.githubRepoInfo.isLoaded = true;
             return true;
         }
 
-        LogService.warn("Failed to load github repo info");
+        LogService.warn("Failed to load plugin Github repo info");
         return false;
 
     }, (id, idFailed, total) => {
-        // Reset the poll id when the github repo info is loaded
+        // Reset the poll id when the Github repo info is loaded
         // or when the polling is aborted or failed
-        LogService.info(`Polling github repo info completed. Poll id: ${id}, isAbortedOrFailed: ${idFailed}, totalPollsDone: ${total}`);
+        LogService.info(`Polling plugin Github repo info completed. Poll id: ${id}, isAbortedOrFailed: ${idFailed}, totalPollsDone: ${total}`);
         gitHubPollId = null;
+    }, CONSTANTS.GIT_HUB_REPO_POLLING.interval,
+        CONSTANTS.GIT_HUB_REPO_POLLING.maxRetries,
+        true);
+
+
+    LogService.info("Loading application Github repo info...");
+    appGitHubPollId = PollService.registerPollCallback(async function pollGithubRepoInfo() {
+
+        const gitHubService = new GithubService();
+
+        global.appGlobal.appRemotePackageJson = await gitHubService.getRepoPackageJsonAsync(
+            global.appGlobal.packageJson.appConfig.appGithubUrl,
+            global.appGlobal.packageJson.appConfig.appMainBranch) as IRemotePackageJson;
+
+        if (global.appGlobal.appRemotePackageJson.statusCode == 200) {
+
+            LogService.info("Application package.json file loaded");
+            global.appGlobal.appRemotePackageJson.isLoaded = true;
+
+            return true;
+        }
+
+
+        LogService.warn("Failed to load application package.json info");
+        return false;
+
+    }, (id, idFailed, total) => {
+        // Reset the poll id when the Github repo info is loaded
+        // or when the polling is aborted or failed
+        LogService.info(`Polling application package.json info completed. Poll id: ${id}, isAbortedOrFailed: ${idFailed}, totalPollsDone: ${total}`);
+        appGitHubPollId = null;
     }, CONSTANTS.GIT_HUB_REPO_POLLING.interval,
         CONSTANTS.GIT_HUB_REPO_POLLING.maxRetries,
         true);

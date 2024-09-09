@@ -44,6 +44,23 @@ class LocalStateService {
         }
         return fallbackValue;
     }
+    /**
+     * Returns all items in local storage.
+     * @returns  An array of key-value pairs of all items in local storage
+     */
+    static getAllLocalStorageItems() {
+        const items = [];
+        for (let i = 0; i < localStorage.length; i++) {
+            const key = localStorage.key(i);
+            if (key !== null) { // TypeScript null check
+                const value = localStorage.getItem(key);
+                if (value !== null) { // Ensure value is not null
+                    items.push({ key, value });
+                }
+            }
+        }
+        return items;
+    }
 }
 exports.LocalStateService = LocalStateService;
 //# sourceMappingURL=local-state-service.js.map

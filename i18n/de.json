@@ -45,7 +45,8 @@
       "sourceObject": "Das Salesforce-Objekt, das die Quelle der Daten ist.",
       "targetField": "Das Feld im Zielobjekt, das aktualisiert wird.",
       "targetObject": "Das Zielobjekt, das aktualisiert wird.",
-      "transformations": "Liste der auf Zielfelder anzuwendenden Transformationen."
+      "transformations": "Liste der auf Zielfelder anzuwendenden Transformationen.",
+      "valueSource": "Gibt an, ob der Wert für dieses Feld aus dem Quell- oder Zieldatensatz übernommen werden soll."
     },
     "description": "<ul><li>Die Überschrift jedes Steuerelements in diesem Formular entspricht dem Namen der Eigenschaft in der JSON-Konfigurationsdatei.</li><li> Verwenden Sie den Pfeil, um die Eigenschaft zu erweitern/reduzieren und ihre untergeordneten Eigenschaften anzuzeigen.</li><li> Aktivieren Sie das Kontrollkästchen, um die jeweilige optionale Eigenschaft in die Konfiguration aufzunehmen.</li></ul>",
     "edit": "Ereignis-Add-On-Definitionen bearbeiten",
@@ -148,6 +149,10 @@
     },
     "IMPORT_FROM_EXPORT_JSON": {
       "TITLE": "Import aus export.json"
+    },
+    "NEW_VERSIION_AVAILABLE": {
+      "MESSAGE": "Eine neue Version der Anwendung ist verfügbar.\nAktuelle Version: {{ CURRENT_VERSION }}\nNeueste Version: {{ LATEST_VERSION }}.\nMöchten Sie das Änderungsprotokoll anzeigen und die neueste Version herunterladen?",
+      "TITLE": "Neue Version verfügbar"
     },
     "OBJECT_SET": {
       "ADD_OBJECTS": "Objekte zum Objektsatz hinzufügen",

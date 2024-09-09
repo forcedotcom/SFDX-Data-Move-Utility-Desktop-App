@@ -80,10 +80,10 @@ export class CommonUtils {
     }
 
 
-    static shallowClone<T>(object: T) : T {
+    static shallowClone<T>(object: T): T {
         return JSON.parse(JSON.stringify(object || {}));
     }
-    
+
 
     /**
      * Performs a deep equality comparison between two objects.
@@ -382,23 +382,7 @@ export class CommonUtils {
         return new Promise<void>(resolve => setTimeout(resolve, delayTimeMs));
     }
 
-    /**
-     * Returns all items in local storage. 
-     * @returns  An array of key-value pairs of all items in local storage
-     */
-    static getAllLocalStorageItems(): { key: string, value: string }[] {
-        const items: { key: string, value: string }[] = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key !== null) { // TypeScript null check
-                const value = localStorage.getItem(key);
-                if (value !== null) { // Ensure value is not null
-                    items.push({ key, value });
-                }
-            }
-        }
-        return items;
-    }
+    
 
     /**
      * Recursively replaces properties in an object or elements in an array based on a provided callback function.
@@ -461,7 +445,7 @@ export class CommonUtils {
      * @param value  The value to check
      * @returns  A boolean indicating whether the value is a valid date
      */
-    static isValidDate(value : any) : boolean {
+    static isValidDate(value: any): boolean {
         const date = new Date(value);
         return date instanceof Date && !isNaN(date as any) && (
             value === date.toISOString().slice(0, 10) || value === date.toISOString()
@@ -478,13 +462,33 @@ export class CommonUtils {
         if (value instanceof Date && !isNaN(value as any)) {
             return value;
         }
-    
+
         if (CommonUtils.isValidDate(value)) {
             return new Date(value);
         }
-    
+
         return null;
-    
+
+    }
+
+    /**
+     *  Converts a version string to a number.
+     * @param version  The version string
+     * @returns  The version number
+     */
+    static versionToNumber(version: string): number {
+        // Remove the leading 'v' and split the version into components
+        const parts = version.substring(1).split('.').map(Number);
+
+        // Ensure that we have major, minor, and patch numbers
+        const [major, minor, patch] = [
+            parts[0] || 0,
+            parts[1] || 0,
+            parts[2] || 0
+        ];
+
+        // Convert the version to a single number
+        return major * 1e6 + minor * 1e3 + patch;
     }
 
 }

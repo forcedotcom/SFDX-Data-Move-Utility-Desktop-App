@@ -67,6 +67,47 @@ class GithubService {
         };
     }
     /**
+       * Fetches  remote repository package.json file
+       * @param repoUrl  - The URL of the repository.
+       * @param mainBranch - The main branch of the repository.
+       * @returns
+       */
+    async getRepoPackageJsonAsync(repoUrl, mainBranch) {
+        try {
+            // Construct the raw URL to access the package.json directly
+            const url = this.getRawFileUrl(repoUrl, mainBranch, 'package.json');
+            return await this.fetchJsonAsync(url);
+        }
+        catch (error) {
+            // If there is an error, return null
+            return {
+                statusCode: 404,
+                message: error.message,
+                isLoaded: false
+            };
+        }
+    }
+    /**
+     *  Fetches the blob file URL
+     * @param repoUrl - The URL of the repository.
+     * @param mainBranch - The main branch of the repository.
+     * @param filePath - The file path.
+     * @returns - The blob file URL.
+     */
+    getBlobFileUrl(repoUrl, mainBranch, filePath) {
+        return `${repoUrl.replace(/\/$/, '')}/blob/${mainBranch}/${filePath}`;
+    }
+    /**
+     *  Fetches the raw file URL
+     * @param repoUrl - The URL of the repository.
+     * @param mainBranch - The main branch of the repository.
+     * @param filePath - The file path.
+     * @returns - The raw file URL.
+     */
+    getRawFileUrl(repoUrl, mainBranch, filePath) {
+        return `${repoUrl.replace(/\/$/, '')}/raw/${mainBranch}/${filePath}`;
+    }
+    /**
      * Extracts the repository path from the URL.
      * @param repoUrl - The URL of the repository.
      * @returns The repository path.
@@ -84,7 +125,7 @@ class GithubService {
      * @param url - The URL to fetch.
      * @returns A promise that resolves to the fetched JSON data.
      */
-    fetchJsonAsync(url) {
+    fetchJsonAsync(url, redirectCount = 0) {
         return new Promise((resolve) => {
             https.get(url, {
                 headers: {
@@ -96,9 +137,29 @@ class GithubService {
                     data += chunk;
                 });
                 res.on('end', () => {
-                    const response = JSON.parse(data);
-                    response.statusCode = res.statusCode;
-                    resolve(response);
+                    if (res.statusCode && res.statusCode >= 300 && res.statusCode < 400 && res.headers.location) {
+                        // Handle redirects (up to a limit to prevent infinite loops)
+                        if (redirectCount < 5) {
+                            return resolve(this.fetchJsonAsync(res.headers.location, redirectCount + 1));
+                        }
+                        else {
+                            return resolve({
+                                statusCode: 310,
+                                message: 'Too many redirects'
+                            });
+                        }
+                    }
+                    try {
+                        const response = JSON.parse(data);
+                        response.statusCode = res.statusCode;
+                        resolve(response);
+                    }
+                    catch (error) {
+                        resolve({
+                            statusCode: 500,
+                            message: 'Failed to parse response'
+                        });
+                    }
                 });
             }).on('error', (err) => {
                 resolve({

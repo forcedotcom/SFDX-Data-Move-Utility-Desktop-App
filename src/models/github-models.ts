@@ -1,15 +1,17 @@
+import { IAppPackageJson } from "./app-models";
+
 /** The response from the GitHub API. */
 export interface IGithubResponse {
     /** The message from the response. */
     message: string;
     /** The status code of the response. */
     statusCode: number;
+    /** Flag indicating whether the repository data has been loaded. */   
+    isLoaded: boolean;
 }
 
 /** The response from the GitHub API for a repository. */
 export interface IGithubRepoInfo extends IGithubResponse {
-    /** Flag indicating whether the repository data has been loaded. */
-    isLoaded: boolean;
     /** The number of stars the repository has. */
     stars: number;
     /** The number of forks the repository has. */
@@ -59,3 +61,5 @@ export interface ICommitDetails extends IGithubResponse {
         };
     };
 }
+
+export interface IRemotePackageJson extends IGithubResponse, IAppPackageJson { }

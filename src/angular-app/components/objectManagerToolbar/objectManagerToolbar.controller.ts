@@ -1,7 +1,7 @@
 
 import { IScope } from 'angular';
 import { BsButtonStyle, BsSize, DataSource, DialogType, ErrorSource, FaIcon, SetupFormOptions, View, WizardStepByView } from '../../../common';
-import { IActionEventArgParam, ISetupFormOption, ScriptObject, ScriptObjectSet } from '../../../models';
+import { IActionEventArgParam, ISetupFormOption, ScriptObject } from '../../../models';
 import { DatabaseService, DialogService, LogService, ToastService } from '../../../services';
 import { AngularUtils, CommonUtils, SfdmuUtils } from '../../../utils';
 import { UiListController } from '../../directives';
@@ -228,13 +228,7 @@ export class ObjectManagerToolbarController {
 						isRequired: true,
 					});
 					if (name) {
-						const objectSet = new ScriptObjectSet({
-							name: name as string,
-							id: CommonUtils.randomString()
-						});
-						config.script.objectSets.push(objectSet);
-						config.objectSetId = objectSet.id;
-						DatabaseService.updateConfig(ws.id, config);
+						DatabaseService.createObjectSet(name as string);
 						LogService.info(`Object set '${config.objectSet.name}' added.`);
 						this.actionFinish();
 					}
@@ -251,7 +245,6 @@ export class ObjectManagerToolbarController {
 					});
 					if (name) {
 						DatabaseService.cloneObjectSet(config.objectSet.id, name as string);						
-						DatabaseService.updateConfig(ws.id, config);
 						LogService.info(`Object set cloned: '${config.objectSet.name}' -> '${name}'`);
 						this.actionFinish();
 					}

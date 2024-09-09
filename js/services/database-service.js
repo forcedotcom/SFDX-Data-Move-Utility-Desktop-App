@@ -521,12 +521,28 @@ class DatabaseService {
     /* #endregion */
     /* #region Object Set Methods */
     /**
+     *  Creates a new ObjectSet
+     * @param name  The name of the new object set.
+     */
+    static createObjectSet(name) {
+        const config = DatabaseService.getConfig();
+        const ws = DatabaseService.getWorkspace();
+        const objectSet = new models_1.ScriptObjectSet({
+            name: name,
+            id: utils_1.CommonUtils.randomString()
+        });
+        config.script.objectSets.push(objectSet);
+        config.objectSetId = objectSet.id;
+        DatabaseService.updateConfig(ws.id, config);
+    }
+    /**
      *  Clones the current Object Set and adds it to the current configuration.
      * @param id  The ID of the object set to clone.
      * @param name  The name of the new object set.
      */
     static cloneObjectSet(id, name) {
         const config = DatabaseService.getConfig();
+        const ws = DatabaseService.getWorkspace();
         const sourceObjectSet = config.script.objectSets.find(objSet => objSet.id == id);
         const objectSet = utils_1.CommonUtils.cloneClassInstance(sourceObjectSet, models_1.ScriptObjectSet, common_1.CONSTANTS.DATABASE.APP_DB_TRANSFORMATION_OPTION);
         objectSet.id = utils_1.CommonUtils.randomString();
@@ -535,6 +551,7 @@ class DatabaseService {
         config.objectSetId = objectSet.id;
         config.script.objectSets.push(objectSet);
         objectSet.name = name;
+        DatabaseService.updateConfig(ws.id, config);
     }
     /**
      *  Retrieves the currently selected object set within the current workspace.

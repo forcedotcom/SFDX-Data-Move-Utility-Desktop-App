@@ -131,6 +131,7 @@ exports.HelpArticlesConfig = {
             "isConstant": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldisconstant-boolean",
             "lookupExpression": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldlookupexpression-string",
             "lookupSource": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldlookupsource-string",
+            "valueSource": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldvaluesource-string",
             "module": "/full-documentation/add-on-api/introduction-to-the-sfdmu-add-on-api-engine#module-string",
             "sourceField": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldsourcefield-string",
             "sourceObject": "/full-documentation/add-on-api/records-transform-core-add-on-module#fieldsourceobject-string",

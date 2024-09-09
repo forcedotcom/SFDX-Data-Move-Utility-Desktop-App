@@ -1,7 +1,7 @@
 import { jsonSchemas } from "../../configurations";
 import { AppPathType, CONSTANTS, DialogType } from "../../common";
 import { IActionEventArgParam, IMenuItem, IOption, IReadAppConfigUserFile } from "../../models";
-import { DatabaseService, DialogService, LogService, SfdmuService, ToastService, TranslationService } from "../../services";
+import { DatabaseService, DialogService, GithubService, LocalStateService, LogService, PollService, SfdmuService, ToastService, TranslationService } from "../../services";
 import { AngularUtils, AppUtils, CommonUtils, FsUtils } from "../../utils";
 import { IAppService, IJsonEditModalService } from "../services";
 
@@ -227,6 +227,7 @@ export class IndexController {
                     if (name) {
                         AngularUtils.$apply(this.$app.$rootScope, () => {
                             DatabaseService.createConfig(ws.id, name as string);
+                            DatabaseService.createObjectSet('Default');
                             this.$app.buildAllApplicationViewComponents();
                             this.$app.builAllApplicationMainComponents();
                             LogService.info(`New configuration created: ${name}`);
@@ -356,7 +357,7 @@ export class IndexController {
                 } break;
 
                 case 'Connection:NavigateToTargetOrg': {
-                    const ws = DatabaseService.getWorkspace();                    
+                    const ws = DatabaseService.getWorkspace();
                     this.$app.$spinner.showSpinner(this.$app.$translate.translate({
                         key: 'NAVIGATINJG_TO_ORG', params: {
                             USER_NAME: ws.targetConnection.userName
@@ -480,6 +481,62 @@ export class IndexController {
 
             }
         }, this.$scope);
+
+        // Check for new version
+        PollService.registerPollCallback(this._checkForNewVersion,
+            null,
+            CONSTANTS.GIT_HUB_REPO_POLLING.interval,
+            CONSTANTS.GIT_HUB_REPO_POLLING.maxRetries,
+            true);
+
+    }
+
+    private _checkForNewVersion(): Promise<boolean> {
+
+        return new Promise<boolean>(resolve => {
+            if (!global.appGlobal.appRemotePackageJson?.isLoaded) {
+                resolve(false);
+            }
+
+            const currentVersionNumber: number = CommonUtils.versionToNumber(global.appGlobal.packageJson.version);
+            const latestVersionNumber: number = CommonUtils.versionToNumber(global.appGlobal.appRemotePackageJson.version);
+
+            if (latestVersionNumber > currentVersionNumber) {
+
+                const versionUpdateLastPromptTime: string = LocalStateService.getLocalState('versionUpdateLastPromptTime');
+                const now = new Date();
+
+                // Check if the last prompt was shown today
+                if (!versionUpdateLastPromptTime || new Date(parseInt(versionUpdateLastPromptTime)).toDateString() !== now.toDateString()) {
+                    LogService.info(`A new version of the application is available. Current version: 
+                                    ${global.appGlobal.packageJson.version}, 
+                                    Latest version: ${global.appGlobal.appRemotePackageJson.version}`);
+
+                    if (DialogService.showPromptDialog({
+                        messageKey: 'DIALOG.NEW_VERSIION_AVAILABLE.MESSAGE',
+                        titleKey: 'DIALOG.NEW_VERSIION_AVAILABLE.TITLE',
+                        params: {
+                            CURRENT_VERSION: global.appGlobal.packageJson.version,
+                            LATEST_VERSION: global.appGlobal.appRemotePackageJson.version
+                        },
+                    })) {
+                        const changelogUrl = new GithubService().getBlobFileUrl(
+                            global.appGlobal.packageJson.appConfig.appGithubUrl,
+                            global.appGlobal.packageJson.appConfig.appMainBranch,
+                            'CHANGELOG.md'
+                        );
+                        FsUtils.navigateToPathOrUrl(changelogUrl);
+                    }
+
+                    // Save the current time as the last prompt time
+                    LocalStateService.setLocalState('versionUpdateLastPromptTime', now.getTime().toString());
+                }
+
+            }
+
+            resolve(true);
+        });
+
 
     }
 

@@ -1,7 +1,7 @@
 import { BrowserWindow, Display, Screen } from "electron";
 import { jsonSchemas } from "../configurations";
 import { BrowserConsoleLogService, NetworkStatusService, ThemeService, WindowService } from "../services";
-import { IGithubRepoInfo } from "./github-models";
+import { IGithubRepoInfo, IRemotePackageJson } from "./github-models";
 
 
 
@@ -47,6 +47,8 @@ export interface IAppConfig extends IAppConfigUser {
     pluginMainBranch: string;
     /** URL to the GitHub repository of the entire application. */
     appGithubUrl: string;
+    /** The main branch of the application's GitHub repository. */
+    appMainBranch: string;
     /** URL to the knowledge base of the application. */
     knowledgebaseUrl: string;
     /** URL to the knowledge base search of the application. */
@@ -66,19 +68,19 @@ export interface IAppConfig extends IAppConfigUser {
 /** Interface representing the package.json file. */
 export interface IAppPackageJson {
     /** The name of the package. */
-    name: string;
+    name?: string;
     /** The version of the package. */
-    version: string;
+    version?: string;
     /** The application configuration. */
-    appConfig: IAppConfig;
+    appConfig?: IAppConfig;
     /** The description of the package. */
-    description: string;
+    description?: string;
     /** The author of the package. */
-    author: string;
+    author?: string;
     /** The name of the  application developer. */
-    developedBy: string;
+    developedBy?: string;
     /** The license of the package. */
-    license: string;
+    license?: string;
 }
 
 
@@ -99,6 +101,8 @@ export class AppGlobalData {
 
     /** Package.json data. */
     packageJson: IAppPackageJson;
+    /** package.json  file of the remote app */
+    appRemotePackageJson: IRemotePackageJson;
     /** Flag indicating whether the application is in debug mode. */
     isDebug: boolean;
     /** Flag indicating whether the running app is packaged */

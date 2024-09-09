@@ -6,7 +6,7 @@ import * as path from 'path';
 import { AppPathType, CONSTANTS, DialogType } from "../common";
 import { AppConfig, jsonSchemas } from "../configurations";
 import { AppGlobalData, IAppConfig, IAppConfigUser, IReadAppConfigUserFile } from "../models";
-import { DialogService, LogService, TranslationService, WindowService } from "../services";
+import { DialogService, LogService, WindowService } from "../services";
 import { AppUtils, OsUtils } from "../utils";
 
 

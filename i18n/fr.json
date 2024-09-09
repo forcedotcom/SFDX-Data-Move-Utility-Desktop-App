@@ -45,7 +45,8 @@
       "sourceObject": "Objet Salesforce qui est la source des données.",
       "targetField": "Champ sur l'objet cible qui sera mis à jour.",
       "targetObject": "L'objet cible qui sera mis à jour.",
-      "transformations": "Liste des transformations à appliquer aux champs cibles."
+      "transformations": "Liste des transformations à appliquer aux champs cibles.",
+      "valueSource": "Spécifie si la valeur de ce champ doit être extraite de l'enregistrement source ou cible."
     },
     "description": "<ul><li>La légende de chaque contrôle de ce formulaire est le nom de la propriété dans le fichier de configuration JSON.</li><li> Utilisez la flèche pour développer/réduire la propriété et voir ses sous-propriétés.</li><li> Cochez la case pour inclure la propriété facultative correspondante dans la configuration.</li></ul>",
     "edit": "Modifier les définitions des modules complémentaires d'événement",
@@ -148,6 +149,10 @@
     },
     "IMPORT_FROM_EXPORT_JSON": {
       "TITLE": "Importer depuis export.json"
+    },
+    "NEW_VERSIION_AVAILABLE": {
+      "MESSAGE": "Une nouvelle version de l'application est disponible.\nVersion actuelle : {{ CURRENT_VERSION }}\nDernière version : {{ LATEST_VERSION }}.\nVous souhaitez consulter le journal des modifications et télécharger la dernière version ?",
+      "TITLE": "Nouvelle version disponible"
     },
     "OBJECT_SET": {
       "ADD_OBJECTS": "Ajouter des objets à l'ensemble d'objets",

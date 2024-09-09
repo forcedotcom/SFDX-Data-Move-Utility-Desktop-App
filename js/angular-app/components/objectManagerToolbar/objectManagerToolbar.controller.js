@@ -204,13 +204,7 @@ class ObjectManagerToolbarController {
                             isRequired: true,
                         });
                         if (name) {
-                            const objectSet = new models_1.ScriptObjectSet({
-                                name: name,
-                                id: utils_1.CommonUtils.randomString()
-                            });
-                            config.script.objectSets.push(objectSet);
-                            config.objectSetId = objectSet.id;
-                            services_1.DatabaseService.updateConfig(ws.id, config);
+                            services_1.DatabaseService.createObjectSet(name);
                             services_1.LogService.info(`Object set '${config.objectSet.name}' added.`);
                             this.actionFinish();
                         }
@@ -227,7 +221,6 @@ class ObjectManagerToolbarController {
                         });
                         if (name) {
                             services_1.DatabaseService.cloneObjectSet(config.objectSet.id, name);
-                            services_1.DatabaseService.updateConfig(ws.id, config);
                             services_1.LogService.info(`Object set cloned: '${config.objectSet.name}' -> '${name}'`);
                             this.actionFinish();
                         }

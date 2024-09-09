@@ -171,7 +171,7 @@ exports.addOnsJsonSchemaConfig = {
                                     "type": "string",
                                     "required": true,
                                     "options": {
-                                        "grid_columns": 4
+                                        "grid_columns": 3
                                     },
                                     "minLength": 1
                                 },
@@ -179,7 +179,7 @@ exports.addOnsJsonSchemaConfig = {
                                     "type": "string",
                                     "required": true,
                                     "options": {
-                                        "grid_columns": 4
+                                        "grid_columns": 3
                                     },
                                     "minLength": 1
                                 },
@@ -187,9 +187,18 @@ exports.addOnsJsonSchemaConfig = {
                                     "type": "string",
                                     "required": true,
                                     "options": {
-                                        "grid_columns": 4
+                                        "grid_columns": 3
                                     },
                                     "minLength": 1
+                                },
+                                "valueSource": {
+                                    "type": "string",
+                                    "enum": ["source", "target"],
+                                    "options": {
+                                        "grid_columns": 3,
+                                        "has_placeholder_option": true
+                                    },
+                                    "default": "source"
                                 },
                                 "lookupExpression": {
                                     "type": "string",

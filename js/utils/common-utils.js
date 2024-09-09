@@ -324,23 +324,6 @@ class CommonUtils {
         return new Promise(resolve => setTimeout(resolve, delayTimeMs));
     }
     /**
-     * Returns all items in local storage.
-     * @returns  An array of key-value pairs of all items in local storage
-     */
-    static getAllLocalStorageItems() {
-        const items = [];
-        for (let i = 0; i < localStorage.length; i++) {
-            const key = localStorage.key(i);
-            if (key !== null) { // TypeScript null check
-                const value = localStorage.getItem(key);
-                if (value !== null) { // Ensure value is not null
-                    items.push({ key, value });
-                }
-            }
-        }
-        return items;
-    }
-    /**
      * Recursively replaces properties in an object or elements in an array based on a provided callback function.
      * This function traverses an object or array and applies the callback to each element or property,
      * allowing for dynamic updates to the values based on their current values and paths. This version of the function
@@ -418,6 +401,23 @@ class CommonUtils {
             return new Date(value);
         }
         return null;
+    }
+    /**
+     *  Converts a version string to a number.
+     * @param version  The version string
+     * @returns  The version number
+     */
+    static versionToNumber(version) {
+        // Remove the leading 'v' and split the version into components
+        const parts = version.substring(1).split('.').map(Number);
+        // Ensure that we have major, minor, and patch numbers
+        const [major, minor, patch] = [
+            parts[0] || 0,
+            parts[1] || 0,
+            parts[2] || 0
+        ];
+        // Convert the version to a single number
+        return major * 1e6 + minor * 1e3 + patch;
     }
 }
 exports.CommonUtils = CommonUtils;

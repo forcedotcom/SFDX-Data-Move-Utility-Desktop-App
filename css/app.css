@@ -542,6 +542,20 @@ ui-tabs .nav-pills .nav-item {
 }
 
 
+/* uiAccordion  Directive Styling -------- */
+.accordion-button {
+    left: 0px;
+    text-indent: 28px;
+}
+
+.accordion-button:after {
+    position: absolute;
+    left: 18px;
+    flex-shrink: unset;
+    margin-left: 0px;
+}
+
+
 /* Icons-combo Styling ------------- */
 .fas.with-plus,
 .fas.with-minus,

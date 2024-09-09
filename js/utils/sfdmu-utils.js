@@ -50,10 +50,14 @@ class SfdmuUtils {
         object.fields = data.fields;
         object.polymorphicFields = object.polymorphicFields && object.polymorphicFields
             .innerJoin(data.fields, (polymorphic, soqlField) => polymorphic.name == soqlField, (polymorphic) => polymorphic);
-        object.excludedFields = object.excludedFields && object.excludedFields
-            .innerJoin(data.fields, (excluded, soqlField) => excluded == soqlField, (excluded) => excluded);
-        object.excludedFromUpdateFields = object.excludedFromUpdateFields && object.excludedFromUpdateFields
-            .innerJoin(data.fields, (excluded, soqlField) => excluded == soqlField, (excluded) => excluded);
+        // object.excludedFields = object.excludedFields && object.excludedFields
+        //     .innerJoin(data.fields,
+        //         (excluded, soqlField) => excluded == soqlField,
+        //         (excluded) => excluded);
+        // object.excludedFromUpdateFields = object.excludedFromUpdateFields && object.excludedFromUpdateFields
+        //     .innerJoin(data.fields,
+        //         (excluded, soqlField) => excluded == soqlField,
+        //         (excluded) => excluded);
     }
     /**
      * Builds the query string for the script object.
@@ -93,6 +97,14 @@ class SfdmuUtils {
             fields,
             sObject: object
         };
+    }
+    /**
+     *  Rebuilds the query string for the script object.
+     * @param fullQuery  The previous full query object.
+     * @returns  The rebuilt full query object.
+     */
+    static rebuildFullQuery(fullQuery) {
+        return SfdmuUtils.createQueryString(fullQuery.sObject, fullQuery.sObject.fields);
     }
     /**
      * Builds the count query string for the script object.

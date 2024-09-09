@@ -172,6 +172,7 @@ export enum DataSource {
     source = 'source',
     target = 'target',
     both = 'both',
+    composite = 'composite',
 }
 
 

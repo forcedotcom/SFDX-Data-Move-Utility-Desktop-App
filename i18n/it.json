@@ -45,7 +45,8 @@
       "sourceObject": "L'oggetto Salesforce che è l'origine dei dati.",
       "targetField": "Il campo sull'oggetto di destinazione che verrà aggiornato.",
       "targetObject": "L'oggetto di destinazione che verrà aggiornato.",
-      "transformations": "Elenco di trasformazioni da applicare ai campi obiettivo."
+      "transformations": "Elenco di trasformazioni da applicare ai campi obiettivo.",
+      "valueSource": "Specifica se il valore per questo campo deve essere preso dal record di origine o di destinazione."
     },
     "description": "<ul><li>La didascalia di ogni controllo in questo modulo è il nome della proprietà nel file di configurazione JSON.</li><li> Utilizza la freccia per espandere/comprimere la proprietà e visualizzare le sue sottoproprietà.</li><li> Spuntare la casella di controllo per includere la rispettiva proprietà opzionale nella configurazione.</li></ul>",
     "edit": "Modifica le definizioni dei componenti aggiuntivi dell'evento",
@@ -148,6 +149,10 @@
     },
     "IMPORT_FROM_EXPORT_JSON": {
       "TITLE": "Importa da export.json"
+    },
+    "NEW_VERSIION_AVAILABLE": {
+      "MESSAGE": "È disponibile una nuova versione dell'applicazione.\nVersione corrente: {{ CURRENT_VERSION }}\nUltima versione: {{ LATEST_VERSION }}.\nVuoi visualizzare il changelog e scaricare l'ultima versione?",
+      "TITLE": "Nuova versione disponibile"
     },
     "OBJECT_SET": {
       "ADD_OBJECTS": "Aggiungi oggetti al set di oggetti",

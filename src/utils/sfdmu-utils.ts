@@ -74,14 +74,14 @@ export class SfdmuUtils {
             .innerJoin(data.fields,
                 (polymorphic, soqlField) => polymorphic.name == soqlField,
                 (polymorphic) => polymorphic);
-        object.excludedFields = object.excludedFields && object.excludedFields
-            .innerJoin(data.fields,
-                (excluded, soqlField) => excluded == soqlField,
-                (excluded) => excluded);
-        object.excludedFromUpdateFields = object.excludedFromUpdateFields && object.excludedFromUpdateFields
-            .innerJoin(data.fields,
-                (excluded, soqlField) => excluded == soqlField,
-                (excluded) => excluded);
+        // object.excludedFields = object.excludedFields && object.excludedFields
+        //     .innerJoin(data.fields,
+        //         (excluded, soqlField) => excluded == soqlField,
+        //         (excluded) => excluded);
+        // object.excludedFromUpdateFields = object.excludedFromUpdateFields && object.excludedFromUpdateFields
+        //     .innerJoin(data.fields,
+        //         (excluded, soqlField) => excluded == soqlField,
+        //         (excluded) => excluded);
     }
 
     /**
@@ -128,6 +128,20 @@ export class SfdmuUtils {
             fields,
             sObject: object
         };
+    }
+
+
+   
+
+
+
+    /**
+     *  Rebuilds the query string for the script object.
+     * @param fullQuery  The previous full query object.
+     * @returns  The rebuilt full query object.
+     */
+    static rebuildFullQuery(fullQuery: FullQuery): FullQuery {
+        return SfdmuUtils.createQueryString(fullQuery.sObject, fullQuery.sObject.fields);
     }
 
     /**
@@ -389,7 +403,7 @@ export class SfdmuUtils {
             { label: "Boolean", value: "boolean" },
             { label: "UUID", value: "uuid" },
             { label: "Color name", value: "color_name" },
-            { label: "RGB HEX Color name", value: "rgb_hex" },           
+            { label: "RGB HEX Color name", value: "rgb_hex" },
             { label: "Record Id", value: `ids` },
 
             // Custom patterns
@@ -418,7 +432,7 @@ export class SfdmuUtils {
             default:
                 return "";
         }
-    } 
+    }
 
 
     /* #region Helper / Private methods */

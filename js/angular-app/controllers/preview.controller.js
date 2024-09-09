@@ -75,7 +75,7 @@ class PreviewController {
                     disabled: true,
                     required: false,
                     widthOf12: 12,
-                    helpSearchWord: 'PATH',
+                    helpSearchWord: 'PATH_PARAMETER',
                     addHelpLinks: true
                 },
                 // LOGGING_SETTINGS

@@ -45,7 +45,8 @@
       "sourceObject": "The Salesforce object that is the source of the data.",
       "targetField": "The field on the target object that will be updated.",
       "targetObject": "The target object that will be updated.",
-      "transformations": "List of transformations to apply to target fields."
+      "transformations": "List of transformations to apply to target fields.",
+      "valueSource": "Specifies whether the value for this field should be taken from the source or target record."
     },
     "description": "<ul><li>The caption of each control in this form is the name of the property in the JSON configuration file.</li><li>Use arrow to expand/collapse the property and see its sub-properties.</li><li>Tick the checkbox to include the respective optional property in the configuration.</li></ul>",
     "edit": "Edit Event Add-Ons Definitions",
@@ -148,6 +149,10 @@
     },
     "IMPORT_FROM_EXPORT_JSON": {
       "TITLE": "Import from export.json"
+    },
+    "NEW_VERSIION_AVAILABLE": {
+      "MESSAGE": "A new version of the application is available.\nCurrent version: {{ CURRENT_VERSION }}\nLatest version: {{ LATEST_VERSION }}.\nDo you want to view the changelog and download the latest version?",
+      "TITLE": "New Version Available"
     },
     "OBJECT_SET": {
       "ADD_OBJECTS": "Add Objects to Object Set",

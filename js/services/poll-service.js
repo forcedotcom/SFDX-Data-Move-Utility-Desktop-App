@@ -42,10 +42,7 @@ class PollService {
         this.pollCountMap.set(id, pollCount);
         // Determine if we should stop the polling due to the callback result or max polls reached
         if (shouldStop || (maxRetries !== 0 && pollCount >= maxRetries)) {
-            const completedCallback = this.completedCallbackMap.get(id);
-            const totalPollsDone = this.pollCountMap.get(id) || 0;
-            completedCallback === null || completedCallback === void 0 ? void 0 : completedCallback(id, false, totalPollsDone);
-            this.cleanUpPoll(id);
+            this.stopPolling(id);
         }
         else if (!this.pausedPolls.has(id)) {
             this.pollingMap.set(id, setTimeout(() => this.pollAsync(id, interval, maxRetries), interval));
@@ -115,13 +112,11 @@ class PollService {
         this.startPolling(id);
     }
     /**
-      * Stop the polling for a given identifier.
+      * Stop the polling for a given identifier calling completedCallback with isAbortedOrFailed as true.
       * @param id - The poll identifier.
       */
     static stopPolling(id) {
         if (this.pollingMap.has(id)) {
-            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
-            clearTimeout(this.pollingMap.get(id));
             const totalPollsDone = this.pollCountMap.get(id) || 0;
             const completedCallback = this.completedCallbackMap.get(id);
             completedCallback === null || completedCallback === void 0 ? void 0 : completedCallback(id, true, totalPollsDone);
@@ -129,15 +124,31 @@ class PollService {
         }
     }
     /**
-     * Stop and remove all active polls.
+     *  Abort the polling for a given identifier without calling completedCallback.
+     * @param id - The poll identifier.
+     */
+    static abortPolling(id) {
+        if (this.pollingMap.has(id)) {
+            // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+            this.cleanUpPoll(id);
+        }
+    }
+    /**
+     * Stop and remove all active polls calling completedCallback with isAbortedOrFailed as true.
      */
     static stopAllPolling() {
-        this.pollingMap.forEach((timeout, id) => {
-            clearTimeout(timeout);
-            this.pollingMap.delete(id);
-            this.callbackMap.delete(id);
-            this.pollCountMap.delete(id);
-            this.pausedPolls.delete(id);
+        const ids = Array.from(this.pollingMap.keys());
+        ids.forEach(id => {
+            this.stopPolling(id);
+        });
+    }
+    /**
+    * Stop and remove all active polls without calling completedCallback.
+    */
+    static abortAllPolling() {
+        const ids = Array.from(this.pollingMap.keys());
+        ids.forEach(id => {
+            this.abortPolling(id);
         });
     }
     /**
@@ -149,12 +160,14 @@ class PollService {
         return this.pollingMap.has(id);
     }
     static cleanUpPoll(id) {
+        // eslint-disable-next-line @typescript-eslint/no-non-null-assertion
+        clearTimeout(this.pollingMap.get(id));
         this.pollingMap.delete(id);
         this.callbackMap.delete(id);
-        this.completedCallbackMap.delete(id);
         this.pollInfoMap.delete(id);
         this.pollCountMap.delete(id);
         this.pausedPolls.delete(id);
+        this.completedCallbackMap.delete(id);
     }
 }
 exports.PollService = PollService;

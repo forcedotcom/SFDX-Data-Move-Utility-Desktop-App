@@ -3,7 +3,7 @@ import { CONSTANTS, DataSource, DialogType, FaIcon, SetupFormOptions, View, Wiza
 import { addOnsDefaultFormConfig, addOnsJsonSchemaConfig, availableCoreAddOnModules } from '../../../configurations';
 import { IActionEventArgParam, IEditFormResult, IOption, ISObjectOption, ITabItem, PolymorphicField, SFieldDescribe, SObjectDescribe, ScriptMappingItem, ScriptMockField, ScriptObject } from '../../../models';
 import { DatabaseService, DialogService, LogService, NetworkStatusService, SfdmuService, ToastService } from '../../../services';
-import { AngularUtils, CommonUtils, SfdmuUtils } from '../../../utils';
+import { AngularUtils, CommonUtils, FullQuery, SfdmuUtils } from '../../../utils';
 import { UiEditFormArrayController, UiJsonEditorController, UiTabsController } from '../../directives';
 import { IAppService, IJsonEditModalService } from '../../services';
 
@@ -144,7 +144,9 @@ export class ObjectManagerEditorController {
 
 		this.$scope.$watch('$ctrl.queryTestUseSourceConnection', async (newVal: boolean) => {
 			if (newVal != undefined) {
-				await this.makeFullQueryAsync(false);
+				if (this.selectedTabId == 'testQuery') {
+					await this.makeFullQueryAsync(false);
+				}
 			}
 		});
 
@@ -320,6 +322,25 @@ export class ObjectManagerEditorController {
 	}
 
 	/**
+		*  Creates the full query for the script object, including multiselect fields and external ID.
+		* @param sObject  The script object.
+		* @param description  The sObject description.
+		* @returns  The full query.
+		*/
+	private createFullQuery(sObject: ScriptObject): FullQuery {
+		const description = this.$app.orgDescribe.objectsMap.get(sObject.name) || new SObjectDescribe()
+		let fullQuery = SfdmuUtils.createQueryString(sObject);
+		const allFields = !fullQuery.sObject.externalId ? fullQuery.sObject.fields : fullQuery.sObject.fields.concat(fullQuery.sObject.externalId.split(';'));
+		fullQuery.sObject.fields = SfdmuUtils.getAllQueryStringFields(allFields, description);
+		fullQuery.fields = fullQuery.sObject.fields = fullQuery.sObject.fields.exclude(sObject.excludedFields, (field, excluded) => field == excluded);
+		if (!description.isInitialized || !description.isDescribed) {
+			return null;
+		}
+		fullQuery = SfdmuUtils.rebuildFullQuery(fullQuery);
+		return fullQuery;
+	}
+
+	/**
 	 *  Make a full query for the sobject.
 	 * Validates the query and executes it if runQueries is true.
 	 * @param runQueries  Indicates whether to execute the query or not.
@@ -349,20 +370,27 @@ export class ObjectManagerEditorController {
 
 		// Generate full query string
 		LogService.info(`Creating and validating full query for sobject ${sObject.name}...`);
-		const fullQuery = SfdmuUtils.createQueryString(sObject);
-		const allFields = !fullQuery.sObject.externalId ? fullQuery.sObject.fields : fullQuery.sObject.fields.concat(fullQuery.sObject.externalId.split(';'));
-		fullQuery.sObject.fields = SfdmuUtils.getAllQueryStringFields(allFields, description);
-		fullQuery.sObject.fields = fullQuery.sObject.fields.exclude(sObject.excludedFields, (field, excluded) => field == excluded);
+		let fullQuery = this.createFullQuery(sObject);
 		const fieldDescription = [...description.fieldsMap.values()];
 		this.allFields = fullQuery.sObject.fields;
 
-		const queryFieldDescriptions = allFields
+		const queryFieldDescriptions = this.allFields
 			.leftJoin(fieldDescription, (field, description) => field == description.name,
-				(field, description) => description || new SFieldDescribe({
-					dataSource: DataSource.unknown,
-					name: field,
-					label: field
-				}));
+				(field, description) => {
+					if (field.includes('.')) {
+						return new SFieldDescribe({
+							dataSource: DataSource.composite,
+							name: field,
+							label: field
+						})
+					}
+					return description || new SFieldDescribe({
+						dataSource: DataSource.unknown,
+						name: field,
+						label: field
+					})
+				}
+			);
 
 		const missingInSourceFields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.target || x.dataSource == DataSource.unknown).map(x => x.name);
 		const missingInTargetFields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.source || x.dataSource == DataSource.unknown).map(x => x.name);
@@ -371,6 +399,10 @@ export class ObjectManagerEditorController {
 			this.selectedSObjectOption.data.missingFieldsInSource = missingInSourceFields.length > 0 ? missingInSourceFields : null;
 			this.selectedSObjectOption.data.missingFieldsInTarget = missingInTargetFields.length > 0 ? missingInTargetFields : null;
 		}
+
+		// Update fullquery
+		fullQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.both).map(x => x.name); 
+		fullQuery = SfdmuUtils.rebuildFullQuery(fullQuery);		
 
 		this.setFieldsTabsetTitles();
 
@@ -383,7 +415,7 @@ export class ObjectManagerEditorController {
 
 			this.$app.$spinner.showSpinner();
 
-			// Count query
+			// Build count query
 			const countSoql = SfdmuUtils.createCountQueryString(sObject);
 			const countRecords = await SfdmuService.queryAsync(countSoql, runOnConnection);
 			if (countRecords.isError) {
@@ -391,14 +423,14 @@ export class ObjectManagerEditorController {
 				return false;
 			}
 
-			// Limited full query
+			// Build limited full query
 			const limitedQuery = SfdmuUtils.createLimitedQueryString(sObject, CONSTANTS.QUERY_TEST_MAX_RECORDS_COUNT);
-			const allFields = !fullQuery.sObject.externalId ? limitedQuery.sObject.fields : limitedQuery.sObject.fields.concat(limitedQuery.sObject.externalId.split(';'));
-			limitedQuery.sObject.fields = SfdmuUtils.getAllQueryStringFields(allFields, description);
+			//Only fields that are in both source and target orgs are included in the limited query
+			limitedQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.both).map(x => x.name); 
 			let limitedSoql = SfdmuUtils.createQueryString(limitedQuery.sObject).query;
+			limitedSoql = this.buildFieldMappingAwareQueryString(limitedQuery.sObject, limitedSoql);
 
-			limitedSoql = this.buildTargetQueryString(limitedQuery.sObject, limitedSoql);
-
+			// Run limited query
 			const allRecords = await SfdmuService.queryAsync(limitedSoql, runOnConnection);
 			if (allRecords.isError) {
 				this.$app.$spinner.hideSpinner();
@@ -411,8 +443,9 @@ export class ObjectManagerEditorController {
 				this.queryTestTotalRecordsCount = sObject.limit > 0 && sObject.limit < countRecords.records[0].cnt
 					? sObject.limit : countRecords.records[0].cnt;
 				this.fullSoqlQuery = SfdmuUtils.createQueryString(fullQuery.sObject).query;
-				this.fullSoqlQuery = this.buildTargetQueryString(fullQuery.sObject, this.fullSoqlQuery);
+				this.fullSoqlQuery = this.buildFieldMappingAwareQueryString(fullQuery.sObject, this.fullSoqlQuery);
 			});
+
 			this.$app.$timeout(() => {
 				this.selectedQueryTestTabIndex = 1;
 			}, 300);
@@ -423,14 +456,13 @@ export class ObjectManagerEditorController {
 			await CommonUtils.delayAsync(200);
 			AngularUtils.$apply(this.$scope, () => {
 				this.fullSoqlQuery = SfdmuUtils.createQueryString(fullQuery.sObject).query;
-				this.fullSoqlQuery = this.buildTargetQueryString(fullQuery.sObject, this.fullSoqlQuery);
+				this.fullSoqlQuery = this.buildFieldMappingAwareQueryString(fullQuery.sObject, this.fullSoqlQuery);
 			});
 		}
 
 		this.$app.$spinner.hideSpinner();
 		return true;
 	}
-
 
 	/**
 	 * Refresh the object list.
@@ -1755,7 +1787,7 @@ export class ObjectManagerEditorController {
 	 * @param query  The query.
 	 * @returns 
 	 */
-	private buildTargetQueryString(sObject: ScriptObject, query: string): string {
+	private buildFieldMappingAwareQueryString(sObject: ScriptObject, query: string): string {
 		if (!this.queryTestUseSourceConnection && sObject.hasFieldMapping) {
 			for (const item of sObject.fieldMapping) {
 				if (item.targetObject) {
