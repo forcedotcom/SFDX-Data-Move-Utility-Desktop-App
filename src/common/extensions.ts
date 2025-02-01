@@ -295,6 +295,24 @@ declare global {
      */
     replaceStrings(...replacements: Replacement[]): string;
 
+    /**
+        * Removes the specified character from the end of the string.
+        * If no character is provided, whitespace will be trimmed by default.
+        * 
+        * @param charToTrim - The character to remove from the end of the string. If not specified, whitespace will be trimmed.
+        * @returns A new string with the specified character removed from the end.
+        */
+    trimEnd(charToTrim?: string): string;
+
+    /**
+     * Removes the specified character from the start of the string.
+     * If no character is provided, whitespace will be trimmed by default.
+     * 
+     * @param charToTrim - The character to remove from the start of the string. If not specified, whitespace will be trimmed.
+     * @returns A new string with the specified character removed from the start.
+     */
+    trimStart(charToTrim?: string): string;
+
   }
 
   // RegExp prototype extensions declaration ------------------------------------------------------------

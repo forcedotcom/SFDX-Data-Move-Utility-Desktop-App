@@ -225,6 +225,22 @@ Array.prototype.flatBy = function (flatByProp, _classType) {
         return result;
     }, []);
 };
+Array.prototype.groupByProp = function (groupByProperty, groupKeyProperty, groupArrayProperty) {
+    const groupMap = new Map();
+    for (const obj of this) {
+        const key = obj[groupByProperty];
+        if (!groupMap.has(key)) {
+            groupMap.set(key, []);
+        }
+        const group = groupMap.get(key);
+        group === null || group === void 0 ? void 0 : group.push({ ...obj });
+    }
+    const groupedArray = Array.from(groupMap.entries()).map(([key, values]) => ({
+        [groupKeyProperty]: key,
+        [groupArrayProperty]: values,
+    }));
+    return groupedArray.sort((a, b) => (a[groupKeyProperty] > b[groupKeyProperty]) ? 1 : -1);
+};
 // String prototype extensions implementation ------------------------------------------------------------
 String.prototype.format = function (...args) {
     return this.replace(/{(\d+)}/g, function (match, number) {
@@ -251,21 +267,25 @@ String.prototype.replaceStrings = function (...replacements) {
     }
     return result;
 };
-Array.prototype.groupByProp = function (groupByProperty, groupKeyProperty, groupArrayProperty) {
-    const groupMap = new Map();
-    for (const obj of this) {
-        const key = obj[groupByProperty];
-        if (!groupMap.has(key)) {
-            groupMap.set(key, []);
-        }
-        const group = groupMap.get(key);
-        group === null || group === void 0 ? void 0 : group.push({ ...obj });
+String.prototype.trimEnd = function (charToTrim) {
+    if (!this) {
+        return this;
     }
-    const groupedArray = Array.from(groupMap.entries()).map(([key, values]) => ({
-        [groupKeyProperty]: key,
-        [groupArrayProperty]: values,
-    }));
-    return groupedArray.sort((a, b) => (a[groupKeyProperty] > b[groupKeyProperty]) ? 1 : -1);
+    if (!charToTrim) {
+        return this.replace(/\s+$/, ''); // Default behavior for spaces
+    }
+    const regex = new RegExp(`${charToTrim}+$`);
+    return this.replace(regex, '');
+};
+String.prototype.trimStart = function (charToTrim) {
+    if (!this) {
+        return this;
+    }
+    if (!charToTrim) {
+        return this.replace(/^\s+/, ''); // Default behavior for spaces
+    }
+    const regex = new RegExp(`^${charToTrim}+`);
+    return this.replace(regex, '');
 };
 // RegExp extensions implementation ------------------------------------------------------------
 RegExp.escape = function (rawExpression) {

@@ -252,6 +252,35 @@ Array.prototype.flatBy = function <TChild, TParent>(this: TParent[], flatByProp:
     }, [] as TChild[]);
 };
 
+Array.prototype.groupByProp = function <T, GroupKey extends keyof T>(
+    this: T[],
+    groupByProperty: GroupKey,
+    groupKeyProperty: string,
+    groupArrayProperty: string
+): Array<IGroupedObject<T, GroupKey>> {
+    const groupMap = new Map<T[GroupKey], Array<{ [prop: string]: any }>>();
+
+    for (const obj of this) {
+        const key = obj[groupByProperty];
+
+        if (!groupMap.has(key)) {
+            groupMap.set(key, []);
+        }
+
+        const group = groupMap.get(key);
+
+        group?.push({ ...obj });
+    }
+
+    const groupedArray = Array.from(groupMap.entries()).map(([key, values]) => ({
+        [groupKeyProperty]: key,
+        [groupArrayProperty]: values,
+    }));
+
+    return groupedArray.sort((a, b) => (a[groupKeyProperty] > b[groupKeyProperty]) ? 1 : -1);
+};
+
+
 // String prototype extensions implementation ------------------------------------------------------------
 String.prototype.format = function (this: string, ...args: any[]) {
     return this.replace(/{(\d+)}/g, function (match: string, number: number) {
@@ -284,34 +313,29 @@ String.prototype.replaceStrings = function (this: string, ...replacements: Repla
     return result;
 };
 
-
-Array.prototype.groupByProp = function <T, GroupKey extends keyof T>(
-    this: T[],
-    groupByProperty: GroupKey,
-    groupKeyProperty: string,
-    groupArrayProperty: string
-): Array<IGroupedObject<T, GroupKey>> {
-    const groupMap = new Map<T[GroupKey], Array<{ [prop: string]: any }>>();
-
-    for (const obj of this) {
-        const key = obj[groupByProperty];
-
-        if (!groupMap.has(key)) {
-            groupMap.set(key, []);
-        }
-
-        const group = groupMap.get(key);
-
-        group?.push({ ...obj });
+String.prototype.trimEnd = function (charToTrim?: string): string {
+    if (!this) {
+        return this;
     }
-
-    const groupedArray = Array.from(groupMap.entries()).map(([key, values]) => ({
-        [groupKeyProperty]: key,
-        [groupArrayProperty]: values,
-    }));
-
-    return groupedArray.sort((a, b) => (a[groupKeyProperty] > b[groupKeyProperty]) ? 1 : -1);
+    if (!charToTrim) {
+        return this.replace(/\s+$/, ''); // Default behavior for spaces
+    }
+    const regex = new RegExp(`${charToTrim}+$`);
+    return this.replace(regex, '');
 };
+
+String.prototype.trimStart = function (charToTrim?: string): string {
+    if (!this) {
+        return this;
+    }
+    if (!charToTrim) {
+        return this.replace(/^\s+/, ''); // Default behavior for spaces
+    }
+    const regex = new RegExp(`^${charToTrim}+`);
+    return this.replace(regex, '');
+};
+
+
 
 
 // RegExp extensions implementation ------------------------------------------------------------

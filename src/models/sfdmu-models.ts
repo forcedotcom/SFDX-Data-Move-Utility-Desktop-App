@@ -825,7 +825,7 @@ export class ScriptObject extends ScriptEntityBase {
         return this._externalId || this.defaultExternalId;
     }
     set externalId(value: string) {
-        this._externalId = value;
+        this._externalId = value.trimEnd(';');
     }
 
     /**

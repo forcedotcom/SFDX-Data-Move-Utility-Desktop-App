@@ -122,7 +122,6 @@ class ObjectManagerEditorController {
             this.refreshObjectList();
         }, this.$scope);
         this.$app.$broadcast.onAction('onSelect', 'uiList', async (args) => {
-            var _a;
             if (args.componentId == 'objectsList') {
                 services_1.LogService.info(`Selecting sobject: ${args.args[0].value}...`);
                 // Switch to the fields tab
@@ -146,7 +145,8 @@ class ObjectManagerEditorController {
                 // Set the sobject id in the config
                 const config = services_1.DatabaseService.getConfig();
                 const objectSet = services_1.DatabaseService.getObjectSet();
-                const newSObjectId = (_a = objectSet.objects.find(x => x.name == this.selectedSObjectOption.value)) === null || _a === void 0 ? void 0 : _a.id;
+                const newSObject = objectSet.objects.find(x => x.name == this.selectedSObjectOption.value);
+                const newSObjectId = newSObject === null || newSObject === void 0 ? void 0 : newSObject.id;
                 const mustupdateDatabase = config.sObjectId != newSObjectId;
                 config.sObjectId = newSObjectId;
                 // Update the database
@@ -163,6 +163,11 @@ class ObjectManagerEditorController {
                 }
                 else if (!this.selectedSObject.isInitialized) {
                     services_1.LogService.info(`SObject ${this.selectedSObject.name} is not initialized.`);
+                }
+                for (const mapping of newSObject.fieldMapping) {
+                    if (mapping.targetObject) {
+                        await this.$app.describeWorkspaceSObjectAsync(mapping.targetObject);
+                    }
                 }
                 // Setup the fields
                 await this.setup();

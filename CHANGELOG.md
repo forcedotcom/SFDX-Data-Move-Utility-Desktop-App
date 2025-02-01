@@ -1,3 +1,7 @@
+### v4.10.2
+**Fixes**
+- Fetch target object metadata when mapped to another object
+- Resolved the issue where an unnecessary trailing semicolon was added after the composite `externalId`
 
 ### v4.10.0
 **New:**

@@ -198,7 +198,8 @@ export class ObjectManagerEditorController {
 				// Set the sobject id in the config
 				const config = DatabaseService.getConfig();
 				const objectSet = DatabaseService.getObjectSet();
-				const newSObjectId = objectSet.objects.find(x => x.name == this.selectedSObjectOption.value)?.id;
+				const newSObject = objectSet.objects.find(x => x.name == this.selectedSObjectOption.value);
+				const newSObjectId = newSObject?.id;
 				const mustupdateDatabase = config.sObjectId != newSObjectId;
 				config.sObjectId = newSObjectId;
 
@@ -215,6 +216,12 @@ export class ObjectManagerEditorController {
 					LogService.info(`SObject ${this.selectedSObject.name} is selected.`);
 				} else if (!this.selectedSObject.isInitialized) {
 					LogService.info(`SObject ${this.selectedSObject.name} is not initialized.`);
+				}
+
+				for (const mapping of newSObject.fieldMapping) {
+					if (mapping.targetObject) {
+						await this.$app.describeWorkspaceSObjectAsync(mapping.targetObject);
+					}
 				}
 
 				// Setup the fields

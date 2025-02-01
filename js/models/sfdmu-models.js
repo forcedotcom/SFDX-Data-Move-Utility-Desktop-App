@@ -980,7 +980,7 @@ class ScriptObject extends ScriptEntityBase {
         return this._externalId || this.defaultExternalId;
     }
     set externalId(value) {
-        this._externalId = value;
+        this._externalId = value.trimEnd(';');
     }
     /**
      * The WHERE clause of the delete query.
