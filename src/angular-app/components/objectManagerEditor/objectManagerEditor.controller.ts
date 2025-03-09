@@ -166,6 +166,40 @@ export class ObjectManagerEditorController {
 		}, this.$scope);
 
 
+		this.$app.$broadcast.onAction('onMoveUp', 'uiList', async (args: IActionEventArgParam<IOption>) => {
+			if (args.componentId == 'objectsList') {
+				const config = DatabaseService.getConfig();
+				const objectSet = DatabaseService.getObjectSet();
+				const index = objectSet.objects.findIndex(x => x.name == args.args[0].value);
+				if (index > 0) {
+					const temp = objectSet.objects[index];
+					objectSet.objects[index] = objectSet.objects[index - 1];
+					objectSet.objects[index - 1] = temp;
+					const ws = DatabaseService.getWorkspace();
+					DatabaseService.updateConfig(ws.id, config);
+					this.$app.$broadcast.broadcastAction('objectListRebuild', null, { args: [] });
+				}
+			}
+		}, this.$scope);
+
+
+		this.$app.$broadcast.onAction('onMoveDown', 'uiList', async (args: IActionEventArgParam<IOption>) => {
+			if (args.componentId == 'objectsList') {
+				const config = DatabaseService.getConfig();
+				const objectSet = DatabaseService.getObjectSet();
+				const index = objectSet.objects.findIndex(x => x.name == args.args[0].value);
+				if (index >= 0 && index < objectSet.objects.length - 1) {
+					const temp = objectSet.objects[index];
+					objectSet.objects[index] = objectSet.objects[index + 1];
+					objectSet.objects[index + 1] = temp;
+					const ws = DatabaseService.getWorkspace();
+					DatabaseService.updateConfig(ws.id, config);
+					this.$app.$broadcast.broadcastAction('objectListRebuild', null, { args: [] });
+				}
+			}
+		}, this.$scope);
+
+
 		this.$app.$broadcast.onAction('onSelect', 'uiList', async (args: IActionEventArgParam<IOption>) => {
 			if (args.componentId == 'objectsList') {
 
@@ -408,8 +442,8 @@ export class ObjectManagerEditorController {
 		}
 
 		// Update fullquery
-		fullQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.both).map(x => x.name); 
-		fullQuery = SfdmuUtils.rebuildFullQuery(fullQuery);		
+		fullQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.both).map(x => x.name);
+		fullQuery = SfdmuUtils.rebuildFullQuery(fullQuery);
 
 		this.setFieldsTabsetTitles();
 
@@ -433,7 +467,7 @@ export class ObjectManagerEditorController {
 			// Build limited full query
 			const limitedQuery = SfdmuUtils.createLimitedQueryString(sObject, CONSTANTS.QUERY_TEST_MAX_RECORDS_COUNT);
 			//Only fields that are in both source and target orgs are included in the limited query
-			limitedQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.both).map(x => x.name); 
+			limitedQuery.sObject.fields = queryFieldDescriptions.filter(x => x.dataSource == DataSource.both).map(x => x.name);
 			let limitedSoql = SfdmuUtils.createQueryString(limitedQuery.sObject).query;
 			limitedSoql = this.buildFieldMappingAwareQueryString(limitedQuery.sObject, limitedSoql);
 

@@ -1,6 +1,6 @@
 import { IScope } from 'angular';
 import { DataSource, ErrorSource, FaIcon, View, WizardStepByView } from '../../../common';
-import { IActionEventArgParam, IOption, ISObjectOption, SObjectOptionData } from '../../../models';
+import { IActionEventArgParam, IOption, ISObjectOption, ScriptObject, SObjectDescribe, SObjectOptionData } from '../../../models';
 import { DatabaseService, LogService } from '../../../services';
 import { AngularUtils, SfdmuUtils } from '../../../utils';
 import { IAppService } from '../../services';
@@ -40,6 +40,10 @@ export class ObjectManagerController {
         this.setup();
 
         this.$app.$broadcast.onAction('buildViewComponents', null, () => {
+            this.setup();
+        }, this.$scope);
+
+        this.$app.$broadcast.onAction('objectListRebuild', null, () => {
             this.setup();
         }, this.$scope);
 
@@ -95,7 +99,7 @@ export class ObjectManagerController {
 
                 // Setup the objects list
                 const sobject = DatabaseService.getSObject();
-                const popoverHtml = (object, describe) => {
+                const popoverHtml = (object: ScriptObject, describe: SObjectDescribe) => {
                     return `<b>${translate.field}:</b>${object.name} (${describe?.label || object.name})
                             <br /><b>${translate.operation}:</b> ${object.operation}
                             <br /><b>${translate.externalId}:</b> ${object.externalId}

@@ -121,6 +121,36 @@ class ObjectManagerEditorController {
         this.$app.$broadcast.onAction('refreshObjectList', null, () => {
             this.refreshObjectList();
         }, this.$scope);
+        this.$app.$broadcast.onAction('onMoveUp', 'uiList', async (args) => {
+            if (args.componentId == 'objectsList') {
+                const config = services_1.DatabaseService.getConfig();
+                const objectSet = services_1.DatabaseService.getObjectSet();
+                const index = objectSet.objects.findIndex(x => x.name == args.args[0].value);
+                if (index > 0) {
+                    const temp = objectSet.objects[index];
+                    objectSet.objects[index] = objectSet.objects[index - 1];
+                    objectSet.objects[index - 1] = temp;
+                    const ws = services_1.DatabaseService.getWorkspace();
+                    services_1.DatabaseService.updateConfig(ws.id, config);
+                    this.$app.$broadcast.broadcastAction('objectListRebuild', null, { args: [] });
+                }
+            }
+        }, this.$scope);
+        this.$app.$broadcast.onAction('onMoveDown', 'uiList', async (args) => {
+            if (args.componentId == 'objectsList') {
+                const config = services_1.DatabaseService.getConfig();
+                const objectSet = services_1.DatabaseService.getObjectSet();
+                const index = objectSet.objects.findIndex(x => x.name == args.args[0].value);
+                if (index >= 0 && index < objectSet.objects.length - 1) {
+                    const temp = objectSet.objects[index];
+                    objectSet.objects[index] = objectSet.objects[index + 1];
+                    objectSet.objects[index + 1] = temp;
+                    const ws = services_1.DatabaseService.getWorkspace();
+                    services_1.DatabaseService.updateConfig(ws.id, config);
+                    this.$app.$broadcast.broadcastAction('objectListRebuild', null, { args: [] });
+                }
+            }
+        }, this.$scope);
         this.$app.$broadcast.onAction('onSelect', 'uiList', async (args) => {
             if (args.componentId == 'objectsList') {
                 services_1.LogService.info(`Selecting sobject: ${args.args[0].value}...`);

@@ -29,6 +29,9 @@ class ObjectManagerController {
         this.$app.$broadcast.onAction('buildViewComponents', null, () => {
             this.setup();
         }, this.$scope);
+        this.$app.$broadcast.onAction('objectListRebuild', null, () => {
+            this.setup();
+        }, this.$scope);
         // When the object set is changed, setup the component
         this.$app.$broadcast.onAction('onObjectListRefresh', null, (args) => {
             this.selectedObjectOption = args.args[0];

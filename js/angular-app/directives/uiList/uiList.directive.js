@@ -63,6 +63,18 @@ function uiListDirective($timeout) {
 							<!--Select checkbox-->
 							<input class="me-2" type="checkbox" ng-model="item.selected" ng-disabled="item.disabled" />
 
+							<!--Up-Down Buttons-->
+							<div class="btn-group-vertical d-inline-block vertical-buttons">
+								<button ng-disabled="$index == 0" 
+											type="button" ng-class="{['btn btn-outline-primary btn-sm vertical-button up' + (item.active ? ' active' : '')]: true}" 
+											ng-click="$ctrl.handleMoveUp(item)"
+											tooltip="{{ 'MOVE_UP_THIS_SOBJECT' | translate }}"><span>🠹</span></button>
+								<button ng-disabled="$index == $ctrl.source.length - 1" 
+											type="button" ng-class="{['btn btn-outline-primary btn-sm vertical-button down' + (item.active ? ' active' : '')]: true}" 
+											ng-click="$ctrl.handleMoveDown(item)"
+											tooltip="{{ 'MOVE_DOWN_THIS_SOBJECT' | translate }}"><span>🠻</span></button>    
+							</div>
+
 							<!--Icons-->
 							<div style="min-width:75px" class="d-inline-block">
 								<i ng-repeat="icon in item.icons" class="me-2 {{ icon.icon }} {{ icon.iconClass }}" tooltip="{{ icon.popover }}" tooltip-custom-class="{{ icon.iconTooltipCustomClass }}"></i>
@@ -75,7 +87,7 @@ function uiListDirective($timeout) {
 
 							<!--Select button-->
 							<button class="btn btn-sm float-end" 
-									ng-class="{ 'btn-primary': item.active, 'btn-outline-primary': !item.active }"
+									ng-class="{ 'd-none': item.active, 'btn-outline-primary': !item.active }"
 									ng-click="$ctrl.handleActivate(item)" 
 									tooltip="{{ 'SELECT_THIS_SOBJECT' | translate }}">
 								>
@@ -224,6 +236,18 @@ class UiListController {
                 }
             });
         }
+    }
+    handleMoveUp(item) {
+        this.$broadcast.broadcastAction('onMoveUp', 'uiList', {
+            componentId: this.id,
+            args: [item]
+        });
+    }
+    handleMoveDown(item) {
+        this.$broadcast.broadcastAction('onMoveDown', 'uiList', {
+            componentId: this.id,
+            args: [item]
+        });
     }
     dispatchChange() {
         this.$broadcast.broadcastAction('onChange', 'uiList', {
