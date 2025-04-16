@@ -1622,7 +1622,10 @@ export class ForceOrg {
      * Indicates whether the organization is connected.
      */
     get isConnected(): boolean {
-        return this.connectedStatus == "Connected";
+        return (
+            this.connectedStatus == "Connected"
+            || this.isScratchOrg //`sf org list` shows only unexpired scratch orgs by default, so this answer should qualify for this indicator
+        );
     }
 }
 
