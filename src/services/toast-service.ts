@@ -112,7 +112,7 @@ export class ToastService {
 
         // Positioning toast at the top middle of the parent window
         const parentBounds = parent.getBounds();
-        const x = parentBounds.x + (parentBounds.width - 300) / 2;
+        const x = Math.round( parentBounds.x + (parentBounds.width - 300) / 2 );
         const y = parentBounds.y + 10;
         toastWindow.window.setPosition(x, y, false);
 
