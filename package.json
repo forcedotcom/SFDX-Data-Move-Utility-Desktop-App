@@ -24,7 +24,7 @@
     "electron": "^24.3.0",
     "electron-debug": "^3.2.0",
     "eslint": "^7.32.0",
-    "typescript": "^4.9.5"
+    "typescript": "^5.8.3"
   },
   "dependencies": {
     "@electron/remote": "^2.0.10",
