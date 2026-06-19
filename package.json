@@ -41,7 +41,7 @@
     "jquery": "^3.7.0",
     "jsforce": "^3.4.1",
     "lodash": "^4.17.21",
-    "platform-folders": "^0.6.0",
+    "platform-folders": "^0.6.1",
     "ps-tree": "^1.2.0",
     "reflect-metadata": "^0.1.13",
     "soql-parser-js": "^2.5.3",
