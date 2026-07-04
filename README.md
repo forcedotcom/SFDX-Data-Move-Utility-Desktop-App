@@ -4,8 +4,8 @@ The **SFDMU GUI Desktop Application** is a comprehensive tool for Salesforce dat
 
 ### Useful Resources
 
-- **Knowledgebase and Help Portal**: [SFDMU Help Center](https://help.sfdmu.com/).
-- **SFDMU GUI Desktop App Detailed Documentation**: [SFDMU GUI App Reference Guide](https://help.sfdmu.com/sfdmu-gui-app).
+- **Knowledgebase and Help Portal**: [SFDMU Help Center](https://forcedotcom.github.io/SFDX-Data-Move-Utility/).
+- **SFDMU GUI Desktop App Detailed Documentation**: [SFDMU GUI App Reference Guide](https://forcedotcom.github.io/SFDX-Data-Move-Utility/sfdmu-gui-app).
 
 ## Benefits of the SFDMU GUI Desktop Application
 
@@ -139,5 +139,5 @@ Follow the installation instructions provided for each operating system:
 ## Running the Application from Source Code
 
 Alternatively, instead of using the installable executable, you can clone the source code and run the application directly from it. 
-Detailed documentation for this process is [available for guidance](https://help.sfdmu.com/sfdmu-gui-app#installation-of-the-source-code).
+Detailed documentation for this process is [available for guidance](https://forcedotcom.github.io/SFDX-Data-Move-Utility/sfdmu-gui-app/#installation-of-the-source-code).
 
