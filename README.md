@@ -6,6 +6,6 @@ For quick installation instructions and guidance on how to run the application, 
 
 ## Resource
 
-- **[SFDMU GUI App Documentation](https://help.sfdmu.com/sfdmu-gui-app)**: Detailed guides and instructions for using the SFDMU GUI Desktop App.
+- **[SFDMU GUI App Documentation](https://forcedotcom.github.io/SFDX-Data-Move-Utility/sfdmu-gui-app)**: Detailed guides and instructions for using the SFDMU GUI Desktop App.
 - **[SFDMU Plugin's Repository](https://github.com/forcedotcom/SFDX-Data-Move-Utility)**: Access the official repository for source code, updates, and community insights on the SFDX Data Move Utility Plugin.
-- **[SFDMU Help Center](https://help.sfdmu.com/)**: Support resources, FAQs, and technical documentation.
+- **[SFDMU Help Center](https://forcedotcom.github.io/SFDX-Data-Move-Utility/)**: Support resources, FAQs, and technical documentation.
