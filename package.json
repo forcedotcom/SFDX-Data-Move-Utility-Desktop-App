@@ -3,7 +3,7 @@
   "version": "4.11.0",
   "description": "SFDMU GUI App",
   "repository": "forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
-  "license": "BSD-3-Clause",
+  "license": "Apache-2.0",
   "copyright": "Salesforce.com, Inc.",
   "author": "Salesforce",
   "developedBy": "Haim Knokh",
@@ -53,7 +53,7 @@
   "exeDescription": "A user-friendly GUI for the SFDMU Plugin to simplify Salesforce data migrations.",
   "exeCompany": "Salesforce.com, Inc.",
   "exeProductName": "SFDMU GUI App",
-  "exeCopyright": "Salesforce.com, Inc. under BSD-3-Clause",
+  "exeCopyright": "Salesforce.com, Inc. under Apache-2.0",
   "exeHomepage": "https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
   "appConfig": {
     "dataRoot": "sfdmu-gui-app",

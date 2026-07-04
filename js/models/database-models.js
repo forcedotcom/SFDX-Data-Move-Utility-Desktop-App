@@ -10,6 +10,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ScriptConfig = exports.Workspace = exports.Connection = exports.AppDb = void 0;
+/*
+ * Copyright (c) 2024, Salesforce, Inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ * For full license text, see the LICENSE.md file in the repo root or https://www.apache.org/licenses/LICENSE-2.0
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const class_transformer_1 = require("class-transformer");
 require("reflect-metadata");

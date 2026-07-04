@@ -33,6 +33,12 @@ var __metadata = (this && this.__metadata) || function (k, v) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.ForceOrgDisplayResult = exports.ForceOrg = exports.JSforceConnection = exports.ScriptMockField = exports.ScriptMappingItem = exports.ScriptOrg = exports.PolymorphicField = exports.ScriptObject = exports.ScriptObjectSet = exports.Script = exports.OrgDescribe = exports.SObjectDescribe = exports.SFieldDescribe = exports.DescribeBase = exports.ScriptEntityBase = void 0;
+/*
+ * Copyright (c) 2024, Salesforce, Inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ * For full license text, see the LICENSE.md file in the repo root or https://www.apache.org/licenses/LICENSE-2.0
+ */
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 const class_transformer_1 = require("class-transformer");
 const jsforce = __importStar(require("jsforce"));
@@ -1515,7 +1521,9 @@ class ForceOrg {
      * Indicates whether the organization is connected.
      */
     get isConnected() {
-        return this.connectedStatus == "Connected";
+        return (this.connectedStatus == "Connected"
+            || this.isScratchOrg //`sf org list` shows only unexpired scratch orgs by default, so this answer should qualify for this indicator
+        );
     }
 }
 exports.ForceOrg = ForceOrg;

@@ -27,6 +27,12 @@ var __importDefault = (this && this.__importDefault) || function (mod) {
 };
 Object.defineProperty(exports, "__esModule", { value: true });
 exports.DatabaseService = void 0;
+/*
+ * Copyright (c) 2024, Salesforce, Inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ * For full license text, see the LICENSE.md file in the repo root or https://www.apache.org/licenses/LICENSE-2.0
+ */
 const class_transformer_1 = require("class-transformer");
 const fs_extra_1 = __importDefault(require("fs-extra"));
 const path = __importStar(require("path"));

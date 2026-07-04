@@ -1,3 +1,9 @@
+/*
+ * Copyright (c) 2024, Salesforce, Inc.
+ * All rights reserved.
+ * SPDX-License-Identifier: Apache-2.0
+ * For full license text, see the LICENSE.md file in the repo root or https://www.apache.org/licenses/LICENSE-2.0
+ */
 export const AppConfig = {
     "copyrights": "© [DATE] Salesforce.com, Inc.",
     "copyrightsUrl": "https://github.com/forcedotcom/SFDX-Data-Move-Utility/blob/master/LICENSE.txt",
@@ -7,8 +13,8 @@ export const AppConfig = {
     "pluginMainBranch": "master",
     "appGithubUrl": "https://github.com/forcedotcom/SFDX-Data-Move-Utility-Desktop-App",
     "appMainBranch": "master",
-    "knowledgebaseUrl": "https://help.sfdmu.com",
-    "knowledgebaseSearchUrl": "https://help.sfdmu.com/?search=",
+    "knowledgebaseUrl": "https://forcedotcom.github.io/SFDX-Data-Move-Utility",
+    "knowledgebaseSearchUrl": "https://forcedotcom.github.io/SFDX-Data-Move-Utility/?search=",
     "knowledgebaseTitle": "SFDMU Help Center",
     "getHelpUrl": "https://github.com/forcedotcom/SFDX-Data-Move-Utility/issues/new/choose",    
 
